@@ -1,46 +1,127 @@
-# Getting Started with Create React App
+## Backend endpoints
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
 
-In the project directory, you can run:
+### Book
+#### /book?{id} (GET)
 
-### `npm start`
+Response schema: 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```JSON
+{   
+    "title": "Book",
+    "description": "Book",
+    "type": "object",
+    "properties":{
+      "id":{"type":"string"},
+      "libraryUser":{"type":"User"},
+      "topic":{"type":"Topic"},
+      "title":{"type":"string"},
+      "author":{"type":"string"},
+      "isbn":{"type":"string"},
+      "location":{"type":"string"}
+    }
+}
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+#### /book?{title}&{author}&{isbn}&{topic}&{location} (POST)
 
-### `npm test`
+Response schema:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```JSON
+{   
+    "title": "Ok",
+    "description": "Ok",
+    "type": "object",
+    "properties":{
+      "ok":{"type":"boolean"}
+    }
+}
+```
 
-### `npm run build`
+#### /book?{bookid}&{userid}&{title}&{author}&{isbn}&{topic}&{location} (PUT)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Response schema:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```JSON
+{   
+    "title": "Ok",
+    "description": "Ok",
+    "type": "object",
+    "properties":{
+      "ok":{"type":"boolean"}
+    }
+}
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### /book?{id} (DELETE)
 
-### `npm run eject`
+Response schema:
+```JSON
+{   
+    "title": "Ok",
+    "description": "Ok",
+    "type": "object",
+    "properties":{
+      "ok":{"type":"boolean"}
+    }
+}
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#### /books (GET)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Response schema: 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```JSON
+{
+  "type":"array",
+  "items": {
+    "title": "Book",
+    "description": "Book",
+    "type": "object",
+    "properties":{
+      "libraryUser":{"type":"User"},
+      "topic":{"type":"Topic"},
+      "title":{"type":"string"},
+      "author":{"type":"string"},
+      "isbn":{"type":"string"},
+      "location":{"type":"string"}
+    }
+}
+```
+### User
+#### /user?{id} (GET)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Response schema: 
 
-## Learn More
+```JSON
+{   
+    "title": "User",
+    "description": "User",
+    "type": "object",
+    "properties":{
+      "books":{"type":"array"},
+      "userId":{"type":"string"},
+      "userName":{"type":"string"},
+}
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### /users (GET)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Response schema: 
+
+```JSON
+{
+  "type":"array",
+  "items": {
+    "title": "User",
+    "description": "User",
+    "type": "object",
+    "properties":{
+      "books":{"type":"array"},
+      "userId":{"type":"string"},
+      "userName":{"type":"string"},
+    }
+}
+```
+
