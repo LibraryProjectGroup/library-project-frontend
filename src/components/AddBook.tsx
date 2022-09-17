@@ -17,28 +17,39 @@ function NewBook() {
     });
   };
 
-  const addBook = (event: React.FormEvent<HTMLFormElement>) => {
+  const addBook = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    //do something to post data
-    console.log(book)
-
-    const response = fetch('/book?{title}&{author}&{isbn}&{topic}&{location}', {
-      method: "POST",
-      headers: {
-        'content-type': 'application/json;charset=UTF-8',
-      },
-      // Data will be serialized and sent as json
-      body: JSON.stringify({
-        variables: {
-          owner: book.owner,
-          title: book.title,
-          author: book.author,
-          topic: book.topic,
-          isbn: book.isbn,
-          location: book.location
+    console.log(book);
+    //
+    // PRELIMINARY, NOT TESTED!
+    //
+    try {
+      const response = await fetch(
+        "http://localhost:3001/book?{title}&{author}&{isbn}&{topic}&{location}",
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json;charset=UTF-8",
+            "Access-Control-Allow-Origin":
+              "http://localhost:3000/book?{title}&{author}&{isbn}&{topic}&{location}"
+          },
+          // Data will be sent in a body
+          body: JSON.stringify({
+            title: book.title,
+            author: book.author,
+            isbn: book.isbn,
+            topic: book.topic,
+            location: book.location,
+            owner: book.owner,
+          })
         }
-      }),
-  })
+        );
+        if(!response.ok) {
+          console.log('something went wrong!')
+        }
+    } catch (error) {
+      console.error();
+    }
   };
 
   return (
@@ -101,7 +112,7 @@ function NewBook() {
             />
           </label>
           <div>
-          <button type='submit'>Add</button>
+            <button type="submit">Add</button>
           </div>
         </div>
       </form>
