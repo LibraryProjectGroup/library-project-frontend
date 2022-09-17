@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import Book from './interfaces/book.interface';
-
+import NewBook from './components/AddBook';
 function App() {
 
   const [exampleBook, setExampleBook] = useState<Book | undefined>(undefined)
@@ -34,7 +34,9 @@ function App() {
         Fetch book data
       </button>
       {exampleBook && renderExampleBookData()}
+      <NewBook />
     </div>
+
   )
 }
 
