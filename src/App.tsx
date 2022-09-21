@@ -1,15 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Book from './interfaces/book.interface';
-import NewBook from './components/AddBook';
+import AddBook from './components/AddBook';
+import ListBooks from './components/ListBooks';
+import { setSelectionRange } from '@testing-library/user-event/dist/utils';
+
 function App() {
 
   const [exampleBook, setExampleBook] = useState<Book | undefined>(undefined)
-  
+  const [books, setBooks] = useState<Array<Book> | undefined>(undefined)
+  const [addBookFormVisible, setAddBookFormVisible] = useState<boolean>(false)
+  const BACKEND_URL = 'http://172.104.135.212'
+
+  useEffect(()=>{
+    fetchAllBooks()
+  },[])
+
   function fetchExampleBookData() {
-    fetch('http://localhost:3001/example', {headers:{'Access-Control-Allow-Origin':"http://localhost:3000/example"}})
+    fetch(`${BACKEND_URL}/example`, {headers:{'Access-Control-Allow-Origin':BACKEND_URL}})
       .then(response => response.json())
-      .then(data => setExampleBook(data));
+      .then(json=>setExampleBook(json))
+  }
+
+  function fetchAllBooks() {
+    fetch(`${BACKEND_URL}/allbooks`, {headers:{'Access-Control-Allow-Origin':BACKEND_URL}})
+      .then(response => response.json())
+      .then(data => setBooks(data));
   }
 
   function renderExampleBookData(){
@@ -28,13 +44,13 @@ function App() {
   return (
     <div className="App">
       <button 
-        onClick={()=>{fetchExampleBookData()}} 
-        style={{width: 200, height: 100, backgroundColor: "yellow", border: "solid black 2px", borderRadius: "2px"}}
-      >
-        Fetch book data
+        onClick={()=>{setAddBookFormVisible(true)}} 
+        style={{width: 200, height: 100, backgroundColor: "yellow", border: "solid black 2px", borderRadius: "2px"}}>
+          Add book
       </button>
       {exampleBook && renderExampleBookData()}
-      <NewBook />
+      <AddBook addBookFormVisible={addBookFormVisible} setAddBookFormVisible={setAddBookFormVisible} fetchAllBooks={fetchAllBooks}/>
+      <ListBooks books={books} fetchAllBooks={fetchAllBooks}/>
     </div>
 
   )

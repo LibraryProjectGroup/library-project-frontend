@@ -1,6 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, FC } from "react";
 
-function NewBook() {
+
+interface IProps {
+  addBookFormVisible: boolean
+  setAddBookFormVisible: Function
+  fetchAllBooks: Function
+}
+
+const AddBook: FC<IProps> = ({addBookFormVisible, setAddBookFormVisible, fetchAllBooks}: IProps): JSX.Element => {
+
+  const BACKEND_URL = 'http://172.104.135.212'
   const [book, setBook] = useState({
     owner: "",
     title: "",
@@ -25,99 +34,107 @@ function NewBook() {
     //
     try {
       const response = await fetch(
-        "http://localhost:3001/book?{title}&{author}&{isbn}&{topic}&{location}",
+        `${BACKEND_URL}/book?owner=1&title=${book.title}&author=${book.author}&isbn=${book.isbn}&topic=${book.topic}&location=${book.location}`,
         {
           method: "POST",
           headers: {
             "content-type": "application/json;charset=UTF-8",
-            "Access-Control-Allow-Origin":
-              "http://localhost:3000/book?{title}&{author}&{isbn}&{topic}&{location}"
+            "Access-Control-Allow-Origin": BACKEND_URL
           },
           // Data will be sent in a body
-          body: JSON.stringify({
+          /*body: JSON.stringify({
             title: book.title,
             author: book.author,
             isbn: book.isbn,
             topic: book.topic,
             location: book.location,
             owner: book.owner,
-          })
+          })*/
         }
         );
-        if(!response.ok) {
+        if(response.ok){
+          setAddBookFormVisible(false)
+          fetchAllBooks()
+        } else{
           console.log('something went wrong!')
         }
     } catch (error) {
       console.error();
+    } finally{
+      setBook({owner:"", title:"", author:"", topic:"", isbn:"", location:""})
     }
   };
 
-  return (
-    <div style={{ marginTop: 20 }}>
-      <h2>Add a new book</h2>
-      <form onSubmit={addBook}>
-        {/*book.owner is logged in user*/}
-        <div>
-          <label>
-            Author:
-            <input
-              type="string"
-              name="author"
-              value={book.author}
-              onChange={(event) => onChange(event)}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Title:
-            <input
-              type="string"
-              name="title"
-              value={book.title}
-              onChange={(event) => onChange(event)}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Topic:
-            <input
-              type="string"
-              name="topic"
-              value={book.topic}
-              onChange={(event) => onChange(event)}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            isbn:
-            <input
-              type="string"
-              name="isbn"
-              value={book.isbn}
-              onChange={(event) => onChange(event)}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Location:
-            <input
-              type="string"
-              name="location"
-              value={book.location}
-              onChange={(event) => onChange(event)}
-            />
-          </label>
+  if(addBookFormVisible){
+    return (
+      <div style={{ marginTop: 20 }}>
+        <h2>Add a new book</h2>
+        <form onSubmit={addBook}>
+          {/*book.owner is logged in user*/}
           <div>
-            <button type="submit">Add</button>
+            <label>
+              Author:
+              <input
+                type="string"
+                name="author"
+                value={book.author}
+                onChange={(event) => onChange(event)}
+              />
+            </label>
           </div>
-        </div>
-      </form>
-    </div>
-  );
+          <div>
+            <label>
+              Title:
+              <input
+                type="string"
+                name="title"
+                value={book.title}
+                onChange={(event) => onChange(event)}
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              Topic:
+              <input
+                type="string"
+                name="topic"
+                value={book.topic}
+                onChange={(event) => onChange(event)}
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              isbn:
+              <input
+                type="string"
+                name="isbn"
+                value={book.isbn}
+                onChange={(event) => onChange(event)}
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              Location:
+              <input
+                type="string"
+                name="location"
+                value={book.location}
+                onChange={(event) => onChange(event)}
+              />
+            </label>
+            <div>
+              <button type="submit">Add</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    )
+  } else{
+    return <div></div>
+  }
 }
 
-export default NewBook;
+export default AddBook
