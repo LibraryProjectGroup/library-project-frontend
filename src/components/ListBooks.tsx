@@ -1,45 +1,44 @@
 import React, { useState, FC } from "react";
-import Book from "../interfaces/book.interface";
+import { Paper, Typography, Button, Stack } from "@mui/material";
 
+import Book from "../interfaces/book.interface";
 
 interface IProps {
     books: Array<Book> | undefined,
     fetchAllBooks: Function,
-    setBookToEdit: Function
+    setBookToEdit: Function,
+    setEditBookFormVisible: Function
 }
 
 const BACKEND_URL = 'http://172.104.135.212'
 
-const ListBooks: FC<IProps> = ({books, fetchAllBooks, setBookToEdit}: IProps): JSX.Element => {
+const ListBooks: FC<IProps> = ({books, fetchAllBooks, setBookToEdit, setEditBookFormVisible}: IProps): JSX.Element => {
 
     const renderBookData = (book:Book) => {
         return(
-            <div style={{border:"solid black 1px", marginTop: 10}}>
-                <p>Title: {book.title}</p>
-                <p>Author: {book.author}</p>
-                <p>Topic: {book.topic}</p>
-                <p>isbn: {book.isbn}</p>
-                <p>Location: {book.location}</p>
-                <button onClick={()=>{
-                    fetch(`${BACKEND_URL}/book?id=${book.id}`,{method: 'DELETE'})
-                    .then(response=>{
-                        if(response.ok){
-                            fetchAllBooks()
-                        } else{
-                            // handle !response
+            <Paper elevation={3} sx={{ padding: "1rem" }}>
+                <Typography>Title: {book.title}</Typography>
+                <Typography>Author: {book.author}</Typography>
+                <Typography>Topic: {book.topic}</Typography>
+                <Typography>isbn: {book.isbn}</Typography>
+                <Typography>Location: {book.location}</Typography>
+                <Stack direction="row" spacing={2}>
+                    <Button variant="contained" color="error" onClick={()=>{
+                        fetch(`${BACKEND_URL}/book?id=${book.id}`,{method: 'DELETE'})
+                        .then(response=>{
+                            if(response.ok){
+                                fetchAllBooks()
+                            } else{
+                                // handle !response
+                            }
                         }
-                    }
-                    )}
-                }>
-                    Delete book
-                </button>
-                <button onClick={()=>{
-                        setBookToEdit(book)
-                    }
-                }>
-                    Edit book
-                </button>
-            </div>
+                        )}
+                    }>
+                        Delete book
+                    </Button>
+                    <Button variant="contained" onClick={()=>{setBookToEdit(book); setEditBookFormVisible(true)}}>Edit book</Button>
+                </Stack>
+            </Paper>
         )
     }
 
@@ -48,9 +47,9 @@ const ListBooks: FC<IProps> = ({books, fetchAllBooks, setBookToEdit}: IProps): J
     }
 
     return(
-        <div>
+        <Stack spacing={3} sx={{marginTop: "1rem"}}>
             {books?.map(book=>(renderBookData(book)))}
-        </div>
+        </Stack>
     )
 }
 

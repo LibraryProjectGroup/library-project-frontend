@@ -1,5 +1,5 @@
 import React, { useState, FC } from "react";
-
+import { Modal, Box, Button, Typography, TextField, Stack } from "@mui/material";
 
 interface IProps {
   addBookFormVisible: boolean
@@ -19,15 +19,14 @@ const AddBook: FC<IProps> = ({addBookFormVisible, setAddBookFormVisible, fetchAl
     location: "",
   });
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setBook({
       ...book,
       [event.target.name]: event.target.value,
     });
   };
 
-  const addBook = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const addBook = async () => {
     console.log(book);
     //
     // PRELIMINARY, NOT TESTED!
@@ -65,75 +64,65 @@ const AddBook: FC<IProps> = ({addBookFormVisible, setAddBookFormVisible, fetchAl
     }
   };
 
-  if(addBookFormVisible){
+  if(addBookFormVisible) {
     return (
-      <div style={{ marginTop: 20 }}>
-        <h2>Add a new book</h2>
-        <form onSubmit={addBook}>
+      <Modal
+        open={addBookFormVisible}
+        onClose={() => {setAddBookFormVisible(false)}}
+      >
+        <Box sx={{
+          position: 'absolute' as 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 400,
+          bgcolor: 'background.paper',
+          boxShadow: 24,
+          p: 4,
+        }}>
           {/*book.owner is logged in user*/}
-          <div>
-            <label>
-              Author:
-              <input
-                type="string"
-                name="author"
-                value={book.author}
-                onChange={(event) => onChange(event)}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              Title:
-              <input
-                type="string"
-                name="title"
-                value={book.title}
-                onChange={(event) => onChange(event)}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              Topic:
-              <input
-                type="string"
-                name="topic"
-                value={book.topic}
-                onChange={(event) => onChange(event)}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              isbn:
-              <input
-                type="string"
-                name="isbn"
-                value={book.isbn}
-                onChange={(event) => onChange(event)}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              Location:
-              <input
-                type="string"
-                name="location"
-                value={book.location}
-                onChange={(event) => onChange(event)}
-              />
-            </label>
-            <div>
-              <button type="submit">Add</button>
-            </div>
-          </div>
-        </form>
-      </div>
+          <Stack spacing={2}>
+            <Typography variant="h4">Add a new book</Typography>
+            <TextField
+              label="Author"
+              name="author"
+              value={book.author}
+              onChange={(event) => onChange(event)}
+            />
+            <TextField
+              label="Title"
+              name="title"
+              value={book.title}
+              onChange={(event) => onChange(event)}
+            />
+            <TextField
+              label="Topic"
+              name="topic"
+              value={book.topic}
+              onChange={(event) => onChange(event)}
+            />
+            <TextField
+              label="ISBN"
+              name="isbn"
+              value={book.isbn}
+              onChange={(event) => onChange(event)}
+            />
+            <TextField
+              label="Location"
+              name="location"
+              value={book.location}
+              onChange={(event) => onChange(event)}
+            />
+            <Stack direction="row" spacing={2}>
+              <Button variant="contained" color="success" onClick={addBook}>Add</Button>
+              <Button variant="contained" onClick={() => {setAddBookFormVisible(false)}}>Cancel</Button>
+            </Stack>
+          </Stack>
+        </Box>
+      </Modal>
     )
-  } else{
-    return <div></div>
+  } else {
+    return <></>;
   }
 }
 

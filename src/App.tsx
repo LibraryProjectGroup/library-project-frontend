@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import './App.css';
+import { Container, Button, Fab } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+
 import Book from './interfaces/book.interface';
 import AddBook from './components/AddBook';
 import ListBooks from './components/ListBooks';
@@ -57,20 +59,18 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <button 
-        onClick={()=>{setAddBookFormVisible(true)}} 
-        style={{width: 200, height: 100, backgroundColor: "yellow", border: "solid black 2px", borderRadius: "2px"}}>
-          Add book
-      </button>
+    <Container maxWidth="sm">
       {exampleBook && renderExampleBookData()}
-      <AddBook addBookFormVisible={addBookFormVisible} setAddBookFormVisible={setAddBookFormVisible} fetchAllBooks={fetchAllBooks}/>
+      <AddBook addBookFormVisible={addBookFormVisible} setAddBookFormVisible={setAddBookFormVisible} fetchAllBooks={fetchAllBooks} />
       {editBookFormVisible && bookToEdit && 
-        <EditBook bookToEdit={bookToEdit} setEditBookFormVisible={setEditBookFormVisible} fetchAllBooks={fetchAllBooks}/>
+          <EditBook editBookFormVisible={editBookFormVisible} bookToEdit={bookToEdit} setEditBookFormVisible={setEditBookFormVisible} fetchAllBooks={fetchAllBooks} />
       }
-      <ListBooks books={books} fetchAllBooks={fetchAllBooks} setBookToEdit={setBookToEdit}/>
-    </div>
+      <ListBooks books={books} fetchAllBooks={fetchAllBooks} setBookToEdit={setBookToEdit} setEditBookFormVisible={setEditBookFormVisible} />
 
+      <Fab color="primary" aria-label="add" sx={{ position: "absolute", bottom: "2rem" }} onClick={()=>{setAddBookFormVisible(true)}}>
+        <AddIcon />
+      </Fab>
+    </Container>
   )
 }
 
