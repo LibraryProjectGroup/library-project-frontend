@@ -3,18 +3,27 @@ import './App.css';
 import Book from './interfaces/book.interface';
 import AddBook from './components/AddBook';
 import ListBooks from './components/ListBooks';
-import { setSelectionRange } from '@testing-library/user-event/dist/utils';
+import EditBook from './components/EditBook';
 
 function App() {
 
   const [exampleBook, setExampleBook] = useState<Book | undefined>(undefined)
   const [books, setBooks] = useState<Array<Book> | undefined>(undefined)
   const [addBookFormVisible, setAddBookFormVisible] = useState<boolean>(false)
+  const [editBookFormVisible, setEditBookFormVisible] = useState<boolean>(false)
+  const [bookToEdit, setBookToEdit] = useState<Book | undefined>(undefined)
+
   const BACKEND_URL = 'http://172.104.135.212'
 
   useEffect(()=>{
     fetchAllBooks()
   },[])
+
+  useEffect(()=>{
+    if(bookToEdit){
+      setEditBookFormVisible(true)
+    }
+  },[bookToEdit])
 
   function fetchExampleBookData() {
     fetch(`${BACKEND_URL}/example`, {headers:{'Access-Control-Allow-Origin':BACKEND_URL}})
@@ -50,7 +59,10 @@ function App() {
       </button>
       {exampleBook && renderExampleBookData()}
       <AddBook addBookFormVisible={addBookFormVisible} setAddBookFormVisible={setAddBookFormVisible} fetchAllBooks={fetchAllBooks}/>
-      <ListBooks books={books} fetchAllBooks={fetchAllBooks}/>
+      {editBookFormVisible && bookToEdit && 
+        <EditBook bookToEdit={bookToEdit} setEditBookFormVisible={setEditBookFormVisible} fetchAllBooks={fetchAllBooks}/>
+      }
+      <ListBooks books={books} fetchAllBooks={fetchAllBooks} setBookToEdit={setBookToEdit}/>
     </div>
 
   )

@@ -3,13 +3,14 @@ import Book from "../interfaces/book.interface";
 
 
 interface IProps {
-    books: Array<Book> | undefined
-    fetchAllBooks: Function
+    books: Array<Book> | undefined,
+    fetchAllBooks: Function,
+    setBookToEdit: Function
 }
 
 const BACKEND_URL = 'http://172.104.135.212'
 
-const ListBooks: FC<IProps> = ({books, fetchAllBooks}: IProps): JSX.Element => {
+const ListBooks: FC<IProps> = ({books, fetchAllBooks, setBookToEdit}: IProps): JSX.Element => {
 
     const renderBookData = (book:Book) => {
         return(
@@ -31,6 +32,12 @@ const ListBooks: FC<IProps> = ({books, fetchAllBooks}: IProps): JSX.Element => {
                     )}
                 }>
                     Delete book
+                </button>
+                <button onClick={()=>{
+                        setBookToEdit(book)
+                    }
+                }>
+                    Edit book
                 </button>
             </div>
         )
