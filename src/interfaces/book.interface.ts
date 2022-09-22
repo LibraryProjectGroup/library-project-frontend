@@ -1,4 +1,5 @@
 interface Book {
+    id: number,
     owner: string,
     title: string,
     author: string,
