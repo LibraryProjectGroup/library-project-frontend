@@ -32,8 +32,8 @@
       "react-app/jest"
     ],
     "rules": {
-        "no-unused-vars": 0,
-        "@typescript-eslint/no-unused-vars": 0
+      "no-unused-vars": 0,
+      "@typescript-eslint/no-unused-vars": 0
     }
   },
   "browserslist": {
@@ -47,5 +47,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "prettier": "2.7.1"
   }
 }
