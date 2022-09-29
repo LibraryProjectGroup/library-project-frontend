@@ -1,6 +1,8 @@
 import React, { useState, FC } from "react";
 import { Modal, Box, Button, Typography, TextField, Stack } from "@mui/material";
 
+import BACKEND_URL from '../backendUrl'
+
 interface IProps {
   addBookFormVisible: boolean
   setAddBookFormVisible: Function
@@ -9,7 +11,6 @@ interface IProps {
 
 const AddBook: FC<IProps> = ({addBookFormVisible, setAddBookFormVisible, fetchAllBooks}: IProps): JSX.Element => {
 
-  const BACKEND_URL = 'http://172.104.135.212'
   const [book, setBook] = useState({
     owner: "",
     title: "",

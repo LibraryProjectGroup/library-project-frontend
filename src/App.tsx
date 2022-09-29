@@ -6,6 +6,7 @@ import Book from './interfaces/book.interface';
 import AddBook from './components/AddBook';
 import ListBooks from './components/ListBooks';
 import EditBook from './components/EditBook';
+import BACKEND_URL from './backendUrl'
 
 function App() {
 
@@ -15,11 +16,13 @@ function App() {
   const [editBookFormVisible, setEditBookFormVisible] = useState<boolean>(false)
   const [bookToEdit, setBookToEdit] = useState<Book | undefined>(undefined)
 
-  const BACKEND_URL = 'http://172.104.135.212'
-
   useEffect(()=>{
     fetchAllBooks()
   },[])
+
+  useEffect(()=>{
+    console.log(books)
+  },[books])
 
   useEffect(()=>{
     if(bookToEdit){
@@ -34,7 +37,8 @@ function App() {
   }
 
   function fetchAllBooks() {
-    fetch(`${BACKEND_URL}/allbooks`, {headers:{'Access-Control-Allow-Origin':BACKEND_URL}})
+    console.log("FECCTH") 
+    fetch(`${BACKEND_URL}/allbooks`, {headers:{'Access-Control-Allow-Origin':'*'}})
       .then(response => response.json())
       .then(data => setBooks(data));
   }

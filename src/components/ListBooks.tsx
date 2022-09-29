@@ -2,6 +2,7 @@ import React, { useState, FC } from "react";
 import { Paper, Typography, Button, Stack } from "@mui/material";
 
 import Book from "../interfaces/book.interface";
+import BACKEND_URL from '../backendUrl'
 
 interface IProps {
     books: Array<Book> | undefined,
@@ -9,8 +10,6 @@ interface IProps {
     setBookToEdit: Function,
     setEditBookFormVisible: Function
 }
-
-const BACKEND_URL = 'http://172.104.135.212'
 
 const ListBooks: FC<IProps> = ({books, fetchAllBooks, setBookToEdit, setEditBookFormVisible}: IProps): JSX.Element => {
 
