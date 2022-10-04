@@ -87,13 +87,20 @@ const LoginPage = () => {
             </Box>
           </Box>
         </Grid>
-        <Grid item xs={12} md={5} sx={{}}>
+        <Grid
+          item
+          xs={12}
+          md={5}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <Paper
             elevation={10}
             sx={{
               width: 500,
               height: 500,
-              marginLeft: "10%",
             }}
           >
             <Box sx={{ padding: 10 }}>
