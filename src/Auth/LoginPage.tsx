@@ -38,8 +38,9 @@ const LoginPage = () => {
       justifyContent="space-around"
       alignItems="center"
       sx={{
-        width: "100vw",
-        height: "100vh",
+        maxWidth: window.innerWidth,
+        minHeight: window.innerHeight,
+        backgroundColor: "#f0f0ec",
       }}
     >
       <Grid
@@ -49,22 +50,10 @@ const LoginPage = () => {
         sx={{ width: "95%", height: "90%" }}
       >
         <Grid item xs={12} md={7}>
-          <Box
-            sx={
-              {
-                /*
-            height: 300,
-            width: 900,
-            maxWidth: "50%",
-            top: "25%",
-            left: "10%",
-            position: "fixed", */
-              }
-            }
-          >
+          <Box>
             <Box sx={{ padding: 10 }}>
               <Typography
-                variant="h1"
+                variant="h1" //not responsive font
                 sx={{
                   fontFamily: "Merriweather",
                   fontWeight: "bold",
@@ -148,9 +137,13 @@ const LoginPage = () => {
                   sx={{
                     fontFamily: "Montserrat",
                     fontWeight: "bold",
+                    fontSize: 15,
                     width: "40%",
                     backgroundColor: "#FFD100",
                     color: "black",
+                    "&:hover": {
+                      backgroundColor: "#FFB500",
+                    },
                     padding: 2,
                   }}
                 >
