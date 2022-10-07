@@ -5,28 +5,33 @@ import BACKEND_URL from "../backendUrl";
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMesssage] = useState("");
 
   const handleLogin = async () => {
     /* login function here */
     console.log(username, password);
     try {
       const response = await fetch(
-        `Post request to login route, and pass username and password there`,
+        `${BACKEND_URL}/auth/login?username=${username}&password=${password}`,
         {
-          method: "POST",
+          method: "GET",
           headers: {
             "content-type": "application/json;charset=UTF-8",
             "Access-Control-Allow-Origin": BACKEND_URL,
           },
         }
       );
+      let data = await response.json();
       if (response.ok) {
         /*if login successfull, navigate to homepage */
+        document.cookie = `librarySession=${data.secret};expires=${new Date(
+          new Date().getTime() + 604800000
+        ).toUTCString()};domain=localhost;path=/;SameSite=strict`;
       } else {
-        console.log("something went wrong!"); //response should send error e.g if user doesn't exist or wrong password
+        setErrorMesssage(data.message ? data.message : "internal error");
       }
     } catch (error) {
-      console.error();
+      console.error(error);
     }
   };
 
@@ -129,6 +134,7 @@ const LoginPage = () => {
                     setPassword(event.target.value);
                   }}
                 />
+                <Typography sx={{ color: "red" }}>{errorMessage}</Typography>
               </Box>
               <Box sx={{ textAlign: "center" }}>
                 <Button
