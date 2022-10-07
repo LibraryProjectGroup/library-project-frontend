@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 5.0.1 (Python 3.10.2 on win32)" generated="20221005 19:02:49.733" rpa="false" schemaversion="3">
+<suite id="s1" name="Tests" source="C:\workspaces\library-project-frontend\robot\tests">
+<suite id="s1-s1" name="viewBook" source="C:\workspaces\library-project-frontend\robot\tests\viewBook.robot">
+<test id="s1-s1-t1" name="Check application root element loads" line="11">
+<kw name="open the browser">
+<kw name="Open Browser" library="SeleniumLibrary">
+<arg>${URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<msg timestamp="20221005 19:02:50.042" level="INFO">Opening browser 'Chrome' to base url 'http://localhost:3000/'.</msg>
+<status status="PASS" starttime="20221005 19:02:50.041" endtime="20221005 19:02:53.117"/>
+</kw>
+<status status="PASS" starttime="20221005 19:02:50.041" endtime="20221005 19:02:53.117"/>
+</kw>
+<kw name="Page Should Contain Element" library="SeleniumLibrary">
+<arg>xpath://*[contains(@id, 'root')]</arg>
+<doc>Verifies that element ``locator`` is found on the current page.</doc>
+<msg timestamp="20221005 19:02:53.135" level="INFO">Current page contains element 'xpath://*[contains(@id, 'root')]'.</msg>
+<status status="PASS" starttime="20221005 19:02:53.117" endtime="20221005 19:02:53.135"/>
+</kw>
+<status status="PASS" starttime="20221005 19:02:50.040" endtime="20221005 19:02:53.136"/>
+</test>
+<status status="PASS" starttime="20221005 19:02:49.762" endtime="20221005 19:02:53.138"/>
+</suite>
+<status status="PASS" starttime="20221005 19:02:49.736" endtime="20221005 19:02:53.140"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Tests">Tests</stat>
+<stat pass="1" fail="0" skip="0" id="s1-s1" name="viewBook">Tests.viewBook</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
