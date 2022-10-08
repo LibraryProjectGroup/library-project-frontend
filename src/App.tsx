@@ -39,7 +39,7 @@ function App() {
   }
 
   function fetchBookFromDb(bookId:string){
-    fetch(`http://localhost:3001/book?id=${bookId}`, {headers:{'Access-Control-Allow-Origin':"http://localhost:3000/book"}})
+    fetch(`${BACKEND_URL}/book?id=${bookId}`, {headers:{'Access-Control-Allow-Origin':"http://localhost:3000/book"}})
       .then(response => response.json())
       .then(data => setExampleBook(data));
   }
