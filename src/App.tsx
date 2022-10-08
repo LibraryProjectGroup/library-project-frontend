@@ -21,10 +21,6 @@ function App() {
   },[])
 
   useEffect(()=>{
-    console.log(books)
-  },[books])
-
-  useEffect(()=>{
     if(bookToEdit){
       setEditBookFormVisible(true)
     }
@@ -37,8 +33,7 @@ function App() {
   }
 
   function fetchAllBooks() {
-    console.log("FECCTH") 
-    fetch(`${BACKEND_URL}/allbooks`, {headers:{'Access-Control-Allow-Origin':'*'}})
+    fetch(`${BACKEND_URL}/book/all`, {headers:{'Access-Control-Allow-Origin':'*'}})
       .then(response => response.json())
       .then(data => setBooks(data));
   }

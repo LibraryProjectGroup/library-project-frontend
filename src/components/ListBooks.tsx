@@ -41,10 +41,6 @@ const ListBooks: FC<IProps> = ({books, fetchAllBooks, setBookToEdit, setEditBook
         )
     }
 
-    const log = () =>{
-        console.log(books)
-    }
-
     return(
         <Stack spacing={3} sx={{marginTop: "1rem"}}>
             {books?.map(book=>(renderBookData(book)))}
