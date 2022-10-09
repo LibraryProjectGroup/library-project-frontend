@@ -1,52 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Button, Fab } from "@mui/material";
+import React, { useEffect, useState, useContext } from "react";
+import { Container, Button, Fab, CssBaseline } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-
-import Book from './interfaces/book.interface';
-import AddBook from './components/AddBook';
-import ListBooks from './components/ListBooks';
-import EditBook from './components/EditBook';
-import BACKEND_URL from './backendUrl'
+import Book from "./interfaces/book.interface";
+import ContextData from "./interfaces/ContextData.interface";
+import AddBook from "./components/AddBook";
+import ListBooks from "./components/ListBooks";
+import EditBook from "./components/EditBook";
+import LoginPage from "./Auth/LoginPage";
+import TheContextProvider from "./TheContext";
+import { fetchAllBooks } from "./fetchFunctions";
 
 function App() {
+  const [exampleBook, setExampleBook] = useState<Book | undefined>(undefined);
+  const [books, setBooks] = useState<Array<Book> | undefined>(undefined);
+  const [addBookFormVisible, setAddBookFormVisible] = useState<boolean>(false);
+  const [logged, setLogged] = useState<boolean>(false);
+  const [editBookFormVisible, setEditBookFormVisible] =
+    useState<boolean>(false);
+  const [bookToEdit, setBookToEdit] = useState<Book | undefined>(undefined);
 
-  const [exampleBook, setExampleBook] = useState<Book | undefined>(undefined)
-  const [books, setBooks] = useState<Array<Book> | undefined>(undefined)
-  const [addBookFormVisible, setAddBookFormVisible] = useState<boolean>(false)
-  const [editBookFormVisible, setEditBookFormVisible] = useState<boolean>(false)
-  const [bookToEdit, setBookToEdit] = useState<Book | undefined>(undefined)
+  useEffect(() => {
+    fetchAllBooks(setBooks);
+  }, [logged]);
 
-  useEffect(()=>{
-    fetchAllBooks()
-  },[])
-
-  useEffect(()=>{
-    if(bookToEdit){
-      setEditBookFormVisible(true)
+  useEffect(() => {
+    if (bookToEdit) {
+      setEditBookFormVisible(true);
     }
-  },[bookToEdit])
+  }, [bookToEdit]);
 
-  function fetchExampleBookData() {
-    fetch(`${BACKEND_URL}/example`, {headers:{'Access-Control-Allow-Origin':BACKEND_URL}})
-      .then(response => response.json())
-      .then(json=>setExampleBook(json))
-  }
-
-  function fetchAllBooks() {
-    fetch(`${BACKEND_URL}/book/all`, {headers:{'Access-Control-Allow-Origin':'*'}})
-      .then(response => response.json())
-      .then(data => setBooks(data));
-  }
-
-  function fetchBookFromDb(bookId:string){
-    fetch(`${BACKEND_URL}/book?id=${bookId}`, {headers:{'Access-Control-Allow-Origin':"http://localhost:3000/book"}})
-      .then(response => response.json())
-      .then(data => setExampleBook(data));
-  }
-
-  function renderExampleBookData(){
-    return(
-      <div style={{border: "solid saddlebrown 2px"}}>
+  function renderExampleBookData() {
+    return (
+      <div style={{ border: "solid saddlebrown 2px" }}>
         <p>Loaned to: {exampleBook?.owner}</p>
         <p>Title: {exampleBook?.title}</p>
         <p>Author: {exampleBook?.author}</p>
@@ -54,23 +39,55 @@ function App() {
         <p>ISBN: {exampleBook?.isbn}</p>
         <p>Location: {exampleBook?.location}</p>
       </div>
-    )
+    );
   }
 
   return (
-    <Container maxWidth="sm">
-      {exampleBook && renderExampleBookData()}
-      <AddBook addBookFormVisible={addBookFormVisible} setAddBookFormVisible={setAddBookFormVisible} fetchAllBooks={fetchAllBooks} />
-      {editBookFormVisible && bookToEdit && 
-          <EditBook editBookFormVisible={editBookFormVisible} bookToEdit={bookToEdit} setEditBookFormVisible={setEditBookFormVisible} fetchAllBooks={fetchAllBooks} />
-      }
-      <ListBooks books={books} fetchAllBooks={fetchAllBooks} setBookToEdit={setBookToEdit} setEditBookFormVisible={setEditBookFormVisible} />
+    /* Container component messes up with the margins and/or paddings, pushing
+      all components to the right and leaving a big empty space on the left. For
+      now it can be fixed by replacing with div*/
+    <TheContextProvider>
+      <div>
+        <CssBaseline />
+        {exampleBook && renderExampleBookData()}
+        {logged && (
+          <ListBooks
+            books={books}
+            setBooks={setBooks}
+            setBookToEdit={setBookToEdit}
+            setEditBookFormVisible={setEditBookFormVisible}
+          />
+        )}
+        {editBookFormVisible && (
+          <EditBook
+            setEditBookFormVisible={setEditBookFormVisible}
+            bookToEdit={bookToEdit}
+            editBookFormVisible={editBookFormVisible}
+            setBooks={setBooks}
+          ></EditBook>
+        )}
+        {addBookFormVisible && (
+          <AddBook
+            addBookFormVisible={addBookFormVisible}
+            setAddBookFormVisible={setAddBookFormVisible}
+            setBooks={setBooks}
+          ></AddBook>
+        )}
+        <Fab
+          color="primary"
+          aria-label="add"
+          sx={{ position: "absolute", bottom: "2rem" }}
+          onClick={() => {
+            setAddBookFormVisible(true);
+          }}
+        >
+          <AddIcon />
+        </Fab>
 
-      <Fab color="primary" aria-label="add" sx={{ position: "absolute", bottom: "2rem" }} onClick={()=>{setAddBookFormVisible(true)}}>
-        <AddIcon />
-      </Fab>
-    </Container>
-  )
+        {!logged && <LoginPage setLogged={setLogged} />}
+      </div>
+    </TheContextProvider>
+  );
 }
 
 export default App;
