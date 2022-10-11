@@ -21,10 +21,6 @@ function App() {
   },[])
 
   useEffect(()=>{
-    console.log(books)
-  },[books])
-
-  useEffect(()=>{
     if(bookToEdit){
       setEditBookFormVisible(true)
     }
@@ -37,14 +33,13 @@ function App() {
   }
 
   function fetchAllBooks() {
-    console.log("FECCTH") 
-    fetch(`${BACKEND_URL}/allbooks`, {headers:{'Access-Control-Allow-Origin':'*'}})
+    fetch(`${BACKEND_URL}/book/all`, {headers:{'Access-Control-Allow-Origin':'*'}})
       .then(response => response.json())
       .then(data => setBooks(data));
   }
 
   function fetchBookFromDb(bookId:string){
-    fetch(`http://localhost:3001/book?id=${bookId}`, {headers:{'Access-Control-Allow-Origin':"http://localhost:3000/book"}})
+    fetch(`${BACKEND_URL}/book?id=${bookId}`, {headers:{'Access-Control-Allow-Origin':"http://localhost:3000/book"}})
       .then(response => response.json())
       .then(data => setExampleBook(data));
   }
