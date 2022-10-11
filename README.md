@@ -1,14 +1,14 @@
 ## Backend endpoints
 
 
-
 ### Book
-#### /book?{id} (GET)
 
-Response schema: 
+#### /book?id={id} (GET)
+
+Response schema:
 
 ```JSON
-{   
+{
     "title": "Book",
     "description": "Book",
     "type": "object",
@@ -24,12 +24,12 @@ Response schema:
 }
 ```
 
-#### /book?{title}&{author}&{isbn}&{topic}&{location} (POST)
+#### /book (POST)
 
 Response schema:
 
 ```JSON
-{   
+{
     "title": "Ok",
     "description": "Ok",
     "type": "object",
@@ -39,12 +39,12 @@ Response schema:
 }
 ```
 
-#### /book?{bookid}&{userid}&{title}&{author}&{isbn}&{topic}&{location} (PUT)
+#### /book (PUT)
 
 Response schema:
 
 ```JSON
-{   
+{
     "title": "Ok",
     "description": "Ok",
     "type": "object",
@@ -54,11 +54,12 @@ Response schema:
 }
 ```
 
-#### /book?{id} (DELETE)
+#### /book?id={id} (DELETE)
 
 Response schema:
+
 ```JSON
-{   
+{
     "title": "Ok",
     "description": "Ok",
     "type": "object",
@@ -68,9 +69,9 @@ Response schema:
 }
 ```
 
-#### /books (GET)
+#### /book/all (GET)
 
-Response schema: 
+Response schema:
 
 ```JSON
 {
@@ -89,13 +90,15 @@ Response schema:
     }
 }
 ```
-### User
-#### /user?{id} (GET)
 
-Response schema: 
+### User
+
+#### /user?id={id} (GET)
+
+Response schema:
 
 ```JSON
-{   
+{
     "title": "User",
     "description": "User",
     "type": "object",
@@ -106,9 +109,9 @@ Response schema:
 }
 ```
 
-#### /users (GET)
+#### /user/all (GET)
 
-Response schema: 
+Response schema:
 
 ```JSON
 {
