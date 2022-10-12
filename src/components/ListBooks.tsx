@@ -4,17 +4,18 @@ import { Paper, Typography, Button, Stack } from "@mui/material";
 import Book from "../interfaces/book.interface";
 import BACKEND_URL from "../backendUrl";
 import { right } from "@popperjs/core";
+import { fetchAllBooks } from "../fetchFunctions";
 
 interface IProps {
   books: Array<Book> | undefined;
-  fetchAllBooks: Function;
+  setBooks: Function;
   setBookToEdit: Function;
   setEditBookFormVisible: Function;
 }
 
 const ListBooks: FC<IProps> = ({
   books,
-  fetchAllBooks,
+  setBooks,
   setBookToEdit,
   setEditBookFormVisible,
 }: IProps): JSX.Element => {
@@ -85,7 +86,7 @@ const ListBooks: FC<IProps> = ({
                   method: "DELETE",
                 }).then((response) => {
                   if (response.ok) {
-                    fetchAllBooks();
+                    fetchAllBooks(setBooks);
                   } else {
                     // handle !response
                   }

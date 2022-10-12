@@ -47,16 +47,35 @@ function App() {
       all components to the right and leaving a big empty space on the left. For
       now it can be fixed by replacing with div*/
     <TheContextProvider>
-      <div>
+      <Container>
         <CssBaseline />
         {exampleBook && renderExampleBookData()}
         {logged && (
-          <ListBooks
-            books={books}
-            setBooks={setBooks}
-            setBookToEdit={setBookToEdit}
-            setEditBookFormVisible={setEditBookFormVisible}
-          />
+          <div>
+            <ListBooks
+              books={books}
+              setBooks={setBooks}
+              setBookToEdit={setBookToEdit}
+              setEditBookFormVisible={setEditBookFormVisible}
+            />
+            <Fab
+              aria-label="add"
+              sx={{
+                position: "absolute",
+                bottom: "2rem",
+                backgroundColor: "#FFD100",
+                color: "black",
+                "&:hover": {
+                  backgroundColor: "#FFB500",
+                },
+              }}
+              onClick={() => {
+                setAddBookFormVisible(true);
+              }}
+            >
+              <AddIcon />
+            </Fab>
+          </div>
         )}
         {editBookFormVisible && (
           <EditBook
@@ -73,19 +92,8 @@ function App() {
             setBooks={setBooks}
           ></AddBook>
         )}
-        <Fab
-          color="primary"
-          aria-label="add"
-          sx={{ position: "absolute", bottom: "2rem" }}
-          onClick={() => {
-            setAddBookFormVisible(true);
-          }}
-        >
-          <AddIcon />
-        </Fab>
-
         {!logged && <LoginPage setLogged={setLogged} />}
-      </div>
+      </Container>
     </TheContextProvider>
   );
 }

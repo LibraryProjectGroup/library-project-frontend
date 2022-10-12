@@ -10,19 +10,20 @@ import {
 
 import Book from "../interfaces/book.interface";
 import BACKEND_URL from "../backendUrl";
+import { fetchAllBooks } from "../fetchFunctions";
 
 interface IProps {
   editBookFormVisible: boolean;
-  bookToEdit: Book;
+  bookToEdit: Book | undefined;
+  setBooks: Function;
   setEditBookFormVisible: Function;
-  fetchAllBooks: Function;
 }
 
 const EditBook: FC<IProps> = ({
   editBookFormVisible,
   bookToEdit,
+  setBooks,
   setEditBookFormVisible,
-  fetchAllBooks,
 }: IProps): JSX.Element => {
   const [editedBook, setEditedBook] = useState(bookToEdit);
 
@@ -164,13 +165,15 @@ const EditBook: FC<IProps> = ({
     });
     if (response.ok) {
       setEditBookFormVisible(false);
-      fetchAllBooks();
+      fetchAllBooks(setBooks);
     }
   };
 
   return (
     <div>
-      {bookToEdit && renderBookData(bookToEdit, editedBook, setEditedBook)}
+      {bookToEdit &&
+        editedBook &&
+        renderBookData(bookToEdit, editedBook, setEditedBook)}
     </div>
   );
 };
