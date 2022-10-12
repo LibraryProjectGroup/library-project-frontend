@@ -14,8 +14,6 @@ const LoginPage: FC<IProps> = ({ setLogged }: IProps): JSX.Element => {
 
   const context = useContext(TheContext);
   const handleLogin = async () => {
-    /* login function here */
-    console.log(username, password);
     try {
       const response = await fetch(
         `${BACKEND_URL}/auth/login?username=${username}&password=${password}`,
