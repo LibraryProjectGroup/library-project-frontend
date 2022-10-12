@@ -3,6 +3,7 @@ import { Paper, Typography, Button, Stack } from "@mui/material";
 
 import Book from "../interfaces/book.interface";
 import BACKEND_URL from '../backendUrl'
+import { right } from "@popperjs/core";
 
 interface IProps {
     books: Array<Book> | undefined,
@@ -15,14 +16,50 @@ const ListBooks: FC<IProps> = ({books, fetchAllBooks, setBookToEdit, setEditBook
 
     const renderBookData = (book:Book) => {
         return(
-            <Paper elevation={3} sx={{ padding: "1rem" }}>
-                <Typography>Title: {book.title}</Typography>
-                <Typography>Author: {book.author}</Typography>
-                <Typography>Topic: {book.topic}</Typography>
-                <Typography>isbn: {book.isbn}</Typography>
-                <Typography>Location: {book.location}</Typography>
-                <Stack direction="row" spacing={2}>
-                    <Button variant="contained" color="error" onClick={()=>{
+            <Paper elevation={10} sx={{ padding: "2rem", }}>
+                <Stack direction="row" justifyContent="space-between">
+                <Stack>
+                <Typography 
+                sx={{
+                  fontFamily: "Montserrat",
+                  fontWeight: "bold",
+                }}>{book.title}</Typography>
+                <Typography 
+                sx={{
+                  fontFamily: "Merriweather",
+                  fontWeight: "light",
+                }}>Author: {book.author}</Typography>
+                <Typography 
+                sx={{
+                  fontFamily: "Merriweather",
+                  fontWeight: "light",
+                }}>Topic: {book.topic}</Typography>
+                <Typography 
+                sx={{
+                  fontFamily: "Merriweather",
+                  fontWeight: "light",
+                }}>isbn: {book.isbn}</Typography>
+                <Typography 
+                sx={{
+                  fontFamily: "Merriweather",
+                  fontWeight: "light",
+                }}>Location: {book.location}</Typography>
+                </Stack>
+                <Stack  marginY={1} justifyContent="space-between" >
+                    <Button 
+                    sx={{
+                    fontFamily: "Montserrat",
+                    fontWeight: "bold",
+                    fontSize: 15,
+                    //width: "30%",
+                    backgroundColor: "#FFD100",
+                    color: "black",
+                    "&:hover": {
+                      backgroundColor: "#FFB500",
+                    },
+                    //padding: 1,
+                  }}
+                    variant="contained" color="error" onClick={()=>{
                         fetch(`${BACKEND_URL}/book?id=${book.id}`,{method: 'DELETE'})
                         .then(response=>{
                             if(response.ok){
@@ -35,7 +72,21 @@ const ListBooks: FC<IProps> = ({books, fetchAllBooks, setBookToEdit, setEditBook
                     }>
                         Delete book
                     </Button>
-                    <Button variant="contained" onClick={()=>{setBookToEdit(book); setEditBookFormVisible(true)}}>Edit book</Button>
+                    <Button 
+                    sx={{
+                    fontFamily: "Montserrat",
+                    fontWeight: "bold",
+                    fontSize: 15,
+                    //width: "30%",
+                    backgroundColor: "#FFD100",
+                    color: "black",
+                    "&:hover": {
+                      backgroundColor: "#FFB500",
+                    },
+                    //padding: 1,
+                    }}
+                    variant="contained" onClick={()=>{setBookToEdit(book); setEditBookFormVisible(true)}}>Edit book</Button>
+                </Stack>
                 </Stack>
             </Paper>
         )

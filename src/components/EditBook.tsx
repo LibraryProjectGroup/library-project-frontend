@@ -32,10 +32,17 @@ const EditBook: FC<IProps> = ({editBookFormVisible, bookToEdit, setEditBookFormV
                     width: 400,
                     bgcolor: 'background.paper',
                     boxShadow: 24,
-                    p: 4,
+                    paddingTop: 4,
+                    paddingX: 4,
+                    paddingBottom: 2,
                 }}>
                     <Stack spacing={2}>
-                        <Typography variant="h4">Edit {editedBook.title}</Typography>
+                        <Typography 
+                        sx={{
+                            fontFamily: "Montserrat",
+                            fontWeight: "bold",
+                        }}
+                        variant="h4">Edit {editedBook.title}</Typography>
                         <TextField
                             label="Author"
                             name="author"
@@ -66,9 +73,34 @@ const EditBook: FC<IProps> = ({editBookFormVisible, bookToEdit, setEditBookFormV
                             value={editedBook.location}
                             onChange={(e) => setEditedBook(()=>({...editedBook, location: e.target.value}))}
                         />
-                        <Stack direction="row" spacing={2}>
-                            <Button variant="contained" color="success" onClick={()=>{updateBook(book)}}>Update</Button>
-                            <Button variant="contained" onClick={() => {setEditBookFormVisible(false)}}>Cancel</Button>
+                        <Stack direction="row" spacing={2} justifyContent="center" >
+                            <Button  
+                                sx={{
+                                fontFamily: "Montserrat",
+                                fontWeight: "bold",
+                                fontSize: 15,
+                                //width: "30%",
+                                backgroundColor: "#FFD100",
+                                color: "black",
+                                "&:hover": {
+                                backgroundColor: "#FFB500",
+                                },
+                                //padding: 2,
+                                }}
+                        variant="contained" onClick={()=>{updateBook(book)}}>Update</Button>
+                            <Button  
+                                sx={{
+                                fontFamily: "Montserrat",
+                                fontWeight: "bold",
+                                fontSize: 15,
+                                //width: "30%",
+                                backgroundColor: "#FFD100",
+                                color: "black",
+                                "&:hover": {
+                                backgroundColor: "#FFB500",
+                                },
+                                //padding: 2,
+                                }} variant="contained" onClick={() => {setEditBookFormVisible(false)}}>Cancel</Button>
                         </Stack>
                     </Stack>
                 </Box>
