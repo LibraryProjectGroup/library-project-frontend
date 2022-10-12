@@ -16,7 +16,7 @@ const ListBooks: FC<IProps> = ({books, fetchAllBooks, setBookToEdit, setEditBook
 
     const renderBookData = (book:Book) => {
         return(
-            <Paper elevation={10} sx={{ padding: "2rem", }}>
+            <Paper elevation={10} sx={{ padding: "2rem", }} key={book.id}>
                 <Stack direction="row" justifyContent="space-between">
                 <Stack>
                 <Typography 
