@@ -78,13 +78,14 @@ const EditBook: FC<IProps> = ({editBookFormVisible, bookToEdit, setEditBookFormV
 
     const updateBook = async (book:Book) =>{
         const response = await fetch(
-            `${BACKEND_URL}/book?owner=1&id=${book.id}&title=${editedBook.title}&author=${editedBook.author}&isbn=${editedBook.isbn}&topic=${editedBook.topic}&location=${editedBook.location}`,
+            `${BACKEND_URL}/book`,
             {
               method: "PUT",
               headers: {
-                "content-type": "application/json;charset=UTF-8",
+                "content-type": "application/json",
                 "Access-Control-Allow-Origin": BACKEND_URL
-              }
+              },
+              body: JSON.stringify(editedBook),
             }
         )
         if(response.ok){

@@ -12,7 +12,6 @@ interface IProps {
 const AddBook: FC<IProps> = ({addBookFormVisible, setAddBookFormVisible, fetchAllBooks}: IProps): JSX.Element => {
 
   const [book, setBook] = useState({
-    owner: "",
     title: "",
     author: "",
     topic: "",
@@ -28,30 +27,18 @@ const AddBook: FC<IProps> = ({addBookFormVisible, setAddBookFormVisible, fetchAl
   };
 
   const addBook = async () => {
-    console.log(book);
-    //
-    // PRELIMINARY, NOT TESTED!
-    //
     try {
       const response = await fetch(
-        `${BACKEND_URL}/book?owner=1&title=${book.title}&author=${book.author}&isbn=${book.isbn}&topic=${book.topic}&location=${book.location}`,
+        `${BACKEND_URL}/book`,
         {
           method: "POST",
           headers: {
-            "content-type": "application/json;charset=UTF-8",
+            "content-type": "application/json",
             "Access-Control-Allow-Origin": BACKEND_URL
           },
-          // Data will be sent in a body
-          /*body: JSON.stringify({
-            title: book.title,
-            author: book.author,
-            isbn: book.isbn,
-            topic: book.topic,
-            location: book.location,
-            owner: book.owner,
-          })*/
+          body: JSON.stringify(book),
         }
-        );
+        );    
         if(response.ok){
           setAddBookFormVisible(false)
           fetchAllBooks()
@@ -61,7 +48,7 @@ const AddBook: FC<IProps> = ({addBookFormVisible, setAddBookFormVisible, fetchAl
     } catch (error) {
       console.error();
     } finally{
-      setBook({owner:"", title:"", author:"", topic:"", isbn:"", location:""})
+      setBook({title:"", author:"", topic:"", isbn:"", location:""})
     }
   };
 
