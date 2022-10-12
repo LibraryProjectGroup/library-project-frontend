@@ -32,7 +32,7 @@ Book's attribute has changed to ${value}
     Wait Until Element Is Not Visible    xpath://button[contains(text(), 'Update')]
     Element Should Be Visible    xpath://*[contains(., '${value}')]
 
-User can’t find their book from the catalog
+User can not find their book from the catalog
     User has home page open in browser
     Page Should Not Contain Element    xpath://*[contains(text(), 'Java oh Java')]
 
