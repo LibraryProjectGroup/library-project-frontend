@@ -13,3 +13,20 @@ User has home page open in browser
 
 List of books is visible
     Page Should Contain Element    xpath://*[contains(@id, 'root')]
+
+User can’t find their book from the catalog
+    User has home page open in browser
+    Page Should Not Contain Element    xpath://*[contains(text(), 'Java oh Java')]
+
+User adds book to catalog
+    Click Button    xpath://button[@aria-label='add']
+    Wait Until Element Is Visible    (//h4[normalize-space()='Add a new book'])[1]
+    Input Text    xpath://input[@id=':r1:']    Firstname Lastname
+    Input Text    xpath://input[@id=':r3:']    Java oh Java
+    Input Text    xpath://input[@id=':r5:']    Java
+    Input Text    xpath://input[@id=':r7:']    123-456
+    Input Text    xpath://input[@id=':r9:']    Helsinki
+    Click Button    xpath=(//button[normalize-space()='Add'])[1]
+
+Others can find the book from the catalog
+    Wait Until Page Contains Element    xpath://*[contains(text(), 'Java oh Java')]
