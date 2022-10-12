@@ -1,4 +1,4 @@
-import React, { useState, useContext, FC } from "react";
+import React, { useState, FC } from "react";
 import {
   Modal,
   Box,
@@ -10,26 +10,25 @@ import {
 
 import Book from "../interfaces/book.interface";
 import BACKEND_URL from "../backendUrl";
-import { fetchAllBooks } from "../fetchFunctions";
 
 interface IProps {
   editBookFormVisible: boolean;
-  bookToEdit: Book | undefined;
+  bookToEdit: Book;
   setEditBookFormVisible: Function;
-  setBooks: Function;
+  fetchAllBooks: Function;
 }
 
 const EditBook: FC<IProps> = ({
   editBookFormVisible,
   bookToEdit,
   setEditBookFormVisible,
-  setBooks,
+  fetchAllBooks,
 }: IProps): JSX.Element => {
   const [editedBook, setEditedBook] = useState(bookToEdit);
-  console.log();
+
   const renderBookData = (
     book: Book,
-    editedBook: Book | undefined,
+    editedBook: Book,
     setEditedBook: Function
   ) => {
     return (
@@ -48,15 +47,25 @@ const EditBook: FC<IProps> = ({
             width: 400,
             bgcolor: "background.paper",
             boxShadow: 24,
-            p: 4,
+            paddingTop: 4,
+            paddingX: 4,
+            paddingBottom: 2,
           }}
         >
           <Stack spacing={2}>
-            <Typography variant="h4">Edit {editedBook?.title}</Typography>
+            <Typography
+              sx={{
+                fontFamily: "Montserrat",
+                fontWeight: "bold",
+              }}
+              variant="h4"
+            >
+              Edit {editedBook.title}
+            </Typography>
             <TextField
               label="Author"
               name="author"
-              value={editedBook?.author}
+              value={editedBook.author}
               onChange={(e) =>
                 setEditedBook(() => ({ ...editedBook, author: e.target.value }))
               }
@@ -64,7 +73,7 @@ const EditBook: FC<IProps> = ({
             <TextField
               label="Title"
               name="title"
-              value={editedBook?.title}
+              value={editedBook.title}
               onChange={(e) =>
                 setEditedBook(() => ({ ...editedBook, title: e.target.value }))
               }
@@ -72,7 +81,7 @@ const EditBook: FC<IProps> = ({
             <TextField
               label="Topic"
               name="topic"
-              value={editedBook?.topic}
+              value={editedBook.topic}
               onChange={(e) =>
                 setEditedBook(() => ({ ...editedBook, topic: e.target.value }))
               }
@@ -80,7 +89,7 @@ const EditBook: FC<IProps> = ({
             <TextField
               label="ISBN"
               name="isbn"
-              value={editedBook?.isbn}
+              value={editedBook.isbn}
               onChange={(e) =>
                 setEditedBook(() => ({ ...editedBook, isbn: e.target.value }))
               }
@@ -88,7 +97,7 @@ const EditBook: FC<IProps> = ({
             <TextField
               label="Location"
               name="location"
-              value={editedBook?.location}
+              value={editedBook.location}
               onChange={(e) =>
                 setEditedBook(() => ({
                   ...editedBook,
@@ -96,10 +105,21 @@ const EditBook: FC<IProps> = ({
                 }))
               }
             />
-            <Stack direction="row" spacing={2}>
+            <Stack direction="row" spacing={2} justifyContent="center">
               <Button
+                sx={{
+                  fontFamily: "Montserrat",
+                  fontWeight: "bold",
+                  fontSize: 15,
+                  //width: "30%",
+                  backgroundColor: "#FFD100",
+                  color: "black",
+                  "&:hover": {
+                    backgroundColor: "#FFB500",
+                  },
+                  //padding: 2,
+                }}
                 variant="contained"
-                color="success"
                 onClick={() => {
                   updateBook(book);
                 }}
@@ -107,6 +127,18 @@ const EditBook: FC<IProps> = ({
                 Update
               </Button>
               <Button
+                sx={{
+                  fontFamily: "Montserrat",
+                  fontWeight: "bold",
+                  fontSize: 15,
+                  //width: "30%",
+                  backgroundColor: "#FFD100",
+                  color: "black",
+                  "&:hover": {
+                    backgroundColor: "#FFB500",
+                  },
+                  //padding: 2,
+                }}
                 variant="contained"
                 onClick={() => {
                   setEditBookFormVisible(false);
@@ -124,7 +156,6 @@ const EditBook: FC<IProps> = ({
   const updateBook = async (book: Book) => {
     const response = await fetch(`${BACKEND_URL}/book`, {
       method: "PUT",
-      credentials: "include",
       headers: {
         "content-type": "application/json",
         "Access-Control-Allow-Origin": BACKEND_URL,
@@ -133,7 +164,7 @@ const EditBook: FC<IProps> = ({
     });
     if (response.ok) {
       setEditBookFormVisible(false);
-      fetchAllBooks(setBooks);
+      fetchAllBooks();
     }
   };
 

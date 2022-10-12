@@ -80,12 +80,22 @@ const AddBook: FC<IProps> = ({
             width: 400,
             bgcolor: "background.paper",
             boxShadow: 24,
-            p: 4,
+            paddingTop: 4,
+            paddingX: 4,
+            paddingBottom: 2,
           }}
         >
           {/*book.owner is logged in user*/}
           <Stack spacing={2}>
-            <Typography variant="h4">Add a new book</Typography>
+            <Typography
+              sx={{
+                fontFamily: "Montserrat",
+                fontWeight: "bold",
+              }}
+              variant="h4"
+            >
+              Add a new book
+            </Typography>
             <TextField
               label="Author"
               name="author"
@@ -116,11 +126,38 @@ const AddBook: FC<IProps> = ({
               value={book.location}
               onChange={(event) => onChange(event)}
             />
-            <Stack direction="row" spacing={2}>
-              <Button variant="contained" color="success" onClick={addBook}>
+            <Stack direction="row" spacing={2} justifyContent="center">
+              <Button
+                sx={{
+                  fontFamily: "Montserrat",
+                  fontWeight: "bold",
+                  fontSize: 15,
+                  //width: "30%",
+                  backgroundColor: "#FFD100",
+                  color: "black",
+                  "&:hover": {
+                    backgroundColor: "#FFB500",
+                  },
+                  //padding: 2,
+                }}
+                variant="contained"
+                onClick={addBook}
+              >
                 Add
               </Button>
               <Button
+                sx={{
+                  fontFamily: "Montserrat",
+                  fontWeight: "bold",
+                  fontSize: 15,
+                  //width: "30%",
+                  backgroundColor: "#FFD100",
+                  color: "black",
+                  "&:hover": {
+                    backgroundColor: "#FFB500",
+                  },
+                  //padding: 2,
+                }}
                 variant="contained"
                 onClick={() => {
                   setAddBookFormVisible(false);

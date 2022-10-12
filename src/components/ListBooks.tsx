@@ -1,65 +1,121 @@
-import React, { useState, FC, useEffect, useContext } from "react";
+import React, { useState, FC } from "react";
 import { Paper, Typography, Button, Stack } from "@mui/material";
+
 import Book from "../interfaces/book.interface";
 import BACKEND_URL from "../backendUrl";
-import { fetchAllBooks } from "../fetchFunctions";
-import { TheContext } from "../TheContext";
+import { right } from "@popperjs/core";
 
 interface IProps {
   books: Array<Book> | undefined;
-  setBooks: Function;
+  fetchAllBooks: Function;
   setBookToEdit: Function;
   setEditBookFormVisible: Function;
 }
 
 const ListBooks: FC<IProps> = ({
   books,
-  setBooks,
+  fetchAllBooks,
   setBookToEdit,
   setEditBookFormVisible,
 }: IProps): JSX.Element => {
-  useEffect(() => {
-    fetchAllBooks(setBooks);
-  }, []);
-
-  const context = useContext(TheContext);
-
   const renderBookData = (book: Book) => {
     return (
-      <Paper elevation={3} sx={{ padding: "1rem" }}>
-        <Typography>Title: {book.title}</Typography>
-        <Typography>Author: {book.author}</Typography>
-        <Typography>Topic: {book.topic}</Typography>
-        <Typography>isbn: {book.isbn}</Typography>
-        <Typography>Location: {book.location}</Typography>
-        <Stack direction="row" spacing={2}>
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => {
-              fetch(`${BACKEND_URL}/book?id=${book.id}`, {
-                method: "DELETE",
-                credentials: "include",
-              }).then((response) => {
-                if (response.ok) {
-                  fetchAllBooks(setBooks);
-                } else {
-                  // handle !response
-                }
-              });
-            }}
-          >
-            Delete book
-          </Button>
-          <Button
-            variant="contained"
-            onClick={() => {
-              setBookToEdit(book);
-              setEditBookFormVisible(true);
-            }}
-          >
-            Edit book
-          </Button>
+      <Paper elevation={10} sx={{ padding: "2rem" }}>
+        <Stack direction="row" justifyContent="space-between">
+          <Stack>
+            <Typography
+              sx={{
+                fontFamily: "Montserrat",
+                fontWeight: "bold",
+              }}
+            >
+              {book.title}
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: "Merriweather",
+                fontWeight: "light",
+              }}
+            >
+              Author: {book.author}
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: "Merriweather",
+                fontWeight: "light",
+              }}
+            >
+              Topic: {book.topic}
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: "Merriweather",
+                fontWeight: "light",
+              }}
+            >
+              isbn: {book.isbn}
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: "Merriweather",
+                fontWeight: "light",
+              }}
+            >
+              Location: {book.location}
+            </Typography>
+          </Stack>
+          <Stack marginY={1} justifyContent="space-between">
+            <Button
+              sx={{
+                fontFamily: "Montserrat",
+                fontWeight: "bold",
+                fontSize: 15,
+                //width: "30%",
+                backgroundColor: "#FFD100",
+                color: "black",
+                "&:hover": {
+                  backgroundColor: "#FFB500",
+                },
+                //padding: 1,
+              }}
+              variant="contained"
+              color="error"
+              onClick={() => {
+                fetch(`${BACKEND_URL}/book?id=${book.id}`, {
+                  method: "DELETE",
+                }).then((response) => {
+                  if (response.ok) {
+                    fetchAllBooks();
+                  } else {
+                    // handle !response
+                  }
+                });
+              }}
+            >
+              Delete book
+            </Button>
+            <Button
+              sx={{
+                fontFamily: "Montserrat",
+                fontWeight: "bold",
+                fontSize: 15,
+                //width: "30%",
+                backgroundColor: "#FFD100",
+                color: "black",
+                "&:hover": {
+                  backgroundColor: "#FFB500",
+                },
+                //padding: 1,
+              }}
+              variant="contained"
+              onClick={() => {
+                setBookToEdit(book);
+                setEditBookFormVisible(true);
+              }}
+            >
+              Edit book
+            </Button>
+          </Stack>
         </Stack>
       </Paper>
     );
@@ -67,7 +123,6 @@ const ListBooks: FC<IProps> = ({
 
   return (
     <Stack spacing={3} sx={{ marginTop: "1rem" }}>
-      <p>username:{context?.username}</p>
       {books?.map((book) => renderBookData(book))}
     </Stack>
   );
