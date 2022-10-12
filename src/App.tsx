@@ -66,7 +66,11 @@ function App() {
       }
       <ListBooks books={books} fetchAllBooks={fetchAllBooks} setBookToEdit={setBookToEdit} setEditBookFormVisible={setEditBookFormVisible} />
 
-      <Fab color="primary" aria-label="add" sx={{ position: "absolute", bottom: "2rem" }} onClick={()=>{setAddBookFormVisible(true)}}>
+      <Fab aria-label="add" sx={{ position: "absolute", bottom: "2rem", backgroundColor: "#FFD100",
+          color: "black",
+          "&:hover": {
+          backgroundColor: "#FFB500",
+          },}} onClick={()=>{setAddBookFormVisible(true)}}>
         <AddIcon />
       </Fab>
     </Container>
