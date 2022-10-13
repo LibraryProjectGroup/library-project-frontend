@@ -48,3 +48,11 @@ User adds ${title} book to catalog
 
 Others can find the ${title} book from the catalog
     Wait Until Page Contains Element    xpath://*[contains(text(), '${title}')]
+
+User logs in successfully
+    Wait Until Element Is Visible    xpath://*[contains(@name, 'username')]
+    Input Text    xpath://*[contains(@name, 'username')]    testusername    clear=True
+    Wait Until Element Is Visible    xpath://*[contains(@name, 'password')]
+    Input Password    xpath://*[contains(@name, 'password')]    pa5sw0rdf0rtestu5er    clear=True
+    Click Button    xpath://button[contains(text(), 'Login')]
+    Wait Until Element Is Visible    xpath://*[contains(text(), 'Account page')]

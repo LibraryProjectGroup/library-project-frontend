@@ -2,7 +2,7 @@
 
 ## :heavy_check_mark: Prequisites
 
-If you are not sure if you have any of these installed, you can check that by running a version checking commands with command line:
+If you are not sure if you have any of these installed, you can check that by running the version checking commands with command line:
 
 ```pwsh
 robot --version
