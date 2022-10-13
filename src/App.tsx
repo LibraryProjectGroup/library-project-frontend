@@ -61,8 +61,9 @@ function App() {
             <Fab
               aria-label="add"
               sx={{
-                position: "absolute",
+                position: "fixed",
                 bottom: "2rem",
+                left: "2rem",
                 backgroundColor: "#FFD100",
                 color: "black",
                 "&:hover": {
