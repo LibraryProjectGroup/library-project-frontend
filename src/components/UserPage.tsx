@@ -1,8 +1,9 @@
 import React, { useState, FC, useContext, useEffect } from "react";
-import { Paper, Typography, Button, Stack } from "@mui/material";
+import { Paper, Typography, Button, Stack, Fab } from "@mui/material";
 import { TheContext } from "../TheContext";
 import { fetchCurrentBorrows } from "../fetchFunctions";
 import Book from "../interfaces/book.interface";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { convertToObject } from "typescript";
 
 interface IProps {
@@ -25,15 +26,12 @@ const MyAccount: FC<IProps> = ({
   const sortUserBorrowBookIds = () => {
     let userBorrowsTmp: any = [];
     for (let i = 0; i < borrows.length; i++) {
-      console.log(borrows[i].id);
       userBorrowsTmp.push(borrows[i].book);
     }
     setUserBorrowBookIds(userBorrowsTmp);
   };
   useEffect(() => {
     if (context?.username) {
-      console.log("CONTEXT");
-      console.log(context.username);
       fetchBorrows(context.username);
     }
   }, []);
@@ -45,10 +43,6 @@ const MyAccount: FC<IProps> = ({
   }, [borrows]);
 
   const renderBookData = (book: any) => {
-    console.log("RENDER");
-    console.log(userBorrowBookIds);
-    console.log(book.id);
-    console.log(userBorrowBookIds.includes(book.id));
     if (userBorrowBookIds.includes(book.id)) {
       return (
         <Paper elevation={10} sx={{ padding: "2rem" }}>
@@ -123,10 +117,34 @@ const MyAccount: FC<IProps> = ({
     }
   };
   return (
-    <Stack spacing={3} sx={{ marginTop: "1rem" }}>
+    <div>
+      <div style={{ position: "absolute", right: 30 }}>
+        <p>
+          User: <b>{context?.username}</b>
+        </p>
+        <p>Currently loaning</p>
+      </div>
+      <Fab
+        aria-label="back"
+        sx={{
+          position: "relative",
+          top: 50,
+          marginBottom: 10,
+          backgroundColor: "#FFD100",
+          color: "black",
+          "&:hover": {
+            backgroundColor: "#FFB500",
+          },
+        }}
+        onClick={() => {
+          setUserPageVisible(false);
+        }}
+      >
+        <ArrowBackIcon />
+      </Fab>
       {userBorrowBookIds.length > 0 &&
         books?.map((book) => renderBookData(book))}
-    </Stack>
+    </div>
   );
 };
 

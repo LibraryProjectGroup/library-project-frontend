@@ -79,9 +79,6 @@ function App() {
           </Fab>
         )}
         <CssBaseline />
-        {userPageVisible && (
-          <UserPage setUserPageVisible={setUserPageVisible} books={books} />
-        )}
         {logged && !userPageVisible && (
           <div>
             <ListBooks
@@ -113,7 +110,7 @@ function App() {
             books={books}
           ></UserPage>
         )}
-        {logged && (
+        {logged && !userPageVisible && (
           <Fab
             aria-label="add"
             sx={{
