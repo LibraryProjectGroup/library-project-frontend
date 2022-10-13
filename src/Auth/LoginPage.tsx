@@ -1,13 +1,13 @@
-import React, { useState, useEffect, FC, useContext } from "react";
+import React, { useState, useContext, FC } from "react";
 import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
-import BACKEND_URL from "../backendUrl";
 import { TheContext } from "../TheContext";
+import BACKEND_URL from "../backendUrl";
 
 interface IProps {
   setLogged: Function;
 }
 
-const LoginPage: FC<IProps> = ({ setLogged }: IProps): JSX.Element => {
+const LoginPage: FC<IProps> = ({ setLogged }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMesssage] = useState("");
@@ -19,7 +19,6 @@ const LoginPage: FC<IProps> = ({ setLogged }: IProps): JSX.Element => {
         `${BACKEND_URL}/auth/login?username=${username}&password=${password}`,
         {
           method: "GET",
-          credentials: "include",
           headers: {
             "content-type": "application/json;charset=UTF-8",
             "Access-Control-Allow-Origin": BACKEND_URL,
@@ -27,8 +26,7 @@ const LoginPage: FC<IProps> = ({ setLogged }: IProps): JSX.Element => {
         }
       );
       let data = await response.json();
-
-      if (data.ok) {
+      if (response.ok) {
         /*if login successfull, navigate to homepage */
         document.cookie = `librarySession=${data.secret};expires=${new Date(
           new Date().getTime() + 604800000
