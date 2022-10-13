@@ -4,7 +4,7 @@ Resource    ../resources/resources.robot
 
 *** Variables ***
 ${URL}          http://localhost:3000/
-${BROWSER}      headlesschrome
+${BROWSER}      headlessfirefox
 
 
 *** Keywords ***
