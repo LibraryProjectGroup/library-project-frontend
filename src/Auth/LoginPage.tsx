@@ -1,12 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, FC } from "react";
 import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
+import { TheContext } from "../TheContext";
 import BACKEND_URL from "../backendUrl";
 
-const LoginPage = () => {
+interface IProps {
+  setLogged: Function;
+}
+
+const LoginPage: FC<IProps> = ({ setLogged }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMesssage] = useState("");
 
+  const context = useContext(TheContext);
   const handleLogin = async () => {
     try {
       const response = await fetch(
@@ -25,6 +31,8 @@ const LoginPage = () => {
         document.cookie = `librarySession=${data.secret};expires=${new Date(
           new Date().getTime() + 604800000
         ).toUTCString()};domain=localhost;path=/;SameSite=strict`;
+        setLogged(true);
+        context?.setUsername(username);
       } else {
         setErrorMesssage(data.message ? data.message : "internal error");
       }
