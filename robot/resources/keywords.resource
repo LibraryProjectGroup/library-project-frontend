@@ -56,3 +56,8 @@ User logs in successfully
     Input Password    xpath://*[contains(@name, 'password')]    pa5sw0rdf0rtestu5er    clear=True
     Click Button    xpath://button[contains(text(), 'Login')]
     Page Should Contain Element    xpath://*[contains(text(), 'Account page')]
+
+User deletes book from catalog with title ${title}
+    Wait Until Element Is Visible    xpath://*[contains(text(), 'Java oh Java')]//ancestor::div[2]//button[contains(text(), 'Delete book')]
+    Click Button    xpath://*[contains(text(), 'Java oh Java')]//ancestor::div[2]//button[contains(text(), 'Delete book')]
+    Wait Until Element Is Not Visible    xpath://*[contains(text(), '${title}')]
