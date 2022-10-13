@@ -122,7 +122,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
                 sx={{ fontFamily: "Merriweather", fontWeight: "light" }}
               >
                 Important! To create a valid password you will need at least 8
-                charecters, and you will need to use uppercase, lowercase, and a
+                characters, and you will need to use uppercase, lowercase, and a
                 number. The use of special characters is forbidden.
               </Typography>
             </Box>
@@ -222,8 +222,8 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
             fontFamily: "Montserrat",
             fontWeight: "bold",
             fontSize: 15,
-            width: "40%",
-            backgroundColor: "orange",
+            width: "100%",
+            backgroundColor: "#FFD100",
             color: "black",
             "&:hover": {
               backgroundColor: "#FFB500",
