@@ -14,4 +14,3 @@ selenium==3.141.0
 soupsieve==2.2
 tqdm==4.59.0
 urllib3==1.26.3
-webdrivermanager==0.10.0
