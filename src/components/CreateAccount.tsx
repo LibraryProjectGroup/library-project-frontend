@@ -1,12 +1,18 @@
-import React, { useState, useEffect, ReactElement } from "react";
+import React, { useState, useEffect, FC, useContext } from "react";
 import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
 import BACKEND_URL from "../backendUrl";
+import { TheContext } from "../TheContext";
 
-const CreateAccount = () => {
+interface IProps {
+  setLogged: Function;
+  setRegisterFormVisible: Function;
+}
+
+const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState({
-    firstPassword: '',
-    secondPassword: ''
+    firstPassword: "",
+    secondPassword: "",
   });
   const [validLength, setValidLength] = useState(false);
   const [hasNumber, setHasNumber] = useState(false);
@@ -14,52 +20,69 @@ const CreateAccount = () => {
   const [lowerCase, setLowerCase] = useState(false);
   const [specialChar, setSpecialChar] = useState(false);
   const [match, setMatch] = useState(false);
-  const [requiredLength, setRequiredLength] = useState(8)
+  const [requiredLength, setRequiredLength] = useState(8);
 
-  const inputChange: (event: React.ChangeEvent<HTMLInputElement>) => void = (event) => {
+  const context = useContext(TheContext);
+
+  const inputChange: (event: React.ChangeEvent<HTMLInputElement>) => void = (
+    event
+  ) => {
     const { value, name } = event.target;
     setPassword({
       ...password,
-      [name]: value
-    })
-  }
+      [name]: value,
+    });
+  };
   const [errorMessage, setErrorMesssage] = useState("");
 
   useEffect(() => {
-    setValidLength(password.firstPassword.length >= requiredLength ? true : false);
-    setUpperCase(password.firstPassword.toLowerCase() !== password.firstPassword);
-    setLowerCase(password.firstPassword.toUpperCase() !== password.firstPassword);
+    setValidLength(
+      password.firstPassword.length >= requiredLength ? true : false
+    );
+    setUpperCase(
+      password.firstPassword.toLowerCase() !== password.firstPassword
+    );
+    setLowerCase(
+      password.firstPassword.toUpperCase() !== password.firstPassword
+    );
     setHasNumber(/\d/.test(password.firstPassword));
-    setMatch(!!password.firstPassword && password.firstPassword === password.secondPassword)
-    setSpecialChar(/[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/.test(password.firstPassword));
-
+    setMatch(
+      !!password.firstPassword &&
+        password.firstPassword === password.secondPassword
+    );
+    setSpecialChar(
+      /[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/.test(password.firstPassword)
+    );
   }, [password, requiredLength]);
 
   const handleCreateAccount = async () => {
-    /* login function here */
-    console.log(username, password);
-    try {
-      const response = await fetch(
-        `${BACKEND_URL}/auth/login?username=${username}&password=${password}&confirmpassword=${password}`,
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json;charset=UTF-8",
-            "Access-Control-Allow-Origin": BACKEND_URL,
-          },
+    if (match) {
+      try {
+        const response = await fetch(
+          `${BACKEND_URL}/auth/register?username=${username}&password=${password.firstPassword}`,
+          {
+            method: "POST",
+            headers: {
+              "content-type": "application/json;charset=UTF-8",
+              "Access-Control-Allow-Origin": BACKEND_URL,
+            },
+          }
+        );
+        let data = await response.json();
+        if (response.ok) {
+          document.cookie = `librarySession=${data.secret};expires=${new Date(
+            new Date().getTime() + 604800000
+          ).toUTCString()};domain=localhost;path=/;SameSite=strict`;
+          setLogged(true);
+          context?.setUsername(username);
+        } else {
+          setErrorMesssage(data.message ? data.message : "internal error");
         }
-      );
-      let data = await response.json();
-      if (response.ok) {
-        /*if login successfull, navigate to homepage */
-        document.cookie = `librarySession=${data.secret};expires=${new Date(
-          new Date().getTime() + 604800000
-        ).toUTCString()};domain=localhost;path=/;SameSite=strict`;
-      } else {
-        setErrorMesssage(data.message ? data.message : "internal error");
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
+    } else {
+      console.log("Invalid password");
     }
   };
 
@@ -98,10 +121,9 @@ const CreateAccount = () => {
               <Typography
                 sx={{ fontFamily: "Merriweather", fontWeight: "light" }}
               >
-                Important!
-                To create a valid password you will need at least 8 charecters,
-                and you will need to use uppercase, lowercase, and a number.
-                The use of special characters is forbidden.
+                Important! To create a valid password you will need at least 8
+                charecters, and you will need to use uppercase, lowercase, and a
+                number. The use of special characters is forbidden.
               </Typography>
             </Box>
           </Box>
@@ -151,7 +173,7 @@ const CreateAccount = () => {
                 />
 
                 <TextField
-                  name="firstPassword" 
+                  name="firstPassword"
                   label="Password"
                   variant="outlined"
                   type="password"
@@ -192,6 +214,26 @@ const CreateAccount = () => {
           </Paper>
         </Grid>
       </Grid>
+      <Box sx={{ textAlign: "center" }}>
+        <Button
+          variant="contained"
+          onClick={() => setRegisterFormVisible(false)}
+          sx={{
+            fontFamily: "Montserrat",
+            fontWeight: "bold",
+            fontSize: 15,
+            width: "40%",
+            backgroundColor: "orange",
+            color: "black",
+            "&:hover": {
+              backgroundColor: "#FFB500",
+            },
+            padding: 2,
+          }}
+        >
+          Return
+        </Button>
+      </Box>
     </Grid>
   );
 };

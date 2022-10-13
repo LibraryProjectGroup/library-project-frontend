@@ -7,6 +7,7 @@ import AddBook from "./components/AddBook";
 import ListBooks from "./components/ListBooks";
 import EditBook from "./components/EditBook";
 import LoginPage from "./Auth/LoginPage";
+import CreateAccount from "./components/CreateAccount";
 import TheContextProvider from "./TheContext";
 import { fetchAllBooks } from "./fetchFunctions";
 
@@ -92,7 +93,7 @@ function App() {
             setBooks={setBooks}
           ></AddBook>
         )}
-        {!logged && <LoginPage setLogged={setLogged} />}
+        {!logged && <LoginPage logged={logged} setLogged={setLogged} />}
       </Container>
     </TheContextProvider>
   );
