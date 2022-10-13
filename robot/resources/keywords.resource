@@ -55,4 +55,4 @@ User logs in successfully
     Wait Until Element Is Visible    xpath://*[contains(@name, 'password')]
     Input Password    xpath://*[contains(@name, 'password')]    pa5sw0rdf0rtestu5er    clear=True
     Click Button    xpath://button[contains(text(), 'Login')]
-    Wait Until Element Is Visible    xpath://*[contains(text(), 'Account page')]
+    Page Should Contain Element    xpath://*[contains(text(), 'Account page')]
