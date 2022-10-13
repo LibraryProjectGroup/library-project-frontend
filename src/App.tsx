@@ -1,59 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Container, Button, Fab, CssBaseline } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import Book from "./interfaces/book.interface";
+import ContextData from "./interfaces/ContextData.interface";
 import AddBook from "./components/AddBook";
 import ListBooks from "./components/ListBooks";
 import EditBook from "./components/EditBook";
-import BACKEND_URL from "./backendUrl";
 import LoginPage from "./Auth/LoginPage";
+import TheContextProvider from "./TheContext";
+import { fetchAllBooks } from "./fetchFunctions";
 
 function App() {
   const [exampleBook, setExampleBook] = useState<Book | undefined>(undefined);
   const [books, setBooks] = useState<Array<Book> | undefined>(undefined);
   const [addBookFormVisible, setAddBookFormVisible] = useState<boolean>(false);
+  const [logged, setLogged] = useState<boolean>(false);
   const [editBookFormVisible, setEditBookFormVisible] =
     useState<boolean>(false);
   const [bookToEdit, setBookToEdit] = useState<Book | undefined>(undefined);
 
   useEffect(() => {
-    fetchAllBooks();
-  }, []);
-
-  useEffect(() => {
-    console.log(books);
-  }, [books]);
+    fetchAllBooks(setBooks);
+  }, [logged]);
 
   useEffect(() => {
     if (bookToEdit) {
       setEditBookFormVisible(true);
     }
   }, [bookToEdit]);
-
-  function fetchExampleBookData() {
-    fetch(`${BACKEND_URL}/example`, {
-      headers: { "Access-Control-Allow-Origin": BACKEND_URL },
-    })
-      .then((response) => response.json())
-      .then((json) => setExampleBook(json));
-  }
-
-  function fetchAllBooks() {
-    console.log("FECCTH");
-    fetch(`${BACKEND_URL}/allbooks`, {
-      headers: { "Access-Control-Allow-Origin": "*" },
-    })
-      .then((response) => response.json())
-      .then((data) => setBooks(data));
-  }
-
-  function fetchBookFromDb(bookId: string) {
-    fetch(`http://localhost:3001/book?id=${bookId}`, {
-      headers: { "Access-Control-Allow-Origin": "http://localhost:3000/book" },
-    })
-      .then((response) => response.json())
-      .then((data) => setExampleBook(data));
-  }
 
   function renderExampleBookData() {
     return (
@@ -69,23 +43,58 @@ function App() {
   }
 
   return (
-    /* Container component messes up with the margins and/or paddings, pushing all components to the right and
-    leaving a big empty space on the left. For now it can be fixed by replacing with div*/
-    <div>
-      <CssBaseline />
-      {/*{exampleBook && renderExampleBookData()}
-      <AddBook addBookFormVisible={addBookFormVisible} setAddBookFormVisible={setAddBookFormVisible} fetchAllBooks={fetchAllBooks} />
-      {editBookFormVisible && bookToEdit && 
-          <EditBook editBookFormVisible={editBookFormVisible} bookToEdit={bookToEdit} setEditBookFormVisible={setEditBookFormVisible} fetchAllBooks={fetchAllBooks} />
-      }
-      <ListBooks books={books} fetchAllBooks={fetchAllBooks} setBookToEdit={setBookToEdit} setEditBookFormVisible={setEditBookFormVisible} />
-
-      <Fab color="primary" aria-label="add" sx={{ position: "absolute", bottom: "2rem" }} onClick={()=>{setAddBookFormVisible(true)}}>
-        <AddIcon />
-    </Fab>*/}
-
-      <LoginPage />
-    </div>
+    /* Container component messes up with the margins and/or paddings, pushing
+      all components to the right and leaving a big empty space on the left. For
+      now it can be fixed by replacing with div*/
+    <TheContextProvider>
+      <Container>
+        <CssBaseline />
+        {exampleBook && renderExampleBookData()}
+        {logged && (
+          <div>
+            <ListBooks
+              books={books}
+              setBooks={setBooks}
+              setBookToEdit={setBookToEdit}
+              setEditBookFormVisible={setEditBookFormVisible}
+            />
+            <Fab
+              aria-label="add"
+              sx={{
+                position: "absolute",
+                bottom: "2rem",
+                backgroundColor: "#FFD100",
+                color: "black",
+                "&:hover": {
+                  backgroundColor: "#FFB500",
+                },
+              }}
+              onClick={() => {
+                setAddBookFormVisible(true);
+              }}
+            >
+              <AddIcon />
+            </Fab>
+          </div>
+        )}
+        {editBookFormVisible && (
+          <EditBook
+            setEditBookFormVisible={setEditBookFormVisible}
+            bookToEdit={bookToEdit}
+            editBookFormVisible={editBookFormVisible}
+            setBooks={setBooks}
+          ></EditBook>
+        )}
+        {addBookFormVisible && (
+          <AddBook
+            addBookFormVisible={addBookFormVisible}
+            setAddBookFormVisible={setAddBookFormVisible}
+            setBooks={setBooks}
+          ></AddBook>
+        )}
+        {!logged && <LoginPage setLogged={setLogged} />}
+      </Container>
+    </TheContextProvider>
   );
 }
 

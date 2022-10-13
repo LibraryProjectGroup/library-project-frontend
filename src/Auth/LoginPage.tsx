@@ -8,8 +8,6 @@ const LoginPage = () => {
   const [errorMessage, setErrorMesssage] = useState("");
 
   const handleLogin = async () => {
-    /* login function here */
-    console.log(username, password);
     try {
       const response = await fetch(
         `${BACKEND_URL}/auth/login?username=${username}&password=${password}`,
