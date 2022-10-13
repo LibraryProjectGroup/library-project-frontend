@@ -1,16 +1,27 @@
 import React, { useState, FC } from "react";
-import { Modal, Box, Button, Typography, TextField, Stack } from "@mui/material";
+import {
+  Modal,
+  Box,
+  Button,
+  Typography,
+  TextField,
+  Stack,
+} from "@mui/material";
 
-import BACKEND_URL from '../backendUrl'
+import BACKEND_URL from "../backendUrl";
+import { fetchAllBooks } from "../fetchFunctions";
 
 interface IProps {
-  addBookFormVisible: boolean
-  setAddBookFormVisible: Function
-  fetchAllBooks: Function
+  addBookFormVisible: boolean;
+  setAddBookFormVisible: Function;
+  setBooks: Function;
 }
 
-const AddBook: FC<IProps> = ({addBookFormVisible, setAddBookFormVisible, fetchAllBooks}: IProps): JSX.Element => {
-
+const AddBook: FC<IProps> = ({
+  addBookFormVisible,
+  setAddBookFormVisible,
+  setBooks,
+}: IProps): JSX.Element => {
   const [book, setBook] = useState({
     title: "",
     author: "",
@@ -19,7 +30,9 @@ const AddBook: FC<IProps> = ({addBookFormVisible, setAddBookFormVisible, fetchAl
     location: "",
   });
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setBook({
       ...book,
       [event.target.name]: event.target.value,
@@ -28,55 +41,61 @@ const AddBook: FC<IProps> = ({addBookFormVisible, setAddBookFormVisible, fetchAl
 
   const addBook = async () => {
     try {
-      const response = await fetch(
-        `${BACKEND_URL}/book`,
-        {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-            "Access-Control-Allow-Origin": BACKEND_URL
-          },
-          body: JSON.stringify(book),
-        }
-        );    
-        if(response.ok){
-          setAddBookFormVisible(false)
-          fetchAllBooks()
-        } else{
-          console.log('something went wrong!')
-        }
+      const response = await fetch(`${BACKEND_URL}/book`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+          "Access-Control-Allow-Origin": BACKEND_URL,
+        },
+        body: JSON.stringify(book),
+      });
+      if (response.ok) {
+        setAddBookFormVisible(false);
+        fetchAllBooks(setBooks);
+      } else {
+        console.log("something went wrong!");
+      }
     } catch (error) {
       console.error();
-    } finally{
-      setBook({title:"", author:"", topic:"", isbn:"", location:""})
+    } finally {
+      setBook({ title: "", author: "", topic: "", isbn: "", location: "" });
     }
   };
 
-  if(addBookFormVisible) {
+  if (addBookFormVisible) {
     return (
       <Modal
         open={addBookFormVisible}
-        onClose={() => {setAddBookFormVisible(false)}}
+        onClose={() => {
+          setAddBookFormVisible(false);
+        }}
       >
-        <Box sx={{
-          position: 'absolute' as 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 400,
-          bgcolor: 'background.paper',
-          boxShadow: 24,
-          paddingTop: 4,
-          paddingX: 4,
-          paddingBottom: 2,
-        }}>
+        <Box
+          sx={{
+            position: "absolute" as "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            paddingTop: 4,
+            paddingX: 4,
+            paddingBottom: 2,
+          }}
+        >
           {/*book.owner is logged in user*/}
           <Stack spacing={2}>
-            <Typography 
-            sx={{
-              fontFamily: "Montserrat",
-              fontWeight: "bold",
-            }}variant="h4">Add a new book</Typography>
+            <Typography
+              sx={{
+                fontFamily: "Montserrat",
+                fontWeight: "bold",
+              }}
+              variant="h4"
+            >
+              Add a new book
+            </Typography>
             <TextField
               label="Author"
               name="author"
@@ -108,8 +127,8 @@ const AddBook: FC<IProps> = ({addBookFormVisible, setAddBookFormVisible, fetchAl
               onChange={(event) => onChange(event)}
             />
             <Stack direction="row" spacing={2} justifyContent="center">
-              <Button  
-                  sx={{
+              <Button
+                sx={{
                   fontFamily: "Montserrat",
                   fontWeight: "bold",
                   fontSize: 15,
@@ -117,12 +136,17 @@ const AddBook: FC<IProps> = ({addBookFormVisible, setAddBookFormVisible, fetchAl
                   backgroundColor: "#FFD100",
                   color: "black",
                   "&:hover": {
-                  backgroundColor: "#FFB500",
+                    backgroundColor: "#FFB500",
                   },
                   //padding: 2,
-                  }} variant="contained" onClick={addBook}>Add</Button>
-              <Button  
-                  sx={{
+                }}
+                variant="contained"
+                onClick={addBook}
+              >
+                Add
+              </Button>
+              <Button
+                sx={{
                   fontFamily: "Montserrat",
                   fontWeight: "bold",
                   fontSize: 15,
@@ -130,18 +154,25 @@ const AddBook: FC<IProps> = ({addBookFormVisible, setAddBookFormVisible, fetchAl
                   backgroundColor: "#FFD100",
                   color: "black",
                   "&:hover": {
-                  backgroundColor: "#FFB500",
+                    backgroundColor: "#FFB500",
                   },
                   //padding: 2,
-                  }} variant="contained" onClick={() => {setAddBookFormVisible(false)}}>Cancel</Button>
+                }}
+                variant="contained"
+                onClick={() => {
+                  setAddBookFormVisible(false);
+                }}
+              >
+                Cancel
+              </Button>
             </Stack>
           </Stack>
         </Box>
       </Modal>
-    )
+    );
   } else {
     return <></>;
   }
-}
+};
 
-export default AddBook
+export default AddBook;
