@@ -27,7 +27,7 @@
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "robot --outputdir robot/results robot/tests",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

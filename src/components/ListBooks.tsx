@@ -100,13 +100,14 @@ const ListBooks: FC<IProps> = ({
               Location: {book.location}
             </Typography>
           </Stack>
-          <Stack marginY={1} justifyContent="space-between">
+          <Stack marginY={1} justifyContent="start" paddingLeft="2rem">
             <Button
               sx={{
                 fontFamily: "Montserrat",
                 fontWeight: "bold",
                 fontSize: 15,
                 //width: "30%",
+                whiteSpace: "nowrap",
                 backgroundColor: "#FFD100",
                 color: "black",
                 "&:hover": {
@@ -135,7 +136,9 @@ const ListBooks: FC<IProps> = ({
                 fontFamily: "Montserrat",
                 fontWeight: "bold",
                 fontSize: 15,
+                marginTop: '1rem',
                 //width: "30%",
+                whiteSpace: "nowrap",
                 backgroundColor: "#FFD100",
                 color: "black",
                 "&:hover": {
