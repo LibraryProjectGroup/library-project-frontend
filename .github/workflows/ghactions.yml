@@ -44,8 +44,10 @@ jobs:
 
             - run: npm ci
             - run: npm run build --if-present
-            - run: npm start
-            - run: npm test
+            - run: |
+                  npm start
+                  sleep 10s
+                  npm test
             - name: Deploy
               uses: JamesIves/github-pages-deploy-action@v4
               with:
