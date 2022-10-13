@@ -87,7 +87,7 @@ const ListBooks: FC<IProps> = ({
                 setEditBookFormVisible(true);
               }}
             >
-              Edit
+              Edit book
             </Button>
             <Button
               sx={{
@@ -117,7 +117,7 @@ const ListBooks: FC<IProps> = ({
                 });
               }}
             >
-              Delete
+              Delete book
             </Button>
           </Stack>
         </Stack>
