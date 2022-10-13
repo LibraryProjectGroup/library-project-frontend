@@ -1,5 +1,5 @@
 import React, { useState, FC } from "react";
-import { Paper, Typography, Button, Stack } from "@mui/material";
+import { Paper, Typography, Button, Stack, Box } from "@mui/material";
 
 import Book from "../interfaces/book.interface";
 import BACKEND_URL from "../backendUrl";
@@ -71,6 +71,29 @@ const ListBooks: FC<IProps> = ({
                 fontFamily: "Montserrat",
                 fontWeight: "bold",
                 fontSize: 15,
+                marginBottom: "1rem",
+                //width: "30%",
+                whiteSpace: "nowrap",
+                backgroundColor: "#FFD100",
+                color: "black",
+                "&:hover": {
+                  backgroundColor: "#FFB500",
+                },
+                //padding: 1,
+              }}
+              variant="contained"
+              onClick={() => {
+                setBookToEdit(book);
+                setEditBookFormVisible(true);
+              }}
+            >
+              Edit
+            </Button>
+            <Button
+              sx={{
+                fontFamily: "Montserrat",
+                fontWeight: "bold",
+                fontSize: 15,
                 //width: "30%",
                 whiteSpace: "nowrap",
                 backgroundColor: "#FFD100",
@@ -94,30 +117,7 @@ const ListBooks: FC<IProps> = ({
                 });
               }}
             >
-              Delete book
-            </Button>
-            <Button
-              sx={{
-                fontFamily: "Montserrat",
-                fontWeight: "bold",
-                fontSize: 15,
-                marginTop: '1rem',
-                //width: "30%",
-                whiteSpace: "nowrap",
-                backgroundColor: "#FFD100",
-                color: "black",
-                "&:hover": {
-                  backgroundColor: "#FFB500",
-                },
-                //padding: 1,
-              }}
-              variant="contained"
-              onClick={() => {
-                setBookToEdit(book);
-                setEditBookFormVisible(true);
-              }}
-            >
-              Edit book
+              Delete
             </Button>
           </Stack>
         </Stack>
@@ -126,9 +126,11 @@ const ListBooks: FC<IProps> = ({
   };
 
   return (
-    <Stack spacing={3} sx={{ marginTop: "1rem" }}>
-      {books?.map((book) => renderBookData(book))}
-    </Stack>
+    <Box sx={{ marginTop: 5, marginBottom: 5 }}>
+      <Stack spacing={3} sx={{ width: "60%", margin: "auto" }}>
+        {books?.map((book) => renderBookData(book))}
+      </Stack>
+    </Box>
   );
 };
 

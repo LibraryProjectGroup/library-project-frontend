@@ -47,7 +47,7 @@ function App() {
       all components to the right and leaving a big empty space on the left. For
       now it can be fixed by replacing with div*/
     <TheContextProvider>
-      <Container>
+      <div>
         <CssBaseline />
         {exampleBook && renderExampleBookData()}
         {logged && (
@@ -94,7 +94,7 @@ function App() {
           ></AddBook>
         )}
         {!logged && <LoginPage setLogged={setLogged} />}
-      </Container>
+      </div>
     </TheContextProvider>
   );
 }

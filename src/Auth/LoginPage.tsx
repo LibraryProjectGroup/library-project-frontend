@@ -1,4 +1,4 @@
-import React, { useState, useContext, FC } from "react";
+import React, { useState, useContext, FC, useEffect } from "react";
 import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
 import { TheContext } from "../TheContext";
 import BACKEND_URL from "../backendUrl";
@@ -11,6 +11,26 @@ const LoginPage: FC<IProps> = ({ setLogged }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMesssage] = useState("");
+
+  const [dimensions, setDimensions] = React.useState({
+    height: window.innerHeight,
+    width: window.innerWidth,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setDimensions({
+        height: window.innerHeight,
+        width: window.innerWidth,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const context = useContext(TheContext);
   const handleLogin = async () => {
@@ -49,8 +69,8 @@ const LoginPage: FC<IProps> = ({ setLogged }) => {
       justifyContent="space-around"
       alignItems="center"
       sx={{
-        maxWidth: window.innerWidth,
-        minHeight: window.innerHeight,
+        maxWidth: dimensions.width,
+        minHeight: dimensions.height,
         backgroundColor: "#f0f0ec",
       }}
     >
