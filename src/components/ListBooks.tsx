@@ -86,6 +86,21 @@ const ListBooks: FC<IProps> = ({books, fetchAllBooks, setBookToEdit, setEditBook
                     //padding: 1,
                     }}
                     variant="contained" onClick={()=>{setBookToEdit(book); setEditBookFormVisible(true)}}>Edit book</Button>
+                    <Button 
+                        sx={{
+                        fontFamily: "Montserrat",
+                        fontWeight: "bold",
+                        fontSize: 15,
+                        //width: "30%",
+                        backgroundColor: "#FFD100",
+                        color: "black",
+                        "&:hover": {
+                        backgroundColor: "#FFB500",
+                        },
+                        //padding: 1,
+                        }} variant="contained">
+                            Loan
+                    </Button>
                 </Stack>
                 </Stack>
             </Paper>
