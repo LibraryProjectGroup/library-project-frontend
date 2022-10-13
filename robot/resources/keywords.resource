@@ -3,7 +3,7 @@ Resource    ../resources/resources.robot
 
 
 *** Variables ***
-${URL}          http://127.0.0.1:80/
+${URL}          http://127.0.0.1:3000/
 ${BROWSER}      headlesschrome
 
 
