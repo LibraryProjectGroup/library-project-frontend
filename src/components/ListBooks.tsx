@@ -1,10 +1,14 @@
-import React, { useState, FC } from "react";
-import { Paper, Typography, Button, Stack } from "@mui/material";
-
+import React, { useState, FC, useEffect, useContext } from "react";
+import { Paper, Typography, Button, Stack, Box } from "@mui/material";
+import { TheContext } from "../TheContext";
 import Book from "../interfaces/book.interface";
 import BACKEND_URL from "../backendUrl";
 import { right } from "@popperjs/core";
-import { fetchAllBooks } from "../fetchFunctions";
+import {
+  fetchAllBooks,
+  fetchAllCurrentBorrows,
+  fetchLoanBook,
+} from "../fetchFunctions";
 
 interface IProps {
   books: Array<Book> | undefined;
@@ -19,6 +23,37 @@ const ListBooks: FC<IProps> = ({
   setBookToEdit,
   setEditBookFormVisible,
 }: IProps): JSX.Element => {
+  const [currentBorrows, setCurrentBorrows] = useState<any[]>([]);
+  const context = useContext(TheContext);
+
+  const fetchAndSetCurrentBorrows = async () => {
+    const currentBorrowsTmp = await fetchAllCurrentBorrows();
+    setCurrentBorrows(currentBorrowsTmp);
+  };
+  const bookInCurrentBorrows = (book: Book) => {
+    console.log("current book: ");
+    console.log(book);
+    let inCurrentBorrows = false;
+    for (let i = 0; i < currentBorrows.length; i++) {
+      console.log("LOOP");
+      if (currentBorrows[i].book == book.id) {
+        inCurrentBorrows = true;
+      }
+    }
+    console.log("in current borrows:");
+    console.log(inCurrentBorrows);
+    return inCurrentBorrows;
+  };
+  useEffect(() => {
+    fetchAndSetCurrentBorrows();
+  }, []);
+  useEffect(() => {
+    console.log("current borrows");
+    console.log(currentBorrows);
+    console.log("books:");
+    console.log(books);
+  }, [currentBorrows]);
+
   const renderBookData = (book: Book) => {
     return (
       <Paper elevation={10} sx={{ padding: "2rem" }}>
@@ -65,13 +100,14 @@ const ListBooks: FC<IProps> = ({
               Location: {book.location}
             </Typography>
           </Stack>
-          <Stack marginY={1} justifyContent="space-between">
+          <Stack marginY={1} justifyContent="start" paddingLeft="2rem">
             <Button
               sx={{
                 fontFamily: "Montserrat",
                 fontWeight: "bold",
                 fontSize: 15,
                 //width: "30%",
+                whiteSpace: "nowrap",
                 backgroundColor: "#FFD100",
                 color: "black",
                 "&:hover": {
@@ -100,7 +136,9 @@ const ListBooks: FC<IProps> = ({
                 fontFamily: "Montserrat",
                 fontWeight: "bold",
                 fontSize: 15,
+                marginTop: "1rem",
                 //width: "30%",
+                whiteSpace: "nowrap",
                 backgroundColor: "#FFD100",
                 color: "black",
                 "&:hover": {
@@ -116,6 +154,29 @@ const ListBooks: FC<IProps> = ({
             >
               Edit book
             </Button>
+            <Button
+              sx={{
+                fontFamily: "Montserrat",
+                fontWeight: "bold",
+                fontSize: 15,
+                //width: "30%",
+                backgroundColor: "#FFD100",
+                marginTop: "1rem",
+                color: "black",
+                "&:hover": {
+                  backgroundColor: "#FFB500",
+                },
+                //padding: 1,
+              }}
+              variant="contained"
+              disabled={bookInCurrentBorrows(book) ? true : false}
+              onClick={() => {
+                fetchLoanBook(context?.username, book);
+                fetchAllBooks(setBooks);
+              }}
+            >
+              LOAN
+            </Button>
           </Stack>
         </Stack>
       </Paper>
@@ -123,9 +184,11 @@ const ListBooks: FC<IProps> = ({
   };
 
   return (
-    <Stack spacing={3} sx={{ marginTop: "1rem" }}>
-      {books?.map((book) => renderBookData(book))}
-    </Stack>
+    <Box sx={{ marginTop: 5, marginBottom: 5 }}>
+      <Stack spacing={3} sx={{ margin: "auto", width: "60%" }}>
+        {books?.map((book) => renderBookData(book))}
+      </Stack>
+    </Box>
   );
 };
 

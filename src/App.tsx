@@ -1,22 +1,32 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Container, Button, Fab, CssBaseline } from "@mui/material";
+import {
+  Container,
+  Button,
+  Fab,
+  CssBaseline,
+  bottomNavigationActionClasses,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import Book from "./interfaces/book.interface";
 import ContextData from "./interfaces/ContextData.interface";
 import AddBook from "./components/AddBook";
 import ListBooks from "./components/ListBooks";
 import EditBook from "./components/EditBook";
 import LoginPage from "./Auth/LoginPage";
+import CreateAccount from "./components/CreateAccount";
+import UserPage from "./components/UserPage";
 import TheContextProvider from "./TheContext";
 import { fetchAllBooks } from "./fetchFunctions";
 
 function App() {
   const [exampleBook, setExampleBook] = useState<Book | undefined>(undefined);
-  const [books, setBooks] = useState<Array<Book> | undefined>(undefined);
+  const [books, setBooks] = useState<Array<Book>>([]);
   const [addBookFormVisible, setAddBookFormVisible] = useState<boolean>(false);
   const [logged, setLogged] = useState<boolean>(false);
   const [editBookFormVisible, setEditBookFormVisible] =
     useState<boolean>(false);
+  const [userPageVisible, setUserPageVisible] = useState<boolean>(false);
   const [bookToEdit, setBookToEdit] = useState<Book | undefined>(undefined);
 
   useEffect(() => {
@@ -47,10 +57,30 @@ function App() {
       all components to the right and leaving a big empty space on the left. For
       now it can be fixed by replacing with div*/
     <TheContextProvider>
-      <Container>
+      <div>
+        {logged && !userPageVisible && (
+          <Fab
+            aria-label="account"
+            sx={{
+              position: "relative",
+              top: 50,
+              marginBottom: 10,
+              marginLeft: 5,
+              backgroundColor: "#FFD100",
+              color: "black",
+              "&:hover": {
+                backgroundColor: "#FFB500",
+              },
+            }}
+            onClick={() => {
+              setUserPageVisible(true);
+            }}
+          >
+            <AccountBoxIcon />
+          </Fab>
+        )}
         <CssBaseline />
-        {exampleBook && renderExampleBookData()}
-        {logged && (
+        {logged && !userPageVisible && (
           <div>
             <ListBooks
               books={books}
@@ -58,23 +88,6 @@ function App() {
               setBookToEdit={setBookToEdit}
               setEditBookFormVisible={setEditBookFormVisible}
             />
-            <Fab
-              aria-label="add"
-              sx={{
-                position: "absolute",
-                bottom: "2rem",
-                backgroundColor: "#FFD100",
-                color: "black",
-                "&:hover": {
-                  backgroundColor: "#FFB500",
-                },
-              }}
-              onClick={() => {
-                setAddBookFormVisible(true);
-              }}
-            >
-              <AddIcon />
-            </Fab>
           </div>
         )}
         {editBookFormVisible && (
@@ -92,8 +105,35 @@ function App() {
             setBooks={setBooks}
           ></AddBook>
         )}
-        {!logged && <LoginPage setLogged={setLogged} />}
-      </Container>
+        {userPageVisible && (
+          <UserPage
+            setUserPageVisible={setUserPageVisible}
+            books={books}
+          ></UserPage>
+        )}
+        {logged && !userPageVisible && (
+          <Fab
+            aria-label="add"
+            sx={{
+              position: "relative",
+              top: 50,
+              marginBottom: 10,
+              marginLeft: 5,
+              backgroundColor: "#FFD100",
+              color: "black",
+              "&:hover": {
+                backgroundColor: "#FFB500",
+              },
+            }}
+            onClick={() => {
+              setAddBookFormVisible(true);
+            }}
+          >
+            <AddIcon />
+          </Fab>
+        )}
+        {!logged && <LoginPage logged={logged} setLogged={setLogged} />}
+      </div>
     </TheContextProvider>
   );
 }
