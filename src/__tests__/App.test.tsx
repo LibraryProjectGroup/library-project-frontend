@@ -3,10 +3,10 @@ import { render, screen } from '@testing-library/react';
 import App from '../App';
 
 // initial test to check if add button is present:
-test('renders add button', () => {
+test('renders header', () => {
   const page = render(<App />);
-  const buttonElement = page.getByLabelText('add');
-  expect(buttonElement).toBeInTheDocument();
+  const headerElement = screen.getByText("Efilibrary")
+  expect(headerElement).toBeInTheDocument();
 });
 
 // TEST FOR BROWSING THE WHOLE LIBRARY
