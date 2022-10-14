@@ -159,7 +159,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
                 sx={{
                   display: "flex",
                   flexDirection: "Column",
-                  marginBottom: 5,
+                  marginBottom: 3,
                   marginTop: 4,
                 }}
               >
@@ -199,6 +199,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
                     fontWeight: "bold",
                     fontSize: 15,
                     width: "40%",
+
                     backgroundColor: "#FFD100",
                     color: "black",
                     "&:hover": {
