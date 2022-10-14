@@ -130,6 +130,7 @@ const MyAccount: FC<IProps> = ({
           position: "relative",
           top: 50,
           marginBottom: 10,
+          marginLeft: 5,
           backgroundColor: "#FFD100",
           color: "black",
           "&:hover": {

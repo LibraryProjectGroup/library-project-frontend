@@ -1,5 +1,5 @@
 import React, { useState, FC, useEffect, useContext } from "react";
-import { Paper, Typography, Button, Stack } from "@mui/material";
+import { Paper, Typography, Button, Stack, Box } from "@mui/material";
 import { TheContext } from "../TheContext";
 import Book from "../interfaces/book.interface";
 import BACKEND_URL from "../backendUrl";
@@ -136,7 +136,7 @@ const ListBooks: FC<IProps> = ({
                 fontFamily: "Montserrat",
                 fontWeight: "bold",
                 fontSize: 15,
-                marginTop: '1rem',
+                marginTop: "1rem",
                 //width: "30%",
                 whiteSpace: "nowrap",
                 backgroundColor: "#FFD100",
@@ -161,6 +161,7 @@ const ListBooks: FC<IProps> = ({
                 fontSize: 15,
                 //width: "30%",
                 backgroundColor: "#FFD100",
+                marginTop: "1rem",
                 color: "black",
                 "&:hover": {
                   backgroundColor: "#FFB500",
@@ -183,9 +184,11 @@ const ListBooks: FC<IProps> = ({
   };
 
   return (
-    <Stack spacing={3} sx={{ marginTop: "1rem" }}>
-      {books?.map((book) => renderBookData(book))}
-    </Stack>
+    <Box sx={{ marginTop: 5, marginBottom: 5 }}>
+      <Stack spacing={3} sx={{ margin: "auto", width: "60%" }}>
+        {books?.map((book) => renderBookData(book))}
+      </Stack>
+    </Box>
   );
 };
 
