@@ -34,12 +34,14 @@ const MyAccount: FC<IProps> = ({
     if (context?.username) {
       fetchBorrows(context.username);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (borrows.length > 0) {
       sortUserBorrowBookIds();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [borrows]);
 
   const renderBookData = (book: any) => {

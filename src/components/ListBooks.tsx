@@ -36,7 +36,7 @@ const ListBooks: FC<IProps> = ({
     let inCurrentBorrows = false;
     for (let i = 0; i < currentBorrows.length; i++) {
       console.log("LOOP");
-      if (currentBorrows[i].book == book.id) {
+      if (currentBorrows[i].book === book.id) {
         inCurrentBorrows = true;
       }
     }
@@ -52,6 +52,7 @@ const ListBooks: FC<IProps> = ({
     console.log(currentBorrows);
     console.log("books:");
     console.log(books);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentBorrows]);
 
   const renderBookData = (book: Book) => {
