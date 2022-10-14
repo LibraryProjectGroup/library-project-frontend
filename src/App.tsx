@@ -57,7 +57,7 @@ function App() {
       all components to the right and leaving a big empty space on the left. For
       now it can be fixed by replacing with div*/
     <TheContextProvider>
-      <Container>
+      <div>
         {logged && !userPageVisible && (
           <Fab
             aria-label="account"
@@ -65,6 +65,7 @@ function App() {
               position: "relative",
               top: 50,
               marginBottom: 10,
+              marginLeft: 5,
               backgroundColor: "#FFD100",
               color: "black",
               "&:hover": {
@@ -117,6 +118,7 @@ function App() {
               position: "relative",
               top: 50,
               marginBottom: 10,
+              marginLeft: 5,
               backgroundColor: "#FFD100",
               color: "black",
               "&:hover": {
@@ -131,7 +133,7 @@ function App() {
           </Fab>
         )}
         {!logged && <LoginPage logged={logged} setLogged={setLogged} />}
-      </Container>
+      </div>
     </TheContextProvider>
   );
 }
