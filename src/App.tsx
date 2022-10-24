@@ -4,7 +4,7 @@ import {
   Button,
   Fab,
   CssBaseline,
-  bottomNavigationActionClasses,
+  bottomNavigationActionClasses
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
@@ -69,8 +69,8 @@ function App() {
               backgroundColor: "#FFD100",
               color: "black",
               "&:hover": {
-                backgroundColor: "#FFB500",
-              },
+                backgroundColor: "#FFB500"
+              }
             }}
             onClick={() => {
               setUserPageVisible(true);
@@ -122,8 +122,8 @@ function App() {
               backgroundColor: "#FFD100",
               color: "black",
               "&:hover": {
-                backgroundColor: "#FFB500",
-              },
+                backgroundColor: "#FFB500"
+              }
             }}
             onClick={() => {
               setAddBookFormVisible(true);
