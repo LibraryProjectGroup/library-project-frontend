@@ -1,10 +1,11 @@
 import React, { useState, FC, useContext, useEffect } from "react";
 import { Paper, Typography, Button, Stack, Fab } from "@mui/material";
 import { TheContext } from "../TheContext";
-import { fetchCurrentBorrows } from "../fetchFunctions";
+import { fetchCurrentBorrows, fetchReturnBorrowedBook } from "../fetchFunctions";
 import Book from "../interfaces/book.interface";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { convertToObject } from "typescript";
+import BACKEND_URL from "../backendUrl";
 
 interface IProps {
   setUserPageVisible: Function;
@@ -43,6 +44,15 @@ const MyAccount: FC<IProps> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [borrows]);
+
+  const handleReturnOfBook = (book: Book) => {
+    for (let i = 0; i < borrows.length; i++) {
+      if(borrows[i].book == book.id){
+        fetchReturnBorrowedBook(borrows[i].id);
+        break;
+      }
+    }
+  }
 
   const renderBookData = (book: any) => {
     if (userBorrowBookIds.includes(book.id)) {
@@ -106,7 +116,7 @@ const MyAccount: FC<IProps> = ({
                   //padding: 1,
                 }}
                 variant="contained"
-                onClick={() => {}}
+                onClick={() => {handleReturnOfBook(book)}}
               >
                 Return
               </Button>
