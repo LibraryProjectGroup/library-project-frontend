@@ -5,7 +5,6 @@ import { fetchCurrentBorrows, fetchReturnBorrowedBook } from "../fetchFunctions"
 import Book from "../interfaces/book.interface";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { convertToObject } from "typescript";
-import BACKEND_URL from "../backendUrl";
 
 interface IProps {
   setUserPageVisible: Function;
