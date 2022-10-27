@@ -7,7 +7,7 @@ import { right } from "@popperjs/core";
 import {
   fetchAllBooks,
   fetchAllCurrentBorrows,
-  fetchLoanBook,
+  fetchLoanBook
 } from "../fetchFunctions";
 
 interface IProps {
@@ -21,7 +21,7 @@ const ListBooks: FC<IProps> = ({
   books,
   setBooks,
   setBookToEdit,
-  setEditBookFormVisible,
+  setEditBookFormVisible
 }: IProps): JSX.Element => {
   const [currentBorrows, setCurrentBorrows] = useState<any[]>([]);
   const context = useContext(TheContext);
@@ -30,30 +30,20 @@ const ListBooks: FC<IProps> = ({
     const currentBorrowsTmp = await fetchAllCurrentBorrows();
     setCurrentBorrows(currentBorrowsTmp);
   };
+
   const bookInCurrentBorrows = (book: Book) => {
-    console.log("current book: ");
-    console.log(book);
     let inCurrentBorrows = false;
     for (let i = 0; i < currentBorrows.length; i++) {
-      console.log("LOOP");
       if (currentBorrows[i].book === book.id) {
         inCurrentBorrows = true;
       }
     }
-    console.log("in current borrows:");
-    console.log(inCurrentBorrows);
     return inCurrentBorrows;
   };
+
   useEffect(() => {
     fetchAndSetCurrentBorrows();
   }, []);
-  useEffect(() => {
-    console.log("current borrows");
-    console.log(currentBorrows);
-    console.log("books:");
-    console.log(books);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentBorrows]);
 
   const renderBookData = (book: Book) => {
     return (
@@ -63,7 +53,7 @@ const ListBooks: FC<IProps> = ({
             <Typography
               sx={{
                 fontFamily: "Montserrat",
-                fontWeight: "bold",
+                fontWeight: "bold"
               }}
             >
               {book.title}
@@ -71,7 +61,7 @@ const ListBooks: FC<IProps> = ({
             <Typography
               sx={{
                 fontFamily: "Merriweather",
-                fontWeight: "light",
+                fontWeight: "light"
               }}
             >
               Author: {book.author}
@@ -79,7 +69,7 @@ const ListBooks: FC<IProps> = ({
             <Typography
               sx={{
                 fontFamily: "Merriweather",
-                fontWeight: "light",
+                fontWeight: "light"
               }}
             >
               Topic: {book.topic}
@@ -87,7 +77,7 @@ const ListBooks: FC<IProps> = ({
             <Typography
               sx={{
                 fontFamily: "Merriweather",
-                fontWeight: "light",
+                fontWeight: "light"
               }}
             >
               isbn: {book.isbn}
@@ -95,7 +85,7 @@ const ListBooks: FC<IProps> = ({
             <Typography
               sx={{
                 fontFamily: "Merriweather",
-                fontWeight: "light",
+                fontWeight: "light"
               }}
             >
               Location: {book.location}
@@ -112,15 +102,15 @@ const ListBooks: FC<IProps> = ({
                 backgroundColor: "#FFD100",
                 color: "black",
                 "&:hover": {
-                  backgroundColor: "#FFB500",
-                },
+                  backgroundColor: "#FFB500"
+                }
                 //padding: 1,
               }}
               variant="contained"
               color="error"
               onClick={() => {
                 fetch(`${BACKEND_URL}/book?id=${book.id}`, {
-                  method: "DELETE",
+                  method: "DELETE"
                 }).then((response) => {
                   if (response.ok) {
                     fetchAllBooks(setBooks);
@@ -143,8 +133,8 @@ const ListBooks: FC<IProps> = ({
                 backgroundColor: "#FFD100",
                 color: "black",
                 "&:hover": {
-                  backgroundColor: "#FFB500",
-                },
+                  backgroundColor: "#FFB500"
+                }
                 //padding: 1,
               }}
               variant="contained"
@@ -165,8 +155,8 @@ const ListBooks: FC<IProps> = ({
                 marginTop: "1rem",
                 color: "black",
                 "&:hover": {
-                  backgroundColor: "#FFB500",
-                },
+                  backgroundColor: "#FFB500"
+                }
                 //padding: 1,
               }}
               variant="contained"
