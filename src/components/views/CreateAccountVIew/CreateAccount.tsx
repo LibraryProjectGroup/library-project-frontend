@@ -1,14 +1,14 @@
 import React, { useState, useEffect, FC, useContext } from "react";
 import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
-import BACKEND_URL from "../backendUrl";
-import { TheContext } from "../TheContext";
+import BACKEND_URL from "../../../backendUrl";
+import { TheContext } from "../../../TheContext";
 import {
   createAccountReturnButton,
   createAccountSignButton,
   createAccountBoxTitleText,
   createAccountHeaderTitleText,
   createAccountHeaderContentText
-} from "../sxStyles";
+} from "../../../sxStyles";
 
 interface IProps {
   setLogged: Function;

@@ -8,13 +8,13 @@ import {
   Stack
 } from "@mui/material";
 
-import BACKEND_URL from "../backendUrl";
-import { fetchAllBooks } from "../fetchFunctions";
+import BACKEND_URL from "../../../backendUrl";
+import { fetchAllBooks } from "../../../fetchFunctions";
 import {
   addBookFormBox,
   addBookAddButton,
   addBookCancelButton
-} from "../sxStyles";
+} from "../../../sxStyles";
 
 interface IProps {
   addBookFormVisible: boolean;

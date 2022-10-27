@@ -1,19 +1,19 @@
 import React, { useState, FC, useEffect, useContext } from "react";
 import { Paper, Typography, Button, Stack, Box } from "@mui/material";
-import { TheContext } from "../TheContext";
-import Book from "../interfaces/book.interface";
-import BACKEND_URL from "../backendUrl";
+import { TheContext } from "../../../TheContext";
+import Book from "../../../interfaces/book.interface";
+import BACKEND_URL from "../../../backendUrl";
 import { right } from "@popperjs/core";
 import {
   fetchAllBooks,
   fetchAllCurrentBorrows,
   fetchLoanBook
-} from "../fetchFunctions";
+} from "../../../fetchFunctions";
 import {
   listBooksDeleteButton,
   listBooksEditButton,
   listBooksLoanButton
-} from "../sxStyles";
+} from "../../../sxStyles";
 
 interface IProps {
   books: Array<Book> | undefined;

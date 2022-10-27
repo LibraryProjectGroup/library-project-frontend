@@ -8,14 +8,14 @@ import {
   Stack
 } from "@mui/material";
 
-import Book from "../interfaces/book.interface";
-import BACKEND_URL from "../backendUrl";
-import { fetchAllBooks } from "../fetchFunctions";
+import Book from "../../../interfaces/book.interface";
+import BACKEND_URL from "../../../backendUrl";
+import { fetchAllBooks } from "../../../fetchFunctions";
 import {
   editBookBox,
   editBookUpdateButton,
   editBookCancelButton
-} from "../sxStyles";
+} from "../../../sxStyles";
 
 interface IProps {
   editBookFormVisible: boolean;

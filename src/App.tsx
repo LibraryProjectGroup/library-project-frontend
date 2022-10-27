@@ -10,17 +10,16 @@ import AddIcon from "@mui/icons-material/Add";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import Book from "./interfaces/book.interface";
 import ContextData from "./interfaces/ContextData.interface";
-import AddBook from "./components/AddBook";
-import ListBooks from "./components/ListBooks";
-import EditBook from "./components/EditBook";
-import LoginPage from "./Auth/LoginPage";
-import CreateAccount from "./components/CreateAccount";
-import UserPage from "./components/UserPage";
+import AddBook from "./components/views/ListBooksView/AddBookForm";
+import ListBooks from "./components/views/ListBooksView/ListBooks";
+import EditBook from "./components/views/ListBooksView/EditBookForm";
+import LoginPage from "./components/views/LoginVIew/LoginPage";
+import CreateAccount from "./components/views/CreateAccountVIew/CreateAccount";
+import UserPage from "./components/views/UserView/UserPage";
 import TheContextProvider from "./TheContext";
 import { fetchAllBooks } from "./fetchFunctions";
 
 function App() {
-  const [exampleBook, setExampleBook] = useState<Book | undefined>(undefined);
   const [books, setBooks] = useState<Array<Book>>([]);
   const [addBookFormVisible, setAddBookFormVisible] = useState<boolean>(false);
   const [logged, setLogged] = useState<boolean>(false);
@@ -38,19 +37,6 @@ function App() {
       setEditBookFormVisible(true);
     }
   }, [bookToEdit]);
-
-  function renderExampleBookData() {
-    return (
-      <div style={{ border: "solid saddlebrown 2px" }}>
-        <p>Loaned to: {exampleBook?.owner}</p>
-        <p>Title: {exampleBook?.title}</p>
-        <p>Author: {exampleBook?.author}</p>
-        <p>Topic: {exampleBook?.topic}</p>
-        <p>ISBN: {exampleBook?.isbn}</p>
-        <p>Location: {exampleBook?.location}</p>
-      </div>
-    );
-  }
 
   return (
     /* Container component messes up with the margins and/or paddings, pushing
