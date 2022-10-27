@@ -46,7 +46,7 @@ const MyAccount: FC<IProps> = ({
 
   const handleReturnOfBook = (book: Book) => {
     for (let i = 0; i < borrows.length; i++) {
-      if(borrows[i].book == book.id){
+      if(borrows[i].book === book.id){
         fetchReturnBorrowedBook(borrows[i].id);
         break;
       }
