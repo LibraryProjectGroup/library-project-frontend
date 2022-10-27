@@ -3,8 +3,10 @@ Resource    ../resources/resources.robot
 
 
 *** Variables ***
-${URL}          http://127.0.0.1:3000/
-${BROWSER}      headlesschrome
+${URL}              http://127.0.0.1:3000/    # Localhost port 3000
+${BROWSER}          headlesschrome
+${TESTUSERNAME}     defaultusername    # Just to initialize the variable
+${TESTPASSWORD}     doesnotexist    # Just to initialize the variable
 
 
 *** Keywords ***
@@ -12,7 +14,7 @@ User has home page open in browser
     Open Browser    url=${URL}    browser=${BROWSER}
 
 List of books is visible
-    Page Should Contain Element    xpath://*[contains(@id, 'root')]
+    Page Should Contain Element    xpath://*[contains(@data-testid, 'AddIcon')]
 
 User edits book with title ${title}
     Wait Until Element Is Visible
@@ -49,13 +51,14 @@ User adds ${title} book to catalog
 Others can find the ${title} book from the catalog
     Wait Until Page Contains Element    xpath://*[contains(text(), '${title}')]
 
-User logs in successfully
-    Wait Until Element Is Visible    xpath://*[contains(@name, 'username')]
-    Input Text    xpath://*[contains(@name, 'username')]    testusername    clear=True
-    Wait Until Element Is Visible    xpath://*[contains(@name, 'password')]
-    Input Password    xpath://*[contains(@name, 'password')]    pa5sw0rdf0rtestu5er    clear=True
-    Click Button    xpath://button[contains(text(), 'Login')]
-    Page Should Contain Element    xpath://*[contains(text(), 'Account page')]
+User logins successfully
+    User has home page open in browser
+    Wait Until Element Is Visible    xpath://input[contains(@id, ':r1:')]
+    Input Text    xpath://input[contains(@id, ':r1:')]    ${TESTUSERNAME}    clear=True
+    Wait Until Element Is Visible    xpath://input[contains(@id, ':r3:')]
+    Input Password    xpath://input[contains(@id, ':r3:')]    ${TESTPASSWORD}    clear=True
+    Click Button    xpath://button[contains(text(), 'Log in')]
+    Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'AccountBoxIcon')]
 
 User deletes book from catalog with title ${title}
     Wait Until Element Is Visible

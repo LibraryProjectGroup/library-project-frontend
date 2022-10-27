@@ -5,4 +5,5 @@ Resource    ../resources/keywords.resource
 *** Test Cases ***
 User can see the list of books
     Given user has home page open in browser
-    Then list of books is visible
+    When User logins successfully
+    Then List of books is visible

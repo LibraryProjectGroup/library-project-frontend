@@ -11,7 +11,7 @@ User can return the book
 
 *** Keywords ***
 User selects the book they want to return from user info page
-    User logs in successfully
+    User logins successfully
     Click Element    xpath://a[starts-with(@href, '/auth/userinfo')]
     Wait Until Element Is Visible    xpath://*[contains(text(), 'Borrowed Books')]
     Page Should Contain Element    xpath://*[contains(text(), 'Name of the book')]

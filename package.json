@@ -28,7 +28,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "robottests" : "robot --outputdir robot/results robot/tests",
+    "robottests" : "robot --variablefile ../library-project-secrets.py --removekeywords  NAME:*logins* --outputdir robot/results robot/tests",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
