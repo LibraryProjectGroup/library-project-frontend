@@ -3,6 +3,14 @@ import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
 import { TheContext } from "../TheContext";
 import CreateAccount from "../components/CreateAccount";
 import BACKEND_URL from "../backendUrl";
+import {
+  loginButton,
+  loginBox,
+  loginAuthBoxTitle,
+  loginHeaderTitleText,
+  loginHeaderContentText,
+  loginPaper
+} from "../sxStyles";
 
 interface IProps {
   logged: boolean;
@@ -17,14 +25,14 @@ const LoginPage: FC<IProps> = ({ logged, setLogged }: IProps): JSX.Element => {
 
   const [dimensions, setDimensions] = React.useState({
     height: window.innerHeight,
-    width: window.innerWidth,
+    width: window.innerWidth
   });
 
   useEffect(() => {
     const handleResize = () => {
       setDimensions({
         height: window.innerHeight,
-        width: window.innerWidth,
+        width: window.innerWidth
       });
     };
 
@@ -35,7 +43,6 @@ const LoginPage: FC<IProps> = ({ logged, setLogged }: IProps): JSX.Element => {
     };
   }, []);
 
-
   const context = useContext(TheContext);
   const handleLogin = async () => {
     try {
@@ -45,8 +52,8 @@ const LoginPage: FC<IProps> = ({ logged, setLogged }: IProps): JSX.Element => {
           method: "GET",
           headers: {
             "content-type": "application/json;charset=UTF-8",
-            "Access-Control-Allow-Origin": BACKEND_URL,
-          },
+            "Access-Control-Allow-Origin": BACKEND_URL
+          }
         }
       );
       let data = await response.json();
@@ -75,8 +82,8 @@ const LoginPage: FC<IProps> = ({ logged, setLogged }: IProps): JSX.Element => {
         alignItems="center"
         sx={{
           maxWidth: dimensions.width,
-        minHeight: dimensions.height,
-          backgroundColor: "#f0f0ec",
+          minHeight: dimensions.height,
+          backgroundColor: "#f0f0ec"
         }}
       >
         <Grid
@@ -90,17 +97,11 @@ const LoginPage: FC<IProps> = ({ logged, setLogged }: IProps): JSX.Element => {
               <Box sx={{ padding: 10 }}>
                 <Typography
                   variant="h1" //not responsive font
-                  sx={{
-                    fontFamily: "Merriweather",
-                    fontWeight: "bold",
-                    paddingBottom: 5,
-                  }}
+                  sx={loginHeaderTitleText}
                 >
                   Efilibrary
                 </Typography>
-                <Typography
-                  sx={{ fontFamily: "Merriweather", fontWeight: "light" }}
-                >
+                <Typography sx={loginHeaderContentText}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                   Ut enim ad minim veniam, quis nostrud exercitation ullamco
@@ -119,35 +120,15 @@ const LoginPage: FC<IProps> = ({ logged, setLogged }: IProps): JSX.Element => {
             md={5}
             sx={{
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "center"
             }}
           >
-            <Paper
-              elevation={10}
-              sx={{
-                width: 500,
-                height: 500,
-              }}
-            >
+            <Paper elevation={10} sx={loginPaper}>
               <Box sx={{ padding: 10 }}>
-                <Typography
-                  variant="h4"
-                  sx={{
-                    textAlign: "center",
-                    fontFamily: "Montserrat",
-                    fontWeight: "bold",
-                  }}
-                >
+                <Typography variant="h4" sx={loginAuthBoxTitle}>
                   Login
                 </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "Column",
-                    marginBottom: 5,
-                    marginTop: 4,
-                  }}
-                >
+                <Box sx={loginBox}>
                   <TextField
                     label="Username"
                     variant="outlined"
@@ -166,24 +147,17 @@ const LoginPage: FC<IProps> = ({ logged, setLogged }: IProps): JSX.Element => {
                       setPassword(event.target.value);
                     }}
                   />
-                  <Typography sx={{ color: "red" }}>{errorMessage}</Typography>
+                  {errorMessage && (
+                    <Typography sx={{ color: "red" }}>
+                      {errorMessage}
+                    </Typography>
+                  )}
                 </Box>
                 <Box sx={{ textAlign: "center" }}>
                   <Button
                     variant="contained"
                     onClick={handleLogin}
-                    sx={{
-                      fontFamily: "Montserrat",
-                      fontWeight: "bold",
-                      fontSize: 15,
-                      width: "40%",
-                      backgroundColor: "#FFD100",
-                      color: "black",
-                      "&:hover": {
-                        backgroundColor: "#FFB500",
-                      },
-                      padding: 2,
-                    }}
+                    sx={loginButton}
                   >
                     Log in
                   </Button>
@@ -196,18 +170,7 @@ const LoginPage: FC<IProps> = ({ logged, setLogged }: IProps): JSX.Element => {
           <Button
             variant="contained"
             onClick={() => setRegisterFormVisible(true)}
-            sx={{
-              fontFamily: "Montserrat",
-              fontWeight: "bold",
-              fontSize: 15,
-              width: "100%",
-              backgroundColor: "#FFD100",
-              color: "black",
-              "&:hover": {
-                backgroundColor: "#FFB500",
-              },
-              padding: 2,
-            }}
+            sx={loginButton}
           >
             Create account
           </Button>

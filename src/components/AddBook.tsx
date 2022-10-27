@@ -5,11 +5,16 @@ import {
   Button,
   Typography,
   TextField,
-  Stack,
+  Stack
 } from "@mui/material";
 
 import BACKEND_URL from "../backendUrl";
 import { fetchAllBooks } from "../fetchFunctions";
+import {
+  addBookFormBox,
+  addBookAddButton,
+  addBookCancelButton
+} from "../sxStyles";
 
 interface IProps {
   addBookFormVisible: boolean;
@@ -20,14 +25,14 @@ interface IProps {
 const AddBook: FC<IProps> = ({
   addBookFormVisible,
   setAddBookFormVisible,
-  setBooks,
+  setBooks
 }: IProps): JSX.Element => {
   const [book, setBook] = useState({
     title: "",
     author: "",
     topic: "",
     isbn: "",
-    location: "",
+    location: ""
   });
 
   const onChange = (
@@ -35,7 +40,7 @@ const AddBook: FC<IProps> = ({
   ) => {
     setBook({
       ...book,
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value
     });
   };
 
@@ -46,9 +51,9 @@ const AddBook: FC<IProps> = ({
         credentials: "include",
         headers: {
           "content-type": "application/json",
-          "Access-Control-Allow-Origin": BACKEND_URL,
+          "Access-Control-Allow-Origin": BACKEND_URL
         },
-        body: JSON.stringify(book),
+        body: JSON.stringify(book)
       });
       if (response.ok) {
         setAddBookFormVisible(false);
@@ -71,26 +76,13 @@ const AddBook: FC<IProps> = ({
           setAddBookFormVisible(false);
         }}
       >
-        <Box
-          sx={{
-            position: "absolute" as "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 400,
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            paddingTop: 4,
-            paddingX: 4,
-            paddingBottom: 2,
-          }}
-        >
+        <Box sx={addBookFormBox}>
           {/*book.owner is logged in user*/}
           <Stack spacing={2}>
             <Typography
               sx={{
                 fontFamily: "Montserrat",
-                fontWeight: "bold",
+                fontWeight: "bold"
               }}
               variant="h4"
             >
@@ -128,36 +120,14 @@ const AddBook: FC<IProps> = ({
             />
             <Stack direction="row" spacing={2} justifyContent="center">
               <Button
-                sx={{
-                  fontFamily: "Montserrat",
-                  fontWeight: "bold",
-                  fontSize: 15,
-                  //width: "30%",
-                  backgroundColor: "#FFD100",
-                  color: "black",
-                  "&:hover": {
-                    backgroundColor: "#FFB500",
-                  },
-                  //padding: 2,
-                }}
+                sx={addBookAddButton}
                 variant="contained"
                 onClick={addBook}
               >
                 Add
               </Button>
               <Button
-                sx={{
-                  fontFamily: "Montserrat",
-                  fontWeight: "bold",
-                  fontSize: 15,
-                  //width: "30%",
-                  backgroundColor: "#FFD100",
-                  color: "black",
-                  "&:hover": {
-                    backgroundColor: "#FFB500",
-                  },
-                  //padding: 2,
-                }}
+                sx={addBookCancelButton}
                 variant="contained"
                 onClick={() => {
                   setAddBookFormVisible(false);

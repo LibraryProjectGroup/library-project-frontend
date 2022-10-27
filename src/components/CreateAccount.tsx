@@ -2,6 +2,13 @@ import React, { useState, useEffect, FC, useContext } from "react";
 import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
 import BACKEND_URL from "../backendUrl";
 import { TheContext } from "../TheContext";
+import {
+  createAccountReturnButton,
+  createAccountSignButton,
+  createAccountBoxTitleText,
+  createAccountHeaderTitleText,
+  createAccountHeaderContentText
+} from "../sxStyles";
 
 interface IProps {
   setLogged: Function;
@@ -12,7 +19,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState({
     firstPassword: "",
-    secondPassword: "",
+    secondPassword: ""
   });
   const [validLength, setValidLength] = useState(false);
   const [hasNumber, setHasNumber] = useState(false);
@@ -30,7 +37,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
     const { value, name } = event.target;
     setPassword({
       ...password,
-      [name]: value,
+      [name]: value
     });
   };
   const [errorMessage, setErrorMesssage] = useState("");
@@ -64,8 +71,8 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
             method: "POST",
             headers: {
               "content-type": "application/json;charset=UTF-8",
-              "Access-Control-Allow-Origin": BACKEND_URL,
-            },
+              "Access-Control-Allow-Origin": BACKEND_URL
+            }
           }
         );
         let data = await response.json();
@@ -96,7 +103,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
       sx={{
         maxWidth: window.innerWidth,
         minHeight: window.innerHeight,
-        backgroundColor: "#f0f0ec",
+        backgroundColor: "#f0f0ec"
       }}
     >
       <Grid
@@ -110,17 +117,11 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
             <Box sx={{ padding: 10 }}>
               <Typography
                 variant="h1" //not responsive font
-                sx={{
-                  fontFamily: "Merriweather",
-                  fontWeight: "bold",
-                  paddingBottom: 5,
-                }}
+                sx={createAccountHeaderTitleText}
               >
                 Efilibrary
               </Typography>
-              <Typography
-                sx={{ fontFamily: "Merriweather", fontWeight: "light" }}
-              >
+              <Typography sx={createAccountHeaderContentText}>
                 Important! To create a valid password you will need at least 8
                 characters, and you will need to use uppercase, lowercase, and a
                 number. The use of special characters is forbidden.
@@ -134,25 +135,18 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
           md={5}
           sx={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "center"
           }}
         >
           <Paper
             elevation={10}
             sx={{
               width: 500,
-              height: 500,
+              height: 500
             }}
           >
             <Box sx={{ padding: 10 }}>
-              <Typography
-                variant="h4"
-                sx={{
-                  textAlign: "center",
-                  fontFamily: "Montserrat",
-                  fontWeight: "bold",
-                }}
-              >
+              <Typography variant="h4" sx={createAccountBoxTitleText}>
                 Create Account
               </Typography>
               <Box
@@ -160,7 +154,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
                   display: "flex",
                   flexDirection: "Column",
                   marginBottom: 3,
-                  marginTop: 4,
+                  marginTop: 4
                 }}
               >
                 <TextField
@@ -194,19 +188,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
                 <Button
                   variant="contained"
                   onClick={handleCreateAccount}
-                  sx={{
-                    fontFamily: "Montserrat",
-                    fontWeight: "bold",
-                    fontSize: 15,
-                    width: "40%",
-
-                    backgroundColor: "#FFD100",
-                    color: "black",
-                    "&:hover": {
-                      backgroundColor: "#FFB500",
-                    },
-                    padding: 2,
-                  }}
+                  sx={createAccountSignButton}
                 >
                   SIGN UP
                 </Button>
@@ -219,18 +201,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
         <Button
           variant="contained"
           onClick={() => setRegisterFormVisible(false)}
-          sx={{
-            fontFamily: "Montserrat",
-            fontWeight: "bold",
-            fontSize: 15,
-            width: "100%",
-            backgroundColor: "#FFD100",
-            color: "black",
-            "&:hover": {
-              backgroundColor: "#FFB500",
-            },
-            padding: 2,
-          }}
+          sx={createAccountReturnButton}
         >
           Return
         </Button>

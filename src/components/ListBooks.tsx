@@ -9,6 +9,11 @@ import {
   fetchAllCurrentBorrows,
   fetchLoanBook
 } from "../fetchFunctions";
+import {
+  listBooksDeleteButton,
+  listBooksEditButton,
+  listBooksLoanButton
+} from "../sxStyles";
 
 interface IProps {
   books: Array<Book> | undefined;
@@ -93,19 +98,7 @@ const ListBooks: FC<IProps> = ({
           </Stack>
           <Stack marginY={1} justifyContent="start" paddingLeft="2rem">
             <Button
-              sx={{
-                fontFamily: "Montserrat",
-                fontWeight: "bold",
-                fontSize: 15,
-                //width: "30%",
-                whiteSpace: "nowrap",
-                backgroundColor: "#FFD100",
-                color: "black",
-                "&:hover": {
-                  backgroundColor: "#FFB500"
-                }
-                //padding: 1,
-              }}
+              sx={listBooksDeleteButton}
               variant="contained"
               color="error"
               onClick={() => {
@@ -123,20 +116,7 @@ const ListBooks: FC<IProps> = ({
               Delete book
             </Button>
             <Button
-              sx={{
-                fontFamily: "Montserrat",
-                fontWeight: "bold",
-                fontSize: 15,
-                marginTop: "1rem",
-                //width: "30%",
-                whiteSpace: "nowrap",
-                backgroundColor: "#FFD100",
-                color: "black",
-                "&:hover": {
-                  backgroundColor: "#FFB500"
-                }
-                //padding: 1,
-              }}
+              sx={listBooksEditButton}
               variant="contained"
               onClick={() => {
                 setBookToEdit(book);
@@ -146,19 +126,7 @@ const ListBooks: FC<IProps> = ({
               Edit book
             </Button>
             <Button
-              sx={{
-                fontFamily: "Montserrat",
-                fontWeight: "bold",
-                fontSize: 15,
-                //width: "30%",
-                backgroundColor: "#FFD100",
-                marginTop: "1rem",
-                color: "black",
-                "&:hover": {
-                  backgroundColor: "#FFB500"
-                }
-                //padding: 1,
-              }}
+              sx={listBooksLoanButton}
               variant="contained"
               disabled={bookInCurrentBorrows(book) ? true : false}
               onClick={() => {

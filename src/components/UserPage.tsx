@@ -5,6 +5,7 @@ import { fetchCurrentBorrows } from "../fetchFunctions";
 import Book from "../interfaces/book.interface";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { convertToObject } from "typescript";
+import { userPageReturnButton, userPageBackButton } from "../sxStyles";
 
 interface IProps {
   setUserPageVisible: Function;
@@ -13,7 +14,7 @@ interface IProps {
 
 const MyAccount: FC<IProps> = ({
   setUserPageVisible,
-  books,
+  books
 }: IProps): JSX.Element => {
   const [borrows, setBorrows] = useState<any>([]);
   const [userBorrowBookIds, setUserBorrowBookIds] = useState<any>([]);
@@ -53,7 +54,7 @@ const MyAccount: FC<IProps> = ({
               <Typography
                 sx={{
                   fontFamily: "Montserrat",
-                  fontWeight: "bold",
+                  fontWeight: "bold"
                 }}
               >
                 {book.title}
@@ -61,7 +62,7 @@ const MyAccount: FC<IProps> = ({
               <Typography
                 sx={{
                   fontFamily: "Merriweather",
-                  fontWeight: "light",
+                  fontWeight: "light"
                 }}
               >
                 Author: {book.author}
@@ -69,7 +70,7 @@ const MyAccount: FC<IProps> = ({
               <Typography
                 sx={{
                   fontFamily: "Merriweather",
-                  fontWeight: "light",
+                  fontWeight: "light"
                 }}
               >
                 Topic: {book.topic}
@@ -77,7 +78,7 @@ const MyAccount: FC<IProps> = ({
               <Typography
                 sx={{
                   fontFamily: "Merriweather",
-                  fontWeight: "light",
+                  fontWeight: "light"
                 }}
               >
                 isbn: {book.isbn}
@@ -85,7 +86,7 @@ const MyAccount: FC<IProps> = ({
               <Typography
                 sx={{
                   fontFamily: "Merriweather",
-                  fontWeight: "light",
+                  fontWeight: "light"
                 }}
               >
                 Location: {book.location}
@@ -93,18 +94,7 @@ const MyAccount: FC<IProps> = ({
             </Stack>
             <Stack marginY={1} justifyContent="space-between">
               <Button
-                sx={{
-                  fontFamily: "Montserrat",
-                  fontWeight: "bold",
-                  fontSize: 15,
-                  //width: "30%",
-                  backgroundColor: "#FFD100",
-                  color: "black",
-                  "&:hover": {
-                    backgroundColor: "#FFB500",
-                  },
-                  //padding: 1,
-                }}
+                sx={userPageReturnButton}
                 variant="contained"
                 onClick={() => {}}
               >
@@ -118,6 +108,7 @@ const MyAccount: FC<IProps> = ({
       return null;
     }
   };
+
   return (
     <div>
       <div style={{ position: "absolute", right: 30 }}>
@@ -128,17 +119,7 @@ const MyAccount: FC<IProps> = ({
       </div>
       <Fab
         aria-label="back"
-        sx={{
-          position: "relative",
-          top: 50,
-          marginBottom: 10,
-          marginLeft: 5,
-          backgroundColor: "#FFD100",
-          color: "black",
-          "&:hover": {
-            backgroundColor: "#FFB500",
-          },
-        }}
+        sx={userPageBackButton}
         onClick={() => {
           setUserPageVisible(false);
         }}
