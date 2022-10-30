@@ -1,10 +1,9 @@
-import React, { useState, FC, useContext, useEffect } from "react";
+import { useState, FC, useContext, useEffect } from "react";
 import { Paper, Typography, Button, Stack, Fab } from "@mui/material";
 import { TheContext } from "../../../TheContext";
 import { fetchCurrentBorrows } from "../../../fetchFunctions";
 import Book from "../../../interfaces/book.interface";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { convertToObject } from "typescript";
 import { userPageReturnButton, userPageBackButton } from "../../../sxStyles";
 
 interface IProps {

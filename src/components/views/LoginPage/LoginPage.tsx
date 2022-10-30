@@ -1,7 +1,7 @@
 import React, { useState, useContext, FC, useEffect } from "react";
 import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
 import { TheContext } from "../../../TheContext";
-import CreateAccount from "../CreateAccountVIew/CreateAccount";
+import CreateAccount from "../CreateAccountPage/CreateAccount";
 import BACKEND_URL from "../../../backendUrl";
 import {
   loginButton,

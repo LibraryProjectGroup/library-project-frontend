@@ -1,21 +1,13 @@
-import React, { useEffect, useState, useContext } from "react";
-import {
-  Container,
-  Button,
-  Fab,
-  CssBaseline,
-  bottomNavigationActionClasses
-} from "@mui/material";
+import { useEffect, useState } from "react";
+import { Fab, CssBaseline } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import Book from "./interfaces/book.interface";
-import ContextData from "./interfaces/ContextData.interface";
-import AddBook from "./components/views/ListBooksView/AddBookForm";
-import ListBooks from "./components/views/ListBooksView/ListBooks";
-import EditBook from "./components/views/ListBooksView/EditBookForm";
-import LoginPage from "./components/views/LoginVIew/LoginPage";
-import CreateAccount from "./components/views/CreateAccountVIew/CreateAccount";
-import UserPage from "./components/views/UserView/UserPage";
+import AddBook from "./components/views/ListBooksPage/AddBookForm";
+import ListBooks from "./components/views/ListBooksPage/ListBooks";
+import EditBook from "./components/views/ListBooksPage/EditBookForm";
+import LoginPage from "./components/views/LoginPage/LoginPage";
+import UserPage from "./components/views/UserPage/UserPage";
 import TheContextProvider from "./TheContext";
 import { fetchAllBooks } from "./fetchFunctions";
 
