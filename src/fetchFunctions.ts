@@ -51,16 +51,6 @@ const fetchAllCurrentBorrows = async () => {
   return response.json();
 };
 
-const fetchReturnBook = async () => {
-  const response = await fetch(`${BACKEND_URL}/borrow/current`, {
-    headers: {
-      "content-type": "application/json",
-      "Access-Control-Allow-Origin": BACKEND_URL,
-    },
-  });
-  return response.json();
-};
-
 const fetchUserByName = async (username: string) => {
   const response = await fetch(
     `${BACKEND_URL}/user/username?username=${username}`,
@@ -103,6 +93,20 @@ const fetchLoanBook = async (
     return { ok: false };
   }
 };
+
+const fetchReturnBorrowedBook = async (borrowId: number) => {
+  const response = await fetch(`${BACKEND_URL}/borrow/return`, {
+    method: "PUT",
+    credentials: "include",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      "Access-Control-Allow-Origin": BACKEND_URL,
+    },
+    body: JSON.stringify({ borrowId: borrowId }),
+  });
+  return response.json();
+};
+
 export {
   fetchAllBooks,
   fetchExampleBookData,
@@ -110,4 +114,5 @@ export {
   fetchCurrentBorrows,
   fetchAllCurrentBorrows,
   fetchLoanBook,
+  fetchReturnBorrowedBook,
 };
