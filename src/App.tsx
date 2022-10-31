@@ -1,23 +1,12 @@
-import { useEffect, useState, FC, useContext, ReactNode } from "react";
-import Book from "./interfaces/book.interface";
+import { FC, useContext } from "react";
 import ListBooks from "./components/pages/listBooksPage/ListBooks";
 import LoginPage from "./components/pages/loginPage/LoginPage";
 import CreateAccount from "./components/pages/createAccountPage/CreateAccount";
 import MyAccount from "./components/pages/userPage/UserPage";
 import TheContextProvider, { TheContext } from "./TheContext";
-import { fetchAllBooks } from "./fetchFunctions";
-import { Routes, Route, BrowserRouter, Outlet, Link } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 function App() {
-  const [books, setBooks] = useState<Array<Book>>([]);
-  const [addBookFormVisible, setAddBookFormVisible] = useState<boolean>(false);
-  const [logged, setLogged] = useState<boolean>(false);
-  const [editBookFormVisible, setEditBookFormVisible] =
-    useState<boolean>(false);
-  const [userPageVisible, setUserPageVisible] = useState<boolean>(false);
-  const [bookToEdit, setBookToEdit] = useState<Book | undefined>(undefined);
-  const [registerFormVisible, setRegisterFormVisible] = useState(false);
-
   const ProtectedRoute: FC<any> = (props) => {
     const context = useContext(TheContext);
 
@@ -27,16 +16,6 @@ function App() {
 
     return <p>Unauthorized</p>;
   };
-
-  useEffect(() => {
-    fetchAllBooks(setBooks);
-  }, [logged]);
-
-  useEffect(() => {
-    if (bookToEdit) {
-      setEditBookFormVisible(true);
-    }
-  }, [bookToEdit]);
 
   return (
     /* Container component messes up with the margins and/or paddings, pushing
