@@ -15,13 +15,14 @@ import {
 interface IProps {
   logged: boolean;
   setLogged: Function;
+  registerFormVisible: boolean;
+  setRegisterFormVisible: Function;
 }
 
-const LoginPage: FC<IProps> = ({ logged, setLogged }: IProps): JSX.Element => {
+const LoginPage: FC<IProps> = ({ logged, setLogged, registerFormVisible, setRegisterFormVisible }: IProps): JSX.Element => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMesssage] = useState("");
-  const [registerFormVisible, setRegisterFormVisible] = useState(false);
 
   const [dimensions, setDimensions] = React.useState({
     height: window.innerHeight,

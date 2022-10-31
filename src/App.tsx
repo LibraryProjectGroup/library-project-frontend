@@ -10,6 +10,7 @@ import LoginPage from "./components/pages/loginPage/LoginPage";
 import UserPage from "./components/pages/userPage/UserPage";
 import TheContextProvider from "./TheContext";
 import { fetchAllBooks } from "./fetchFunctions";
+import { Routes, Route, BrowserRouter} from "react-router-dom";
 
 function App() {
   const [books, setBooks] = useState<Array<Book>>([]);
@@ -19,6 +20,7 @@ function App() {
     useState<boolean>(false);
   const [userPageVisible, setUserPageVisible] = useState<boolean>(false);
   const [bookToEdit, setBookToEdit] = useState<Book | undefined>(undefined);
+  const [registerFormVisible, setRegisterFormVisible] = useState(false);
 
   useEffect(() => {
     fetchAllBooks(setBooks);
@@ -36,6 +38,15 @@ function App() {
       now it can be fixed by replacing with div*/
     <TheContextProvider>
       <div>
+        <Container>
+          <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LoginPage logged={logged} setLogged={setLogged} setRegisterFormVisible={setRegisterFormVisible} registerFormVisible={registerFormVisible}/>} />
+            <Route path="/create-account" element={<CreateAccount setLogged={setLogged} setRegisterFormVisible={setRegisterFormVisible} />} />
+            <Route path="/list-books" element={<ListBooks books={undefined} setBooks={setBooks} setBookToEdit={setBookToEdit} setEditBookFormVisible={setEditBookFormVisible}/>} />
+          </Routes>
+          </BrowserRouter>
+        </Container>
         {logged && !userPageVisible && (
           <Fab
             aria-label="account"
@@ -110,7 +121,7 @@ function App() {
             <AddIcon />
           </Fab>
         )}
-        {!logged && <LoginPage logged={logged} setLogged={setLogged} />}
+        {!logged && <LoginPage logged={logged} setLogged={setLogged} setRegisterFormVisible={setRegisterFormVisible} registerFormVisible={registerFormVisible}/>}
       </div>
     </TheContextProvider>
   );
