@@ -18,7 +18,7 @@ import CreateAccount from "./components/CreateAccount";
 import UserPage from "./components/UserPage";
 import TheContextProvider from "./TheContext";
 import { fetchAllBooks } from "./fetchFunctions";
-import { Routes, Route, BrowserRouter} from "react-router-dom";
+import { Routes, Route, BrowserRouter, Outlet, Link } from "react-router-dom";
 
 function App() {
   const [exampleBook, setExampleBook] = useState<Book | undefined>(undefined);
@@ -41,110 +41,70 @@ function App() {
     }
   }, [bookToEdit]);
 
-  function renderExampleBookData() {
+  const Layout = () => {
     return (
-      <div style={{ border: "solid saddlebrown 2px" }}>
-        <p>Loaned to: {exampleBook?.owner}</p>
-        <p>Title: {exampleBook?.title}</p>
-        <p>Author: {exampleBook?.author}</p>
-        <p>Topic: {exampleBook?.topic}</p>
-        <p>ISBN: {exampleBook?.isbn}</p>
-        <p>Location: {exampleBook?.location}</p>
-      </div>
+      <>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/login">login</Link>
+            </li>
+            <li>
+              <Link to="/contact">Contact</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <Outlet />
+      </>
     );
-  }
+  };
 
   return (
     /* Container component messes up with the margins and/or paddings, pushing
       all components to the right and leaving a big empty space on the left. For
       now it can be fixed by replacing with div*/
     <TheContextProvider>
-      <div>
-        <Container>
-          <BrowserRouter>
+      <Container>
+        <BrowserRouter>
           <Routes>
-            <Route path="/" element={<LoginPage logged={logged} setLogged={setLogged} setRegisterFormVisible={setRegisterFormVisible} registerFormVisible={registerFormVisible}/>} />
-            <Route path="/create-account" element={<CreateAccount setLogged={setLogged} setRegisterFormVisible={setRegisterFormVisible} />} />
-            <Route path="/list-books" element={<ListBooks books={undefined} setBooks={setBooks} setBookToEdit={setBookToEdit} setEditBookFormVisible={setEditBookFormVisible}/>} />
+            <Route path="/" element={<Layout />}>
+              <Route
+                path="/login"
+                element={
+                  <Login
+                    setLogged={setLogged}
+                    setRegisterFormVisible={setRegisterFormVisible}
+                  />
+                }
+              />
+              <Route
+                path="/create-account"
+                element={
+                  <CreateAccount
+                    setLogged={setLogged}
+                    setRegisterFormVisible={setRegisterFormVisible}
+                  />
+                }
+              />
+              <Route
+                path="/list-books"
+                element={
+                  <ListBooks
+                    books={undefined}
+                    setBooks={setBooks}
+                    setBookToEdit={setBookToEdit}
+                    setEditBookFormVisible={setEditBookFormVisible}
+                  />
+                }
+              />
+            </Route>
           </Routes>
-          </BrowserRouter>
-        </Container>
-        {logged && !userPageVisible && (
-          <Fab
-            aria-label="account"
-            sx={{
-              position: "relative",
-              top: 50,
-              marginBottom: 10,
-              marginLeft: 5,
-              backgroundColor: "#FFD100",
-              color: "black",
-              "&:hover": {
-                backgroundColor: "#FFB500",
-              },
-            }}
-            onClick={() => {
-              setUserPageVisible(true);
-            }}
-          >
-            <AccountBoxIcon />
-          </Fab>
-        )}
-        <CssBaseline />
-        {logged && !userPageVisible && (
-          <div>
-            <ListBooks
-              books={books}
-              setBooks={setBooks}
-              setBookToEdit={setBookToEdit}
-              setEditBookFormVisible={setEditBookFormVisible}
-            />
-          </div>
-        )}
-        {editBookFormVisible && (
-          <EditBook
-            setEditBookFormVisible={setEditBookFormVisible}
-            bookToEdit={bookToEdit}
-            editBookFormVisible={editBookFormVisible}
-            setBooks={setBooks}
-          ></EditBook>
-        )}
-        {addBookFormVisible && (
-          <AddBook
-            addBookFormVisible={addBookFormVisible}
-            setAddBookFormVisible={setAddBookFormVisible}
-            setBooks={setBooks}
-          ></AddBook>
-        )}
-        {userPageVisible && (
-          <UserPage
-            setUserPageVisible={setUserPageVisible}
-            books={books}
-          ></UserPage>
-        )}
-        {logged && !userPageVisible && (
-          <Fab
-            aria-label="add"
-            sx={{
-              position: "relative",
-              top: 50,
-              marginBottom: 10,
-              marginLeft: 5,
-              backgroundColor: "#FFD100",
-              color: "black",
-              "&:hover": {
-                backgroundColor: "#FFB500",
-              },
-            }}
-            onClick={() => {
-              setAddBookFormVisible(true);
-            }}
-          >
-            <AddIcon />
-          </Fab>
-        )}
-        {!logged && <LoginPage logged={logged} setLogged={setLogged} setRegisterFormVisible={setRegisterFormVisible} registerFormVisible={registerFormVisible}/>}
-      </div>
+        </BrowserRouter>
+      </Container>
     </TheContextProvider>
   );
 }
