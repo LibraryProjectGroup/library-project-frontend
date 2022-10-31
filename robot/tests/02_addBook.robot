@@ -1,5 +1,6 @@
 *** Settings ***
 Resource    ../resources/keywords.resource
+Suite Teardown    Close all browsers
 
 
 *** Test Cases ***

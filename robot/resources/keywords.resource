@@ -1,17 +1,15 @@
 *** Settings ***
-Resource    ../resources/resources.robot
-
+Resource          ../resources/resources.robot
 
 *** Variables ***
-${URL}              http://127.0.0.1:3000/    # Localhost port 3000
-${BROWSER}          headlesschrome
-${TESTUSERNAME}     defaultusername    # Just to initialize the variable
-${TESTPASSWORD}     doesnotexist    # Just to initialize the variable
-
+${URL}            http://127.0.0.1:3000/    # Localhost port 3000
+${BROWSER}        headlesschrome
+${TESTUSERNAME}    defaultusername    # Just to initialize the variable
+${TESTPASSWORD}    doesnotexist    # Just to initialize the variable
 
 *** Keywords ***
 User has home page open in browser
-    Open Browser    url=${URL}    browser=${BROWSER}
+    Open Browser    url=${URL}    browser=${BROWSER}    options=add_argument("--no-sandbox")
 
 List of books is visible
     Page Should Contain Element    xpath://*[contains(@data-testid, 'AddIcon')]
@@ -54,9 +52,9 @@ Others can find the ${title} book from the catalog
 User logins successfully
     User has home page open in browser
     Wait Until Element Is Visible    xpath://input[contains(@id, ':r1:')]
-    Input Text    xpath://input[contains(@id, ':r1:')]    ${TESTUSERNAME}    clear=True
+    Input Password    xpath://input[contains(@id, ':r1:')]    ${TESTUSERNAME}    clear=True    # username
     Wait Until Element Is Visible    xpath://input[contains(@id, ':r3:')]
-    Input Password    xpath://input[contains(@id, ':r3:')]    ${TESTPASSWORD}    clear=True
+    Input Password    xpath://input[contains(@id, ':r3:')]    ${TESTPASSWORD}    clear=True    # password
     Click Button    xpath://button[contains(text(), 'Log in')]
     Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'AccountBoxIcon')]
 
