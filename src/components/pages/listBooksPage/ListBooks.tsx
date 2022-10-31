@@ -1,59 +1,62 @@
 import React, { useState, FC, useEffect, useContext } from "react";
-import { Paper, Typography, Button, Stack, Box } from "@mui/material";
-import { TheContext } from "../TheContext";
-import Book from "../interfaces/book.interface";
-import BACKEND_URL from "../backendUrl";
+import { Paper, Typography, Button, Stack, Box, Fab } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import { TheContext } from "../../../TheContext";
+import Book from "../../../interfaces/book.interface";
+import BACKEND_URL from "../../../backendUrl";
+import AddBook from "./AddBookForm";
+import EditBook from "./EditBookForm";
 import { right } from "@popperjs/core";
 import {
   fetchAllBooks,
   fetchAllCurrentBorrows,
   fetchLoanBook,
-} from "../fetchFunctions";
+  fetchAllBooks2
+} from "../../../fetchFunctions";
+import {
+  listBooksDeleteButton,
+  listBooksEditButton,
+  listBooksLoanButton,
+  addBookAddButton as addButton
+} from "../../../sxStyles";
+import { Navigate } from "react-router-dom";
 
-interface IProps {
-  books: Array<Book> | undefined;
-  setBooks: Function;
-  setBookToEdit: Function;
-  setEditBookFormVisible: Function;
-}
-
-const ListBooks: FC<IProps> = ({
-  books,
-  setBooks,
-  setBookToEdit,
-  setEditBookFormVisible,
-}: IProps): JSX.Element => {
+const ListBooks: FC = (): JSX.Element => {
   const [currentBorrows, setCurrentBorrows] = useState<any[]>([]);
+  const [books, setBooks] = useState<any[]>([]);
+  const [bookToEdit, setBookToEdit] = useState<Book | null>(null);
+  const [editBookFormVisible, setEditBookFormVisible] = useState(false);
+  const [addBookFormVisible, setAddBookFormVisible] = useState(false);
+
   const context = useContext(TheContext);
+  const navigate = useNavigate();
+
+  const initBooks = async () => {
+    const tmpBooks = await fetchAllBooks2();
+    setBooks(tmpBooks);
+  };
 
   const fetchAndSetCurrentBorrows = async () => {
     const currentBorrowsTmp = await fetchAllCurrentBorrows();
     setCurrentBorrows(currentBorrowsTmp);
   };
+
   const bookInCurrentBorrows = (book: Book) => {
-    console.log("current book: ");
-    console.log(book);
     let inCurrentBorrows = false;
     for (let i = 0; i < currentBorrows.length; i++) {
-      console.log("LOOP");
       if (currentBorrows[i].book === book.id) {
         inCurrentBorrows = true;
       }
     }
-    console.log("in current borrows:");
-    console.log(inCurrentBorrows);
     return inCurrentBorrows;
   };
+
   useEffect(() => {
+    initBooks();
     fetchAndSetCurrentBorrows();
   }, []);
-  useEffect(() => {
-    console.log("current borrows");
-    console.log(currentBorrows);
-    console.log("books:");
-    console.log(books);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentBorrows]);
 
   const renderBookData = (book: Book) => {
     return (
@@ -63,7 +66,7 @@ const ListBooks: FC<IProps> = ({
             <Typography
               sx={{
                 fontFamily: "Montserrat",
-                fontWeight: "bold",
+                fontWeight: "bold"
               }}
             >
               {book.title}
@@ -71,7 +74,7 @@ const ListBooks: FC<IProps> = ({
             <Typography
               sx={{
                 fontFamily: "Merriweather",
-                fontWeight: "light",
+                fontWeight: "light"
               }}
             >
               Author: {book.author}
@@ -79,7 +82,7 @@ const ListBooks: FC<IProps> = ({
             <Typography
               sx={{
                 fontFamily: "Merriweather",
-                fontWeight: "light",
+                fontWeight: "light"
               }}
             >
               Topic: {book.topic}
@@ -87,7 +90,7 @@ const ListBooks: FC<IProps> = ({
             <Typography
               sx={{
                 fontFamily: "Merriweather",
-                fontWeight: "light",
+                fontWeight: "light"
               }}
             >
               isbn: {book.isbn}
@@ -95,7 +98,7 @@ const ListBooks: FC<IProps> = ({
             <Typography
               sx={{
                 fontFamily: "Merriweather",
-                fontWeight: "light",
+                fontWeight: "light"
               }}
             >
               Location: {book.location}
@@ -103,24 +106,12 @@ const ListBooks: FC<IProps> = ({
           </Stack>
           <Stack marginY={1} justifyContent="start" paddingLeft="2rem">
             <Button
-              sx={{
-                fontFamily: "Montserrat",
-                fontWeight: "bold",
-                fontSize: 15,
-                //width: "30%",
-                whiteSpace: "nowrap",
-                backgroundColor: "#FFD100",
-                color: "black",
-                "&:hover": {
-                  backgroundColor: "#FFB500",
-                },
-                //padding: 1,
-              }}
+              sx={listBooksDeleteButton}
               variant="contained"
               color="error"
               onClick={() => {
                 fetch(`${BACKEND_URL}/book?id=${book.id}`, {
-                  method: "DELETE",
+                  method: "DELETE"
                 }).then((response) => {
                   if (response.ok) {
                     fetchAllBooks(setBooks);
@@ -133,20 +124,7 @@ const ListBooks: FC<IProps> = ({
               Delete book
             </Button>
             <Button
-              sx={{
-                fontFamily: "Montserrat",
-                fontWeight: "bold",
-                fontSize: 15,
-                marginTop: "1rem",
-                //width: "30%",
-                whiteSpace: "nowrap",
-                backgroundColor: "#FFD100",
-                color: "black",
-                "&:hover": {
-                  backgroundColor: "#FFB500",
-                },
-                //padding: 1,
-              }}
+              sx={listBooksEditButton}
               variant="contained"
               onClick={() => {
                 setBookToEdit(book);
@@ -156,19 +134,7 @@ const ListBooks: FC<IProps> = ({
               Edit book
             </Button>
             <Button
-              sx={{
-                fontFamily: "Montserrat",
-                fontWeight: "bold",
-                fontSize: 15,
-                //width: "30%",
-                backgroundColor: "#FFD100",
-                marginTop: "1rem",
-                color: "black",
-                "&:hover": {
-                  backgroundColor: "#FFB500",
-                },
-                //padding: 1,
-              }}
+              sx={listBooksLoanButton}
               variant="contained"
               disabled={bookInCurrentBorrows(book) ? true : false}
               onClick={() => {
@@ -186,9 +152,42 @@ const ListBooks: FC<IProps> = ({
 
   return (
     <Box sx={{ marginTop: 5, marginBottom: 5 }}>
+      <Fab
+        aria-label="account"
+        sx={addButton}
+        onClick={() => {
+          navigate("/user");
+        }}
+      >
+        <AccountBoxIcon />
+      </Fab>
       <Stack spacing={3} sx={{ margin: "auto", width: "60%" }}>
         {books?.map((book) => renderBookData(book))}
       </Stack>
+      <Fab
+        aria-label="add"
+        sx={addButton}
+        onClick={() => {
+          setAddBookFormVisible(true);
+        }}
+      >
+        <AddIcon />
+      </Fab>
+      {addBookFormVisible && (
+        <AddBook
+          addBookFormVisible={addBookFormVisible}
+          setAddBookFormVisible={setAddBookFormVisible}
+          setBooks={setBooks}
+        />
+      )}
+      {editBookFormVisible && (
+        <EditBook
+          editBookFormVisible={editBookFormVisible}
+          setEditBookFormVisible={setEditBookFormVisible}
+          bookToEdit={bookToEdit}
+          setBooks={setBooks}
+        />
+      )}
     </Box>
   );
 };

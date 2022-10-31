@@ -1,18 +1,21 @@
 import React, { useState, useEffect, FC, useContext } from "react";
 import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
-import BACKEND_URL from "../backendUrl";
-import { TheContext } from "../TheContext";
+import BACKEND_URL from "../../../backendUrl";
+import { TheContext } from "../../../TheContext";
+import { useNavigate } from "react-router-dom";
+import {
+  createAccountReturnButton,
+  createAccountSignButton,
+  createAccountBoxTitleText,
+  createAccountHeaderTitleText,
+  createAccountHeaderContentText
+} from "../../../sxStyles";
 
-interface IProps {
-  setLogged: Function;
-  setRegisterFormVisible: Function;
-}
-
-const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
+const CreateAccount: FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState({
     firstPassword: "",
-    secondPassword: "",
+    secondPassword: ""
   });
   const [validLength, setValidLength] = useState(false);
   const [hasNumber, setHasNumber] = useState(false);
@@ -23,6 +26,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
   const [requiredLength, setRequiredLength] = useState(8);
 
   const context = useContext(TheContext);
+  const navigate = useNavigate();
 
   const inputChange: (event: React.ChangeEvent<HTMLInputElement>) => void = (
     event
@@ -30,7 +34,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
     const { value, name } = event.target;
     setPassword({
       ...password,
-      [name]: value,
+      [name]: value
     });
   };
   const [errorMessage, setErrorMesssage] = useState("");
@@ -64,8 +68,8 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
             method: "POST",
             headers: {
               "content-type": "application/json;charset=UTF-8",
-              "Access-Control-Allow-Origin": BACKEND_URL,
-            },
+              "Access-Control-Allow-Origin": BACKEND_URL
+            }
           }
         );
         let data = await response.json();
@@ -73,8 +77,8 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
           document.cookie = `librarySession=${data.secret};expires=${new Date(
             new Date().getTime() + 604800000
           ).toUTCString()};domain=localhost;path=/;SameSite=strict`;
-          setLogged(true);
           context?.setUsername(username);
+          navigate("/list-books");
         } else {
           setErrorMesssage(data.message ? data.message : "internal error");
         }
@@ -96,7 +100,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
       sx={{
         maxWidth: window.innerWidth,
         minHeight: window.innerHeight,
-        backgroundColor: "#f0f0ec",
+        backgroundColor: "#f0f0ec"
       }}
     >
       <Grid
@@ -110,17 +114,11 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
             <Box sx={{ padding: 10 }}>
               <Typography
                 variant="h1" //not responsive font
-                sx={{
-                  fontFamily: "Merriweather",
-                  fontWeight: "bold",
-                  paddingBottom: 5,
-                }}
+                sx={createAccountHeaderTitleText}
               >
                 Efilibrary
               </Typography>
-              <Typography
-                sx={{ fontFamily: "Merriweather", fontWeight: "light" }}
-              >
+              <Typography sx={createAccountHeaderContentText}>
                 Important! To create a valid password you will need at least 8
                 characters, and you will need to use uppercase, lowercase, and a
                 number. The use of special characters is forbidden.
@@ -134,25 +132,18 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
           md={5}
           sx={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "center"
           }}
         >
           <Paper
             elevation={10}
             sx={{
               width: 500,
-              height: 500,
+              height: 500
             }}
           >
             <Box sx={{ padding: 10 }}>
-              <Typography
-                variant="h4"
-                sx={{
-                  textAlign: "center",
-                  fontFamily: "Montserrat",
-                  fontWeight: "bold",
-                }}
-              >
+              <Typography variant="h4" sx={createAccountBoxTitleText}>
                 Create Account
               </Typography>
               <Box
@@ -160,7 +151,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
                   display: "flex",
                   flexDirection: "Column",
                   marginBottom: 3,
-                  marginTop: 4,
+                  marginTop: 4
                 }}
               >
                 <TextField
@@ -194,19 +185,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
                 <Button
                   variant="contained"
                   onClick={handleCreateAccount}
-                  sx={{
-                    fontFamily: "Montserrat",
-                    fontWeight: "bold",
-                    fontSize: 15,
-                    width: "40%",
-
-                    backgroundColor: "#FFD100",
-                    color: "black",
-                    "&:hover": {
-                      backgroundColor: "#FFB500",
-                    },
-                    padding: 2,
-                  }}
+                  sx={createAccountSignButton}
                 >
                   SIGN UP
                 </Button>
@@ -218,19 +197,8 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
       <Box sx={{ textAlign: "center" }}>
         <Button
           variant="contained"
-          onClick={() => setRegisterFormVisible(false)}
-          sx={{
-            fontFamily: "Montserrat",
-            fontWeight: "bold",
-            fontSize: 15,
-            width: "100%",
-            backgroundColor: "#FFD100",
-            color: "black",
-            "&:hover": {
-              backgroundColor: "#FFB500",
-            },
-            padding: 2,
-          }}
+          onClick={() => navigate("/login")}
+          sx={createAccountReturnButton}
         >
           Return
         </Button>

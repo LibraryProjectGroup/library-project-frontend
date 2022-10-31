@@ -5,16 +5,21 @@ import {
   Button,
   Typography,
   TextField,
-  Stack,
+  Stack
 } from "@mui/material";
 
-import Book from "../interfaces/book.interface";
-import BACKEND_URL from "../backendUrl";
-import { fetchAllBooks } from "../fetchFunctions";
+import Book from "../../../interfaces/book.interface";
+import BACKEND_URL from "../../../backendUrl";
+import { fetchAllBooks } from "../../../fetchFunctions";
+import {
+  editBookBox,
+  editBookUpdateButton,
+  editBookCancelButton
+} from "../../../sxStyles";
 
 interface IProps {
   editBookFormVisible: boolean;
-  bookToEdit: Book | undefined;
+  bookToEdit: Book | null;
   setBooks: Function;
   setEditBookFormVisible: Function;
 }
@@ -23,7 +28,7 @@ const EditBook: FC<IProps> = ({
   editBookFormVisible,
   bookToEdit,
   setBooks,
-  setEditBookFormVisible,
+  setEditBookFormVisible
 }: IProps): JSX.Element => {
   const [editedBook, setEditedBook] = useState(bookToEdit);
 
@@ -39,25 +44,12 @@ const EditBook: FC<IProps> = ({
           setEditBookFormVisible(false);
         }}
       >
-        <Box
-          sx={{
-            position: "absolute" as "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 400,
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            paddingTop: 4,
-            paddingX: 4,
-            paddingBottom: 2,
-          }}
-        >
+        <Box sx={editBookBox}>
           <Stack spacing={2}>
             <Typography
               sx={{
                 fontFamily: "Montserrat",
-                fontWeight: "bold",
+                fontWeight: "bold"
               }}
               variant="h4"
             >
@@ -102,24 +94,13 @@ const EditBook: FC<IProps> = ({
               onChange={(e) =>
                 setEditedBook(() => ({
                   ...editedBook,
-                  location: e.target.value,
+                  location: e.target.value
                 }))
               }
             />
             <Stack direction="row" spacing={2} justifyContent="center">
               <Button
-                sx={{
-                  fontFamily: "Montserrat",
-                  fontWeight: "bold",
-                  fontSize: 15,
-                  //width: "30%",
-                  backgroundColor: "#FFD100",
-                  color: "black",
-                  "&:hover": {
-                    backgroundColor: "#FFB500",
-                  },
-                  //padding: 2,
-                }}
+                sx={editBookUpdateButton}
                 variant="contained"
                 onClick={() => {
                   updateBook(book);
@@ -128,18 +109,7 @@ const EditBook: FC<IProps> = ({
                 Update
               </Button>
               <Button
-                sx={{
-                  fontFamily: "Montserrat",
-                  fontWeight: "bold",
-                  fontSize: 15,
-                  //width: "30%",
-                  backgroundColor: "#FFD100",
-                  color: "black",
-                  "&:hover": {
-                    backgroundColor: "#FFB500",
-                  },
-                  //padding: 2,
-                }}
+                sx={editBookCancelButton}
                 variant="contained"
                 onClick={() => {
                   setEditBookFormVisible(false);
@@ -159,9 +129,9 @@ const EditBook: FC<IProps> = ({
       method: "PUT",
       headers: {
         "content-type": "application/json",
-        "Access-Control-Allow-Origin": BACKEND_URL,
+        "Access-Control-Allow-Origin": BACKEND_URL
       },
-      body: JSON.stringify(editedBook),
+      body: JSON.stringify(editedBook)
     });
     if (response.ok) {
       setEditBookFormVisible(false);
