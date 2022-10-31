@@ -3,11 +3,11 @@ import { Fab, CssBaseline } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import Book from "./interfaces/book.interface";
-import AddBook from "./components/views/ListBooksPage/AddBookForm";
-import ListBooks from "./components/views/ListBooksPage/ListBooks";
-import EditBook from "./components/views/ListBooksPage/EditBookForm";
-import LoginPage from "./components/views/LoginPage/LoginPage";
-import UserPage from "./components/views/UserPage/UserPage";
+import AddBook from "./components/pages/listBooksPage/AddBookForm";
+import ListBooks from "./components/pages/listBooksPage/ListBooks";
+import EditBook from "./components/pages/listBooksPage/EditBookForm";
+import LoginPage from "./components/pages/loginPage/LoginPage";
+import UserPage from "./components/pages/userPage/UserPage";
 import TheContextProvider from "./TheContext";
 import { fetchAllBooks } from "./fetchFunctions";
 
