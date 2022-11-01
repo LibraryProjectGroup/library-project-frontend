@@ -12,7 +12,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState({
     firstPassword: "",
-    secondPassword: "",
+    secondPassword: ""
   });
   const [validLength, setValidLength] = useState(false);
   const [hasNumber, setHasNumber] = useState(false);
@@ -30,7 +30,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
     const { value, name } = event.target;
     setPassword({
       ...password,
-      [name]: value,
+      [name]: value
     });
   };
   const [errorMessage, setErrorMesssage] = useState("");
@@ -58,16 +58,17 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
   const handleCreateAccount = async () => {
     if (match) {
       try {
-        const response = await fetch(
-          `${BACKEND_URL}/auth/register?username=${username}&password=${password.firstPassword}`,
-          {
-            method: "POST",
-            headers: {
-              "content-type": "application/json;charset=UTF-8",
-              "Access-Control-Allow-Origin": BACKEND_URL,
-            },
-          }
-        );
+        const response = await fetch(`${BACKEND_URL}/auth/register`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json;charset=UTF-8",
+            "Access-Control-Allow-Origin": BACKEND_URL
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password.firstPassword
+          })
+        });
         let data = await response.json();
         if (response.ok) {
           document.cookie = `librarySession=${data.secret};expires=${new Date(
@@ -96,7 +97,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
       sx={{
         maxWidth: window.innerWidth,
         minHeight: window.innerHeight,
-        backgroundColor: "#f0f0ec",
+        backgroundColor: "#f0f0ec"
       }}
     >
       <Grid
@@ -113,7 +114,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
                 sx={{
                   fontFamily: "Merriweather",
                   fontWeight: "bold",
-                  paddingBottom: 5,
+                  paddingBottom: 5
                 }}
               >
                 Efilibrary
@@ -134,14 +135,14 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
           md={5}
           sx={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "center"
           }}
         >
           <Paper
             elevation={10}
             sx={{
               width: 500,
-              height: 500,
+              height: 500
             }}
           >
             <Box sx={{ padding: 10 }}>
@@ -150,7 +151,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
                 sx={{
                   textAlign: "center",
                   fontFamily: "Montserrat",
-                  fontWeight: "bold",
+                  fontWeight: "bold"
                 }}
               >
                 Create Account
@@ -160,7 +161,7 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
                   display: "flex",
                   flexDirection: "Column",
                   marginBottom: 3,
-                  marginTop: 4,
+                  marginTop: 4
                 }}
               >
                 <TextField
@@ -203,9 +204,9 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
                     backgroundColor: "#FFD100",
                     color: "black",
                     "&:hover": {
-                      backgroundColor: "#FFB500",
+                      backgroundColor: "#FFB500"
                     },
-                    padding: 2,
+                    padding: 2
                   }}
                 >
                   SIGN UP
@@ -227,9 +228,9 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
             backgroundColor: "#FFD100",
             color: "black",
             "&:hover": {
-              backgroundColor: "#FFB500",
+              backgroundColor: "#FFB500"
             },
-            padding: 2,
+            padding: 2
           }}
         >
           Return

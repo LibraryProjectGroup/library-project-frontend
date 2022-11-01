@@ -17,14 +17,14 @@ const LoginPage: FC<IProps> = ({ logged, setLogged }: IProps): JSX.Element => {
 
   const [dimensions, setDimensions] = React.useState({
     height: window.innerHeight,
-    width: window.innerWidth,
+    width: window.innerWidth
   });
 
   useEffect(() => {
     const handleResize = () => {
       setDimensions({
         height: window.innerHeight,
-        width: window.innerWidth,
+        width: window.innerWidth
       });
     };
 
@@ -35,20 +35,17 @@ const LoginPage: FC<IProps> = ({ logged, setLogged }: IProps): JSX.Element => {
     };
   }, []);
 
-
   const context = useContext(TheContext);
   const handleLogin = async () => {
     try {
-      const response = await fetch(
-        `${BACKEND_URL}/auth/login?username=${username}&password=${password}`,
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json;charset=UTF-8",
-            "Access-Control-Allow-Origin": BACKEND_URL,
-          },
-        }
-      );
+      const response = await fetch(`${BACKEND_URL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json;charset=UTF-8",
+          "Access-Control-Allow-Origin": BACKEND_URL
+        },
+        body: JSON.stringify({ username: username, password: password })
+      });
       let data = await response.json();
       if (response.ok) {
         /*if login successfull, navigate to homepage */
@@ -75,8 +72,8 @@ const LoginPage: FC<IProps> = ({ logged, setLogged }: IProps): JSX.Element => {
         alignItems="center"
         sx={{
           maxWidth: dimensions.width,
-        minHeight: dimensions.height,
-          backgroundColor: "#f0f0ec",
+          minHeight: dimensions.height,
+          backgroundColor: "#f0f0ec"
         }}
       >
         <Grid
@@ -93,7 +90,7 @@ const LoginPage: FC<IProps> = ({ logged, setLogged }: IProps): JSX.Element => {
                   sx={{
                     fontFamily: "Merriweather",
                     fontWeight: "bold",
-                    paddingBottom: 5,
+                    paddingBottom: 5
                   }}
                 >
                   Efilibrary
@@ -119,14 +116,14 @@ const LoginPage: FC<IProps> = ({ logged, setLogged }: IProps): JSX.Element => {
             md={5}
             sx={{
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "center"
             }}
           >
             <Paper
               elevation={10}
               sx={{
                 width: 500,
-                height: 500,
+                height: 500
               }}
             >
               <Box sx={{ padding: 10 }}>
@@ -135,7 +132,7 @@ const LoginPage: FC<IProps> = ({ logged, setLogged }: IProps): JSX.Element => {
                   sx={{
                     textAlign: "center",
                     fontFamily: "Montserrat",
-                    fontWeight: "bold",
+                    fontWeight: "bold"
                   }}
                 >
                   Login
@@ -145,7 +142,7 @@ const LoginPage: FC<IProps> = ({ logged, setLogged }: IProps): JSX.Element => {
                     display: "flex",
                     flexDirection: "Column",
                     marginBottom: 5,
-                    marginTop: 4,
+                    marginTop: 4
                   }}
                 >
                   <TextField
@@ -180,9 +177,9 @@ const LoginPage: FC<IProps> = ({ logged, setLogged }: IProps): JSX.Element => {
                       backgroundColor: "#FFD100",
                       color: "black",
                       "&:hover": {
-                        backgroundColor: "#FFB500",
+                        backgroundColor: "#FFB500"
                       },
-                      padding: 2,
+                      padding: 2
                     }}
                   >
                     Log in
@@ -204,9 +201,9 @@ const LoginPage: FC<IProps> = ({ logged, setLogged }: IProps): JSX.Element => {
               backgroundColor: "#FFD100",
               color: "black",
               "&:hover": {
-                backgroundColor: "#FFB500",
+                backgroundColor: "#FFB500"
               },
-              padding: 2,
+              padding: 2
             }}
           >
             Create account
