@@ -65,16 +65,17 @@ const CreateAccount: FC<IProps> = ({ setLogged, setRegisterFormVisible }) => {
   const handleCreateAccount = async () => {
     if (match) {
       try {
-        const response = await fetch(
-          `${BACKEND_URL}/auth/register?username=${username}&password=${password.firstPassword}`,
-          {
-            method: "POST",
-            headers: {
-              "content-type": "application/json;charset=UTF-8",
-              "Access-Control-Allow-Origin": BACKEND_URL
-            }
-          }
-        );
+        const response = await fetch(`${BACKEND_URL}/auth/register`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json;charset=UTF-8",
+            "Access-Control-Allow-Origin": BACKEND_URL
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password.firstPassword
+          })
+        });
         let data = await response.json();
         if (response.ok) {
           document.cookie = `librarySession=${data.secret};expires=${new Date(
