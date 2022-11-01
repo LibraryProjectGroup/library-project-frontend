@@ -42,16 +42,17 @@ const LoginPage: FC = (): JSX.Element => {
   const context = useContext(TheContext);
   const handleLogin = async () => {
     try {
-      const response = await fetch(
-        `${BACKEND_URL}/auth/login?username=${username}&password=${password}`,
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json;charset=UTF-8",
-            "Access-Control-Allow-Origin": BACKEND_URL
-          }
-        }
-      );
+      const response = await fetch(`${BACKEND_URL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json;charset=UTF-8",
+          "Access-Control-Allow-Origin": BACKEND_URL
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password
+        })
+      });
       let data = await response.json();
       if (response.ok) {
         /*if login successfull, navigate to homepage */
