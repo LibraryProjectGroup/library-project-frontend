@@ -57,6 +57,9 @@ const ListBooks: FC = (): JSX.Element => {
   useEffect(() => {
     initBooks();
     fetchAndSetCurrentBorrows();
+    console.log(context?.username);
+    console.log(context?.admin);
+    console.log(context?.userId);
   }, []);
 
   const renderBookData = (book: Book) => {

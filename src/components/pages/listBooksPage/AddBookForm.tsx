@@ -50,7 +50,16 @@ const AddBook: FC<IProps> = ({
 
   const addBook = async () => {
     try {
+      /* AUTH FETCH
       const response = await authFetch("/book", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({ ...book, library_user: context?.userId })
+      });
+      */
+      const response = await fetch(`${BACKEND_URL}/book`, {
         method: "POST",
         headers: {
           "content-type": "application/json"

@@ -57,7 +57,7 @@ const LoginPage: FC = (): JSX.Element => {
         context?.setUsername(username);
         context?.setAdmin(true);
         context?.setUserId(data.userId);
-        setSession(data.secret);
+        // setSession(data.secret);
         navigate("/list-books");
       } else {
         setErrorMesssage(data.message ? data.message : "internal error");

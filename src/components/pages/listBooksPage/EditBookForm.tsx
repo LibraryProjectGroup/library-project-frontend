@@ -127,8 +127,18 @@ const EditBook: FC<IProps> = ({
   };
 
   // Should maybe be modified and moved to fetchFunctions.tsx
+
   const updateBook = async (book: Book) => {
+    /* AUTH FETCH 
     const response = await authFetch("/book", {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(editedBook)
+    });
+    */
+    const response = await fetch(`${BACKEND_URL}/book`, {
       method: "PUT",
       headers: {
         "content-type": "application/json"
