@@ -1,28 +1,34 @@
-import React, { useState, FC, useContext, useEffect } from "react";
+import { useState, FC, useContext, useEffect } from "react";
 import { Paper, Typography, Button, Stack, Fab } from "@mui/material";
-import { TheContext } from "../TheContext";
-import { fetchCurrentBorrows, fetchReturnBorrowedBook } from "../fetchFunctions";
-import Book from "../interfaces/book.interface";
+import { TheContext } from "../../../TheContext";
+import { useNavigate } from "react-router-dom";
+import {
+  fetchCurrentBorrows,
+  fetchReturnBorrowedBook,
+  fetchAllBooks2
+} from "../../../fetchFunctions";
+import Book from "../../../interfaces/book.interface";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { convertToObject } from "typescript";
+import { userPageReturnButton, userPageBackButton } from "../../../sxStyles";
 
-interface IProps {
-  setUserPageVisible: Function;
-  books: Array<Book>;
-}
-
-const MyAccount: FC<IProps> = ({
-  setUserPageVisible,
-  books,
-}: IProps): JSX.Element => {
+const MyAccount: FC = (): JSX.Element => {
+  const [books, setBooks] = useState<any>([]);
   const [borrows, setBorrows] = useState<any>([]);
   const [userBorrowBookIds, setUserBorrowBookIds] = useState<any>([]);
+
   const context = useContext(TheContext);
+  const navigate = useNavigate();
+
+  const initBooks = async () => {
+    const tmpBooks = await fetchAllBooks2();
+    setBooks(tmpBooks);
+  };
 
   const fetchBorrows = async (username: string) => {
     const borrowsTmp = await fetchCurrentBorrows(username);
     setBorrows(borrowsTmp);
   };
+
   const sortUserBorrowBookIds = () => {
     let userBorrowsTmp: any = [];
     for (let i = 0; i < borrows.length; i++) {
@@ -31,6 +37,7 @@ const MyAccount: FC<IProps> = ({
     setUserBorrowBookIds(userBorrowsTmp);
   };
   useEffect(() => {
+    initBooks();
     if (context?.username) {
       fetchBorrows(context.username);
     }
@@ -46,12 +53,12 @@ const MyAccount: FC<IProps> = ({
 
   const handleReturnOfBook = (book: Book) => {
     for (let i = 0; i < borrows.length; i++) {
-      if(borrows[i].book === book.id){
+      if (borrows[i].book === book.id) {
         fetchReturnBorrowedBook(borrows[i].id);
         break;
       }
     }
-  }
+  };
 
   const renderBookData = (book: any) => {
     if (userBorrowBookIds.includes(book.id)) {
@@ -62,7 +69,7 @@ const MyAccount: FC<IProps> = ({
               <Typography
                 sx={{
                   fontFamily: "Montserrat",
-                  fontWeight: "bold",
+                  fontWeight: "bold"
                 }}
               >
                 {book.title}
@@ -70,7 +77,7 @@ const MyAccount: FC<IProps> = ({
               <Typography
                 sx={{
                   fontFamily: "Merriweather",
-                  fontWeight: "light",
+                  fontWeight: "light"
                 }}
               >
                 Author: {book.author}
@@ -78,7 +85,7 @@ const MyAccount: FC<IProps> = ({
               <Typography
                 sx={{
                   fontFamily: "Merriweather",
-                  fontWeight: "light",
+                  fontWeight: "light"
                 }}
               >
                 Topic: {book.topic}
@@ -86,7 +93,7 @@ const MyAccount: FC<IProps> = ({
               <Typography
                 sx={{
                   fontFamily: "Merriweather",
-                  fontWeight: "light",
+                  fontWeight: "light"
                 }}
               >
                 isbn: {book.isbn}
@@ -94,7 +101,7 @@ const MyAccount: FC<IProps> = ({
               <Typography
                 sx={{
                   fontFamily: "Merriweather",
-                  fontWeight: "light",
+                  fontWeight: "light"
                 }}
               >
                 Location: {book.location}
@@ -102,20 +109,11 @@ const MyAccount: FC<IProps> = ({
             </Stack>
             <Stack marginY={1} justifyContent="space-between">
               <Button
-                sx={{
-                  fontFamily: "Montserrat",
-                  fontWeight: "bold",
-                  fontSize: 15,
-                  //width: "30%",
-                  backgroundColor: "#FFD100",
-                  color: "black",
-                  "&:hover": {
-                    backgroundColor: "#FFB500",
-                  },
-                  //padding: 1,
-                }}
+                sx={userPageReturnButton}
                 variant="contained"
-                onClick={() => {handleReturnOfBook(book)}}
+                onClick={() => {
+                  handleReturnOfBook(book);
+                }}
               >
                 Return
               </Button>
@@ -127,6 +125,7 @@ const MyAccount: FC<IProps> = ({
       return null;
     }
   };
+
   return (
     <div>
       <div style={{ position: "absolute", right: 30 }}>
@@ -137,25 +136,15 @@ const MyAccount: FC<IProps> = ({
       </div>
       <Fab
         aria-label="back"
-        sx={{
-          position: "relative",
-          top: 50,
-          marginBottom: 10,
-          marginLeft: 5,
-          backgroundColor: "#FFD100",
-          color: "black",
-          "&:hover": {
-            backgroundColor: "#FFB500",
-          },
-        }}
+        sx={userPageBackButton}
         onClick={() => {
-          setUserPageVisible(false);
+          navigate("/list-books");
         }}
       >
         <ArrowBackIcon />
       </Fab>
       {userBorrowBookIds.length > 0 &&
-        books?.map((book) => renderBookData(book))}
+        books?.map((book: Book) => renderBookData(book))}
     </div>
   );
 };
