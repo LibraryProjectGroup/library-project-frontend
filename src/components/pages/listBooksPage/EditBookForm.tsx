@@ -16,6 +16,7 @@ import {
   editBookUpdateButton,
   editBookCancelButton
 } from "../../../sxStyles";
+import { authFetch } from "../../../auth";
 
 interface IProps {
   editBookFormVisible: boolean;
@@ -127,11 +128,10 @@ const EditBook: FC<IProps> = ({
 
   // Should maybe be modified and moved to fetchFunctions.tsx
   const updateBook = async (book: Book) => {
-    const response = await fetch(`${BACKEND_URL}/book`, {
+    const response = await authFetch("/book", {
       method: "PUT",
       headers: {
-        "content-type": "application/json",
-        "Access-Control-Allow-Origin": BACKEND_URL
+        "content-type": "application/json"
       },
       body: JSON.stringify(editedBook)
     });

@@ -10,6 +10,7 @@ import {
   createAccountHeaderTitleText,
   createAccountHeaderContentText
 } from "../../../sxStyles";
+import { setSession } from "../../../auth";
 
 const CreateAccount: FC = () => {
   const [username, setUsername] = useState("");
@@ -65,8 +66,7 @@ const CreateAccount: FC = () => {
         const response = await fetch(`${BACKEND_URL}/auth/register`, {
           method: "POST",
           headers: {
-            "content-type": "application/json;charset=UTF-8",
-            "Access-Control-Allow-Origin": BACKEND_URL
+            "content-type": "application/json;charset=UTF-8"
           },
           body: JSON.stringify({
             username: username,
@@ -75,10 +75,7 @@ const CreateAccount: FC = () => {
         });
         let data = await response.json();
         if (response.ok) {
-          document.cookie = `librarySession=${data.secret};expires=${new Date(
-            new Date().getTime() + 604800000
-          ).toUTCString()};domain=localhost;path=/;SameSite=strict`;
-          context?.setUsername(username);
+          setSession(data.secret);
           navigate("/list-books");
         } else {
           setErrorMesssage(data.message ? data.message : "internal error");

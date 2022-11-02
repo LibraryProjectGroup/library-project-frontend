@@ -5,18 +5,12 @@ import CreateAccount from "./components/pages/createAccountPage/CreateAccount";
 import MyAccount from "./components/pages/userPage/UserPage";
 import Admin from "./components/pages/adminPage/Admin";
 import TheContextProvider, { TheContext } from "./TheContext";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
+import { isAuthenticated } from "./auth";
 
 function App() {
-  const ProtectedRoute: FC<any> = (props) => {
-    const context = useContext(TheContext);
-
-    if (context?.username) {
-      return props.children;
-    }
-
-    return <p>Unauthorized</p>;
-  };
+  const ProtectedRoute: FC<any> = (props) =>
+    isAuthenticated() ? props.children : <Navigate to="/login" />;
 
   const AdminRoute: FC<any> = (props) => {
     const context = useContext(TheContext);
