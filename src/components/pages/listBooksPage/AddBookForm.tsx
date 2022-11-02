@@ -15,6 +15,7 @@ import {
   addBookAddButton,
   addBookCancelButton
 } from "../../../sxStyles";
+import { authFetch } from "../../../auth";
 
 interface IProps {
   addBookFormVisible: boolean;
@@ -46,12 +47,10 @@ const AddBook: FC<IProps> = ({
 
   const addBook = async () => {
     try {
-      const response = await fetch(`${BACKEND_URL}/book`, {
+      const response = await authFetch("/book", {
         method: "POST",
-        credentials: "include",
         headers: {
-          "content-type": "application/json",
-          "Access-Control-Allow-Origin": BACKEND_URL
+          "content-type": "application/json"
         },
         body: JSON.stringify(book)
       });

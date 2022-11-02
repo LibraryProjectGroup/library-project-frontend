@@ -22,6 +22,7 @@ import {
   addBookAddButton as addButton
 } from "../../../sxStyles";
 import { Navigate } from "react-router-dom";
+import { authFetch } from "../../../auth";
 
 const ListBooks: FC = (): JSX.Element => {
   const [currentBorrows, setCurrentBorrows] = useState<any[]>([]);
@@ -110,7 +111,7 @@ const ListBooks: FC = (): JSX.Element => {
               variant="contained"
               color="error"
               onClick={() => {
-                fetch(`${BACKEND_URL}/book?id=${book.id}`, {
+                authFetch("/book?id=${book.id}", {
                   method: "DELETE"
                 }).then((response) => {
                   if (response.ok) {

@@ -12,6 +12,7 @@ import {
   loginHeaderContentText,
   loginPaper
 } from "../../../sxStyles";
+import { setSession } from "../../../auth";
 
 const LoginPage: FC = (): JSX.Element => {
   const [username, setUsername] = useState("");
@@ -56,10 +57,7 @@ const LoginPage: FC = (): JSX.Element => {
       let data = await response.json();
       if (response.ok) {
         /*if login successfull, navigate to homepage */
-        document.cookie = `librarySession=${data.secret};expires=${new Date(
-          new Date().getTime() + 604800000
-        ).toUTCString()};domain=localhost;path=/;SameSite=strict`;
-        context?.setUsername(username);
+        setSession(data.secret);
         navigate("/list-books");
       } else {
         setErrorMesssage(data.message ? data.message : "internal error");
