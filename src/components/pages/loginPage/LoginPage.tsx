@@ -1,7 +1,6 @@
 import React, { useState, useContext, FC, useEffect } from "react";
 import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
 import { TheContext } from "../../../TheContext";
-import CreateAccount from "../createAccountPage/CreateAccount";
 import BACKEND_URL from "../../../backendUrl";
 import { useNavigate } from "react-router-dom";
 import {
@@ -49,15 +48,16 @@ const LoginPage: FC = (): JSX.Element => {
           "content-type": "application/json;charset=UTF-8",
           "Access-Control-Allow-Origin": BACKEND_URL
         },
-        body: JSON.stringify({
-          username: username,
-          password: password
-        })
+        body: JSON.stringify({ username: username, password: password })
       });
       let data = await response.json();
       if (response.ok) {
+        console.log(data);
         /*if login successfull, navigate to homepage */
-        setSession(data.secret);
+        context?.setUsername(username);
+        context?.setAdmin(true);
+        context?.setUserId(data.userId);
+        // setSession(data.secret);
         navigate("/list-books");
       } else {
         setErrorMesssage(data.message ? data.message : "internal error");

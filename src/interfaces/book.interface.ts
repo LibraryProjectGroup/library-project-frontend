@@ -1,6 +1,6 @@
 interface Book {
     id: number,
-    owner: string,
+    library_user: number,
     title: string,
     author: string,
     topic: string,

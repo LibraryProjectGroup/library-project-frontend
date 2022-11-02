@@ -251,3 +251,31 @@ export const userPageBackButton: SxProps = {
     backgroundColor: "#FFB500"
   }
 };
+
+// Admin page
+
+export const adminPageTabs: SxProps = {
+  width: "100%",
+}
+
+export const adminPageTab: SxProps = {
+  fontFamily: "Montserrat",
+  fontWeight: "bold",
+  fontSize: 15,
+  backgroundColor: "#FFD100",
+  width: "100%"
+}
+
+export const adminDeleteButton: SxProps = {
+  fontFamily: "Montserrat",
+  fontWeight: "bold",
+  fontSize: 15,
+  //width: "30%",
+  backgroundColor: "red",
+  marginTop: "1rem",
+  color: "black",
+  "&:hover": {
+    backgroundColor: "#FFB500"
+  }
+  //padding: 1,
+};

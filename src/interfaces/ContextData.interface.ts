@@ -1,6 +1,10 @@
 interface ContextData {
-  username: string | null;
+  username: string;
   setUsername: Function;
+  userId: number;
+  setUserId: Function;
+  admin: boolean;
+  setAdmin: Function;
 }
 
 export default ContextData;

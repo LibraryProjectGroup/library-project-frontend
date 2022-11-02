@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import React, { useState, useContext, FC } from "react";
 import {
   Modal,
   Box,
@@ -7,10 +7,10 @@ import {
   TextField,
   Stack
 } from "@mui/material";
-
+import { TheContext } from "../../../TheContext";
 import Book from "../../../interfaces/book.interface";
 import BACKEND_URL from "../../../backendUrl";
-import { fetchAllBooks } from "../../../fetchFunctions";
+import { fetchAndSetAllBooks } from "../../../fetchFunctions";
 import {
   editBookBox,
   editBookUpdateButton,
@@ -32,6 +32,7 @@ const EditBook: FC<IProps> = ({
   setEditBookFormVisible
 }: IProps): JSX.Element => {
   const [editedBook, setEditedBook] = useState(bookToEdit);
+  const context = useContext(TheContext);
 
   const renderBookData = (
     book: Book,
@@ -125,8 +126,19 @@ const EditBook: FC<IProps> = ({
     );
   };
 
+  // Should maybe be modified and moved to fetchFunctions.tsx
+
   const updateBook = async (book: Book) => {
+    /* AUTH FETCH 
     const response = await authFetch("/book", {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(editedBook)
+    });
+    */
+    const response = await fetch(`${BACKEND_URL}/book`, {
       method: "PUT",
       headers: {
         "content-type": "application/json"
@@ -135,7 +147,7 @@ const EditBook: FC<IProps> = ({
     });
     if (response.ok) {
       setEditBookFormVisible(false);
-      fetchAllBooks(setBooks);
+      fetchAndSetAllBooks(setBooks);
     }
   };
 

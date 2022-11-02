@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {
   fetchCurrentBorrows,
   fetchReturnBorrowedBook,
-  fetchAllBooks2
+  fetchAllBooks
 } from "../../../fetchFunctions";
 import Book from "../../../interfaces/book.interface";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -22,7 +22,7 @@ const MyAccount: FC = (): JSX.Element => {
   const navigate = useNavigate();
 
   const initBooks = async () => {
-    const tmpBooks = await fetchAllBooks2();
+    const tmpBooks = await fetchAllBooks();
     setBooks(tmpBooks);
   };
 

@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import React, { useState, useContext, FC } from "react";
 import {
   Modal,
   Box,
@@ -7,9 +7,9 @@ import {
   TextField,
   Stack
 } from "@mui/material";
-
+import { TheContext } from "../../../TheContext";
 import BACKEND_URL from "../../../backendUrl";
-import { fetchAllBooks } from "../../../fetchFunctions";
+import { fetchAndSetAllBooks } from "../../../fetchFunctions";
 import {
   addBookFormBox,
   addBookAddButton,
@@ -29,12 +29,15 @@ const AddBook: FC<IProps> = ({
   setBooks
 }: IProps): JSX.Element => {
   const [book, setBook] = useState({
+    library_user: 0,
     title: "",
     author: "",
     topic: "",
     isbn: "",
     location: ""
   });
+
+  const context = useContext(TheContext);
 
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -47,23 +50,39 @@ const AddBook: FC<IProps> = ({
 
   const addBook = async () => {
     try {
+      /* AUTH FETCH
       const response = await authFetch("/book", {
         method: "POST",
         headers: {
           "content-type": "application/json"
         },
-        body: JSON.stringify(book)
+        body: JSON.stringify({ ...book, library_user: context?.userId })
+      });
+      */
+      const response = await fetch(`${BACKEND_URL}/book`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({ ...book, library_user: context?.userId })
       });
       if (response.ok) {
         setAddBookFormVisible(false);
-        fetchAllBooks(setBooks);
+        fetchAndSetAllBooks(setBooks);
       } else {
         console.log("something went wrong!");
       }
     } catch (error) {
       console.error();
     } finally {
-      setBook({ title: "", author: "", topic: "", isbn: "", location: "" });
+      setBook({
+        library_user: 0,
+        title: "",
+        author: "",
+        topic: "",
+        isbn: "",
+        location: ""
+      });
     }
   };
 

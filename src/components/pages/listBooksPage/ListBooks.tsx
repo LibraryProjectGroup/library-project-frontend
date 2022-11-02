@@ -3,17 +3,16 @@ import { Paper, Typography, Button, Stack, Box, Fab } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { TheContext } from "../../../TheContext";
 import Book from "../../../interfaces/book.interface";
 import BACKEND_URL from "../../../backendUrl";
 import AddBook from "./AddBookForm";
 import EditBook from "./EditBookForm";
-import { right } from "@popperjs/core";
 import {
   fetchAllBooks,
   fetchAllCurrentBorrows,
-  fetchLoanBook,
-  fetchAllBooks2
+  fetchLoanBook
 } from "../../../fetchFunctions";
 import {
   listBooksDeleteButton,
@@ -21,6 +20,7 @@ import {
   listBooksLoanButton,
   addBookAddButton as addButton
 } from "../../../sxStyles";
+import { checkPrimeSync } from "crypto";
 import { Navigate } from "react-router-dom";
 import { authFetch } from "../../../auth";
 
@@ -35,7 +35,7 @@ const ListBooks: FC = (): JSX.Element => {
   const navigate = useNavigate();
 
   const initBooks = async () => {
-    const tmpBooks = await fetchAllBooks2();
+    const tmpBooks = await fetchAllBooks();
     setBooks(tmpBooks);
   };
 
@@ -57,6 +57,9 @@ const ListBooks: FC = (): JSX.Element => {
   useEffect(() => {
     initBooks();
     fetchAndSetCurrentBorrows();
+    console.log(context?.username);
+    console.log(context?.admin);
+    console.log(context?.userId);
   }, []);
 
   const renderBookData = (book: Book) => {
@@ -111,13 +114,13 @@ const ListBooks: FC = (): JSX.Element => {
               variant="contained"
               color="error"
               onClick={() => {
-                authFetch("/book?id=${book.id}", {
+                authFetch(`/book?id=${book.id}`, {
                   method: "DELETE"
                 }).then((response) => {
                   if (response.ok) {
-                    fetchAllBooks(setBooks);
+                    initBooks();
                   } else {
-                    // handle !response
+                    console.log(response);
                   }
                 });
               }}
@@ -140,7 +143,7 @@ const ListBooks: FC = (): JSX.Element => {
               disabled={bookInCurrentBorrows(book) ? true : false}
               onClick={() => {
                 fetchLoanBook(context?.username, book);
-                fetchAllBooks(setBooks);
+                initBooks();
               }}
             >
               LOAN
@@ -162,6 +165,17 @@ const ListBooks: FC = (): JSX.Element => {
       >
         <AccountBoxIcon />
       </Fab>
+      {context?.admin && (
+        <Fab
+          aria-label="add"
+          sx={addButton}
+          onClick={() => {
+            navigate("/admin");
+          }}
+        >
+          <AdminPanelSettingsIcon />
+        </Fab>
+      )}
       <Stack spacing={3} sx={{ margin: "auto", width: "60%" }}>
         {books?.map((book) => renderBookData(book))}
       </Stack>
