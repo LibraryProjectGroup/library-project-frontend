@@ -1,48 +1,36 @@
 import BACKEND_URL from "./backendUrl";
 import Book from "./interfaces/book.interface";
+import { authFetch } from "./auth";
 
 function fetchExampleBookData(setExampleBook: Function) {
-  fetch(`${BACKEND_URL}/example`, {
-    headers: { "Access-Control-Allow-Origin": BACKEND_URL },
-    credentials: "include"
-  })
+  authFetch(`/example`)
     .then((response) => response.json())
     .then((json) => setExampleBook(json));
 }
 
 function fetchAllBooks(setBooks: Function) {
-  fetch(`${BACKEND_URL}/book/all`, {
-    headers: { "Access-Control-Allow-Origin": BACKEND_URL },
-    credentials: "include"
-  })
+  authFetch(`/book/all`)
     .then((response) => response.json())
     .then((data) => setBooks(data));
 }
 
 const fetchAllBooks2 = async () => {
-  const response = await fetch(`${BACKEND_URL}/book/all`, {
-    headers: { "Access-Control-Allow-Origin": BACKEND_URL },
-    credentials: "include"
-  });
+  const response = await authFetch(`/book/all`);
   return response.json();
 };
 
 function fetchBookFromDb(bookId: string, setExampleBook: Function) {
-  fetch(`${BACKEND_URL}/book?id=${bookId}`, {
-    headers: { "Access-Control-Allow-Origin": BACKEND_URL },
-    credentials: "include"
-  })
+  authFetch(`/book?id=${bookId}`)
     .then((response) => response.json())
     .then((data) => setExampleBook(data));
 }
 
 const fetchCurrentBorrows = async (username: string) => {
-  const response = await fetch(
-    `${BACKEND_URL}/borrow/current/user?username=${username}`,
+  const response = await authFetch(
+    `/borrow/current/user?username=${username}`,
     {
       headers: {
-        "content-type": "application/json",
-        "Access-Control-Allow-Origin": BACKEND_URL
+        "content-type": "application/json"
       }
     }
   );
@@ -50,22 +38,20 @@ const fetchCurrentBorrows = async (username: string) => {
 };
 
 const fetchAllCurrentBorrows = async () => {
-  const response = await fetch(`${BACKEND_URL}/borrow/current`, {
+  const response = await authFetch(`/borrow/current`, {
     headers: {
-      "content-type": "application/json",
-      "Access-Control-Allow-Origin": BACKEND_URL
+      "content-type": "application/json"
     }
   });
   return response.json();
 };
 
 const fetchUserByName = async (username: string) => {
-  const response = await fetch(
-    `${BACKEND_URL}/user/username?username=${username}`,
+  const response = await authFetch(
+    `/user/username?username=${username}`,
     {
       headers: {
-        "content-type": "application/json",
-        "Access-Control-Allow-Origin": BACKEND_URL
+        "content-type": "application/json"
       }
     }
   );
@@ -87,13 +73,11 @@ const fetchLoanBook = async (
       borrowDate: borrowDate,
       dueDate: dueDate
     };
-    const response = await fetch(`${BACKEND_URL}/borrow`, {
+    const response = await authFetch(`/borrow`, {
       method: "POST",
       headers: {
-        "content-type": "application/json",
-        "Access-Control-Allow-Origin": "*"
+        "content-type": "application/json"
       },
-      credentials: "include",
       body: JSON.stringify(borrow)
     });
     return response.json();
@@ -103,12 +87,10 @@ const fetchLoanBook = async (
 };
 
 const fetchReturnBorrowedBook = async (borrowId: number) => {
-  const response = await fetch(`${BACKEND_URL}/borrow/return`, {
+  const response = await authFetch(`/borrow/return`, {
     method: "PUT",
-    credentials: "include",
     headers: {
-      "content-type": "application/json;charset=UTF-8",
-      "Access-Control-Allow-Origin": BACKEND_URL
+      "content-type": "application/json;charset=UTF-8"
     },
     body: JSON.stringify({ borrowId: borrowId })
   });

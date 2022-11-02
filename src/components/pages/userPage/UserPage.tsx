@@ -9,7 +9,9 @@ import {
 } from "../../../fetchFunctions";
 import Book from "../../../interfaces/book.interface";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { userPageReturnButton, userPageBackButton } from "../../../sxStyles";
+import { endSession } from "../../../auth";
 
 const MyAccount: FC = (): JSX.Element => {
   const [books, setBooks] = useState<any>([]);
@@ -142,6 +144,16 @@ const MyAccount: FC = (): JSX.Element => {
         }}
       >
         <ArrowBackIcon />
+      </Fab>
+      <Fab
+        aria-label="back"
+        sx={userPageBackButton}
+        onClick={() => {
+          endSession();
+          navigate("/login");
+        }}
+      >
+        <LogoutIcon />
       </Fab>
       {userBorrowBookIds.length > 0 &&
         books?.map((book: Book) => renderBookData(book))}
