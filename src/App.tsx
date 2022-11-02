@@ -3,6 +3,7 @@ import ListBooks from "./components/pages/listBooksPage/ListBooks";
 import LoginPage from "./components/pages/loginPage/LoginPage";
 import CreateAccount from "./components/pages/createAccountPage/CreateAccount";
 import MyAccount from "./components/pages/userPage/UserPage";
+import Admin from "./components/pages/adminPage/Admin";
 import TheContextProvider, { TheContext } from "./TheContext";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
@@ -11,6 +12,16 @@ function App() {
     const context = useContext(TheContext);
 
     if (context?.username) {
+      return props.children;
+    }
+
+    return <p>Unauthorized</p>;
+  };
+
+  const AdminRoute: FC<any> = (props) => {
+    const context = useContext(TheContext);
+
+    if (context?.username && context?.admin) {
       return props.children;
     }
 
@@ -41,6 +52,14 @@ function App() {
               <ProtectedRoute>
                 <MyAccount />
               </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <AdminRoute>
+                <Admin />
+              </AdminRoute>
             }
           />
         </Routes>

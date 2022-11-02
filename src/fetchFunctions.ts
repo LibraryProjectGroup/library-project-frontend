@@ -1,7 +1,7 @@
 import BACKEND_URL from "./backendUrl";
 import Book from "./interfaces/book.interface";
 
-function fetchExampleBookData(setExampleBook: Function) {
+export const fetchExampleBookData = async (setExampleBook: Function) => {
   fetch(`${BACKEND_URL}/example`, {
     headers: { "Access-Control-Allow-Origin": BACKEND_URL },
     credentials: "include"
@@ -10,24 +10,23 @@ function fetchExampleBookData(setExampleBook: Function) {
     .then((json) => setExampleBook(json));
 }
 
-function fetchAllBooks(setBooks: Function) {
-  fetch(`${BACKEND_URL}/book/all`, {
-    headers: { "Access-Control-Allow-Origin": BACKEND_URL },
-    credentials: "include"
-  })
-    .then((response) => response.json())
-    .then((data) => setBooks(data));
-}
-
-const fetchAllBooks2 = async () => {
+export const fetchAllBooks = async () => {
   const response = await fetch(`${BACKEND_URL}/book/all`, {
     headers: { "Access-Control-Allow-Origin": BACKEND_URL },
-    credentials: "include"
-  });
-  return response.json();
-};
+    credentials: "include",
+  })
+  return response.json()
+}
 
-function fetchBookFromDb(bookId: string, setExampleBook: Function) {
+export const fetchAllUsers = async () => {
+  const response = await fetch(`${BACKEND_URL}/user/all`, {
+    headers: { "Access-Control-Allow-Origin": BACKEND_URL },
+    credentials: "include",
+  })
+  return response.json()
+}
+
+export const fetchBookFromDb = async (bookId: string, setExampleBook: Function) => {
   fetch(`${BACKEND_URL}/book?id=${bookId}`, {
     headers: { "Access-Control-Allow-Origin": BACKEND_URL },
     credentials: "include"
@@ -36,7 +35,7 @@ function fetchBookFromDb(bookId: string, setExampleBook: Function) {
     .then((data) => setExampleBook(data));
 }
 
-const fetchCurrentBorrows = async (username: string) => {
+export const fetchCurrentBorrows = async (username: string) => {
   const response = await fetch(
     `${BACKEND_URL}/borrow/current/user?username=${username}`,
     {
@@ -49,7 +48,7 @@ const fetchCurrentBorrows = async (username: string) => {
   return response.json();
 };
 
-const fetchAllCurrentBorrows = async () => {
+export const fetchAllCurrentBorrows = async () => {
   const response = await fetch(`${BACKEND_URL}/borrow/current`, {
     headers: {
       "content-type": "application/json",
@@ -59,7 +58,7 @@ const fetchAllCurrentBorrows = async () => {
   return response.json();
 };
 
-const fetchUserByName = async (username: string) => {
+export const fetchUserByName = async (username: string) => {
   const response = await fetch(
     `${BACKEND_URL}/user/username?username=${username}`,
     {
@@ -72,7 +71,7 @@ const fetchUserByName = async (username: string) => {
   return response.json();
 };
 
-const fetchLoanBook = async (
+export const fetchLoanBook = async (
   username: string | undefined | null,
   book: Book
 ) => {
@@ -102,7 +101,7 @@ const fetchLoanBook = async (
   }
 };
 
-const fetchReturnBorrowedBook = async (borrowId: number) => {
+export const fetchReturnBorrowedBook = async (borrowId: number) => {
   const response = await fetch(`${BACKEND_URL}/borrow/return`, {
     method: "PUT",
     credentials: "include",
@@ -115,13 +114,23 @@ const fetchReturnBorrowedBook = async (borrowId: number) => {
   return response.json();
 };
 
-export {
-  fetchAllBooks,
-  fetchExampleBookData,
-  fetchAllBooks2,
-  fetchBookFromDb,
-  fetchCurrentBorrows,
-  fetchAllCurrentBorrows,
-  fetchLoanBook,
-  fetchReturnBorrowedBook
-};
+export const fetchDeleteUser = async (userId: number) => {
+  const response = await fetch(`${BACKEND_URL}/user?id=${userId}`, {
+    method: "DELETE",
+    credentials: "include",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      "Access-Control-Allow-Origin": BACKEND_URL
+    },
+  });
+  return response.json();
+}
+
+export const fetchAndSetAllBooks = async (setBooks: Function) => {
+  fetch(`${BACKEND_URL}/book/all`, {
+    headers: { "Access-Control-Allow-Origin": BACKEND_URL },
+    credentials: "include"
+  })
+    .then((response) => response.json())
+    .then((data) => setBooks(data));
+}
