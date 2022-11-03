@@ -153,7 +153,7 @@ or
 
 Then run tests with 
 
-```robot --variable TESTUSERNAME:${TESTUSERNAME} --variable TESTPASSWORD:${TESTPASSWORD} --removekeywords  NAME:*logins* --outputdir robot/results robot/tests
-```
+```robot --variable TESTUSERNAME:${TESTUSERNAME} --variable TESTPASSWORD:${TESTPASSWORD} --removekeywords  NAME:*logins* --outputdir robot/results robot/tests```
+
 
 Make sure the container is open in port 3000.
