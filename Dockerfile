@@ -11,4 +11,5 @@ COPY package-lock.json .
 RUN pip3 install -r requirements.txt && npm install
 COPY tsconfig.json .
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["npm","run","startserverandtest"]
+
