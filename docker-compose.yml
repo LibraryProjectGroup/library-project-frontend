@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  frontend:
+  docker-robot:
     container_name: docker-robot
     image: docker-robot
     stdin_open: true
@@ -9,6 +9,8 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+    env_file:
+      - docker.env  
     volumes:
       - ./src:/app/src
       - ./robot:/app/robot

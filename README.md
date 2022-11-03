@@ -128,3 +128,32 @@ Response schema:
 }
 ```
 
+# RobotTests
+
+Install Docker
+
+Create file in root ```docker.env```
+
+```TESTUSERNAME = "xxxxxxxxxxx"
+   TESTPASSWORD = "xxxxxxxxxxx"```
+
+These can be found in discord secrets.
+
+If there is no image repository then you have to create the image yourself
+```docker build -t docker-robot .```
+
+Then compose the image
+
+```docker compose up```
+
+Then open bash with 
+```docker exec -it docker-robot /bin/bash````
+or 
+```docker-compose run frontend /bin/bash```
+
+Then run tests with 
+
+```robot --variable TESTUSERNAME:${TESTUSERNAME} --variable TESTPASSWORD:${TESTPASSWORD} --removekeywords  NAME:*logins* --outputdir robot/results robot/tests
+```
+
+Make sure the container is open in port 3000.
