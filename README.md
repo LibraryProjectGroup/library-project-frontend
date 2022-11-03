@@ -134,8 +134,8 @@ Install Docker
 
 Create file in root ```docker.env```
 
-```TESTUSERNAME = "xxxxxxxxxxx"
-   TESTPASSWORD = "xxxxxxxxxxx"```
+```TESTUSERNAME = "xxxxxxxxxxx"```
+``` TESTPASSWORD = "xxxxxxxxxxx"```
 
 These can be found in discord secrets.
 
