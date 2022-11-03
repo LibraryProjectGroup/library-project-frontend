@@ -23,6 +23,10 @@ import {
 import { checkPrimeSync } from "crypto";
 import { Navigate } from "react-router-dom";
 import { authFetch } from "../../../auth";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import { log } from "console";
 
 const ListBooks: FC = (): JSX.Element => {
   const [currentBorrows, setCurrentBorrows] = useState<any[]>([]);
@@ -30,6 +34,10 @@ const ListBooks: FC = (): JSX.Element => {
   const [bookToEdit, setBookToEdit] = useState<Book | null>(null);
   const [editBookFormVisible, setEditBookFormVisible] = useState(false);
   const [addBookFormVisible, setAddBookFormVisible] = useState(false);
+  const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
+    ok: false,
+    message: ""
+  });
 
   const context = useContext(TheContext);
   const navigate = useNavigate();
@@ -53,6 +61,40 @@ const ListBooks: FC = (): JSX.Element => {
     }
     return inCurrentBorrows;
   };
+
+  const handleClosePopUpConfirmation = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setPopUpConfirmationOpen({
+      ok: false,
+      message: ""
+    });
+  };
+
+  const action = (
+    <React.Fragment>
+      {/*! Undo functional for the future? */}
+      {/* <Button
+        color="secondary"
+        size="small"
+        onClick={handleClosePopUpConfirmation}
+      >
+        UNDO
+      </Button> */}
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClosePopUpConfirmation}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   useEffect(() => {
     initBooks();
@@ -142,7 +184,16 @@ const ListBooks: FC = (): JSX.Element => {
               variant="contained"
               disabled={bookInCurrentBorrows(book) ? true : false}
               onClick={() => {
-                fetchLoanBook(context?.username, book);
+                let message = "Loaning succeeded";
+                fetchLoanBook(context?.username, book)
+                  .then((res) => {
+                    if (!res.ok) {
+                      message = "Loaning failed";
+                    }
+                  })
+                  .then(() =>
+                    setPopUpConfirmationOpen({ ok: true, message: message })
+                  );
                 initBooks();
               }}
             >
@@ -156,6 +207,15 @@ const ListBooks: FC = (): JSX.Element => {
 
   return (
     <Box sx={{ marginTop: 5, marginBottom: 5 }}>
+      {/* Pop up element */}
+      <Snackbar
+        open={popUpConfirmation.ok}
+        autoHideDuration={4000}
+        onClose={handleClosePopUpConfirmation}
+        message={popUpConfirmation.message}
+        action={action}
+      />
+      {/* Pop up element */}
       <Fab
         aria-label="account"
         sx={addButton}
