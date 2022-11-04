@@ -26,7 +26,6 @@ import { authFetch } from "../../../auth";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { log } from "console";
 
 const ListBooks: FC = (): JSX.Element => {
   const [currentBorrows, setCurrentBorrows] = useState<any[]>([]);
@@ -156,15 +155,17 @@ const ListBooks: FC = (): JSX.Element => {
               variant="contained"
               color="error"
               onClick={() => {
-                authFetch(`/book?id=${book.id}`, {
-                  method: "DELETE"
-                }).then((response) => {
-                  if (response.ok) {
-                    initBooks();
-                  } else {
-                    console.log(response);
-                  }
-                });
+                if (window.confirm("Do you want to DELETE this book?")) {
+                  authFetch(`/book?id=${book.id}`, {
+                    method: "DELETE"
+                  }).then((response) => {
+                    if (response.ok) {
+                      initBooks();
+                    } else {
+                      console.log(response);
+                    }
+                  });
+                }
               }}
             >
               Delete book
@@ -184,17 +185,19 @@ const ListBooks: FC = (): JSX.Element => {
               variant="contained"
               disabled={bookInCurrentBorrows(book) ? true : false}
               onClick={() => {
-                let message = "Loaning succeeded";
-                fetchLoanBook(context?.username, book)
-                  .then((res) => {
-                    if (!res.ok) {
-                      message = "Loaning failed";
-                    }
-                  })
-                  .then(() =>
-                    setPopUpConfirmationOpen({ ok: true, message: message })
-                  );
-                initBooks();
+                if (window.confirm("Do you want to loan the book?")) {
+                  let message = "Loaning succeeded";
+                  fetchLoanBook(context?.username, book)
+                    .then((res) => {
+                      if (!res.ok) {
+                        message = "Loaning failed";
+                      }
+                    })
+                    .then(() =>
+                      setPopUpConfirmationOpen({ ok: true, message: message })
+                    );
+                  initBooks();
+                }
               }}
             >
               LOAN
