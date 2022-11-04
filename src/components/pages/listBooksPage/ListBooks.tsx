@@ -108,7 +108,7 @@ const ListBooks: FC = (): JSX.Element => {
                                 sx={listBooksDeleteButton}
                                 variant="contained"
                                 disabled={
-                                    book.library_user != context?.user?.id &&
+                                    book.library_user !== context?.user?.id &&
                                     !context?.user?.administrator
                                 }
                                 color="error"
@@ -125,7 +125,7 @@ const ListBooks: FC = (): JSX.Element => {
                                 sx={listBooksEditButton}
                                 variant="contained"
                                 disabled={
-                                    book.library_user != context?.user?.id &&
+                                    book.library_user !== context?.user?.id &&
                                     !context?.user?.administrator
                                 }
                                 onClick={() => {

@@ -35,7 +35,7 @@ function endSession() {
 
 function isAuthenticated() {
     return (
-        window.localStorage.getItem(SESSION_SECRET_KEY) != undefined &&
+        window.localStorage.getItem(SESSION_SECRET_KEY) !== undefined &&
         Number(window.localStorage.getItem(SESSION_END_KEY)) >
             new Date().getSeconds()
     );
