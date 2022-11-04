@@ -31,7 +31,7 @@
     "robottests": "robot --variablefile ../library-project-secrets.py --removekeywords  NAME:*logins* --outputdir robot/results robot/tests",
     "eject": "react-scripts eject",
     "dockertests": "robot --variable TESTUSERNAME:${TESTUSERNAME} --variable TESTPASSWORD:${TESTPASSWORD} --removekeywords  NAME:*logins* --outputdir robot/results robot/tests",
-    "startserverandtest": "start-test 3000 dockertests"
+    "startserverandtest": "react-scripts start & wait-on http://localhost:3000 && npm run dockertests"
   },
   "eslintConfig": {
     "extends": [
@@ -65,6 +65,7 @@
     "husky": "^8.0.1",
     "prettier": "2.7.1",
     "pretty-quick": "^3.1.3",
-    "start-server-and-test": "^1.14.0"
+    "start-server-and-test": "^1.14.0",
+    "wait-on": "^6.0.1"
   }
 }

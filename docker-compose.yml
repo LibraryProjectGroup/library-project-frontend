@@ -6,6 +6,7 @@ services:
     image: docker-robot
     stdin_open: true
     tty: true   
+    command: npm run startserverandtest
     build:
       context: ./
       dockerfile: Dockerfile
