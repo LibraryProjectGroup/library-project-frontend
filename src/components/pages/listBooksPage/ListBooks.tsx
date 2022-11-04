@@ -53,102 +53,106 @@ const ListBooks: FC = (): JSX.Element => {
     }, []);
 
     const renderBookData = (book: Book) => {
-        return (
-            <Paper elevation={10} sx={{ padding: "2rem" }}>
-                <Stack direction="row" justifyContent="space-between">
-                    <Stack>
-                        <Typography
-                            sx={{
-                                fontFamily: "Montserrat",
-                                fontWeight: "bold"
-                            }}
+        if (!book.deleted) {
+            return (
+                <Paper elevation={10} sx={{ padding: "2rem" }}>
+                    <Stack direction="row" justifyContent="space-between">
+                        <Stack>
+                            <Typography
+                                sx={{
+                                    fontFamily: "Montserrat",
+                                    fontWeight: "bold"
+                                }}
+                            >
+                                {book.title}
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    fontFamily: "Merriweather",
+                                    fontWeight: "light"
+                                }}
+                            >
+                                Author: {book.author}
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    fontFamily: "Merriweather",
+                                    fontWeight: "light"
+                                }}
+                            >
+                                Topic: {book.topic}
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    fontFamily: "Merriweather",
+                                    fontWeight: "light"
+                                }}
+                            >
+                                isbn: {book.isbn}
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    fontFamily: "Merriweather",
+                                    fontWeight: "light"
+                                }}
+                            >
+                                Location: {book.location}
+                            </Typography>
+                        </Stack>
+                        <Stack
+                            marginY={1}
+                            justifyContent="start"
+                            paddingLeft="2rem"
                         >
-                            {book.title}
-                        </Typography>
-                        <Typography
-                            sx={{
-                                fontFamily: "Merriweather",
-                                fontWeight: "light"
-                            }}
-                        >
-                            Author: {book.author}
-                        </Typography>
-                        <Typography
-                            sx={{
-                                fontFamily: "Merriweather",
-                                fontWeight: "light"
-                            }}
-                        >
-                            Topic: {book.topic}
-                        </Typography>
-                        <Typography
-                            sx={{
-                                fontFamily: "Merriweather",
-                                fontWeight: "light"
-                            }}
-                        >
-                            isbn: {book.isbn}
-                        </Typography>
-                        <Typography
-                            sx={{
-                                fontFamily: "Merriweather",
-                                fontWeight: "light"
-                            }}
-                        >
-                            Location: {book.location}
-                        </Typography>
+                            <Button
+                                sx={listBooksDeleteButton}
+                                variant="contained"
+                                disabled={
+                                    book.library_user != context?.user?.id &&
+                                    !context?.user?.administrator
+                                }
+                                color="error"
+                                onClick={async () => {
+                                    const response = await fetchDeleteBook(
+                                        book.id
+                                    );
+                                    if (response.ok) fetchBooks();
+                                }}
+                            >
+                                Delete book
+                            </Button>
+                            <Button
+                                sx={listBooksEditButton}
+                                variant="contained"
+                                disabled={
+                                    book.library_user != context?.user?.id &&
+                                    !context?.user?.administrator
+                                }
+                                onClick={() => {
+                                    setFormEditing(true);
+                                    setFormBook(book);
+                                    setFormVisible(true);
+                                }}
+                            >
+                                Edit book
+                            </Button>
+                            <Button
+                                sx={listBooksLoanButton}
+                                variant="contained"
+                                disabled={bookInCurrentBorrows(book)}
+                                onClick={async () => {
+                                    await fetchCreateBorrow(book.id);
+                                    await fetchBooks();
+                                    await fetchBorrows();
+                                }}
+                            >
+                                LOAN
+                            </Button>
+                        </Stack>
                     </Stack>
-                    <Stack
-                        marginY={1}
-                        justifyContent="start"
-                        paddingLeft="2rem"
-                    >
-                        <Button
-                            sx={listBooksDeleteButton}
-                            variant="contained"
-                            disabled={
-                                book.library_user != context?.user?.id &&
-                                !context?.user?.administrator
-                            }
-                            color="error"
-                            onClick={async () => {
-                                const response = await fetchDeleteBook(book.id);
-                                if (response.ok) fetchBooks();
-                            }}
-                        >
-                            Delete book
-                        </Button>
-                        <Button
-                            sx={listBooksEditButton}
-                            variant="contained"
-                            disabled={
-                                book.library_user != context?.user?.id &&
-                                !context?.user?.administrator
-                            }
-                            onClick={() => {
-                                setFormEditing(true);
-                                setFormBook(book);
-                                setFormVisible(true);
-                            }}
-                        >
-                            Edit book
-                        </Button>
-                        <Button
-                            sx={listBooksLoanButton}
-                            variant="contained"
-                            disabled={bookInCurrentBorrows(book)}
-                            onClick={async () => {
-                                await fetchCreateBorrow(book.id);
-                                await fetchBooks();
-                                await fetchBorrows();
-                            }}
-                        >
-                            LOAN
-                        </Button>
-                    </Stack>
-                </Stack>
-            </Paper>
-        );
+                </Paper>
+            );
+        }
     };
 
     return (
@@ -187,7 +191,8 @@ const ListBooks: FC = (): JSX.Element => {
                         author: "",
                         topic: "",
                         isbn: "",
-                        location: ""
+                        location: "",
+                        deleted: false
                     });
                     setFormVisible(true);
                 }}
