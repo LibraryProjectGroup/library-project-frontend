@@ -6,6 +6,7 @@ interface Book {
     topic: string;
     isbn: string;
     location: string;
+    deleted: boolean;
 }
 
 export default Book;
