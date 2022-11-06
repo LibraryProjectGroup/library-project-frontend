@@ -43,6 +43,13 @@ const MyAccount: FC = (): JSX.Element => {
         let renderedBooks = [];
         for (const borrowed of borrows) {
             const book = books[borrowed.book];
+            const currentDate = new Date();
+            const datedDueDate = new Date(borrowed.dueDate);
+            const convertToDay = 24 * 60 * 60 * 1000;
+            //Date rounding should be rounded down, but currently exploring options
+            const calculatedTime = Math.round(
+                (datedDueDate.getTime() - currentDate.getTime()) / convertToDay
+            );
             if (!book) continue;
             renderedBooks.push(
                 <Paper elevation={10} sx={{ padding: "2rem" }}>
@@ -88,6 +95,28 @@ const MyAccount: FC = (): JSX.Element => {
                             >
                                 Location: {book.location}
                             </Typography>
+                        </Stack>
+                        <Stack>
+                            {calculatedTime <= 5 ? (
+                                <Typography
+                                    sx={{
+                                        fontFamily: "Montserrat",
+                                        fontWeight: "bold",
+                                        color: "red"
+                                    }}
+                                >
+                                    Expiring in: {calculatedTime} day(s)
+                                </Typography>
+                            ) : (
+                                <Typography
+                                    sx={{
+                                        fontFamily: "Montserrat",
+                                        fontWeight: "bold"
+                                    }}
+                                >
+                                    Expiring in: {calculatedTime} day(s)
+                                </Typography>
+                            )}
                         </Stack>
                         <Stack marginY={1} justifyContent="space-between">
                             <Button
