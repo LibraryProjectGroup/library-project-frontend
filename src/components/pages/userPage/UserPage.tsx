@@ -46,8 +46,7 @@ const MyAccount: FC = (): JSX.Element => {
             const currentDate = new Date();
             const datedDueDate = new Date(borrowed.dueDate);
             const convertToDay = 24 * 60 * 60 * 1000;
-            //Date rounding should be rounded down, but currently exploring options
-            const calculatedTime = Math.round(
+            const calculatedTime = Math.floor(
                 (datedDueDate.getTime() - currentDate.getTime()) / convertToDay
             );
             if (!book) continue;
@@ -97,26 +96,16 @@ const MyAccount: FC = (): JSX.Element => {
                             </Typography>
                         </Stack>
                         <Stack>
-                            {calculatedTime <= 5 ? (
-                                <Typography
-                                    sx={{
-                                        fontFamily: "Montserrat",
-                                        fontWeight: "bold",
-                                        color: "red"
-                                    }}
-                                >
-                                    Expiring in: {calculatedTime} day(s)
-                                </Typography>
-                            ) : (
-                                <Typography
-                                    sx={{
-                                        fontFamily: "Montserrat",
-                                        fontWeight: "bold"
-                                    }}
-                                >
-                                    Expiring in: {calculatedTime} day(s)
-                                </Typography>
-                            )}
+                            <Typography
+                                sx={{
+                                    fontFamily: "Montserrat",
+                                    fontWeight: "bold",
+                                    color:
+                                        calculatedTime <= 5 ? "red" : "inherit"
+                                }}
+                            >
+                                Expiring in: {calculatedTime} day(s)
+                            </Typography>
                         </Stack>
                         <Stack marginY={1} justifyContent="space-between">
                             <Button
