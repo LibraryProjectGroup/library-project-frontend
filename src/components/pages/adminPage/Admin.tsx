@@ -18,19 +18,6 @@ import {
 import UsersGrid from "./UsersGrid";
 import BooksGrid from "./BooksGrid";
 
-/*interface IProps {
-  books: Array<Book> | undefined;
-  setBooks: Function;
-  setBookToEdit: Function;
-  setEditBookFormVisible: Function;
-}*/
-
-interface TabPanelProps {
-    children?: React.ReactNode;
-    index: number;
-    currentTab: number;
-}
-
 const Admin: FC = (): JSX.Element => {
     const [currentTab, setCurrentTab] = useState<number>(0);
     const navigate = useNavigate();
@@ -52,6 +39,7 @@ const Admin: FC = (): JSX.Element => {
             <Tabs
                 value={currentTab}
                 onChange={handleTabChange}
+                centered={true}
                 sx={adminPageTabs}
             >
                 <Tab label="Users" sx={adminPageTab} />

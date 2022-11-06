@@ -17,12 +17,13 @@ const UsersGrid: FC = (): JSX.Element => {
             flex: 3,
             renderCell: (params) => (
                 <Button
+                    sx={{ color: "red" }}
                     onClick={() => {
                         deleteUser(params.row.id);
                         loadUsersData();
                     }}
                 >
-                    Delete user
+                    Delete
                 </Button>
             )
         }
