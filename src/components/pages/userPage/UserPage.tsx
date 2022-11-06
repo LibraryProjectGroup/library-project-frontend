@@ -43,6 +43,12 @@ const MyAccount: FC = (): JSX.Element => {
         let renderedBooks = [];
         for (const borrowed of borrows) {
             const book = books[borrowed.book];
+            const currentDate = new Date();
+            const datedDueDate = new Date(borrowed.dueDate);
+            const convertToDay = 24 * 60 * 60 * 1000;
+            const calculatedTime = Math.floor(
+                (datedDueDate.getTime() - currentDate.getTime()) / convertToDay
+            );
             if (!book) continue;
             renderedBooks.push(
                 <Paper elevation={10} sx={{ padding: "2rem" }}>
@@ -87,6 +93,18 @@ const MyAccount: FC = (): JSX.Element => {
                                 }}
                             >
                                 Location: {book.location}
+                            </Typography>
+                        </Stack>
+                        <Stack>
+                            <Typography
+                                sx={{
+                                    fontFamily: "Montserrat",
+                                    fontWeight: "bold",
+                                    color:
+                                        calculatedTime <= 5 ? "red" : "inherit"
+                                }}
+                            >
+                                Expiring in: {calculatedTime} day(s)
                             </Typography>
                         </Stack>
                         <Stack marginY={1} justifyContent="space-between">
