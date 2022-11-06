@@ -93,3 +93,12 @@ export const fetchReturnBorrowed = async (
         body: JSON.stringify({ borrowId: borrowId })
     });
 };
+
+export const fetchAllCurrentLoans = async () => {
+    return await authFetch(`/borrow/current/admin`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        },
+    });
+}

@@ -17,6 +17,7 @@ import {
 } from "../../../sxStyles";
 import UsersGrid from "./UsersGrid";
 import BooksGrid from "./BooksGrid";
+import LoansGrid from "./LoansGrid";
 
 const Admin: FC = (): JSX.Element => {
     const [currentTab, setCurrentTab] = useState<number>(0);
@@ -44,7 +45,7 @@ const Admin: FC = (): JSX.Element => {
             >
                 <Tab label="Users" sx={adminPageTab} />
                 <Tab label="Books" sx={adminPageTab} />
-                <Tab label="Loans" sx={adminPageTab} />
+                <Tab label="Current loans" sx={adminPageTab} />
             </Tabs>
             <Fab
                 aria-label="back"
@@ -61,7 +62,9 @@ const Admin: FC = (): JSX.Element => {
             <TabPanel index={1} currentTab={currentTab}>
                 <BooksGrid />
             </TabPanel>
-            <TabPanel index={2} currentTab={currentTab}></TabPanel>
+            <TabPanel index={2} currentTab={currentTab}>
+                <LoansGrid />
+            </TabPanel>
         </Box>
     );
 };
