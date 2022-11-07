@@ -8,15 +8,15 @@ interface OKStatus {
     message?: string;
 }
 
-const fetchAllBooks = async (): Promise<Book[]> => {
+export const fetchAllBooks = async (): Promise<Book[]> => {
     return await authFetch(`/book/all`);
 };
 
-const fetchBook = async (bookId: string): Promise<Book> => {
+export const fetchBook = async (bookId: string): Promise<Book> => {
     return await authFetch(`/book?id=${bookId}`);
 };
 
-const fetchUpdateBook = async (newBook: Book): Promise<OKStatus> => {
+export const fetchUpdateBook = async (newBook: Book): Promise<OKStatus> => {
     return await authFetch("/book", {
         method: "PUT",
         headers: {
@@ -26,7 +26,7 @@ const fetchUpdateBook = async (newBook: Book): Promise<OKStatus> => {
     });
 };
 
-const fetchAddBook = async (newBook: Book): Promise<OKStatus> => {
+export const fetchAddBook = async (newBook: Book): Promise<OKStatus> => {
     return await authFetch("/book", {
         method: "POST",
         headers: {
@@ -36,17 +36,17 @@ const fetchAddBook = async (newBook: Book): Promise<OKStatus> => {
     });
 };
 
-const fetchDeleteBook = async (bookId: number): Promise<OKStatus> => {
+export const fetchDeleteBook = async (bookId: number): Promise<OKStatus> => {
     return await authFetch(`/book?id=${bookId}`, {
         method: "DELETE"
     });
 };
 
-const fetchAllUsers = async (): Promise<User[]> => {
+export const fetchAllUsers = async (): Promise<User[]> => {
     return await authFetch(`/user/all`);
 };
 
-const fetchDeleteUser = async (userId: number): Promise<OKStatus> => {
+export const fetchDeleteUser = async (userId: number): Promise<OKStatus> => {
     return await authFetch("/user", {
         method: "DELETE",
         headers: {
@@ -56,7 +56,7 @@ const fetchDeleteUser = async (userId: number): Promise<OKStatus> => {
     });
 };
 
-const fetchCurrentBorrows = async (): Promise<Borrow[]> => {
+export const fetchCurrentBorrows = async (): Promise<Borrow[]> => {
     return await authFetch(`/borrow/session`, {
         headers: {
             "content-type": "application/json"
@@ -64,7 +64,7 @@ const fetchCurrentBorrows = async (): Promise<Borrow[]> => {
     });
 };
 
-const fetchAllCurrentBorrows = async (): Promise<Borrow[]> => {
+export const fetchAllCurrentBorrows = async (): Promise<Borrow[]> => {
     return await authFetch(`/borrow/current`, {
         headers: {
             "content-type": "application/json"
@@ -72,7 +72,7 @@ const fetchAllCurrentBorrows = async (): Promise<Borrow[]> => {
     });
 };
 
-const fetchCreateBorrow = async (bookId: number): Promise<OKStatus> => {
+export const fetchCreateBorrow = async (bookId: number): Promise<OKStatus> => {
     return await authFetch("/borrow", {
         method: "POST",
         headers: {
@@ -82,7 +82,9 @@ const fetchCreateBorrow = async (bookId: number): Promise<OKStatus> => {
     });
 };
 
-const fetchReturnBorrowed = async (borrowId: number): Promise<OKStatus> => {
+export const fetchReturnBorrowed = async (
+    borrowId: number
+): Promise<OKStatus> => {
     return await authFetch(`/borrow/return`, {
         method: "PUT",
         headers: {
@@ -92,16 +94,11 @@ const fetchReturnBorrowed = async (borrowId: number): Promise<OKStatus> => {
     });
 };
 
-export {
-    fetchAllBooks,
-    fetchBook,
-    fetchUpdateBook,
-    fetchAddBook,
-    fetchDeleteBook,
-    fetchAllUsers,
-    fetchDeleteUser,
-    fetchCurrentBorrows,
-    fetchAllCurrentBorrows,
-    fetchCreateBorrow,
-    fetchReturnBorrowed
-};
+export const fetchAllCurrentLoans = async () => {
+    return await authFetch(`/borrow/current/admin`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        },
+    });
+}
