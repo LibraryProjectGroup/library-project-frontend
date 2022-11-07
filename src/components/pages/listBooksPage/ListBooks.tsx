@@ -1,4 +1,4 @@
-import { useState, FC, useEffect, useContext } from "react";
+import React, { useState, FC, useEffect, useContext } from "react";
 import { Paper, Typography, Button, Stack, Box, Fab } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
@@ -20,6 +20,9 @@ import {
     addBookAddButton as addButton
 } from "../../../sxStyles";
 import Borrow from "../../../interfaces/borrow.interface";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 const ListBooks: FC = (): JSX.Element => {
     const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
@@ -28,6 +31,10 @@ const ListBooks: FC = (): JSX.Element => {
     const [formBook, setFormBook] = useState<Book | null>(null);
     const [formVisible, setFormVisible] = useState(false);
     const [formEditing, setFormEditing] = useState(false);
+    const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
+        ok: false,
+        message: ""
+    });
 
     const context = useContext(TheContext);
     const navigate = useNavigate();
@@ -46,6 +53,40 @@ const ListBooks: FC = (): JSX.Element => {
         }
         return inCurrentBorrows;
     };
+
+    const handleClosePopUpConfirmation = (
+        event: React.SyntheticEvent | Event,
+        reason?: string
+    ) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setPopUpConfirmationOpen({
+            ok: false,
+            message: ""
+        });
+    };
+
+    const action = (
+        <React.Fragment>
+            {/*! Undo functional for the future? */}
+            {/* <Button
+        color="secondary"
+        size="small"
+        onClick={handleClosePopUpConfirmation}
+      >
+        UNDO
+      </Button> */}
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClosePopUpConfirmation}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
 
     useEffect(() => {
         fetchBooks();
@@ -141,9 +182,27 @@ const ListBooks: FC = (): JSX.Element => {
                                 variant="contained"
                                 disabled={bookInCurrentBorrows(book)}
                                 onClick={async () => {
-                                    await fetchCreateBorrow(book.id);
-                                    await fetchBooks();
-                                    await fetchBorrows();
+                                    if (
+                                        window.confirm(
+                                            "Do you want to LOAN this book?"
+                                        )
+                                    ) {
+                                        let message = "Loaning succeeded";
+                                        await fetchCreateBorrow(book.id)
+                                            .then((res) => {
+                                                if (!res.ok) {
+                                                    message = "Loaning failed";
+                                                }
+                                            })
+                                            .then(() =>
+                                                setPopUpConfirmationOpen({
+                                                    ok: true,
+                                                    message: message
+                                                })
+                                            );
+                                        await fetchBooks();
+                                        await fetchBorrows();
+                                    }
                                 }}
                             >
                                 LOAN
@@ -156,58 +215,69 @@ const ListBooks: FC = (): JSX.Element => {
     };
 
     return (
-        <Box sx={{ marginTop: 5, marginBottom: 5 }}>
-            <Fab
-                aria-label="account"
-                sx={addButton}
-                onClick={() => {
-                    navigate("/user");
-                }}
-            >
-                <AccountBoxIcon />
-            </Fab>
-            {context?.user?.administrator && (
+        <>
+            {/* Pop up element */}
+            <Snackbar
+                open={popUpConfirmation.ok}
+                autoHideDuration={4000}
+                onClose={handleClosePopUpConfirmation}
+                message={popUpConfirmation.message}
+                action={action}
+            />
+            {/* Pop up element */}
+            <Box sx={{ marginTop: 5, marginBottom: 5 }}>
+                <Fab
+                    aria-label="account"
+                    sx={addButton}
+                    onClick={() => {
+                        navigate("/user");
+                    }}
+                >
+                    <AccountBoxIcon />
+                </Fab>
+                {context?.user?.administrator && (
+                    <Fab
+                        aria-label="add"
+                        sx={addButton}
+                        onClick={() => {
+                            navigate("/admin");
+                        }}
+                    >
+                        <AdminPanelSettingsIcon />
+                    </Fab>
+                )}
+                <Stack spacing={3} sx={{ margin: "auto", width: "60%" }}>
+                    {books?.map((book) => renderBookData(book))}
+                </Stack>
                 <Fab
                     aria-label="add"
                     sx={addButton}
                     onClick={() => {
-                        navigate("/admin");
+                        setFormEditing(false);
+                        setFormBook({
+                            id: -1, // This wont get used
+                            title: "",
+                            author: "",
+                            topic: "",
+                            isbn: "",
+                            location: "",
+                            deleted: false
+                        });
+                        setFormVisible(true);
                     }}
                 >
-                    <AdminPanelSettingsIcon />
+                    <AddIcon />
                 </Fab>
-            )}
-            <Stack spacing={3} sx={{ margin: "auto", width: "60%" }}>
-                {books?.map((book) => renderBookData(book))}
-            </Stack>
-            <Fab
-                aria-label="add"
-                sx={addButton}
-                onClick={() => {
-                    setFormEditing(false);
-                    setFormBook({
-                        id: -1, // This wont get used
-                        title: "",
-                        author: "",
-                        topic: "",
-                        isbn: "",
-                        location: "",
-                        deleted: false
-                    });
-                    setFormVisible(true);
-                }}
-            >
-                <AddIcon />
-            </Fab>
-            <BookForm
-                visible={formVisible}
-                setVisible={setFormVisible}
-                book={formBook}
-                setBook={setFormBook}
-                editing={formEditing}
-                updateBooks={fetchBooks}
-            />
-        </Box>
+                <BookForm
+                    visible={formVisible}
+                    setVisible={setFormVisible}
+                    book={formBook}
+                    setBook={setFormBook}
+                    editing={formEditing}
+                    updateBooks={fetchBooks}
+                />
+            </Box>
+        </>
     );
 };
 
