@@ -1,7 +1,8 @@
 interface User {
-    id: number,
-    username: string,
-    administrator: boolean,
+    id: number;
+    username: string;
+    administrator: boolean;
+    deleted: boolean;
 }
 
-export default User
+export default User;
