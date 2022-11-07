@@ -182,6 +182,16 @@ export const editBookCancelButton: SxProps = {
 
 // ListBooks
 
+export const listBooksFavoriteButton: SxProps = {
+  fontFamily: "Montserrat",
+  fontWeight: "bold",
+  color: "#545353",
+  width: 20,
+  height: 20,
+  left: 90,
+  bottom: 20
+};
+
 export const listBooksDeleteButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
