@@ -2,6 +2,8 @@ import { authFetch } from "./auth";
 import Book from "./interfaces/book.interface";
 import User from "./interfaces/user.interface";
 import Borrow from "./interfaces/borrow.interface";
+import Book_list from "./interfaces/book_list.interface";
+import Book_list_entry from "./interfaces/book_list_entry.interface";
 
 interface OKStatus {
     ok: boolean;
@@ -92,6 +94,46 @@ const fetchReturnBorrowed = async (borrowId: number): Promise<OKStatus> => {
     });
 };
 
+//all hypothetical endpoints, so these do not work yet
+
+const fetchAllBooklists = async (): Promise<Book_list[]> => {
+    return await authFetch(`/booklist/all`);
+};
+
+const fetchUserBooklists = async (): Promise<Book_list[]> => {
+    return await authFetch(`/booklist/session`);
+};
+
+const fetchDeleteBooklist = async (booklistId: number): Promise<OKStatus> => {
+    return await authFetch("/booklist", {
+        method: "DELETE",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ id: booklistId })
+    });
+};
+
+const fetchCreateBooklist = async (newBooklist: Book_list): Promise<OKStatus> => {
+    return await authFetch("/booklist", {
+        method: "POST",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify(newBooklist)
+    });
+};
+
+const fetchUpdateBooklist = async (newBooklist: Book_list): Promise<OKStatus> => {
+    return await authFetch("/booklist", {
+        method: "PUT",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify(newBooklist)
+    });
+};
+
 export {
     fetchAllBooks,
     fetchBook,
@@ -103,5 +145,6 @@ export {
     fetchCurrentBorrows,
     fetchAllCurrentBorrows,
     fetchCreateBorrow,
-    fetchReturnBorrowed
+    fetchReturnBorrowed,
+    fetchUserBooklists,
 };
