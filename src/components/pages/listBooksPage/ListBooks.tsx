@@ -1,4 +1,4 @@
-import { useState, FC, useEffect, useContext } from "react";
+import { useState, FC, useEffect, useContext, Fragment } from "react";
 import { Paper, Typography, Button, Stack, Box, Fab } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
@@ -11,7 +11,8 @@ import {
     fetchAllBooks,
     fetchDeleteBook,
     fetchAllCurrentBorrows,
-    fetchCreateBorrow
+    fetchCreateBorrow,
+    fetchCurrentBorrows
 } from "../../../fetchFunctions";
 import {
     listBooksDeleteButton,
@@ -20,14 +21,21 @@ import {
     addBookAddButton as addButton
 } from "../../../sxStyles";
 import Borrow from "../../../interfaces/borrow.interface";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import Alert from "@mui/material/Alert";
 
 const ListBooks: FC = (): JSX.Element => {
     const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
+    const [userBorrows, setUserBorrows] = useState<Borrow[]>([]);
     const [books, setBooks] = useState<Book[]>([]);
 
     const [formBook, setFormBook] = useState<Book | null>(null);
     const [formVisible, setFormVisible] = useState(false);
     const [formEditing, setFormEditing] = useState(false);
+
+    const [open, setOpen] = useState<"none" | "expiring" | "expired">("none");
 
     const context = useContext(TheContext);
     const navigate = useNavigate();
@@ -36,6 +44,10 @@ const ListBooks: FC = (): JSX.Element => {
 
     const fetchBorrows = async () =>
         setCurrentBorrows(await fetchAllCurrentBorrows());
+
+    const fetchUserBorrows = async () => {
+        setUserBorrows(await fetchCurrentBorrows());
+    };
 
     const bookInCurrentBorrows = (book: Book) => {
         let inCurrentBorrows = false;
@@ -46,11 +58,56 @@ const ListBooks: FC = (): JSX.Element => {
         }
         return inCurrentBorrows;
     };
+    //-------------------------------------------
+    const handleOpen = () => {
+        for (const borrowed of userBorrows) {
+            const currentDate = new Date();
+            const datedDueDate = new Date(borrowed.dueDate);
+            const convertToDay = 24 * 60 * 60 * 1000;
+            const calculatedTime = Math.floor(
+                (datedDueDate.getTime() - currentDate.getTime()) / convertToDay
+            );
+            if (calculatedTime < 0) {
+                setOpen("expired");
+                break;
+            }
+
+            if (
+                calculatedTime >= 0 &&
+                calculatedTime < 5 &&
+                open != "expired"
+            ) {
+                setOpen("expiring");
+            }
+        }
+    };
+
+    const handleClose = () => {
+        setOpen("none");
+    };
+
+    const action = (
+        <Fragment>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </Fragment>
+    );
 
     useEffect(() => {
         fetchBooks();
         fetchBorrows();
+        fetchUserBorrows();
     }, []);
+
+    useEffect(() => {
+        handleOpen();
+    }, [userBorrows]);
 
     const renderBookData = (book: Book) => {
         if (!book.deleted) {
@@ -207,6 +264,21 @@ const ListBooks: FC = (): JSX.Element => {
                 editing={formEditing}
                 updateBooks={fetchBooks}
             />
+            <Snackbar open={open == "expiring"} action={action}>
+                <Alert
+                    onClose={handleClose}
+                    severity="warning"
+                    sx={{ width: "100%" }}
+                    variant="filled"
+                >
+                    You have expiring book(s)
+                </Alert>
+            </Snackbar>
+            <Snackbar open={open == "expired"}>
+                <Alert severity="error" sx={{ width: "100%" }} variant="filled">
+                    YOU HAVE EXPIRED BOOK(S)
+                </Alert>
+            </Snackbar>
         </Box>
     );
 };
