@@ -94,14 +94,17 @@ const fetchReturnBorrowed = async (borrowId: number): Promise<OKStatus> => {
     });
 };
 
-//all hypothetical endpoints, so these do not work yet
 
 const fetchAllBooklists = async (): Promise<Book_list[]> => {
     return await authFetch(`/booklist/all`);
 };
 
 const fetchUserBooklists = async (): Promise<Book_list[]> => {
-    return await authFetch(`/booklist/session`);
+    return await authFetch(`/booklist/user`);
+};
+
+const fetchBooklist= async (booklistId: string): Promise<Book> => {
+    return await authFetch(`/booklist?id=${booklistId}`);
 };
 
 const fetchDeleteBooklist = async (booklistId: number): Promise<OKStatus> => {
@@ -134,6 +137,34 @@ const fetchUpdateBooklist = async (newBooklist: Book_list): Promise<OKStatus> =>
     });
 };
 
+const fetchAllEntries = async (): Promise<Book_list[]> => {
+    return await authFetch(`/booklist_entry/all`);
+};
+
+const fetchEntry = async (entryId: string): Promise<Book> => {
+    return await authFetch(`/booklist_entry?id=${entryId}`);
+};
+
+const fetchDeleteEntry = async (entryId: number): Promise<OKStatus> => {
+    return await authFetch("/booklist_entry", {
+        method: "DELETE",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ id: entryId })
+    });
+};
+
+const fetchAddEntry = async (newEntry: Book_list_entry): Promise<OKStatus> => {
+    return await authFetch("/booklist_entry", {
+        method: "POST",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify(newEntry)
+    });
+};
+
 export {
     fetchAllBooks,
     fetchBook,
@@ -147,4 +178,11 @@ export {
     fetchCreateBorrow,
     fetchReturnBorrowed,
     fetchUserBooklists,
+    fetchBooklist,
+    fetchCreateBooklist,
+    fetchUpdateBooklist,
+    fetchAllEntries,
+    fetchEntry,
+    fetchDeleteEntry,
+    fetchAddEntry
 };
