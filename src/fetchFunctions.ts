@@ -1,113 +1,104 @@
-import BACKEND_URL from "./backendUrl";
+import { authFetch } from "./auth";
 import Book from "./interfaces/book.interface";
+import User from "./interfaces/user.interface";
+import Borrow from "./interfaces/borrow.interface";
 
-function fetchExampleBookData(setExampleBook: Function) {
-  fetch(`${BACKEND_URL}/example`, {
-    headers: { "Access-Control-Allow-Origin": BACKEND_URL },
-    credentials: "include",
-  })
-    .then((response) => response.json())
-    .then((json) => setExampleBook(json));
+interface OKStatus {
+    ok: boolean;
+    message?: string;
 }
 
-function fetchAllBooks(setBooks: Function) {
-  fetch(`${BACKEND_URL}/book/all`, {
-    headers: { "Access-Control-Allow-Origin": BACKEND_URL },
-    credentials: "include",
-  })
-    .then((response) => response.json())
-    .then((data) => setBooks(data));
-}
-
-function fetchBookFromDb(bookId: string, setExampleBook: Function) {
-  fetch(`${BACKEND_URL}/book?id=${bookId}`, {
-    headers: { "Access-Control-Allow-Origin": BACKEND_URL },
-    credentials: "include",
-  })
-    .then((response) => response.json())
-    .then((data) => setExampleBook(data));
-}
-
-const fetchCurrentBorrows = async (username: string) => {
-  const response = await fetch(
-    `${BACKEND_URL}/borrow/current/user?username=${username}`,
-    {
-      headers: {
-        "content-type": "application/json",
-        "Access-Control-Allow-Origin": BACKEND_URL,
-      },
-    }
-  );
-  return response.json();
+export const fetchAllBooks = async (): Promise<Book[]> => {
+    return await authFetch(`/book/all`);
 };
 
-const fetchAllCurrentBorrows = async () => {
-  const response = await fetch(`${BACKEND_URL}/borrow/current`, {
-    headers: {
-      "content-type": "application/json",
-      "Access-Control-Allow-Origin": BACKEND_URL,
-    },
-  });
-  return response.json();
+export const fetchBook = async (bookId: string): Promise<Book> => {
+    return await authFetch(`/book?id=${bookId}`);
 };
 
-const fetchReturnBook = async () => {
-  const response = await fetch(`${BACKEND_URL}/borrow/current`, {
-    headers: {
-      "content-type": "application/json",
-      "Access-Control-Allow-Origin": BACKEND_URL,
-    },
-  });
-  return response.json();
-};
-
-const fetchUserByName = async (username: string) => {
-  const response = await fetch(
-    `${BACKEND_URL}/user/username?username=${username}`,
-    {
-      headers: {
-        "content-type": "application/json",
-        "Access-Control-Allow-Origin": BACKEND_URL,
-      },
-    }
-  );
-  return response.json();
-};
-
-const fetchLoanBook = async (
-  username: string | undefined | null,
-  book: Book
-) => {
-  if (username) {
-    const user = await fetchUserByName(username);
-    var borrowDate = new Date();
-    var dueDate = new Date();
-    dueDate.setDate(dueDate.getDate() + 10);
-    const borrow: any = {
-      user: user.id,
-      book: book.id,
-      borrowDate: borrowDate,
-      dueDate: dueDate,
-    };
-    const response = await fetch(`${BACKEND_URL}/borrow`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      credentials: "include",
-      body: JSON.stringify(borrow),
+export const fetchUpdateBook = async (newBook: Book): Promise<OKStatus> => {
+    return await authFetch("/book", {
+        method: "PUT",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify(newBook)
     });
-    return response.json();
-  } else {
-    return { ok: false };
-  }
 };
-export {
-  fetchAllBooks,
-  fetchExampleBookData,
-  fetchBookFromDb,
-  fetchCurrentBorrows,
-  fetchAllCurrentBorrows,
-  fetchLoanBook,
+
+export const fetchAddBook = async (newBook: Book): Promise<OKStatus> => {
+    return await authFetch("/book", {
+        method: "POST",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify(newBook)
+    });
 };
+
+export const fetchDeleteBook = async (bookId: number): Promise<OKStatus> => {
+    return await authFetch(`/book?id=${bookId}`, {
+        method: "DELETE"
+    });
+};
+
+export const fetchAllUsers = async (): Promise<User[]> => {
+    return await authFetch(`/user/all`);
+};
+
+export const fetchDeleteUser = async (userId: number): Promise<OKStatus> => {
+    return await authFetch("/user", {
+        method: "DELETE",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ id: userId })
+    });
+};
+
+export const fetchCurrentBorrows = async (): Promise<Borrow[]> => {
+    return await authFetch(`/borrow/session`, {
+        headers: {
+            "content-type": "application/json"
+        }
+    });
+};
+
+export const fetchAllCurrentBorrows = async (): Promise<Borrow[]> => {
+    return await authFetch(`/borrow/current`, {
+        headers: {
+            "content-type": "application/json"
+        }
+    });
+};
+
+export const fetchCreateBorrow = async (bookId: number): Promise<OKStatus> => {
+    return await authFetch("/borrow", {
+        method: "POST",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ bookId })
+    });
+};
+
+export const fetchReturnBorrowed = async (
+    borrowId: number
+): Promise<OKStatus> => {
+    return await authFetch(`/borrow/return`, {
+        method: "PUT",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        },
+        body: JSON.stringify({ borrowId: borrowId })
+    });
+};
+
+export const fetchAllCurrentLoans = async () => {
+    return await authFetch(`/borrow/current/admin`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        },
+    });
+}

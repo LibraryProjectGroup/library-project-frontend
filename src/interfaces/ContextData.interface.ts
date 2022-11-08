@@ -1,6 +1,8 @@
+import User from "./user.interface";
+
 interface ContextData {
-  username: string | null;
-  setUsername: Function;
+    user: User | null;
+    setUser: Function;
 }
 
 export default ContextData;
