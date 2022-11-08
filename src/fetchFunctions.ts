@@ -99,6 +99,15 @@ export const fetchAllCurrentLoans = async () => {
         method: "GET",
         headers: {
             "content-type": "application/json;charset=UTF-8"
-        },
+        }
     });
-}
+};
+
+export const fetchExpiredLoans = async () => {
+    return await authFetch(`/borrow/expired/admin`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
