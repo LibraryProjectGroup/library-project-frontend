@@ -6,7 +6,9 @@ import {
     Button,
     Typography,
     TextField,
-    Stack
+    Stack,
+    List,
+    ListItem
 } from "@mui/material";
 import {
     editBookBox,
@@ -16,7 +18,11 @@ import {
 } from "../../../sxStyles";
 import Book from "../../../interfaces/book.interface";
 import Book_list from "../../../interfaces/book_list.interface";
-import { fetchAllBooks, fetchUserBooklists } from "../../../fetchFunctions";
+import {
+    fetchAllBooks,
+    fetchUserBooklists,
+    fetchCreateBooklist
+} from "../../../fetchFunctions";
 
 const BookLists: FC = (): JSX.Element => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -36,11 +42,10 @@ const BookLists: FC = (): JSX.Element => {
 
     const [books, setBooks] = useState<Book[]>([]);
     const [booklists, setBooklists] = useState<Book_list[]>([]);
+    const [message, setMessage] = useState("");
 
     const fetchBooks = async () => setBooks(await fetchAllBooks());
     const fetchBooklists = async () => setBooklists(await fetchUserBooklists());
-
-    //add fetch for booklists
 
     useEffect(() => {
         fetchBooks();
@@ -52,13 +57,18 @@ const BookLists: FC = (): JSX.Element => {
         for (const list of booklists) {
             const lists = booklists[list.id];
             if (!lists) {
+                setMessage("No lists yet, create a new one!");
                 booklist.push(
                     // button and input field to create new booklist
-                    <Typography>No lists, create a new one!</Typography>
+                    <Box>
+                        <TextField label="Title" name="title" />
+                        <Button>Add</Button>
+                    </Box>
                 );
             } else {
                 //names of lists with checkboxes and a button to save book to selected list
-                booklist.push(<Typography>{lists.name}</Typography>);
+                setMessage("Add to list...");
+                booklist.push(<ListItem>{lists.name}</ListItem>);
             }
         }
         return booklist;
@@ -83,10 +93,15 @@ const BookLists: FC = (): JSX.Element => {
                     horizontal: "left"
                 }}
             >
-                <Typography sx={{ p: 2 }}>
-                    The content of the Popover.
-                    {renderBooklists()}
-                </Typography>
+                <Box sx={{ p: 2 }}>
+                    <Typography sx={{ textAlign: "center" }}>
+                        {message}
+                    </Typography>
+                    <List>
+                        The content of the Popover.
+                        {renderBooklists()}
+                    </List>
+                </Box>
             </Popover>
         </div>
     );
