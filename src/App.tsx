@@ -7,7 +7,7 @@ import Admin from "./components/pages/adminPage/Admin";
 import UnauthorizedPage from "./components/pages/errorPages/UnauthorizedPage";
 import MissingPage from "./components/pages/errorPages/MissingPage";
 import TheContextProvider, { TheContext } from "./TheContext";
-import { Routes, Route, BrowserRouter, Navigate, Switch } from "react-router-dom";
+import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { isAuthenticated } from "./auth";
 
 function App() {
