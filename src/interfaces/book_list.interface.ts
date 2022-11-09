@@ -1,6 +1,6 @@
 interface Book_list {
     id: number;
-    user: number;
+    user?: number;
     name: string;
 }
 

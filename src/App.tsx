@@ -7,6 +7,7 @@ import Admin from "./components/pages/adminPage/Admin";
 import TheContextProvider, { TheContext } from "./TheContext";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { isAuthenticated } from "./auth";
+import UserBooklists from "./components/pages/userBooklistsPage/UserBooklistsPage";
 
 function App() {
     const ProtectedRoute: FC<any> = (props) => {
@@ -46,6 +47,14 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <MyAccount />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/booklists"
+                        element={
+                            <ProtectedRoute>
+                                <UserBooklists />
                             </ProtectedRoute>
                         }
                     />

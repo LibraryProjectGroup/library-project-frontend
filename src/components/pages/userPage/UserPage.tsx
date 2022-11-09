@@ -10,7 +10,7 @@ import {
 import Book from "../../../interfaces/book.interface";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { userPageReturnButton, userPageBackButton } from "../../../sxStyles";
+import { userPageReturnButton, userPageBackButton, userPageMyListsButton } from "../../../sxStyles";
 import { endSession } from "../../../auth";
 import Borrow from "../../../interfaces/borrow.interface";
 
@@ -153,6 +153,15 @@ const MyAccount: FC = (): JSX.Element => {
             >
                 <LogoutIcon />
             </Fab>
+            <Button
+                sx={userPageMyListsButton}
+                variant="contained"
+                onClick={() => {
+                    navigate("/booklists");
+                }}
+            >
+                My Lists
+            </Button>
             {renderBorrowedBooks()}
         </>
     );

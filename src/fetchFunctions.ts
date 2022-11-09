@@ -94,7 +94,6 @@ const fetchReturnBorrowed = async (borrowId: number): Promise<OKStatus> => {
     });
 };
 
-
 const fetchAllBooklists = async (): Promise<Book_list[]> => {
     return await authFetch(`/booklist/all`);
 };
@@ -103,7 +102,7 @@ const fetchUserBooklists = async (): Promise<Book_list[]> => {
     return await authFetch(`/booklist/user`);
 };
 
-const fetchBooklist= async (booklistId: string): Promise<Book> => {
+const fetchBooklist = async (booklistId: string): Promise<Book> => {
     return await authFetch(`/booklist?id=${booklistId}`);
 };
 
@@ -117,7 +116,9 @@ const fetchDeleteBooklist = async (booklistId: number): Promise<OKStatus> => {
     });
 };
 
-const fetchCreateBooklist = async (newBooklist: Book_list): Promise<OKStatus> => {
+const fetchCreateBooklist = async (
+    newBooklist: Book_list
+): Promise<OKStatus> => {
     return await authFetch("/booklist", {
         method: "POST",
         headers: {
@@ -127,7 +128,9 @@ const fetchCreateBooklist = async (newBooklist: Book_list): Promise<OKStatus> =>
     });
 };
 
-const fetchUpdateBooklist = async (newBooklist: Book_list): Promise<OKStatus> => {
+const fetchUpdateBooklist = async (
+    newBooklist: Book_list
+): Promise<OKStatus> => {
     return await authFetch("/booklist", {
         method: "PUT",
         headers: {
@@ -181,6 +184,7 @@ export {
     fetchBooklist,
     fetchCreateBooklist,
     fetchUpdateBooklist,
+    fetchDeleteBooklist,
     fetchAllEntries,
     fetchEntry,
     fetchDeleteEntry,
