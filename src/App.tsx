@@ -5,7 +5,7 @@ import CreateAccount from "./components/pages/createAccountPage/CreateAccount";
 import MyAccount from "./components/pages/userPage/UserPage";
 import Admin from "./components/pages/adminPage/Admin";
 import TheContextProvider, { TheContext } from "./TheContext";
-import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
+import { Routes, Route, BrowserRouter, Navigate, Switch } from "react-router-dom";
 import { isAuthenticated } from "./auth";
 
 function App() {
@@ -56,6 +56,9 @@ function App() {
                                 <Admin />
                             </AdminRoute>
                         }
+                    />
+                    <Route
+                        path="*" component={() => "404 NOT FOUND"}
                     />
                 </Routes>
             </BrowserRouter>
