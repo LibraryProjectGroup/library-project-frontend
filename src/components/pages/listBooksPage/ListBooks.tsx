@@ -1,4 +1,6 @@
-import React, { useState, FC, useEffect, useContext } from "react";
+
+import React, { useState, FC, useEffect, useContext, Fragment } from "react";
+
 import { Paper, Typography, Button, Stack, Box, Fab } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
@@ -11,7 +13,8 @@ import {
     fetchAllBooks,
     fetchDeleteBook,
     fetchAllCurrentBorrows,
-    fetchCreateBorrow
+    fetchCreateBorrow,
+    fetchCurrentBorrows
 } from "../../../fetchFunctions";
 import {
     listBooksDeleteButton,
@@ -24,8 +27,12 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
+import Alert from "@mui/material/Alert";
+
+
 const ListBooks: FC = (): JSX.Element => {
     const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
+    const [userBorrows, setUserBorrows] = useState<Borrow[]>([]);
     const [books, setBooks] = useState<Book[]>([]);
 
     const [formBook, setFormBook] = useState<Book | null>(null);
@@ -36,6 +43,8 @@ const ListBooks: FC = (): JSX.Element => {
         message: ""
     });
 
+    const [open, setOpen] = useState<"none" | "expiring" | "expired">("none");
+
     const context = useContext(TheContext);
     const navigate = useNavigate();
 
@@ -43,6 +52,10 @@ const ListBooks: FC = (): JSX.Element => {
 
     const fetchBorrows = async () =>
         setCurrentBorrows(await fetchAllCurrentBorrows());
+
+    const fetchUserBorrows = async () => {
+        setUserBorrows(await fetchCurrentBorrows());
+    };
 
     const bookInCurrentBorrows = (book: Book) => {
         let inCurrentBorrows = false;
@@ -53,6 +66,46 @@ const ListBooks: FC = (): JSX.Element => {
         }
         return inCurrentBorrows;
     };
+    //-------------------------------------------
+    const handleOpen = () => {
+        for (const borrowed of userBorrows) {
+            const currentDate = new Date();
+            const datedDueDate = new Date(borrowed.dueDate);
+            const convertToDay = 24 * 60 * 60 * 1000;
+            const calculatedTime = Math.floor(
+                (datedDueDate.getTime() - currentDate.getTime()) / convertToDay
+            );
+            if (calculatedTime < 0) {
+                setOpen("expired");
+                break;
+            }
+
+            if (
+                calculatedTime >= 0 &&
+                calculatedTime < 5 &&
+                open != "expired"
+            ) {
+                setOpen("expiring");
+            }
+        }
+    };
+
+    const handleClose = () => {
+        setOpen("none");
+    };
+
+    const action = (
+        <Fragment>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </Fragment>
+    );
 
     const handleClosePopUpConfirmation = (
         event: React.SyntheticEvent | Event,
@@ -91,7 +144,12 @@ const ListBooks: FC = (): JSX.Element => {
     useEffect(() => {
         fetchBooks();
         fetchBorrows();
+        fetchUserBorrows();
     }, []);
+
+    useEffect(() => {
+        handleOpen();
+    }, [userBorrows]);
 
     const renderBookData = (book: Book) => {
         if (!book.deleted) {
@@ -268,16 +326,55 @@ const ListBooks: FC = (): JSX.Element => {
                 >
                     <AddIcon />
                 </Fab>
-                <BookForm
-                    visible={formVisible}
-                    setVisible={setFormVisible}
-                    book={formBook}
-                    setBook={setFormBook}
-                    editing={formEditing}
-                    updateBooks={fetchBooks}
-                />
-            </Box>
-        </>
+
+            )}
+            <Stack spacing={3} sx={{ margin: "auto", width: "60%" }}>
+                {books?.map((book) => renderBookData(book))}
+            </Stack>
+            <Fab
+                aria-label="add"
+                sx={addButton}
+                onClick={() => {
+                    setFormEditing(false);
+                    setFormBook({
+                        id: -1, // This wont get used
+                        title: "",
+                        author: "",
+                        topic: "",
+                        isbn: "",
+                        location: "",
+                        deleted: false
+                    });
+                    setFormVisible(true);
+                }}
+            >
+                <AddIcon />
+            </Fab>
+            <BookForm
+                visible={formVisible}
+                setVisible={setFormVisible}
+                book={formBook}
+                setBook={setFormBook}
+                editing={formEditing}
+                updateBooks={fetchBooks}
+            />
+            <Snackbar open={open == "expiring"} action={action}>
+                <Alert
+                    onClose={handleClose}
+                    severity="warning"
+                    sx={{ width: "100%" }}
+                    variant="filled"
+                >
+                    You have expiring book(s)
+                </Alert>
+            </Snackbar>
+            <Snackbar open={open == "expired"}>
+                <Alert severity="error" sx={{ width: "100%" }} variant="filled">
+                    YOU HAVE EXPIRED BOOK(S)
+                </Alert>
+            </Snackbar>
+        </Box>
+
     );
 };
 
