@@ -111,3 +111,12 @@ export const fetchExpiredLoans = async () => {
         }
     });
 };
+
+export const fetchAllBookRequests = async () => {
+    return await authFetch(`/bookrequest/all`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
