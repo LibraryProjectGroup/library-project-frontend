@@ -26,7 +26,6 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Alert from "@mui/material/Alert";
-import Book_request from "../../../interfaces/book_request.interface";
 import BookRequestForm from "./BookRequestForm";
 
 const ListBooks: FC = (): JSX.Element => {
@@ -63,7 +62,6 @@ const ListBooks: FC = (): JSX.Element => {
         }
         return inCurrentBorrows;
     };
-    //-------------------------------------------
     const handleOpen = () => {
         for (const borrowed of userBorrows) {
             const currentDate = new Date();
@@ -80,7 +78,7 @@ const ListBooks: FC = (): JSX.Element => {
             if (
                 calculatedTime >= 0 &&
                 calculatedTime < 5 &&
-                open != "expired"
+                open !== "expired"
             ) {
                 setOpen("expiring");
             }
@@ -110,9 +108,8 @@ const ListBooks: FC = (): JSX.Element => {
         fetchUserBorrows();
     }, []);
 
-    useEffect(() => {
-        handleOpen();
-    }, [userBorrows]);
+    // eslint-disable-next-line
+    useEffect(handleOpen, [userBorrows]);
 
     const renderBookData = (book: Book) => {
         if (!book.deleted) {
@@ -281,7 +278,7 @@ const ListBooks: FC = (): JSX.Element => {
                 visible={requestVisible}
                 setVisible={setRequestVisible}
             />
-            <Snackbar open={open == "expiring"} action={action}>
+            <Snackbar open={open === "expiring"} action={action}>
                 <Alert
                     onClose={handleClose}
                     severity="warning"
@@ -291,7 +288,7 @@ const ListBooks: FC = (): JSX.Element => {
                     You have expiring book(s)
                 </Alert>
             </Snackbar>
-            <Snackbar open={open == "expired"}>
+            <Snackbar open={open === "expired"}>
                 <Alert severity="error" sx={{ width: "100%" }} variant="filled">
                     YOU HAVE EXPIRED BOOK(S)
                 </Alert>
