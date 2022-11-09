@@ -2,6 +2,7 @@ import { useState, FC, useEffect, useContext, Fragment } from "react";
 import { Paper, Typography, Button, Stack, Box, Fab } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
+import AddCommentIcon from "@mui/icons-material/AddComment";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { TheContext } from "../../../TheContext";
@@ -25,11 +26,15 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Alert from "@mui/material/Alert";
+import Book_request from "../../../interfaces/book_request.interface";
+import BookRequestForm from "./BookRequestForm";
 
 const ListBooks: FC = (): JSX.Element => {
     const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
     const [userBorrows, setUserBorrows] = useState<Borrow[]>([]);
     const [books, setBooks] = useState<Book[]>([]);
+
+    const [requestVisible, setRequestVisible] = useState(false);
 
     const [formBook, setFormBook] = useState<Book | null>(null);
     const [formVisible, setFormVisible] = useState(false);
@@ -263,6 +268,18 @@ const ListBooks: FC = (): JSX.Element => {
                 setBook={setFormBook}
                 editing={formEditing}
                 updateBooks={fetchBooks}
+            />
+            <Fab
+                sx={addButton}
+                onClick={() => {
+                    setRequestVisible(true);
+                }}
+            >
+                <AddCommentIcon />
+            </Fab>
+            <BookRequestForm
+                visible={requestVisible}
+                setVisible={setRequestVisible}
             />
             <Snackbar open={open == "expiring"} action={action}>
                 <Alert
