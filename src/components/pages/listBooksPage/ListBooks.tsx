@@ -1,4 +1,3 @@
-
 import React, { useState, FC, useEffect, useContext, Fragment } from "react";
 
 import { Paper, Typography, Button, Stack, Box, Fab } from "@mui/material";
@@ -28,7 +27,6 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
 import Alert from "@mui/material/Alert";
-
 
 const ListBooks: FC = (): JSX.Element => {
     const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
@@ -120,7 +118,7 @@ const ListBooks: FC = (): JSX.Element => {
         });
     };
 
-    const action = (
+    const action_2 = (
         <React.Fragment>
             {/*! Undo functional for the future? */}
             {/* <Button
@@ -280,7 +278,7 @@ const ListBooks: FC = (): JSX.Element => {
                 autoHideDuration={4000}
                 onClose={handleClosePopUpConfirmation}
                 message={popUpConfirmation.message}
-                action={action}
+                action={action_2}
             />
             {/* Pop up element */}
             <Box sx={{ marginTop: 5, marginBottom: 5 }}>
@@ -327,54 +325,57 @@ const ListBooks: FC = (): JSX.Element => {
                     <AddIcon />
                 </Fab>
 
-            )}
-            <Stack spacing={3} sx={{ margin: "auto", width: "60%" }}>
-                {books?.map((book) => renderBookData(book))}
-            </Stack>
-            <Fab
-                aria-label="add"
-                sx={addButton}
-                onClick={() => {
-                    setFormEditing(false);
-                    setFormBook({
-                        id: -1, // This wont get used
-                        title: "",
-                        author: "",
-                        topic: "",
-                        isbn: "",
-                        location: "",
-                        deleted: false
-                    });
-                    setFormVisible(true);
-                }}
-            >
-                <AddIcon />
-            </Fab>
-            <BookForm
-                visible={formVisible}
-                setVisible={setFormVisible}
-                book={formBook}
-                setBook={setFormBook}
-                editing={formEditing}
-                updateBooks={fetchBooks}
-            />
-            <Snackbar open={open == "expiring"} action={action}>
-                <Alert
-                    onClose={handleClose}
-                    severity="warning"
-                    sx={{ width: "100%" }}
-                    variant="filled"
+                <Stack spacing={3} sx={{ margin: "auto", width: "60%" }}>
+                    {books?.map((book) => renderBookData(book))}
+                </Stack>
+                <Fab
+                    aria-label="add"
+                    sx={addButton}
+                    onClick={() => {
+                        setFormEditing(false);
+                        setFormBook({
+                            id: -1, // This wont get used
+                            title: "",
+                            author: "",
+                            topic: "",
+                            isbn: "",
+                            location: "",
+                            deleted: false
+                        });
+                        setFormVisible(true);
+                    }}
                 >
-                    You have expiring book(s)
-                </Alert>
-            </Snackbar>
-            <Snackbar open={open == "expired"}>
-                <Alert severity="error" sx={{ width: "100%" }} variant="filled">
-                    YOU HAVE EXPIRED BOOK(S)
-                </Alert>
-            </Snackbar>
-        </Box>
-
+                    <AddIcon />
+                </Fab>
+                <BookForm
+                    visible={formVisible}
+                    setVisible={setFormVisible}
+                    book={formBook}
+                    setBook={setFormBook}
+                    editing={formEditing}
+                    updateBooks={fetchBooks}
+                />
+                <Snackbar open={open == "expiring"} action={action}>
+                    <Alert
+                        onClose={handleClose}
+                        severity="warning"
+                        sx={{ width: "100%" }}
+                        variant="filled"
+                    >
+                        You have expiring book(s)
+                    </Alert>
+                </Snackbar>
+                <Snackbar open={open == "expired"}>
+                    <Alert
+                        severity="error"
+                        sx={{ width: "100%" }}
+                        variant="filled"
+                    >
+                        YOU HAVE EXPIRED BOOK(S)
+                    </Alert>
+                </Snackbar>
+            </Box>
+        </>
     );
 };
 
