@@ -2,7 +2,10 @@ import { useState, FC, useContext, useEffect } from "react";
 import { Paper, Typography, Button, Stack, Fab } from "@mui/material";
 import { TheContext } from "../../../TheContext";
 import { useNavigate } from "react-router-dom";
-import { fetchDeleteBooklist, fetchUserBooklists } from "../../../fetchFunctions";
+import {
+    fetchDeleteBooklist,
+    fetchUserBooklists
+} from "../../../fetchFunctions";
 import Book_list from "../../../interfaces/book_list.interface";
 import { userPageBackButton, userPageReturnButton } from "../../../sxStyles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -18,7 +21,7 @@ import {
 
 const UserBooklists: FC = (): JSX.Element => {
     const [booklists, setBooklists] = useState<Book_list[]>([]);
-    const [formBooklist, setFormBooklist] = useState<Book_list | null>(null); 
+    const [formBooklist, setFormBooklist] = useState<Book_list | null>(null);
     const [formVisible, setFormVisible] = useState(false);
     const [formEditing, setFormEditing] = useState(false);
 
@@ -37,7 +40,15 @@ const UserBooklists: FC = (): JSX.Element => {
         let renderedBooklists = [];
         for (const booklist of booklists) {
             renderedBooklists.push(
-                <Paper elevation={10} sx={{ padding: "2rem" }}>
+                <Paper
+                    elevation={10}
+                    sx={{
+                        padding: "2rem",
+                        width: "60%",
+                        margin: "auto",
+                        marginBottom: 1
+                    }}
+                >
                     <Stack direction="row" justifyContent="space-between">
                         <Stack>
                             <Typography
@@ -85,10 +96,10 @@ const UserBooklists: FC = (): JSX.Element => {
             >
                 <ArrowBackIcon />
             </Fab>
-            {renderBookLists()}
+
             <Fab
                 aria-label="add"
-                sx={addButton}
+                sx={userPageBackButton}
                 onClick={() => {
                     setFormEditing(false);
                     setFormBooklist({
@@ -100,6 +111,9 @@ const UserBooklists: FC = (): JSX.Element => {
             >
                 <AddIcon />
             </Fab>
+
+            {renderBookLists()}
+
             <BooklistForm
                 visible={formVisible}
                 setVisible={setFormVisible}
