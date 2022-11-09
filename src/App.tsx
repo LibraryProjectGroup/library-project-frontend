@@ -4,6 +4,8 @@ import LoginPage from "./components/pages/loginPage/LoginPage";
 import CreateAccount from "./components/pages/createAccountPage/CreateAccount";
 import MyAccount from "./components/pages/userPage/UserPage";
 import Admin from "./components/pages/adminPage/Admin";
+import UnauthorizedPage from "./components/pages/errorPages/UnauthorizedPage";
+import MissingPage from "./components/pages/errorPages/MissingPage";
 import TheContextProvider, { TheContext } from "./TheContext";
 import { Routes, Route, BrowserRouter, Navigate, Switch } from "react-router-dom";
 import { isAuthenticated } from "./auth";
@@ -19,7 +21,7 @@ function App() {
         return context?.user?.administrator ? (
             props.children
         ) : (
-            <p>Unauthorized</p>
+            <UnauthorizedPage />
         );
     };
 
@@ -58,7 +60,10 @@ function App() {
                         }
                     />
                     <Route
-                        path="*" component={() => "404 NOT FOUND"}
+                        path="*" 
+                        element={
+                            <MissingPage />
+                        }
                     />
                 </Routes>
             </BrowserRouter>
