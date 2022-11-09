@@ -43,6 +43,7 @@ docker compose up
 
 > TIP: Remember to clean up unnecessary containers or images regularly in order to save space. Too many dangling images and/or orphan containers take up VM memory and will slow down your computer when using Docker.
 
+<p align="center">:wavy_dash: :small_orange_diamond: :small_orange_diamond: :small_orange_diamond: :large_orange_diamond: :eight_pointed_black_star: :large_orange_diamond: :small_orange_diamond: :small_orange_diamond: :small_orange_diamond: :wavy_dash:</p>
 </details>
 
 <details>
@@ -76,6 +77,7 @@ After that, VSCode starts building the DevContainer. This is quite a slow proces
 
 :tada: Tada! Now you should see the test logs running. Reports appear in `robot/results` folder like in every test environment. You can utilize the DevContainer's pre-installed _live server_ extension to preview them in your browser by right-clicking the desired `.html` file.
 
+<p align="center">:wavy_dash: :small_orange_diamond: :small_orange_diamond: :small_orange_diamond: :large_orange_diamond: :eight_pointed_black_star: :large_orange_diamond: :small_orange_diamond: :small_orange_diamond: :small_orange_diamond: :wavy_dash:</p>
 </details>
 
 <details>
@@ -169,6 +171,8 @@ Terminal command: `npm test` :arrow_right: if no tests start running automatical
 #### :two: Run all the robot tests:
 
 Terminal command: `npm run robottests` :arrow_right: tests should start running :arrow_right: you can open `report.html` file that gets created in `/results` folder in your browser to view a more detailed report about the tests. **Fix failing tests** by either altering the test or altering your code.
+
+<p align="center">:wavy_dash: :small_orange_diamond: :small_orange_diamond: :small_orange_diamond: :large_orange_diamond: :eight_pointed_black_star: :large_orange_diamond: :small_orange_diamond: :small_orange_diamond: :small_orange_diamond: :wavy_dash:</p>
 
 </details>
 
