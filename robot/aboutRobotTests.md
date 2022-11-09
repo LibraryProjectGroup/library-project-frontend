@@ -1,4 +1,85 @@
+#### :arrow_left: [Back to Main ReadMe File](../README.md)
+
 # Testing with Robot Framework
+
+_You can choose your preferred environment for robot testing. We recommend using **Docker** or **DevContainers** to avoid heavy multi-step installations on your local computer._
+
+<details>
+<summary>🐳 Testing with Docker</summary>
+
+## :heavy_check_mark: Prequisites
+
+-   [Docker](https://docs.docker.com/get-docker/) installed
+-   Docker engine running on your computer before testing (e.g. Docker desktop opened)
+
+### :page_facing_up: Create your local secret file for Docker
+
+Create a file named `docker.env` to the root of the project folder. It should be already on .dockerignore and .gitignore, but please double-check that so that you don't accidentally commit it to GitHub!
+
+The content of this secret file is described in the project's Discord, on `#secret` channel.
+
+### :runner: Run the Ultimate:tm: start-server-and-test-workflow with docker-compose
+
+1. Open project directory
+2. Type in terminal `docker compose up --build --remove-orphans` (this builds the image and starts the container in a configuration that is described in docker-compose.yml file, and also removes orphan containers with the same name)
+
+**That's it!** You should see the npm start and test logs running in your terminal. The first time can take a few minutes, but after that the process gets quicker when you have a cached version of the image.
+
+After running the tests, the container exits automatically. Status code tells you immediately how many tests were failing. _e.g. docker-robot exited with code 0 means that all tests have passed._ You can also open the reports / logs created in `robot/results` folder for more details.
+
+### :bulb: Useful commands for Docker
+
+**Remove all images that are not currently used by a container:** (saves space)
+
+```pwsh
+docker image prune -a
+```
+
+**Start test container without building the image again:**
+
+```pwsh
+docker compose up
+```
+
+> TIP: Remember to clean up unnecessary containers or images regularly in order to save space. Too many dangling images and/or orphan containers take up VM memory and will slow down your computer when using Docker.
+
+</details>
+
+<details>
+<summary>:vs: Testing with VSCode DevContainers</summary>
+
+## :heavy_check_mark: Prequisites
+
+-   [Docker](https://docs.docker.com/get-docker/) installed
+-   VSCode in use
+-   Docker engine running on your computer before testing (e.g. Docker desktop opened)
+
+### :page_facing_up: Create your local secret file for Docker
+
+Create a file named `docker.env` to the `.devcontainer` folder. It should be already on .dockerignore and .gitignore, but please double-check that so that you don't accidentally commit it to GitHub!
+
+The content of this secret file is described in the project's Discord, on `#secret` channel. **Please note that in this .env file, there are no quotation marks around the variables values!**
+
+### :open_file_folder: Open folder in a DevContainer
+
+After you have created a local secret file, you must open the project in VSCode DevContainer. You can quickly access that by `ctrl + shift + p` in windows and by typing `Dev Containers: Rebuild Container`, or by clicking the double-arrow icon on green background on the **left corner of VSCode window**, and by typing the former keyword. `Dev Containers: Open Folder in Container` should work also, but be careful to choose the **root folder** to open in a DevContainer if you're using that option.
+
+After that, VSCode starts building the DevContainer. This is quite a slow process so be patient.
+
+### :runner: Start server and run the Robot Tests
+
+1. Start server by typing `npm start` in VSCode DevContainer Terminal.
+
+    _You know you're in a right terminal when the line starts with `node ➜ /workspaces/library-project-frontend $ `._
+
+2. Open another DevContainer terminal from VSCode, and type `npm run dockertests`
+
+:tada: Tada! Now you should see the test logs running. Reports appear in `robot/results` folder like in every test environment. You can utilize the DevContainer's pre-installed _live server_ extension to preview them in your browser by right-clicking the desired `.html` file.
+
+</details>
+
+<details>
+<summary>💻 Testing on your local computer</summary>
 
 _Please note that these instructions are only applicable to Windows 10. Feel free to add instructions if you have a different OS and have successfully installed Robot Framework to your local machine._
 
@@ -88,6 +169,8 @@ Terminal command: `npm test` :arrow_right: if no tests start running automatical
 #### :two: Run all the robot tests:
 
 Terminal command: `npm run robottests` :arrow_right: tests should start running :arrow_right: you can open `report.html` file that gets created in `/results` folder in your browser to view a more detailed report about the tests. **Fix failing tests** by either altering the test or altering your code.
+
+</details>
 
 ## :octocat: GitHub Actions testing workflow
 

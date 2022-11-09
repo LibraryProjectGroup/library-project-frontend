@@ -38,7 +38,7 @@ User edits book's ${name} to ${value}
 
 Book's attribute has changed to ${value}
     Wait Until Element Is Not Visible    xpath://button[contains(text(), 'Update')]
-    Element Should Be Visible    xpath://*[contains(., '${value}')]
+    Wait Until Element Is Visible    xpath://*[contains(., '${value}')]
 
 User can not find ${title} book from the page
     Page Should Not Contain Element    xpath://*[contains(text(), '${title}')]
