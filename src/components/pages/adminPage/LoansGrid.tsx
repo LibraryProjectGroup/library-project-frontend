@@ -17,7 +17,7 @@ const LoansGrid: FC = (): JSX.Element => {
             valueFormatter(params) {
                 return new Date(params.value).toLocaleString("fi", {
                     year: "numeric",
-                    month: "2-digit",
+                    month: "numeric",
                     day: "numeric"
                 });
             }
@@ -29,7 +29,7 @@ const LoansGrid: FC = (): JSX.Element => {
             valueFormatter(params) {
                 return new Date(params.value).toLocaleString("fi", {
                     year: "numeric",
-                    month: "2-digit",
+                    month: "numeric",
                     day: "numeric"
                 });
             }
