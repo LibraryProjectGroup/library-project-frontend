@@ -10,8 +10,30 @@ const LoansGrid: FC = (): JSX.Element => {
     const COLUMNS_LOANS: GridColDef[] = [
         { field: "username", headerName: "Username", flex: 2 },
         { field: "title", headerName: "Book title", flex: 3 },
-        { field: "borrowDate", headerName: "Borrowed", flex: 2 },
-        { field: "dueDate", headerName: "Due", flex: 2 },
+        {
+            field: "borrowDate",
+            headerName: "Borrowed",
+            flex: 2,
+            valueFormatter(params) {
+                return new Date(params.value).toLocaleString("fi", {
+                    year: "numeric",
+                    month: "numeric",
+                    day: "numeric"
+                });
+            }
+        },
+        {
+            field: "dueDate",
+            headerName: "Due",
+            flex: 2,
+            valueFormatter(params) {
+                return new Date(params.value).toLocaleString("fi", {
+                    year: "numeric",
+                    month: "numeric",
+                    day: "numeric"
+                });
+            }
+        },
         { field: "id", headerName: "Book ID", flex: 2 }
     ];
 

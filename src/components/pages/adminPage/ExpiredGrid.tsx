@@ -10,7 +10,18 @@ const ExpiredGrid: FC = (): JSX.Element => {
         { field: "id", headerName: "ID", flex: 2 },
         { field: "username", headerName: "Username", flex: 2 },
         { field: "title", headerName: "Book title", flex: 3 },
-        { field: "dueDate", headerName: "Due", flex: 2 },
+        {
+            field: "dueDate",
+            headerName: "Due",
+            flex: 2,
+            valueFormatter(params) {
+                return new Date(params.value).toLocaleString("fi", {
+                    year: "numeric",
+                    month: "numeric",
+                    day: "numeric"
+                });
+            }
+        },
         { field: "userId", headerName: "User ID", flex: 2 },
         { field: "bookId", headerName: "Book ID", flex: 2 }
     ];
