@@ -75,7 +75,7 @@ const ListBooks: FC = (): JSX.Element => {
             if (
                 calculatedTime >= 0 &&
                 calculatedTime < 5 &&
-                open != "expired"
+                open !== "expired"
             ) {
                 setOpen("expiring");
             }
