@@ -2,6 +2,7 @@ import { useState, FC, useEffect, useContext, Fragment } from "react";
 import { Paper, Typography, Button, Stack, Box, Fab } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
+import AddCommentIcon from "@mui/icons-material/AddComment";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { TheContext } from "../../../TheContext";
@@ -25,11 +26,14 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Alert from "@mui/material/Alert";
+import BookRequestForm from "./BookRequestForm";
 
 const ListBooks: FC = (): JSX.Element => {
     const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
     const [userBorrows, setUserBorrows] = useState<Borrow[]>([]);
     const [books, setBooks] = useState<Book[]>([]);
+
+    const [requestVisible, setRequestVisible] = useState(false);
 
     const [formBook, setFormBook] = useState<Book | null>(null);
     const [formVisible, setFormVisible] = useState(false);
@@ -58,7 +62,6 @@ const ListBooks: FC = (): JSX.Element => {
         }
         return inCurrentBorrows;
     };
-    //-------------------------------------------
     const handleOpen = () => {
         for (const borrowed of userBorrows) {
             const currentDate = new Date();
@@ -75,7 +78,7 @@ const ListBooks: FC = (): JSX.Element => {
             if (
                 calculatedTime >= 0 &&
                 calculatedTime < 5 &&
-                open != "expired"
+                open !== "expired"
             ) {
                 setOpen("expiring");
             }
@@ -105,9 +108,8 @@ const ListBooks: FC = (): JSX.Element => {
         fetchUserBorrows();
     }, []);
 
-    useEffect(() => {
-        handleOpen();
-    }, [userBorrows]);
+    // eslint-disable-next-line
+    useEffect(handleOpen, [userBorrows]);
 
     const renderBookData = (book: Book) => {
         if (!book.deleted) {
@@ -264,7 +266,19 @@ const ListBooks: FC = (): JSX.Element => {
                 editing={formEditing}
                 updateBooks={fetchBooks}
             />
-            <Snackbar open={open == "expiring"} action={action}>
+            <Fab
+                sx={addButton}
+                onClick={() => {
+                    setRequestVisible(true);
+                }}
+            >
+                <AddCommentIcon />
+            </Fab>
+            <BookRequestForm
+                visible={requestVisible}
+                setVisible={setRequestVisible}
+            />
+            <Snackbar open={open === "expiring"} action={action}>
                 <Alert
                     onClose={handleClose}
                     severity="warning"
@@ -274,7 +288,7 @@ const ListBooks: FC = (): JSX.Element => {
                     You have expiring book(s)
                 </Alert>
             </Snackbar>
-            <Snackbar open={open == "expired"}>
+            <Snackbar open={open === "expired"}>
                 <Alert severity="error" sx={{ width: "100%" }} variant="filled">
                     YOU HAVE EXPIRED BOOK(S)
                 </Alert>
