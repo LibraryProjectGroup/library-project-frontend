@@ -10,25 +10,31 @@ import {
     TextField,
     FormGroup,
     FormControlLabel,
-    Checkbox
+    Stack
 } from "@mui/material";
-import { listBooksFavoriteButton as favButton, userPageMyListsButton } from "../../../sxStyles";
+import {
+    listBooksFavoriteButton as favButton,
+    userPageMyListsButton,
+    listBooksEditButton,
+    listBooksEntryAddButton
+} from "../../../sxStyles";
 import Book from "../../../interfaces/book.interface";
 import Book_list from "../../../interfaces/book_list.interface";
 import Book_list_entry from "../../../interfaces/book_list_entry.interface";
-import { fetchUserBooklists } from "../../../fetchFunctions";
+import {
+    fetchUserBooklists,
+    fetchAddEntry,
+    fetchUpdateBooklist
+} from "../../../fetchFunctions";
 import { useNavigate } from "react-router-dom";
 
 const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
     const [booklists, setBooklists] = useState<Book_list[]>([]);
-    const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(
-        null
-    );
-
+    const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     useEffect(() => {
         if (Boolean(anchorEl) === true) {
             fetchBooklists();
-            //fetch list items of 
+            //fetch list items of
         }
     }, [anchorEl]);
 
@@ -46,6 +52,10 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
     const id = open ? "simple-popover" : undefined;
     const fetchBooklists = async () => {
         setBooklists(await fetchUserBooklists());
+    };
+
+    const addBookToList = async (newEntry: Book_list_entry) => {
+        const response = await fetchAddEntry(newEntry);
     };
 
     /*
@@ -72,39 +82,53 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
         for (const list of booklists) {
             if (!list) continue;
             booklist.push(
-                <FormGroup>
-                    <FormControlLabel
-                        control={<Checkbox />}
-                        label={list.name}
-                        //onChange={(e) => handleBooklistCheckmark(e, list)}
-                    />
-                </FormGroup>
+                <Box>
+                    <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        sx={{ paddingRight: 2 }}
+                    >
+                        <ListItem key={list.id}>{list.name}</ListItem>
+                        <Button
+                            sx={listBooksEntryAddButton}
+                            onClick={async () => {
+                                //await fetchAddEntry(addEntry);
+                                await fetchBooklists();
+                            }}
+                        >
+                            Add
+                        </Button>
+                    </Stack>
+                </Box>
             );
         }
 
         // note(markus): this part shows for a split second when clicking a new +add button
-        if (booklists.length < 1){
+        if (booklists.length < 1) {
             booklist.push(
                 <>
-                You have no lists yet.<br></br>
-                <Button
-                    sx={userPageMyListsButton}
-                    variant="contained"
-                    onClick={() => {
-                        navigate("/booklists");
-                    }}
-                    >
-                Go to My Lists
-                </Button>
+                    <Box sx={{ textAlign: "center", marginTop: 2 }}>
+                        <Typography>You have no lists yet.</Typography>
+                        <Box sx={{ marginRight: 5 }}>
+                            <Button
+                                sx={userPageMyListsButton}
+                                variant="contained"
+                                onClick={() => {
+                                    navigate("/booklists");
+                                }}
+                            >
+                                Go to My Lists
+                            </Button>
+                        </Box>
+                    </Box>
                 </>
-            )
-        } 
+            );
+        }
 
         return booklist;
     };
 
-    
-        /*
+    /*
     const renderBooklists = () => {
         let booklist = [];
         for (const list of booklists) {
@@ -114,7 +138,6 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
     
         return booklist;
     };*/
-    
 
     return (
         <div>

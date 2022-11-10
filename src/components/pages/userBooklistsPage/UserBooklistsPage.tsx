@@ -1,5 +1,13 @@
 import { useState, FC, useContext, useEffect } from "react";
-import { Paper, Typography, Button, Stack, Fab } from "@mui/material";
+import {
+    Paper,
+    Typography,
+    Button,
+    Stack,
+    Fab,
+    Card,
+    CardActionArea
+} from "@mui/material";
 import { TheContext } from "../../../TheContext";
 import { useNavigate } from "react-router-dom";
 import {
@@ -18,6 +26,7 @@ import {
     addBookAddButton as addButton,
     listBooksFavoriteButton as favButton
 } from "../../../sxStyles";
+import { fetchBooklist } from "../../../fetchFunctions";
 
 const UserBooklists: FC = (): JSX.Element => {
     const [booklists, setBooklists] = useState<Book_list[]>([]);
@@ -43,7 +52,7 @@ const UserBooklists: FC = (): JSX.Element => {
                 <Paper
                     elevation={10}
                     sx={{
-                        padding: "2rem",
+                        padding: "1rem",
                         width: "60%",
                         margin: "auto",
                         marginBottom: 1
@@ -54,15 +63,25 @@ const UserBooklists: FC = (): JSX.Element => {
                             <Typography
                                 sx={{
                                     fontFamily: "Montserrat",
-                                    fontWeight: "bold"
+                                    fontWeight: "bold",
+                                    margin: "auto"
                                 }}
                             >
                                 {booklist.name}
                             </Typography>
                         </Stack>
-                        <Stack marginY={1} justifyContent="space-between">
+                        <Stack marginY={1}>
                             <Button
-                                sx={userPageReturnButton}
+                                sx={listBooksDeleteButton}
+                                variant="contained"
+                                onClick={() => {
+                                    navigate("/booklistview"); //no list id as props
+                                }}
+                            >
+                                View
+                            </Button>
+                            <Button
+                                sx={listBooksLoanButton}
                                 variant="contained"
                                 onClick={async () => {
                                     await fetchDeleteBooklist(booklist.id);
@@ -78,6 +97,58 @@ const UserBooklists: FC = (): JSX.Element => {
         }
         return renderedBooklists;
     };
+
+    {
+        /*  using Card component and CardActionArea to click on whole card instead of button component
+    const renderBookLists = () => {
+        let renderedBooklists = [];
+        for (const booklist of booklists) {
+            renderedBooklists.push(
+                <Card
+                    elevation={10}
+                    sx={{
+                        width: "60%",
+                        margin: "auto",
+                        marginBottom: 1
+                    }}
+                >
+                    <CardActionArea
+                        sx={{ padding: 3 }}
+                        onClick={() => {
+                            navigate("/booklistviet");
+                        }}
+                    >
+                        <Stack direction="row" justifyContent="space-between">
+                            <Stack>
+                                <Typography
+                                    sx={{
+                                        fontFamily: "Montserrat",
+                                        fontWeight: "bold"
+                                    }}
+                                >
+                                    {booklist.name}
+                                </Typography>
+                            </Stack>
+                            <Stack marginY={1} justifyContent="space-between">
+                                <Button
+                                    sx={userPageReturnButton}
+                                    variant="contained"
+                                    onClick={async () => {
+                                        await fetchDeleteBooklist(booklist.id);
+                                        await fetchBooklists();
+                                    }}
+                                >
+                                    Delete
+                                </Button>
+                            </Stack>
+                        </Stack>
+                    </CardActionArea>
+                </Card>
+            );
+        }
+        return renderedBooklists;
+    };*/
+    }
 
     return (
         <>
