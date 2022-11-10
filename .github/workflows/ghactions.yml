@@ -47,7 +47,8 @@ jobs:
             - run: |
                   npm start & 
                   sleep 10s &&
-                  npm test
+                  npm test &&
+                  robot --variable TESTUSERNAME:${{secrets.REACT_APP_TEST_USERNAME}} --variable TESTPASSWORD:${{secrets.REACT_APP_TEST_PASSWORD}} --removekeywords  NAME:*logins* --outputdir robot/results robot/tests
             - name: Deploy
               uses: JamesIves/github-pages-deploy-action@v4
               with:
