@@ -42,7 +42,9 @@
     ],
     "rules": {
       "no-unused-vars": 0,
-      "@typescript-eslint/no-unused-vars": 0
+      "@typescript-eslint/no-unused-vars": 0,
+      "eqeqeq": 0,
+      "@typescript-eslint/eqeqeq": 0
     }
   },
   "browserslist": {
