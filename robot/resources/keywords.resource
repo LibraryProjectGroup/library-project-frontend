@@ -64,6 +64,7 @@ User logins successfully
     Wait Until Element Is Visible    xpath://input[contains(@id, ':r3:')]
     Input Password    xpath://input[contains(@id, ':r3:')]    ${TESTPASSWORD}    clear=True    # password
     Click Button    xpath://button[contains(text(), 'Log in')]
+    Wait Until Element Is Not Visible    xpath://*[contains(text(), 'No account by that username')]
     Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'AccountBoxIcon')]
 
 User deletes book from catalog with title ${title}
