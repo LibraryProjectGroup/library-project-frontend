@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  docker-robot:
+    container_name: docker-robot
+    image: docker-robot
+    stdin_open: true
+    tty: true   
+    command: npm run startserverandtest
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    env_file:
+      - docker.env  
+    volumes:
+      - ./src:/app/src
+      - ./robot:/app/robot
+      - ./public:/app/public:ro
+    ports:
+      - "3000:3000"

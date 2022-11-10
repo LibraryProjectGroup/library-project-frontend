@@ -1,6 +1,5 @@
 ## Backend endpoints
 
-
 ### Book
 
 #### /book?id={id} (GET)
@@ -128,3 +127,6 @@ Response schema:
 }
 ```
 
+# RobotTests
+
+See detailed documentation about Robot testing in [AboutRobotTests.md documentation file](robot/aboutRobotTests.md).

@@ -15,6 +15,10 @@ async function authFetch(
         )}`
     };
     let res = await fetch(`${BACKENDURL}${path}`, options);
+    if(res.status == 401) {
+        window.localStorage.removeItem(SESSION_SECRET_KEY);
+        window.localStorage.removeItem(SESSION_END_KEY);
+    }
     return await res.json();
 }
 
@@ -35,7 +39,7 @@ function endSession() {
 
 function isAuthenticated() {
     return (
-        window.localStorage.getItem(SESSION_SECRET_KEY) !== undefined &&
+        window.localStorage.getItem(SESSION_SECRET_KEY) !== null &&
         Number(window.localStorage.getItem(SESSION_END_KEY)) >
             new Date().getSeconds()
     );
