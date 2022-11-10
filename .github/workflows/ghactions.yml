@@ -50,7 +50,7 @@ jobs:
             - run: |
                   npm test &&
                   npm start & 
-                  wait-on http://localhost:3000 &&
+                  npx wait-on http://localhost:3000 &&
                   robot --variable TESTUSERNAME:$TESTUSERNAME --variable TESTPASSWORD:$TESTPASSWORD --removekeywords  NAME:*logins* --outputdir robot/results robot/tests
             - name: Deploy
               uses: JamesIves/github-pages-deploy-action@v4
