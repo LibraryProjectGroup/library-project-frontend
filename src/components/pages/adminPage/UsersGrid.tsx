@@ -10,7 +10,14 @@ const UsersGrid: FC = (): JSX.Element => {
     const COLUMNS_USERS: GridColDef[] = [
         { field: "id", headerName: "ID", flex: 2 },
         { field: "username", headerName: "Username", flex: 2 },
-        { field: "administrator", headerName: "Administrator", flex: 3 },
+        {
+            field: "administrator",
+            headerName: "Administrator",
+            flex: 3,
+            valueFormatter(params) {
+                return params.value === 0 ? "false" : "true";
+            }
+        },
         {
             field: "delete",
             headerName: "Delete user",

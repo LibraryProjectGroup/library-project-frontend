@@ -14,7 +14,23 @@ const RequestsGrid: FC = (): JSX.Element => {
         { field: "isbn", headerName: "ISBN", flex: 2 },
         { field: "title", headerName: "Title", flex: 2 },
         { field: "reason", headerName: "Reason", flex: 2 },
-        { field: "status", headerName: "Status", flex: 2 }
+        {
+            field: "status",
+            headerName: "Status",
+            flex: 2,
+            valueFormatter(params: any) {
+                switch (params.value) {
+                    case 0:
+                        return "PENDING";
+                    case 1:
+                        return "DENIED";
+                    case 2:
+                        return "APPROVED";
+                    default:
+                        return "UNKNOWN";
+                }
+            }
+        }
     ];
 
     useEffect(() => {
