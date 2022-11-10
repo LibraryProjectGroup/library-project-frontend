@@ -59,6 +59,7 @@ User can find the ${title} book from the page
     Wait Until Page Contains Element    xpath://*[contains(text(), '${title}')]
 
 User logins successfully
+    Log To Console    using ${TESTUSERNAME}
     Wait Until Element Is Visible    xpath://input[contains(@id, ':r1:')]
     Input Password    xpath://input[contains(@id, ':r1:')]    ${TESTUSERNAME}    clear=True    # username
     Wait Until Element Is Visible    xpath://input[contains(@id, ':r3:')]
