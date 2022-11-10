@@ -102,7 +102,7 @@ const fetchUserBooklists = async (): Promise<Book_list[]> => {
     return await authFetch(`/booklist/user`);
 };
 
-const fetchBooklist = async (booklistId: string): Promise<Book> => {
+const fetchBooklist = async (booklistId: number): Promise<Book> => {
     return await authFetch(`/booklist?id=${booklistId}`);
 };
 
@@ -140,7 +140,7 @@ const fetchUpdateBooklist = async (
     });
 };
 
-const fetchAllEntries = async (): Promise<Book_list[]> => {
+const fetchAllEntries = async (): Promise<Book_list_entry[]> => {
     return await authFetch(`/booklist_entry/all`);
 };
 
@@ -182,6 +182,7 @@ export {
     fetchReturnBorrowed,
     fetchUserBooklists,
     fetchBooklist,
+    fetchAllBooklists,
     fetchCreateBooklist,
     fetchUpdateBooklist,
     fetchDeleteBooklist,
