@@ -12,17 +12,27 @@ import {
     FormControlLabel,
     Checkbox
 } from "@mui/material";
-import { listBooksFavoriteButton as favButton } from "../../../sxStyles";
+import { listBooksFavoriteButton as favButton, userPageMyListsButton } from "../../../sxStyles";
 import Book from "../../../interfaces/book.interface";
 import Book_list from "../../../interfaces/book_list.interface";
 import Book_list_entry from "../../../interfaces/book_list_entry.interface";
 import { fetchUserBooklists } from "../../../fetchFunctions";
+import { useNavigate } from "react-router-dom";
 
-const AddBookToList: FC = (): JSX.Element => {
+const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
     const [booklists, setBooklists] = useState<Book_list[]>([]);
-    const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(
         null
     );
+
+    useEffect(() => {
+        if (Boolean(anchorEl) === true) {
+            fetchBooklists();
+            //fetch list items of 
+        }
+    }, [anchorEl]);
+
+    const navigate = useNavigate();
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -38,11 +48,24 @@ const AddBookToList: FC = (): JSX.Element => {
         setBooklists(await fetchUserBooklists());
     };
 
-    useEffect(() => {
-        if (Boolean(anchorEl) === true) {
-            fetchBooklists();
+    /*
+    // note(markus):    maybe doing checkmark is too advanced to complete in the remaining time
+    //                  suggestion to just use a button to add then delete only from the list view for now
+    
+    const handleBooklistCheckmark = (e: React.SyntheticEvent, list:Book_list) => {
+        //console.log(book)
+        //console.log(book.id)
+        console.log( e.target.checked )
+        console.log( list )
+        if(e.target.checked){
+            //add book to list of checkmark
+
+        } else {
+            //remove book from list
+
         }
-    }, [fetchBooklists]);
+    }
+    */
 
     const renderBooklists = () => {
         let booklist = [];
@@ -53,15 +76,34 @@ const AddBookToList: FC = (): JSX.Element => {
                     <FormControlLabel
                         control={<Checkbox />}
                         label={list.name}
+                        //onChange={(e) => handleBooklistCheckmark(e, list)}
                     />
                 </FormGroup>
             );
         }
 
+        // note(markus): this part shows for a split second when clicking a new +add button
+        if (booklists.length < 1){
+            booklist.push(
+                <>
+                You have no lists yet.<br></br>
+                <Button
+                    sx={userPageMyListsButton}
+                    variant="contained"
+                    onClick={() => {
+                        navigate("/booklists");
+                    }}
+                    >
+                Go to My Lists
+                </Button>
+                </>
+            )
+        } 
+
         return booklist;
     };
 
-    {
+    
         /*
     const renderBooklists = () => {
         let booklist = [];
@@ -72,7 +114,7 @@ const AddBookToList: FC = (): JSX.Element => {
     
         return booklist;
     };*/
-    }
+    
 
     return (
         <div>
@@ -99,4 +141,4 @@ const AddBookToList: FC = (): JSX.Element => {
     );
 };
 
-export default AddBookToList;
+export default UserListPopup;

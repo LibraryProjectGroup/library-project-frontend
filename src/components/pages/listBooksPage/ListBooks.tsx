@@ -8,7 +8,7 @@ import { TheContext } from "../../../TheContext";
 import Book from "../../../interfaces/book.interface";
 import Book_list_entry from "../../../interfaces/book_list_entry.interface";
 import BookForm from "./BookForm";
-import AddBookToList from "./AddBookToList";
+import UserListPopup from "./UserListPopup";
 import {
     fetchAllBooks,
     fetchDeleteBook,
@@ -111,7 +111,9 @@ const ListBooks: FC = (): JSX.Element => {
                             justifyContent="start"
                             paddingLeft="2rem"
                         >
-                            <AddBookToList />
+                            <UserListPopup
+                                book={book}
+                            />
                             <Button
                                 sx={listBooksDeleteButton}
                                 variant="contained"
