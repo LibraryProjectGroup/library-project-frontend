@@ -6,7 +6,6 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { TheContext } from "../../../TheContext";
 import Book from "../../../interfaces/book.interface";
-import Book_list_entry from "../../../interfaces/book_list_entry.interface";
 import BookForm from "./BookForm";
 import UserListPopup from "./UserListPopup";
 import {
@@ -30,10 +29,6 @@ const ListBooks: FC = (): JSX.Element => {
     const [formBook, setFormBook] = useState<Book | null>(null);
     const [formVisible, setFormVisible] = useState(false);
     const [formEditing, setFormEditing] = useState(false);
-    const [formAddEntry, setFormAddEntry] = useState<Book_list_entry | null>(
-        null
-    );
-    const [entryFormVisible, setEntryFormVisible] = useState(false);
 
     const context = useContext(TheContext);
     const navigate = useNavigate();
@@ -111,9 +106,7 @@ const ListBooks: FC = (): JSX.Element => {
                             justifyContent="start"
                             paddingLeft="2rem"
                         >
-                            <UserListPopup
-                                book={book}
-                            />
+                            <UserListPopup book={book} />
                             <Button
                                 sx={listBooksDeleteButton}
                                 variant="contained"
