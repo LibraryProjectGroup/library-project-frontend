@@ -2,6 +2,7 @@ import { authFetch } from "./auth";
 import Book from "./interfaces/book.interface";
 import User from "./interfaces/user.interface";
 import Borrow from "./interfaces/borrow.interface";
+import Book_request from "./interfaces/book_request.interface";
 
 interface OKStatus {
     ok: boolean;
@@ -99,6 +100,20 @@ export const fetchAllCurrentLoans = async () => {
         method: "GET",
         headers: {
             "content-type": "application/json;charset=UTF-8"
-        },
+        }
     });
-}
+};
+
+export const fetchAddBookRequest = async (
+    isbn: string,
+    title: string,
+    reason: string
+): Promise<OKStatus> => {
+    return await authFetch("/bookrequest", {
+        method: "POST",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ isbn, title, reason })
+    });
+};
