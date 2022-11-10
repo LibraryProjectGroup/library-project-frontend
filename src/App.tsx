@@ -8,7 +8,7 @@ import TheContextProvider, { TheContext } from "./TheContext";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { isAuthenticated } from "./auth";
 import UserBooklists from "./components/pages/userBooklistsPage/UserBooklistsPage";
-import BooklistView from "./components/pages/userBooklistsPage/BooklistView";
+import UserBooks from "./components/pages/UserBooksPage/UserBooks";
 
 function App() {
     const ProtectedRoute: FC<any> = (props) => {
@@ -56,14 +56,6 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <UserBooklists />
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path="/booklistview"
-                        element={
-                            <ProtectedRoute>
-                                <BooklistView />
                             </ProtectedRoute>
                         }
                     />

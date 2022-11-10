@@ -27,12 +27,15 @@ import {
     listBooksFavoriteButton as favButton
 } from "../../../sxStyles";
 import { fetchBooklist } from "../../../fetchFunctions";
+import UserBooks from "../UserBooksPage/UserBooks";
 
 const UserBooklists: FC = (): JSX.Element => {
     const [booklists, setBooklists] = useState<Book_list[]>([]);
     const [formBooklist, setFormBooklist] = useState<Book_list | null>(null);
     const [formVisible, setFormVisible] = useState(false);
     const [formEditing, setFormEditing] = useState(false);
+    const [bookListSelected, setBookListSelected] = useState(false);
+    const [selectedBooklist, setSelectedBooklist] = useState<Book_list>({id:-1, name:''});
 
     const context = useContext(TheContext);
     const navigate = useNavigate();
@@ -44,6 +47,21 @@ const UserBooklists: FC = (): JSX.Element => {
     useEffect(() => {
         fetchBooklists();
     }, []);
+
+    const handleUserBooksButton = (booklist: Book_list) => {
+        setSelectedBooklist(booklist);
+    }
+
+    useEffect(() => {
+        if (selectedBooklist.id !== -1){
+            setBookListSelected(true);
+        }
+    }, [selectedBooklist]);
+
+    const handleCloseList = () => {
+        setBookListSelected(false);
+        setSelectedBooklist({id:-1, name:''});
+    }
 
     const renderBookLists = () => {
         let renderedBooklists = [];
@@ -74,9 +92,11 @@ const UserBooklists: FC = (): JSX.Element => {
                             <Button
                                 sx={listBooksDeleteButton}
                                 variant="contained"
+                                /*
                                 onClick={() => {
-                                    navigate("/booklistview"); //no list id as props
-                                }}
+                                    navigate("/userlist");
+                                }}*/
+                                onClick={() => {handleUserBooksButton(booklist)}}
                             >
                                 View
                             </Button>
@@ -98,7 +118,7 @@ const UserBooklists: FC = (): JSX.Element => {
         return renderedBooklists;
     };
 
-    {
+    
         /*  using Card component and CardActionArea to click on whole card instead of button component
     const renderBookLists = () => {
         let renderedBooklists = [];
@@ -148,9 +168,13 @@ const UserBooklists: FC = (): JSX.Element => {
         }
         return renderedBooklists;
     };*/
-    }
+    
 
-    return (
+    return bookListSelected ? 
+        <UserBooks 
+            booklist={selectedBooklist}
+            handleCloseList={handleCloseList}
+        /> : (
         <>
             <div style={{ position: "absolute", right: 30 }}>
                 <p>

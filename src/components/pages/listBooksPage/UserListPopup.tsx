@@ -34,7 +34,6 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
     useEffect(() => {
         if (Boolean(anchorEl) === true) {
             fetchBooklists();
-            //fetch list items of
         }
     }, [anchorEl]);
 
@@ -47,6 +46,15 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const handleAddButton = (list: Book_list) => {
+        const addEntry: Book_list_entry = {id:-1, list:list.id, book:book.id}
+        console.log(addEntry)
+        //TODO: add check to prevent duplicate entries
+        //  fetch all entries of user
+        //  compare addEntry to fetched entries
+        fetchAddEntry(addEntry);
+    }
 
     const open = Boolean(anchorEl);
     const id = open ? "simple-popover" : undefined;
@@ -91,9 +99,8 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
                         <ListItem key={list.id}>{list.name}</ListItem>
                         <Button
                             sx={listBooksEntryAddButton}
-                            onClick={async () => {
-                                //await fetchAddEntry(addEntry);
-                                await fetchBooklists();
+                            onClick={() => {
+                                handleAddButton(list)
                             }}
                         >
                             Add

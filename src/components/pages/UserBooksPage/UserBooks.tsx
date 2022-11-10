@@ -3,7 +3,7 @@ import { FC, useState, useEffect, useContext } from "react";
 import Book_list from "../../../interfaces/book_list.interface";
 import Book from "../../../interfaces/book.interface";
 import Book_list_entry from "../../../interfaces/book_list_entry.interface";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { TheContext } from "../../../TheContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
@@ -20,24 +20,32 @@ import {
     fetchAllBooks,
     fetchAllEntries,
     fetchDeleteEntry,
-    fetchEntry
+    fetchEntry,
+    fetchEntriesByList
 } from "../../../fetchFunctions";
 import { listBooksDeleteButton, userPageBackButton } from "../../../sxStyles";
 
-const BooklistView: FC = (): JSX.Element => {
+const UserBooks: FC<{ booklist: Book_list, handleCloseList: Function }> = ({ booklist, handleCloseList }): JSX.Element => {
     const [books, setBooks] = useState<Book[]>([]);
     const [entries, setEntries] = useState<Book_list_entry[]>([]);
     const context = useContext(TheContext);
     const navigate = useNavigate();
 
     const fetchBooks = async () => setBooks(await fetchAllBooks());
-    const fetchEntries = async () => setEntries(await fetchAllEntries());
+    const fetchEntries = async () => setEntries(await fetchEntriesByList(booklist.id));
+
+    useEffect(() => {
+        if (booklist.id !== -1){   
+            fetchBooks();
+            fetchEntries();
+        }
+    }, [booklist]);
 
     const renderEntriesInList = () => {
         let renderedBooks = [];
         for (const entry of entries) {
             for (const book of books) {
-                if (book.id === entry.id) {
+                if (book.id === entry.book) {
                     renderedBooks.push(
                         <Paper
                             elevation={10}
@@ -123,14 +131,12 @@ const BooklistView: FC = (): JSX.Element => {
                 <p>
                     User: <b>{context?.user?.username}</b>
                 </p>
-                <p>booklist name {/*booklist.name*/}</p>
+                <p>{booklist.name}</p>
             </div>
             <Fab
                 aria-label="back"
                 sx={userPageBackButton}
-                onClick={() => {
-                    navigate("/booklists");
-                }}
+                onClick={() => handleCloseList()}
             >
                 <ArrowBackIcon />
             </Fab>
@@ -140,4 +146,4 @@ const BooklistView: FC = (): JSX.Element => {
     );
 };
 
-export default BooklistView;
+export default UserBooks;

@@ -141,15 +141,21 @@ const fetchUpdateBooklist = async (
 };
 
 const fetchAllEntries = async (): Promise<Book_list_entry[]> => {
-    return await authFetch(`/booklist_entry/all`);
+    return await authFetch(`/booklistentry/all`);
 };
 
-const fetchEntry = async (entryId: string): Promise<Book> => {
-    return await authFetch(`/booklist_entry?id=${entryId}`);
+const fetchEntry = async (entryId: number): Promise<Book_list_entry> => {
+    return await authFetch(`/booklistentry?id=${entryId}`);
+};
+
+const fetchEntriesByList = async (
+    listId: number
+): Promise<Book_list_entry[]> => {
+    return await authFetch(`/booklistentry/list?id=${listId}`);
 };
 
 const fetchDeleteEntry = async (entryId: number): Promise<OKStatus> => {
-    return await authFetch("/booklist_entry", {
+    return await authFetch("/booklistentry", {
         method: "DELETE",
         headers: {
             "content-type": "application/json"
@@ -159,7 +165,7 @@ const fetchDeleteEntry = async (entryId: number): Promise<OKStatus> => {
 };
 
 const fetchAddEntry = async (newEntry: Book_list_entry): Promise<OKStatus> => {
-    return await authFetch("/booklist_entry", {
+    return await authFetch("/booklistentry", {
         method: "POST",
         headers: {
             "content-type": "application/json"
@@ -187,6 +193,7 @@ export {
     fetchUpdateBooklist,
     fetchDeleteBooklist,
     fetchAllEntries,
+    fetchEntriesByList,
     fetchEntry,
     fetchDeleteEntry,
     fetchAddEntry
