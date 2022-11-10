@@ -10,15 +10,15 @@ interface OKStatus {
     message?: string;
 }
 
-const fetchAllBooks = async (): Promise<Book[]> => {
+export const fetchAllBooks = async (): Promise<Book[]> => {
     return await authFetch(`/book/all`);
 };
 
-const fetchBook = async (bookId: string): Promise<Book> => {
+export const fetchBook = async (bookId: string): Promise<Book> => {
     return await authFetch(`/book?id=${bookId}`);
 };
 
-const fetchUpdateBook = async (newBook: Book): Promise<OKStatus> => {
+export const fetchUpdateBook = async (newBook: Book): Promise<OKStatus> => {
     return await authFetch("/book", {
         method: "PUT",
         headers: {
@@ -28,7 +28,7 @@ const fetchUpdateBook = async (newBook: Book): Promise<OKStatus> => {
     });
 };
 
-const fetchAddBook = async (newBook: Book): Promise<OKStatus> => {
+export const fetchAddBook = async (newBook: Book): Promise<OKStatus> => {
     return await authFetch("/book", {
         method: "POST",
         headers: {
@@ -38,17 +38,17 @@ const fetchAddBook = async (newBook: Book): Promise<OKStatus> => {
     });
 };
 
-const fetchDeleteBook = async (bookId: number): Promise<OKStatus> => {
+export const fetchDeleteBook = async (bookId: number): Promise<OKStatus> => {
     return await authFetch(`/book?id=${bookId}`, {
         method: "DELETE"
     });
 };
 
-const fetchAllUsers = async (): Promise<User[]> => {
+export const fetchAllUsers = async (): Promise<User[]> => {
     return await authFetch(`/user/all`);
 };
 
-const fetchDeleteUser = async (userId: number): Promise<OKStatus> => {
+export const fetchDeleteUser = async (userId: number): Promise<OKStatus> => {
     return await authFetch("/user", {
         method: "DELETE",
         headers: {
@@ -58,7 +58,7 @@ const fetchDeleteUser = async (userId: number): Promise<OKStatus> => {
     });
 };
 
-const fetchCurrentBorrows = async (): Promise<Borrow[]> => {
+export const fetchCurrentBorrows = async (): Promise<Borrow[]> => {
     return await authFetch(`/borrow/session`, {
         headers: {
             "content-type": "application/json"
@@ -66,7 +66,7 @@ const fetchCurrentBorrows = async (): Promise<Borrow[]> => {
     });
 };
 
-const fetchAllCurrentBorrows = async (): Promise<Borrow[]> => {
+export const fetchAllCurrentBorrows = async (): Promise<Borrow[]> => {
     return await authFetch(`/borrow/current`, {
         headers: {
             "content-type": "application/json"
@@ -74,7 +74,7 @@ const fetchAllCurrentBorrows = async (): Promise<Borrow[]> => {
     });
 };
 
-const fetchCreateBorrow = async (bookId: number): Promise<OKStatus> => {
+export const fetchCreateBorrow = async (bookId: number): Promise<OKStatus> => {
     return await authFetch("/borrow", {
         method: "POST",
         headers: {
@@ -84,7 +84,9 @@ const fetchCreateBorrow = async (bookId: number): Promise<OKStatus> => {
     });
 };
 
-const fetchReturnBorrowed = async (borrowId: number): Promise<OKStatus> => {
+export const fetchReturnBorrowed = async (
+    borrowId: number
+): Promise<OKStatus> => {
     return await authFetch(`/borrow/return`, {
         method: "PUT",
         headers: {
@@ -94,19 +96,21 @@ const fetchReturnBorrowed = async (borrowId: number): Promise<OKStatus> => {
     });
 };
 
-const fetchAllBooklists = async (): Promise<Book_list[]> => {
+export const fetchAllBooklists = async (): Promise<Book_list[]> => {
     return await authFetch(`/booklist/all`);
 };
 
-const fetchUserBooklists = async (): Promise<Book_list[]> => {
+export const fetchUserBooklists = async (): Promise<Book_list[]> => {
     return await authFetch(`/booklist/user`);
 };
 
-const fetchBooklist = async (booklistId: number): Promise<Book> => {
+export const fetchBooklist = async (booklistId: number): Promise<Book> => {
     return await authFetch(`/booklist?id=${booklistId}`);
 };
 
-const fetchDeleteBooklist = async (booklistId: number): Promise<OKStatus> => {
+export const fetchDeleteBooklist = async (
+    booklistId: number
+): Promise<OKStatus> => {
     return await authFetch("/booklist", {
         method: "DELETE",
         headers: {
@@ -116,7 +120,7 @@ const fetchDeleteBooklist = async (booklistId: number): Promise<OKStatus> => {
     });
 };
 
-const fetchCreateBooklist = async (
+export const fetchCreateBooklist = async (
     newBooklist: Book_list
 ): Promise<OKStatus> => {
     return await authFetch("/booklist", {
@@ -128,7 +132,7 @@ const fetchCreateBooklist = async (
     });
 };
 
-const fetchUpdateBooklist = async (
+export const fetchUpdateBooklist = async (
     newBooklist: Book_list
 ): Promise<OKStatus> => {
     return await authFetch("/booklist", {
@@ -140,21 +144,21 @@ const fetchUpdateBooklist = async (
     });
 };
 
-const fetchAllEntries = async (): Promise<Book_list_entry[]> => {
+export const fetchAllEntries = async (): Promise<Book_list_entry[]> => {
     return await authFetch(`/booklistentry/all`);
 };
 
-const fetchEntry = async (entryId: number): Promise<Book_list_entry> => {
+export const fetchEntry = async (entryId: number): Promise<Book_list_entry> => {
     return await authFetch(`/booklistentry?id=${entryId}`);
 };
 
-const fetchEntriesByList = async (
+export const fetchEntriesByList = async (
     listId: number
 ): Promise<Book_list_entry[]> => {
     return await authFetch(`/booklistentry/list?id=${listId}`);
 };
 
-const fetchDeleteEntry = async (entryId: number): Promise<OKStatus> => {
+export const fetchDeleteEntry = async (entryId: number): Promise<OKStatus> => {
     return await authFetch("/booklistentry", {
         method: "DELETE",
         headers: {
@@ -164,7 +168,9 @@ const fetchDeleteEntry = async (entryId: number): Promise<OKStatus> => {
     });
 };
 
-const fetchAddEntry = async (newEntry: Book_list_entry): Promise<OKStatus> => {
+export const fetchAddEntry = async (
+    newEntry: Book_list_entry
+): Promise<OKStatus> => {
     return await authFetch("/booklistentry", {
         method: "POST",
         headers: {
@@ -172,29 +178,4 @@ const fetchAddEntry = async (newEntry: Book_list_entry): Promise<OKStatus> => {
         },
         body: JSON.stringify(newEntry)
     });
-};
-
-export {
-    fetchAllBooks,
-    fetchBook,
-    fetchUpdateBook,
-    fetchAddBook,
-    fetchDeleteBook,
-    fetchAllUsers,
-    fetchDeleteUser,
-    fetchCurrentBorrows,
-    fetchAllCurrentBorrows,
-    fetchCreateBorrow,
-    fetchReturnBorrowed,
-    fetchUserBooklists,
-    fetchBooklist,
-    fetchAllBooklists,
-    fetchCreateBooklist,
-    fetchUpdateBooklist,
-    fetchDeleteBooklist,
-    fetchAllEntries,
-    fetchEntriesByList,
-    fetchEntry,
-    fetchDeleteEntry,
-    fetchAddEntry
 };
