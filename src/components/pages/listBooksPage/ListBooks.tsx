@@ -75,7 +75,7 @@ const ListBooks: FC = (): JSX.Element => {
             if (
                 calculatedTime >= 0 &&
                 calculatedTime < 5 &&
-                open != "expired"
+                open !== "expired"
             ) {
                 setOpen("expiring");
             }
@@ -264,7 +264,7 @@ const ListBooks: FC = (): JSX.Element => {
                 editing={formEditing}
                 updateBooks={fetchBooks}
             />
-            <Snackbar open={open == "expiring"} action={action}>
+            <Snackbar open={open === "expiring"} action={action}>
                 <Alert
                     onClose={handleClose}
                     severity="warning"
@@ -274,7 +274,7 @@ const ListBooks: FC = (): JSX.Element => {
                     You have expiring book(s)
                 </Alert>
             </Snackbar>
-            <Snackbar open={open == "expired"}>
+            <Snackbar open={open === "expired"}>
                 <Alert severity="error" sx={{ width: "100%" }} variant="filled">
                     YOU HAVE EXPIRED BOOK(S)
                 </Alert>
