@@ -1,26 +1,23 @@
 *** Settings ***
-Resource    ../resources/keywords.resource
+Resource            ../resources/keywords.resource
+
+Suite Teardown      Close all browsers
 
 
 *** Test Cases ***
 User can loan the book
-    Given user selects the book they want to loan
-    When user sees that the book is available
-    And user gives the required info
-    Then user is able to loan the book
+    Given Book with title Java oh Java is available for loaning
+    When User tries to loan a book with title Java oh Java
+    And User navigates to user page
+    Then User can find the Java oh Java book from the page
 
-User can not loan the book
-    Given user selects the book they want to loan
-    When user sees that the book is not available
-    Then user is not able to loan the book
+# User can not loan the book
+#    Given user selects the book they want to loan
+#    When user sees that the book is not available
+#    Then user is not able to loan the book
 
 
 *** Keywords ***
-User selects the book they want to loan
-    User has home page open in browser
-    Page Should Contain Element    xpath://*[contains(text(), 'Name of the book')]
-    Click Button    xpath=(//button[contains(text(), 'Reserve')])[1]
-
 User sees that the book is available
     Wait Until Element Is Visible    xpath://*[contains(text(), 'Information')]
     Page Should Contain Element    xpath://*[contains(text(), 'Available')]
