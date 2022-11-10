@@ -49,7 +49,7 @@ jobs:
             - run: npm run build --if-present
             - run: |
                   npm test &&
-                  react-scripts start & 
+                  npm start & 
                   wait-on http://localhost:3000 &&
                   robot --variable TESTUSERNAME:$TESTUSERNAME --variable TESTPASSWORD:$TESTPASSWORD --removekeywords  NAME:*logins* --outputdir robot/results robot/tests
             - name: Deploy
