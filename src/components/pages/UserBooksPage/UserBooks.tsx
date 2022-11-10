@@ -32,12 +32,12 @@ const UserBooks: FC<{ booklist: Book_list, handleCloseList: Function }> = ({ boo
     const navigate = useNavigate();
 
     const fetchBooks = async () => setBooks(await fetchAllBooks());
-    const fetchEntries = async () => setEntries(await fetchEntriesByList(booklist.id));
+    const fetchEntries = async (id:number) => setEntries(await fetchEntriesByList(id));
 
     useEffect(() => {
         if (booklist.id !== -1){   
             fetchBooks();
-            fetchEntries();
+            fetchEntries(booklist.id);
         }
     }, [booklist]);
 
@@ -109,7 +109,7 @@ const UserBooks: FC<{ booklist: Book_list, handleCloseList: Function }> = ({ boo
                                                 await fetchDeleteEntry(
                                                     entry.id
                                                 );
-                                                await fetchEntries();
+                                                await fetchEntries(booklist.id);
                                             }}
                                         >
                                             Remove
