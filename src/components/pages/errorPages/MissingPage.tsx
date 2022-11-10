@@ -16,7 +16,7 @@ const Missing: FC = () => {
                 sx={userPageReturnButton}
                 variant="contained"
                 onClick={() => {
-                    navigate("/list-books");
+                    navigate("/");
                 }}
             >
                 Return
