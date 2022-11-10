@@ -304,8 +304,7 @@ export const adminPageTab: SxProps = {
     fontFamily: "Montserrat",
     fontWeight: "bold",
     fontSize: 15,
-    backgroundColor: "#FFD100",
-    width: "100%"
+    backgroundColor: "#FFD100"
 };
 
 export const adminDeleteButton: SxProps = {

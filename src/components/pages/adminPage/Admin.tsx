@@ -1,14 +1,6 @@
 import React, { useState, useEffect, FC } from "react";
 import { Box, Tab, Tabs, Fab, Button } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import Book from "../../../interfaces/book.interface";
-import User from "../../../interfaces/user.interface";
-import {
-    fetchAllUsers,
-    fetchAllBooks,
-    fetchDeleteUser
-} from "../../../fetchFunctions";
 import { useNavigate } from "react-router-dom";
 import {
     userPageBackButton,
@@ -18,6 +10,8 @@ import {
 import UsersGrid from "./UsersGrid";
 import BooksGrid from "./BooksGrid";
 import LoansGrid from "./LoansGrid";
+import ExpiredGrid from "./ExpiredGrid";
+import RequestsGrid from "./RequestsGrid";
 
 const Admin: FC = (): JSX.Element => {
     const [currentTab, setCurrentTab] = useState<number>(0);
@@ -46,6 +40,8 @@ const Admin: FC = (): JSX.Element => {
                 <Tab label="Users" sx={adminPageTab} />
                 <Tab label="Books" sx={adminPageTab} />
                 <Tab label="Current loans" sx={adminPageTab} />
+                <Tab label="Expired loans" sx={adminPageTab} />
+                <Tab label="Book requests" sx={adminPageTab} />
             </Tabs>
             <Fab
                 aria-label="back"
@@ -64,6 +60,12 @@ const Admin: FC = (): JSX.Element => {
             </TabPanel>
             <TabPanel index={2} currentTab={currentTab}>
                 <LoansGrid />
+            </TabPanel>
+            <TabPanel index={3} currentTab={currentTab}>
+                <ExpiredGrid />
+            </TabPanel>
+            <TabPanel index={4} currentTab={currentTab}>
+                <RequestsGrid />
             </TabPanel>
         </Box>
     );

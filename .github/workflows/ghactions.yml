@@ -14,10 +14,13 @@ jobs:
     build:
         runs-on: ubuntu-latest
         timeout-minutes: 5
+        env:
+            TESTUSERNAME: ${{ secrets.REACT_APP_TEST_USERNAME }}
+            TESTPASSWORD: ${{ secrets.REACT_APP_TEST_PASSWORD }}
 
         strategy:
             matrix:
-                node-version: [14.x, 16.x, 18.x]
+                node-version: [16.x]
                 # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
         steps:
@@ -45,9 +48,10 @@ jobs:
             - run: npm ci
             - run: npm run build --if-present
             - run: |
+                  npm test &&
                   npm start & 
-                  sleep 10s &&
-                  npm test
+                  npx wait-on http://localhost:3000 &&
+                  robot --variable TESTUSERNAME:$TESTUSERNAME --variable TESTPASSWORD:$TESTPASSWORD --removekeywords  NAME:*logins* --outputdir robot/results robot/tests
             - name: Deploy
               uses: JamesIves/github-pages-deploy-action@v4
               with:

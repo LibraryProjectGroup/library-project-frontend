@@ -4,6 +4,8 @@ import LoginPage from "./components/pages/loginPage/LoginPage";
 import CreateAccount from "./components/pages/createAccountPage/CreateAccount";
 import MyAccount from "./components/pages/userPage/UserPage";
 import Admin from "./components/pages/adminPage/Admin";
+import UnauthorizedPage from "./components/pages/errorPages/UnauthorizedPage";
+import MissingPage from "./components/pages/errorPages/MissingPage";
 import TheContextProvider, { TheContext } from "./TheContext";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { isAuthenticated } from "./auth";
@@ -21,7 +23,7 @@ function App() {
         return context?.user?.administrator ? (
             props.children
         ) : (
-            <p>Unauthorized</p>
+            <UnauthorizedPage />
         );
     };
 
@@ -65,6 +67,12 @@ function App() {
                             <AdminRoute>
                                 <Admin />
                             </AdminRoute>
+                        }
+                    />
+                    <Route
+                        path="*" 
+                        element={
+                            <MissingPage />
                         }
                     />
                 </Routes>

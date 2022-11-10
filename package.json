@@ -22,7 +22,8 @@
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
     "typescript": "^4.8.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "wait-on": "^6.0.1"
   },
   "scripts": {
     "predeploy": "npm run build",
@@ -30,8 +31,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "robottests": "robot --outputdir robot/results robot/tests",
-    "eject": "react-scripts eject"
+    "robottests": "robot --variablefile ../library-project-secrets.py --removekeywords  NAME:*logins* --outputdir robot/results robot/tests",
+    "eject": "react-scripts eject",
+    "dockertests": "robot --variable TESTUSERNAME:${TESTUSERNAME} --variable TESTPASSWORD:${TESTPASSWORD} --removekeywords  NAME:*logins* --outputdir robot/results robot/tests",
+    "startserverandtest": "react-scripts start & wait-on http://localhost:3000 && npm run dockertests"
   },
   "eslintConfig": {
     "extends": [
@@ -40,7 +43,9 @@
     ],
     "rules": {
       "no-unused-vars": 0,
-      "@typescript-eslint/no-unused-vars": 0
+      "@typescript-eslint/no-unused-vars": 0,
+      "eqeqeq": 0,
+      "@typescript-eslint/eqeqeq": 0
     }
   },
   "browserslist": {
@@ -64,6 +69,8 @@
     "gh-pages": "^4.0.0",
     "husky": "^8.0.1",
     "prettier": "2.7.1",
-    "pretty-quick": "^3.1.3"
+    "pretty-quick": "^3.1.3",
+    "start-server-and-test": "^1.14.0",
+    "wait-on": "^6.0.1"
   }
 }
