@@ -222,6 +222,21 @@ export const listBooksEditButton: SxProps = {
     //padding: 1,
 };
 
+export const listBooksEntryAddButton: SxProps = {
+    fontFamily: "Montserrat",
+    fontWeight: "bold",
+    fontSize: 15,
+    //marginTop: "1rem",
+    //width: "30%",
+    whiteSpace: "nowrap",
+    backgroundColor: "#FFD100",
+    color: "black",
+    "&:hover": {
+        backgroundColor: "#FFB500"
+    }
+    //padding: 1,
+};
+
 export const listBooksLoanButton: SxProps = {
     fontFamily: "Montserrat",
     fontWeight: "bold",
