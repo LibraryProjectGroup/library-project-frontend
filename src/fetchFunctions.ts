@@ -104,6 +104,24 @@ export const fetchAllCurrentLoans = async () => {
     });
 };
 
+export const fetchExpiredLoans = async () => {
+    return await authFetch(`/borrow/expired/admin`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
+
+export const fetchAllBookRequests = async () => {
+    return await authFetch(`/bookrequest/all`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
+
 export const fetchAddBookRequest = async (
     isbn: string,
     title: string,
