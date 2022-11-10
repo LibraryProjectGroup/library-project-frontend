@@ -117,7 +117,7 @@ export const addBookFormBox: SxProps = {
 export const addBookAddButton: SxProps = {
     fontWeight: "bold",
     fontSize: 15,
-    marginLeft:5,
+    marginLeft: 5,
     //width: "30%",
     backgroundColor: "#FFD100",
     color: "black",
@@ -226,7 +226,7 @@ export const listBooksEntryAddButton: SxProps = {
     fontFamily: "Montserrat",
     fontWeight: "bold",
     fontSize: 15,
-    margin:"3px",
+    margin: "3px",
     //marginTop: "1rem",
     //width: "30%",
     whiteSpace: "nowrap",

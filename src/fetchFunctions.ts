@@ -10,15 +10,15 @@ interface OKStatus {
     message?: string;
 }
 
-export const fetchAllBooks = async (): Promise<Book[]> => {
+const fetchAllBooks = async (): Promise<Book[]> => {
     return await authFetch(`/book/all`);
 };
 
-export const fetchBook = async (bookId: string): Promise<Book> => {
+const fetchBook = async (bookId: string): Promise<Book> => {
     return await authFetch(`/book?id=${bookId}`);
 };
 
-export const fetchUpdateBook = async (newBook: Book): Promise<OKStatus> => {
+const fetchUpdateBook = async (newBook: Book): Promise<OKStatus> => {
     return await authFetch("/book", {
         method: "PUT",
         headers: {
@@ -28,7 +28,7 @@ export const fetchUpdateBook = async (newBook: Book): Promise<OKStatus> => {
     });
 };
 
-export const fetchAddBook = async (newBook: Book): Promise<OKStatus> => {
+const fetchAddBook = async (newBook: Book): Promise<OKStatus> => {
     return await authFetch("/book", {
         method: "POST",
         headers: {
@@ -38,13 +38,13 @@ export const fetchAddBook = async (newBook: Book): Promise<OKStatus> => {
     });
 };
 
-export const fetchDeleteBook = async (bookId: number): Promise<OKStatus> => {
+const fetchDeleteBook = async (bookId: number): Promise<OKStatus> => {
     return await authFetch(`/book?id=${bookId}`, {
         method: "DELETE"
     });
 };
 
-export const fetchAllUsers = async (): Promise<User[]> => {
+const fetchAllUsers = async (): Promise<User[]> => {
     return await authFetch(`/user/all`);
 };
 
@@ -177,5 +177,14 @@ export const fetchAddEntry = async (
             "content-type": "application/json"
         },
         body: JSON.stringify(newEntry)
+    });
+};
+
+export const fetchAllCurrentLoans = async () => {
+    return await authFetch(`/borrow/current/admin`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
     });
 };
