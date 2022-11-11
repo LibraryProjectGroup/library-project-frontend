@@ -8,6 +8,7 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { TheContext } from "../../../TheContext";
 import Book from "../../../interfaces/book.interface";
 import BookForm from "./BookForm";
+import UserListPopup from "./UserListPopup";
 import {
     fetchAllBooks,
     fetchDeleteBook,
@@ -19,7 +20,8 @@ import {
     listBooksDeleteButton,
     listBooksEditButton,
     listBooksLoanButton,
-    addBookAddButton as addButton
+    addBookAddButton as addButton,
+    listBooksFavoriteButton as favButton
 } from "../../../sxStyles";
 import Borrow from "../../../interfaces/borrow.interface";
 import Snackbar from "@mui/material/Snackbar";
@@ -116,11 +118,12 @@ const ListBooks: FC = (): JSX.Element => {
             return (
                 <Paper elevation={10} sx={{ padding: "2rem" }}>
                     <Stack direction="row" justifyContent="space-between">
-                        <Stack>
+                        <Stack sx={{ alignSelf: "center" }}>
                             <Typography
                                 sx={{
                                     fontFamily: "Montserrat",
-                                    fontWeight: "bold"
+                                    fontWeight: "bold",
+                                    marginBottom: 2
                                 }}
                             >
                                 {book.title}
@@ -163,6 +166,7 @@ const ListBooks: FC = (): JSX.Element => {
                             justifyContent="start"
                             paddingLeft="2rem"
                         >
+                            <UserListPopup book={book} />
                             <Button
                                 sx={listBooksDeleteButton}
                                 variant="contained"

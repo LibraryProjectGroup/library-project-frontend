@@ -117,6 +117,7 @@ export const addBookFormBox: SxProps = {
 export const addBookAddButton: SxProps = {
     fontWeight: "bold",
     fontSize: 15,
+    marginLeft: 5,
     //width: "30%",
     backgroundColor: "#FFD100",
     color: "black",
@@ -182,6 +183,16 @@ export const editBookCancelButton: SxProps = {
 
 // ListBooks
 
+export const listBooksFavoriteButton: SxProps = {
+    fontFamily: "Montserrat",
+    fontWeight: "bold",
+    color: "#545353",
+    width: 20,
+    height: 20,
+    left: 90,
+    bottom: 20
+};
+
 export const listBooksDeleteButton: SxProps = {
     fontFamily: "Montserrat",
     fontWeight: "bold",
@@ -201,6 +212,22 @@ export const listBooksEditButton: SxProps = {
     fontWeight: "bold",
     fontSize: 15,
     marginTop: "1rem",
+    //width: "30%",
+    whiteSpace: "nowrap",
+    backgroundColor: "#FFD100",
+    color: "black",
+    "&:hover": {
+        backgroundColor: "#FFB500"
+    }
+    //padding: 1,
+};
+
+export const listBooksEntryAddButton: SxProps = {
+    fontFamily: "Montserrat",
+    fontWeight: "bold",
+    fontSize: 15,
+    margin: "3px",
+    //marginTop: "1rem",
     //width: "30%",
     whiteSpace: "nowrap",
     backgroundColor: "#FFD100",
@@ -241,6 +268,21 @@ export const userPageReturnButton: SxProps = {
 };
 
 export const userPageBackButton: SxProps = {
+    position: "relative",
+    top: 50,
+    marginBottom: 10,
+    marginLeft: 5,
+    backgroundColor: "#FFD100",
+    color: "black",
+    "&:hover": {
+        backgroundColor: "#FFB500"
+    }
+};
+
+export const userPageMyListsButton: SxProps = {
+    fontFamily: "Montserrat",
+    fontWeight: "bold",
+    fontSize: 15,
     position: "relative",
     top: 50,
     marginBottom: 10,

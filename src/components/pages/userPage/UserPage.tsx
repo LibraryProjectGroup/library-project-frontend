@@ -10,7 +10,11 @@ import {
 import Book from "../../../interfaces/book.interface";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { userPageReturnButton, userPageBackButton } from "../../../sxStyles";
+import {
+    userPageReturnButton,
+    userPageBackButton,
+    userPageMyListsButton
+} from "../../../sxStyles";
 import { endSession } from "../../../auth";
 import Borrow from "../../../interfaces/borrow.interface";
 
@@ -51,7 +55,15 @@ const MyAccount: FC = (): JSX.Element => {
             );
             if (!book) continue;
             renderedBooks.push(
-                <Paper elevation={10} sx={{ padding: "2rem" }}>
+                <Paper
+                    elevation={10}
+                    sx={{
+                        padding: "2rem",
+                        width: "60%",
+                        margin: "auto",
+                        marginBottom: 1
+                    }}
+                >
                     <Stack direction="row" justifyContent="space-between">
                         <Stack>
                             <Typography
@@ -126,13 +138,15 @@ const MyAccount: FC = (): JSX.Element => {
         return renderedBooks;
     };
 
+    const length = renderBorrowedBooks().length;
+
     return (
         <>
             <div style={{ position: "absolute", right: 30 }}>
                 <p>
                     User: <b>{context?.user?.username}</b>
                 </p>
-                <p>Currently loaning</p>
+                <p>Currently loaning {length} book(s)</p>
             </div>
             <Fab
                 aria-label="back"
@@ -153,6 +167,15 @@ const MyAccount: FC = (): JSX.Element => {
             >
                 <LogoutIcon />
             </Fab>
+            <Button
+                sx={userPageMyListsButton}
+                variant="contained"
+                onClick={() => {
+                    navigate("/booklists");
+                }}
+            >
+                My Lists
+            </Button>
             {renderBorrowedBooks()}
         </>
     );
