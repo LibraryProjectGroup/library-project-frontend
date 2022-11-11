@@ -1,4 +1,4 @@
-import { useState, FC, useContext, useEffect } from "react";
+import React, { useState, FC, useContext, useEffect } from "react";
 import { Paper, Typography, Button, Stack, Fab } from "@mui/material";
 import { TheContext } from "../../../TheContext";
 import { useNavigate } from "react-router-dom";
@@ -17,10 +17,17 @@ import {
 } from "../../../sxStyles";
 import { endSession } from "../../../auth";
 import Borrow from "../../../interfaces/borrow.interface";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 const MyAccount: FC = (): JSX.Element => {
     const [books, setBooks] = useState<{ [key: number]: Book }>([]);
     const [borrows, setBorrows] = useState<Borrow[]>([]);
+    const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
+        ok: false,
+        message: ""
+    });
 
     const context = useContext(TheContext);
     const navigate = useNavigate();
@@ -37,6 +44,40 @@ const MyAccount: FC = (): JSX.Element => {
     const fetchBorrows = async () => {
         setBorrows(await fetchCurrentBorrows());
     };
+
+    const handleClosePopUpConfirmation = (
+        event: React.SyntheticEvent | Event,
+        reason?: string
+    ) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setPopUpConfirmationOpen({
+            ok: false,
+            message: ""
+        });
+    };
+
+    const action = (
+        <React.Fragment>
+            {/*! Undo functional for the future? */}
+            {/* <Button
+        color="secondary"
+        size="small"
+        onClick={handleClosePopUpConfirmation}
+      >
+        UNDO
+      </Button> */}
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClosePopUpConfirmation}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
 
     useEffect(() => {
         fetchBooks();
@@ -124,8 +165,27 @@ const MyAccount: FC = (): JSX.Element => {
                                 sx={userPageReturnButton}
                                 variant="contained"
                                 onClick={async () => {
-                                    await fetchReturnBorrowed(borrowed.id);
-                                    await fetchBorrows();
+                                    if (
+                                        window.confirm(
+                                            "Do you want to RETURN this book?"
+                                        )
+                                    ) {
+                                        let message = "Returning succeeded";
+                                        await fetchReturnBorrowed(borrowed.id)
+                                            .then((res) => {
+                                                if (!res.ok) {
+                                                    message =
+                                                        "Returning failed";
+                                                }
+                                            })
+                                            .then(() =>
+                                                setPopUpConfirmationOpen({
+                                                    ok: true,
+                                                    message: message
+                                                })
+                                            );
+                                        await fetchBorrows();
+                                    }
                                 }}
                             >
                                 Return
@@ -142,6 +202,15 @@ const MyAccount: FC = (): JSX.Element => {
 
     return (
         <>
+            {/* Pop up element */}
+            <Snackbar
+                open={popUpConfirmation.ok}
+                autoHideDuration={4000}
+                onClose={handleClosePopUpConfirmation}
+                message={popUpConfirmation.message}
+                action={action}
+            />
+            {/* Pop up element */}
             <div style={{ position: "absolute", right: 30 }}>
                 <p>
                     User: <b>{context?.user?.username}</b>
