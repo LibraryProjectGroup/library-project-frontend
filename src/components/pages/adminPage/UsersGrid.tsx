@@ -2,10 +2,19 @@ import { useState, useEffect, FC } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Button } from "@mui/material";
 import User from "../../../interfaces/user.interface";
-import { fetchDeleteUser, fetchAllUsers } from "../../../fetchFunctions";
+import EditUser from "../../../interfaces/editUser.interface";
+import {
+    fetchDeleteUser,
+    fetchAllUsers,
+    fetchUserById,
+    fetchUpdateUserData
+} from "../../../fetchFunctions";
+import UserForm from "./EditUsers";
 
 const UsersGrid: FC = (): JSX.Element => {
     const [usersData, setUsersData] = useState<User[]>([]);
+    const [oneUserData, setOneUserData] = useState<EditUser | null>(null);
+    const [formVisible, setFormVisible] = useState(false);
 
     const COLUMNS_USERS: GridColDef[] = [
         { field: "id", headerName: "ID", flex: 2 },
@@ -19,9 +28,26 @@ const UsersGrid: FC = (): JSX.Element => {
             }
         },
         {
+            field: "edit",
+            headerName: "Edit user",
+            flex: 2,
+            renderCell: (params) => (
+                <Button
+                    sx={{ color: "blue" }}
+                    onClick={() => {
+                        // deleteUser(params.row.id);
+                        // loadUsersData();
+                        editUser(params.row.id);
+                    }}
+                >
+                    Edit
+                </Button>
+            )
+        },
+        {
             field: "delete",
             headerName: "Delete user",
-            flex: 3,
+            flex: 2,
             renderCell: (params) => (
                 <Button
                     sx={{ color: "red" }}
@@ -50,12 +76,37 @@ const UsersGrid: FC = (): JSX.Element => {
         await loadUsersData();
     };
 
+    const editUser = async (id: number) => {
+        const userData = await fetchUserById(id);
+        setFormVisible(true);
+        setOneUserData(userData);
+        // await loadUsersData();
+    };
+
+    const updateUser = async (editedUser: EditUser) => {
+        const ok = await fetchUpdateUserData(editedUser);
+
+        if (ok?.ok) {
+            setFormVisible(false);
+            await loadUsersData();
+        }
+    };
+
     return (
-        <DataGrid
-            columns={COLUMNS_USERS}
-            rows={usersData}
-            sx={{ width: "100%", height: 1000 }}
-        ></DataGrid>
+        <>
+            <UserForm
+                visible={formVisible}
+                setVisible={setFormVisible}
+                setOneUserData={setOneUserData}
+                user={oneUserData}
+                updateUser={updateUser}
+            />
+            <DataGrid
+                columns={COLUMNS_USERS}
+                rows={usersData}
+                sx={{ width: "100%", height: 1000 }}
+            ></DataGrid>
+        </>
     );
 };
 

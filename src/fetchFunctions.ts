@@ -1,6 +1,7 @@
 import { authFetch } from "./auth";
 import Book from "./interfaces/book.interface";
 import User from "./interfaces/user.interface";
+import EditUser from "./interfaces/editUser.interface";
 import Borrow from "./interfaces/borrow.interface";
 import Book_list from "./interfaces/book_list.interface";
 import Book_list_entry from "./interfaces/book_list_entry.interface";
@@ -57,6 +58,30 @@ export const fetchDeleteUser = async (userId: number): Promise<OKStatus> => {
         },
         body: JSON.stringify({ id: userId })
     });
+};
+
+export const fetchUserById = async (userId: number): Promise<EditUser> => {
+    return await authFetch(`/user?id=${userId}`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json"
+        }
+    });
+};
+
+export const fetchUpdateUserData = async (
+    editUser: EditUser
+): Promise<OKStatus> => {
+    return await authFetch(
+        `/user?id=${editUser?.id}&username=${editUser?.username}&administrator=${editUser?.administrator}`,
+        {
+            method: "PUT",
+            headers: {
+                "content-type": "application/json"
+            }
+            // body: JSON.stringify({ id: userId })
+        }
+    );
 };
 
 export const fetchCurrentBorrows = async (): Promise<Borrow[]> => {
