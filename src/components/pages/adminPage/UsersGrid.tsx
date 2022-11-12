@@ -30,13 +30,11 @@ const UsersGrid: FC = (): JSX.Element => {
         {
             field: "edit",
             headerName: "Edit user",
-            flex: 2,
+            flex: 1.5,
             renderCell: (params) => (
                 <Button
                     sx={{ color: "blue" }}
                     onClick={() => {
-                        // deleteUser(params.row.id);
-                        // loadUsersData();
                         editUser(params.row.id);
                     }}
                 >
@@ -47,7 +45,7 @@ const UsersGrid: FC = (): JSX.Element => {
         {
             field: "delete",
             headerName: "Delete user",
-            flex: 2,
+            flex: 1.5,
             renderCell: (params) => (
                 <Button
                     sx={{ color: "red" }}
@@ -77,15 +75,15 @@ const UsersGrid: FC = (): JSX.Element => {
     };
 
     const editUser = async (id: number) => {
-        const userData = await fetchUserById(id);
+        let userData = await fetchUserById(id);
+        userData.administrator =
+            userData.administrator === 1 ? "true" : "false";
         setFormVisible(true);
         setOneUserData(userData);
-        // await loadUsersData();
     };
 
     const updateUser = async (editedUser: EditUser) => {
         const ok = await fetchUpdateUserData(editedUser);
-
         if (ok?.ok) {
             setFormVisible(false);
             await loadUsersData();

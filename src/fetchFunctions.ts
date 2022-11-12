@@ -60,7 +60,7 @@ export const fetchDeleteUser = async (userId: number): Promise<OKStatus> => {
     });
 };
 
-export const fetchUserById = async (userId: number): Promise<EditUser> => {
+export const fetchUserById = async (userId: number): Promise<any> => {
     return await authFetch(`/user?id=${userId}`, {
         method: "GET",
         headers: {
@@ -79,7 +79,6 @@ export const fetchUpdateUserData = async (
             headers: {
                 "content-type": "application/json"
             }
-            // body: JSON.stringify({ id: userId })
         }
     );
 };

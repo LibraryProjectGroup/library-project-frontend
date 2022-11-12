@@ -5,13 +5,14 @@ import {
     Button,
     Typography,
     TextField,
-    Stack
+    Stack,
+    MenuItem
 } from "@mui/material";
 import User from "../../../interfaces/editUser.interface";
 import {
-    editBookBox,
-    editBookUpdateButton,
-    editBookCancelButton
+    editUserBox,
+    editUserUpdateButton,
+    editUserCancelButton
 } from "../../../sxStyles";
 
 interface IProps {
@@ -42,7 +43,7 @@ const EditUser: FC<IProps> = ({
 
     return (
         <Modal open={visible} onClose={() => setVisible(false)}>
-            <Box sx={editBookBox}>
+            <Box sx={editUserBox}>
                 <Stack spacing={2}>
                     <Typography
                         sx={{
@@ -54,11 +55,15 @@ const EditUser: FC<IProps> = ({
                         Edit user
                     </Typography>
                     <TextField
+                        select
                         label="Administrator"
                         name="administrator"
                         value={user?.administrator}
                         onChange={(e) => onChange(e)}
-                    />
+                    >
+                        <MenuItem value={"true"}>True</MenuItem>
+                        <MenuItem value={"false"}>False</MenuItem>
+                    </TextField>
                     <TextField
                         label="Username"
                         name="username"
@@ -68,14 +73,14 @@ const EditUser: FC<IProps> = ({
 
                     <Stack direction="row" spacing={2} justifyContent="center">
                         <Button
-                            sx={editBookUpdateButton}
+                            sx={editUserUpdateButton}
                             variant="contained"
                             onClick={() => updateUser(user)}
                         >
                             Update
                         </Button>
                         <Button
-                            sx={editBookCancelButton}
+                            sx={editUserCancelButton}
                             variant="contained"
                             onClick={() => setVisible(false)}
                         >

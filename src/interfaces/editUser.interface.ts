@@ -1,7 +1,7 @@
 interface User {
     id: number;
     username: string;
-    administrator: boolean;
+    administrator: string;
 }
 
 export default User;
