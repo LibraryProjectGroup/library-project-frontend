@@ -7,7 +7,7 @@ import {
     fetchDeleteUser,
     fetchAllUsers,
     fetchUserById,
-    fetchUpdateUserData
+    fetchAdminUpdateUserData
 } from "../../../fetchFunctions";
 import UserForm from "./EditUsers";
 
@@ -83,7 +83,7 @@ const UsersGrid: FC = (): JSX.Element => {
     };
 
     const updateUser = async (editedUser: EditUser) => {
-        const ok = await fetchUpdateUserData(editedUser);
+        const ok = await fetchAdminUpdateUserData(editedUser);
         if (ok?.ok) {
             setFormVisible(false);
             await loadUsersData();

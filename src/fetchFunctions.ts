@@ -83,6 +83,20 @@ export const fetchUpdateUserData = async (
     );
 };
 
+export const fetchAdminUpdateUserData = async (
+    editUser: EditUser
+): Promise<OKStatus> => {
+    return await authFetch(
+        `/user/admin?id=${editUser?.id}&username=${editUser?.username}&administrator=${editUser?.administrator}`,
+        {
+            method: "PUT",
+            headers: {
+                "content-type": "application/json"
+            }
+        }
+    );
+};
+
 export const fetchCurrentBorrows = async (): Promise<Borrow[]> => {
     return await authFetch(`/borrow/session`, {
         headers: {
