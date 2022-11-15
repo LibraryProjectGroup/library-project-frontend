@@ -20,6 +20,7 @@ import Borrow from "../../../interfaces/borrow.interface";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { addSyntheticLeadingComment } from "typescript";
 
 const MyAccount: FC = (): JSX.Element => {
     const [books, setBooks] = useState<{ [key: number]: Book }>([]);
@@ -94,6 +95,7 @@ const MyAccount: FC = (): JSX.Element => {
             const calculatedTime = Math.floor(
                 (datedDueDate.getTime() - currentDate.getTime()) / convertToDay
             );
+
             if (!book) continue;
             renderedBooks.push(
                 <Paper
@@ -157,7 +159,13 @@ const MyAccount: FC = (): JSX.Element => {
                                         calculatedTime <= 5 ? "red" : "inherit"
                                 }}
                             >
-                                Expiring in: {calculatedTime} day(s)
+                                {calculatedTime < 0
+                                    ? "Expired by: " +
+                                      Math.abs(calculatedTime) +
+                                      " day(s)"
+                                    : "Expiring in: " +
+                                      calculatedTime +
+                                      " day(s)"}
                             </Typography>
                         </Stack>
                         <Stack marginY={1} justifyContent="space-between">
