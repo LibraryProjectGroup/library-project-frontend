@@ -48,13 +48,19 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
     };
 
     const handleAddButton = (list: Book_list) => {
-        const addEntry: Book_list_entry = {id:-1, list:list.id, book:book.id}
-        console.log(addEntry)
+        const addEntry: Book_list_entry = {
+            id: -1,
+            list: list.id,
+            book: book.id
+        };
+        console.log(addEntry);
         //TODO: add check to prevent duplicate entries
         //  fetch all entries of user
         //  compare addEntry to fetched entries
         fetchAddEntry(addEntry);
-    }
+        // close popup after adding
+        setAnchorEl(null);
+    };
 
     const open = Boolean(anchorEl);
     const id = open ? "simple-popover" : undefined;
@@ -100,7 +106,7 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
                         <Button
                             sx={listBooksEntryAddButton}
                             onClick={() => {
-                                handleAddButton(list)
+                                handleAddButton(list);
                             }}
                         >
                             Add
