@@ -1,4 +1,4 @@
-import React, { useState, FC, useEffect } from "react";
+import React, { useState, FC, useEffect, useContext } from "react";
 import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
 import BACKEND_URL from "../../../backendUrl";
 import { useNavigate } from "react-router-dom";
@@ -11,12 +11,15 @@ import {
     loginPaper
 } from "../../../sxStyles";
 import { setSession } from "../../../auth";
+import { TheContext } from "../../../TheContext";
 
 const LoginPage: FC = (): JSX.Element => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMesssage] = useState("");
     const navigate = useNavigate();
+
+    const context = useContext(TheContext);
 
     const [dimensions, setDimensions] = React.useState({
         height: window.innerHeight,
@@ -51,6 +54,8 @@ const LoginPage: FC = (): JSX.Element => {
             if (data.ok) {
                 setSession(data.secret);
                 navigate("/list-books");
+                // update user data when you logIn and logOut
+                context?.setIsLogin(true);
             } else {
                 setErrorMesssage(
                     data.message ? data.message : "internal error"

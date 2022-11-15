@@ -232,6 +232,8 @@ const MyAccount: FC = (): JSX.Element => {
                 onClick={() => {
                     endSession();
                     navigate("/login");
+                    // update user data when you logIn and logOut
+                    context?.setIsLogin(false);
                 }}
             >
                 <LogoutIcon />
