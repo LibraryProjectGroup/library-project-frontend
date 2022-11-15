@@ -18,6 +18,13 @@
 .env.test.local
 .env.production.local
 
+#robottests
+docker.env
+/browser
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# results for robot tests
+results

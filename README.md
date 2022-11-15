@@ -1,6 +1,31 @@
-# Getting Started with Create React App
+<!-- ABOUT THE PROJECT -->
+# About the project
+
+-- Project description --
+
+## Built with 
+
+<!-- ICONS found at: https://github.com/devicons/devicon/tree/master/icons -->
+<div>
+      <img src="https://github.com/devicons/devicon/blob/master/icons/typescript/typescript-original.svg" title="TS" alt="TS" width="40" height="40"/>&nbsp;
+      <img src="https://github.com/devicons/devicon/blob/master/icons/nodejs/nodejs-original-wordmark.svg" title="Node.js" alt="Node.js" width="40" height="40"/>&nbsp;
+      <img src="https://github.com/devicons/devicon/blob/master/icons/materialui/materialui-original.svg" title="MaterialUI" alt="MaterialUI" width="40" height="40"/>&nbsp;
+      <img src="https://github.com/devicons/devicon/blob/master/icons/docker/docker-original.svg" title="Docker" alt="Docker" width="40" height="40"/>&nbsp;
+      
+      
+
+</div>
+
+<!-- TABLE OF CONTENTS -->
+# Table of Contents
+
+
+<!-- GETTING STARTED -->
+# Getting Started 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Installation
 
 ## Available Scripts
 
@@ -44,3 +69,152 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+<!-- USAGE -->
+# Usage
+
+<details>
+<summary> Backend endpoints </summary>
+
+### Book
+
+#### /book?id={id} (GET)
+
+Response schema:
+
+```JSON
+{
+    "title": "Book",
+    "description": "Book",
+    "type": "object",
+    "properties":{
+      "id":{"type":"string"},
+      "libraryUser":{"type":"User"},
+      "topic":{"type":"Topic"},
+      "title":{"type":"string"},
+      "author":{"type":"string"},
+      "isbn":{"type":"string"},
+      "location":{"type":"string"}
+    }
+}
+```
+
+#### /book (POST)
+
+Response schema:
+
+```JSON
+{
+    "title": "Ok",
+    "description": "Ok",
+    "type": "object",
+    "properties":{
+      "ok":{"type":"boolean"}
+    }
+}
+```
+
+#### /book (PUT)
+
+Response schema:
+
+```JSON
+{
+    "title": "Ok",
+    "description": "Ok",
+    "type": "object",
+    "properties":{
+      "ok":{"type":"boolean"}
+    }
+}
+```
+
+#### /book?id={id} (DELETE)
+
+Response schema:
+
+```JSON
+{
+    "title": "Ok",
+    "description": "Ok",
+    "type": "object",
+    "properties":{
+      "ok":{"type":"boolean"}
+    }
+}
+```
+
+#### /book/all (GET)
+
+Response schema:
+
+```JSON
+{
+  "type":"array",
+  "items": {
+    "title": "Book",
+    "description": "Book",
+    "type": "object",
+    "properties":{
+      "libraryUser":{"type":"User"},
+      "topic":{"type":"Topic"},
+      "title":{"type":"string"},
+      "author":{"type":"string"},
+      "isbn":{"type":"string"},
+      "location":{"type":"string"}
+    }
+}
+```
+
+### User
+
+#### /user?id={id} (GET)
+
+Response schema:
+
+```JSON
+{
+    "title": "User",
+    "description": "User",
+    "type": "object",
+    "properties":{
+      "books":{"type":"array"},
+      "userId":{"type":"string"},
+      "userName":{"type":"string"},
+}
+```
+
+#### /user/all (GET)
+
+Response schema:
+
+```JSON
+{
+  "type":"array",
+  "items": {
+    "title": "User",
+    "description": "User",
+    "type": "object",
+    "properties":{
+      "books":{"type":"array"},
+      "userId":{"type":"string"},
+      "userName":{"type":"string"},
+    }
+}
+```
+
+</details>
+
+
+
+<!-- ROBOT TESTS -->
+# RobotTests
+
+See detailed documentation about Robot testing in [AboutRobotTests.md documentation file](robot/aboutRobotTests.md).
+
+<!-- CREDITS -->
+# Credits
+
+<!-- LICENCE -->
+# Licence

@@ -1,0 +1,5 @@
+# Add files to exclude from formatting here
+build
+coverage
+.package-lock.json
+*.min.*

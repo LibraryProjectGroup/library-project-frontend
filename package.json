@@ -2,7 +2,13 @@
   "name": "library-project-frontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://libraryprojectgroup.github.io",
   "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/icons-material": "^5.10.6",
+    "@mui/material": "^5.10.9",
+    "@mui/x-data-grid": "^5.17.9",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -10,23 +16,37 @@
     "@types/node": "^16.11.57",
     "@types/react": "^18.0.18",
     "@types/react-dom": "^18.0.6",
+    "gh-pages": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
     "typescript": "^4.8.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "wait-on": "^6.0.1"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "robottests": "robot --variablefile ../library-project-secrets.py --removekeywords  NAME:*logins* --outputdir robot/results robot/tests",
+    "eject": "react-scripts eject",
+    "dockertests": "robot --variable TESTUSERNAME:${TESTUSERNAME} --variable TESTPASSWORD:${TESTPASSWORD} --removekeywords  NAME:*logins* --outputdir robot/results robot/tests",
+    "startserverandtest": "react-scripts start & wait-on http://localhost:3000 && npm run dockertests"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "no-unused-vars": 0,
+      "@typescript-eslint/no-unused-vars": 0,
+      "eqeqeq": 0,
+      "@typescript-eslint/eqeqeq": 0
+    }
   },
   "browserslist": {
     "production": [
@@ -39,5 +59,18 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "devDependencies": {
+    "gh-pages": "^4.0.0",
+    "husky": "^8.0.1",
+    "prettier": "2.7.1",
+    "pretty-quick": "^3.1.3",
+    "start-server-and-test": "^1.14.0",
+    "wait-on": "^6.0.1"
   }
 }

@@ -1,0 +1,15 @@
+appdirs==1.4.4
+certifi==2020.12.5
+chardet==4.0.0
+idna==2.10
+lxml==4.6.2
+requests==2.25.1
+robotframework==3.2.2
+robotframework-lint==1.1
+robotframework-pythonlibcore==2.2.1
+robotframework-selenium2library==3.0.0
+robotframework-seleniumlibrary==5.1.0
+selenium==3.141.0
+urllib3==1.26.3
+xvfbwrapper
+robotframework-xvfb

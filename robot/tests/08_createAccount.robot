@@ -1,0 +1,36 @@
+*** Settings ***
+Resource            ../resources/keywords.resource
+
+Suite Setup         User has home page open in browser
+Suite Teardown      Close all browsers
+
+
+*** Test Cases ***
+User creates account with existing credentials
+    Given User navigates to Create Account page
+    And User signs up with existing username and password
+    Then User will see alert that username already exists
+
+User creates account with too short username
+    Given User signs up with a 2 letter username
+    Then User will see alert that the username is too short
+
+User creates account with too short password
+    Given User signs up with a 2 character password
+    Then User will see alert that the password is too short
+
+User creates password without uppercase character
+    Given User signs up with password without uppercase character
+    Then User will see alert that password is insufficient
+
+User creates password without lowercase character
+    Given User signs up with password without lowercase character
+    Then User will see alert that password is insufficient
+
+User creates password without number
+    Given User signs up with password without number
+    Then User will see alert that password is insufficient
+
+User creates password without special character
+    Given User signs up with password without special character
+    Then User will see alert that password is insufficient
