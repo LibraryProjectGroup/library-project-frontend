@@ -321,9 +321,13 @@ export const adminDeleteButton: SxProps = {
     //padding: 1,
 };
 
+
+
+
 // EditUser
 
 export const editUserBox: SxProps = {
+
     position: "absolute" as "absolute",
     top: "50%",
     left: "50%",
@@ -336,7 +340,8 @@ export const editUserBox: SxProps = {
     paddingBottom: 2
 };
 
-export const editUserUpdateButton: SxProps = {
+export const editUserCancelButton: SxProps = {
+
     fontFamily: "Montserrat",
     fontWeight: "bold",
     fontSize: 15,
@@ -349,7 +354,9 @@ export const editUserUpdateButton: SxProps = {
     //padding: 2,
 };
 
-export const editUserCancelButton: SxProps = {
+
+export const editUserUpdateButton: SxProps = {
+
     fontFamily: "Montserrat",
     fontWeight: "bold",
     fontSize: 15,
@@ -361,3 +368,45 @@ export const editUserCancelButton: SxProps = {
     }
     //padding: 2,
 };
+
+// EditBookList
+
+export const editBookListBox: SxProps = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    paddingTop: 4,
+    paddingX: 4,
+    paddingBottom: 2
+};
+export const editBookListUpdateButton: SxProps = {
+    fontFamily: "Montserrat",
+    fontWeight: "bold",
+    fontSize: 15,
+    //width: "30%",
+    backgroundColor: "#FFD100",
+    color: "black",
+    "&:hover": {
+        backgroundColor: "#FFB500"
+    }
+    //padding: 2,
+};
+
+export const editBookListCancelButton: SxProps = {
+    fontFamily: "Montserrat",
+    fontWeight: "bold",
+    fontSize: 15,
+    //width: "30%",
+    backgroundColor: "#FFD100",
+    color: "black",
+    "&:hover": {
+        backgroundColor: "#FFB500"
+    }
+    //padding: 2,
+};
+
+
