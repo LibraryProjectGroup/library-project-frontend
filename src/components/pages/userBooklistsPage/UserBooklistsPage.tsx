@@ -22,7 +22,6 @@ import AddIcon from "@mui/icons-material/Add";
 import BooklistForm from "./BooklistForm";
 import {
     listBooksDeleteButton,
-    listBooksEditButton,
     listBooksLoanButton,
     addBookAddButton as addButton,
     listBooksFavoriteButton as favButton
@@ -126,8 +125,6 @@ const UserBooklists: FC = (): JSX.Element => {
                                 sx={listBooksLoanButton}
                                 variant="contained"
                                 onClick={async () => {
-                                    // await fetchDeleteBooklist(booklist.id);
-                                    // await fetchBooklists();
                                     setOneBookListDataToEditName(booklist);
                                     setEditBookListFormVisible(true);
                                 }}

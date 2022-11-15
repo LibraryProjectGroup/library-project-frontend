@@ -10,9 +10,9 @@ import {
 } from "@mui/material";
 // import User from "../../../interfaces/editUser.interface";
 import {
-    editBookBox,
-    editBookUpdateButton,
-    editBookCancelButton
+    editBookListBox,
+    editBookListUpdateButton,
+    editBookListCancelButton
 } from "../../../sxStyles";
 import Book_list from "../../../interfaces/book_list.interface";
 
@@ -50,7 +50,7 @@ IProps): JSX.Element => {
 
     return (
         <Modal open={visible} onClose={() => setVisible(false)}>
-            <Box sx={editBookBox}>
+            <Box sx={editBookListBox}>
                 <Stack spacing={2}>
                     <Typography
                         sx={{
@@ -70,7 +70,7 @@ IProps): JSX.Element => {
 
                     <Stack direction="row" spacing={2} justifyContent="center">
                         <Button
-                            sx={editBookUpdateButton}
+                            sx={editBookListUpdateButton}
                             variant="contained"
                             onClick={() =>
                                 updateBookListName(oneBookListDataToEditName)
@@ -79,7 +79,7 @@ IProps): JSX.Element => {
                             Update
                         </Button>
                         <Button
-                            sx={editBookCancelButton}
+                            sx={editBookListCancelButton}
                             variant="contained"
                             onClick={() => setVisible(false)}
                         >
