@@ -11,6 +11,7 @@ import {
 import { TheContext } from "../../../TheContext";
 import { useNavigate } from "react-router-dom";
 import {
+    fetchUpdateBooklist,
     fetchDeleteBooklist,
     fetchUserBooklists
 } from "../../../fetchFunctions";
@@ -28,14 +29,23 @@ import {
 } from "../../../sxStyles";
 import { fetchBooklist } from "../../../fetchFunctions";
 import UserBooks from "../UserBooksPage/UserBooks";
+import EditBookListName from "./EditBookListName";
+import { arrayBuffer } from "stream/consumers";
 
 const UserBooklists: FC = (): JSX.Element => {
     const [booklists, setBooklists] = useState<Book_list[]>([]);
     const [formBooklist, setFormBooklist] = useState<Book_list | null>(null);
     const [formVisible, setFormVisible] = useState(false);
+    const [editBookListFormVisible, setEditBookListFormVisible] =
+        useState(false);
+    const [oneBookListDataToEditName, setOneBookListDataToEditName] =
+        useState<Book_list | null>(null);
     const [formEditing, setFormEditing] = useState(false);
     const [bookListSelected, setBookListSelected] = useState(false);
-    const [selectedBooklist, setSelectedBooklist] = useState<Book_list>({id:-1, name:''});
+    const [selectedBooklist, setSelectedBooklist] = useState<Book_list>({
+        id: -1,
+        name: ""
+    });
 
     const context = useContext(TheContext);
     const navigate = useNavigate();
@@ -50,18 +60,28 @@ const UserBooklists: FC = (): JSX.Element => {
 
     const handleUserBooksButton = (booklist: Book_list) => {
         setSelectedBooklist(booklist);
-    }
+    };
 
     useEffect(() => {
-        if (selectedBooklist.id !== -1){
+        if (selectedBooklist.id !== -1) {
             setBookListSelected(true);
         }
     }, [selectedBooklist]);
 
     const handleCloseList = () => {
         setBookListSelected(false);
-        setSelectedBooklist({id:-1, name:''});
-    }
+        setSelectedBooklist({ id: -1, name: "" });
+    };
+
+    const updateBookListName = async (editedBook: Book_list) => {
+        // avoid updating the name with empty name value
+        if (editedBook.name === "") return;
+        const ok = await fetchUpdateBooklist(editedBook);
+        if (ok?.ok) {
+            setEditBookListFormVisible(false);
+            await fetchBooklists();
+        }
+    };
 
     const renderBookLists = () => {
         let renderedBooklists = [];
@@ -96,9 +116,23 @@ const UserBooklists: FC = (): JSX.Element => {
                                 onClick={() => {
                                     navigate("/userlist");
                                 }}*/
-                                onClick={() => {handleUserBooksButton(booklist)}}
+                                onClick={() => {
+                                    handleUserBooksButton(booklist);
+                                }}
                             >
                                 View
+                            </Button>
+                            <Button
+                                sx={listBooksLoanButton}
+                                variant="contained"
+                                onClick={async () => {
+                                    // await fetchDeleteBooklist(booklist.id);
+                                    // await fetchBooklists();
+                                    setOneBookListDataToEditName(booklist);
+                                    setEditBookListFormVisible(true);
+                                }}
+                            >
+                                Edit Name
                             </Button>
                             <Button
                                 sx={listBooksLoanButton}
@@ -118,8 +152,7 @@ const UserBooklists: FC = (): JSX.Element => {
         return renderedBooklists;
     };
 
-    
-        /*  using Card component and CardActionArea to click on whole card instead of button component
+    /*  using Card component and CardActionArea to click on whole card instead of button component
     const renderBookLists = () => {
         let renderedBooklists = [];
         for (const booklist of booklists) {
@@ -168,13 +201,13 @@ const UserBooklists: FC = (): JSX.Element => {
         }
         return renderedBooklists;
     };*/
-    
 
-    return bookListSelected ? 
-        <UserBooks 
+    return bookListSelected ? (
+        <UserBooks
             booklist={selectedBooklist}
             handleCloseList={handleCloseList}
-        /> : (
+        />
+    ) : (
         <>
             <div style={{ position: "absolute", right: 30 }}>
                 <p>
@@ -216,6 +249,13 @@ const UserBooklists: FC = (): JSX.Element => {
                 setBooklist={setFormBooklist}
                 editing={formEditing}
                 updateBooklists={fetchBooklists}
+            />
+            <EditBookListName
+                visible={editBookListFormVisible}
+                setVisible={setEditBookListFormVisible}
+                oneBookListDataToEditName={oneBookListDataToEditName}
+                setOneBookListDataToEditName={setOneBookListDataToEditName}
+                updateBookListName={updateBookListName}
             />
         </>
     );
