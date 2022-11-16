@@ -25,6 +25,7 @@ User returns a book with title ${title}
     Wait Until Element Is Visible
     ...    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Return')]
     Click Element    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Return')]
+    Alert Should Be Present    Do you want to RETURN this book?    ACCEPT
     Wait Until Element Is Not Visible
     ...    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Return')]
 
