@@ -87,6 +87,7 @@ User tries to loan a book with title ${title}
     Wait Until Element Is Visible
     ...    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'LOAN')]
     Click Button    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'LOAN')]
+    Alert Should Be Present    Do you want to LOAN this book?    ACCEPT
 
 User who has not signed up tries to log in
     Wait Until Element Is Visible    xpath://input[contains(@id, ':r1:')]
