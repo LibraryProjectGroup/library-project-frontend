@@ -3,6 +3,7 @@ import Book from "./interfaces/book.interface";
 import User from "./interfaces/user.interface";
 import Borrow from "./interfaces/borrow.interface";
 import Book_request from "./interfaces/book_request.interface";
+import Book_reservation from "./interfaces/book_reservation.interface";
 
 interface OKStatus {
     ok: boolean;
@@ -115,5 +116,21 @@ export const fetchAddBookRequest = async (
             "content-type": "application/json"
         },
         body: JSON.stringify({ isbn, title, reason })
+    });
+};
+
+export const fetchBookReservations = async (): Promise<Book_reservation[]> => {
+    return await authFetch(`/book_reservation/all`);
+};
+
+export const fetchCreateReservation = async (
+    bookId: number
+): Promise<OKStatus> => {
+    return await authFetch("/book_reservation", {
+        method: "POST",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ bookId })
     });
 };

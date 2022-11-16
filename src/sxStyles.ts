@@ -225,6 +225,20 @@ export const listBooksLoanButton: SxProps = {
     //padding: 1,
 };
 
+export const listBooksReserveButton: SxProps = {
+    fontFamily: "Montserrat",
+    fontWeight: "bold",
+    fontSize: 15,
+    //width: "30%",
+    backgroundColor: "#FFD100",
+    marginTop: "1rem",
+    color: "black",
+    "&:hover": {
+        backgroundColor: "#FFB500"
+    }
+    //padding: 1,
+};
+
 // UserPage
 
 export const userPageReturnButton: SxProps = {

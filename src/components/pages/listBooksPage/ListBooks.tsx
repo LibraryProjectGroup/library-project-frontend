@@ -13,15 +13,19 @@ import {
     fetchDeleteBook,
     fetchAllCurrentBorrows,
     fetchCreateBorrow,
-    fetchCurrentBorrows
+    fetchCurrentBorrows,
+    fetchBookReservations,
+    fetchCreateReservation
 } from "../../../fetchFunctions";
 import {
     listBooksDeleteButton,
     listBooksEditButton,
     listBooksLoanButton,
+    listBooksReserveButton,
     addBookAddButton as addButton
 } from "../../../sxStyles";
 import Borrow from "../../../interfaces/borrow.interface";
+import Book_reservation from "../../../interfaces/book_reservation.interface";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
@@ -32,6 +36,7 @@ const ListBooks: FC = (): JSX.Element => {
     const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
     const [userBorrows, setUserBorrows] = useState<Borrow[]>([]);
     const [books, setBooks] = useState<Book[]>([]);
+    const [reservations, setReservations] = useState<Book_reservation[]>([]);
 
     const [requestVisible, setRequestVisible] = useState(false);
 
@@ -53,6 +58,9 @@ const ListBooks: FC = (): JSX.Element => {
         setUserBorrows(await fetchCurrentBorrows());
     };
 
+    const fetchResevations = async () =>
+        setReservations(await fetchBookReservations());
+
     const bookInCurrentBorrows = (book: Book) => {
         let inCurrentBorrows = false;
         for (let i = 0; i < currentBorrows.length; i++) {
@@ -61,6 +69,16 @@ const ListBooks: FC = (): JSX.Element => {
             }
         }
         return inCurrentBorrows;
+    };
+
+    const bookInReservations = (book: Book) => {
+        let inReservations = false;
+        for (let i = 0; i < reservations.length; i++) {
+            if (reservations[i].bookId === book.id) {
+                inReservations = true;
+            }
+        }
+        return inReservations;
     };
     const handleOpen = () => {
         for (const borrowed of userBorrows) {
@@ -106,6 +124,7 @@ const ListBooks: FC = (): JSX.Element => {
         fetchBooks();
         fetchBorrows();
         fetchUserBorrows();
+        fetchResevations();
     }, []);
 
     // eslint-disable-next-line
@@ -206,6 +225,21 @@ const ListBooks: FC = (): JSX.Element => {
                                 }}
                             >
                                 LOAN
+                            </Button>
+                            <Button
+                                sx={listBooksReserveButton}
+                                variant="contained"
+                                disabled={
+                                    bookInReservations(book) ||
+                                    bookInCurrentBorrows(book)
+                                }
+                                onClick={async () => {
+                                    await fetchCreateReservation(book.id);
+                                    await fetchBooks();
+                                    await fetchResevations();
+                                }}
+                            >
+                                RESERVE
                             </Button>
                         </Stack>
                     </Stack>
