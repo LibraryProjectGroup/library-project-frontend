@@ -5,7 +5,9 @@ import EditUser from "./interfaces/editUser.interface";
 import Borrow from "./interfaces/borrow.interface";
 import Book_list from "./interfaces/book_list.interface";
 import Book_list_entry from "./interfaces/book_list_entry.interface";
-import Book_request from "./interfaces/book_request.interface";
+import Book_request, {
+    Book_request_status
+} from "./interfaces/book_request.interface";
 
 interface OKStatus {
     ok: boolean;
@@ -259,6 +261,19 @@ export const fetchAddBookRequest = async (
             "content-type": "application/json"
         },
         body: JSON.stringify({ isbn, title, reason })
+    });
+};
+
+export const fetchUpdateBookRequest = async (
+    id: number,
+    status: number
+): Promise<OKStatus> => {
+    return await authFetch("/bookrequest/updatestatus", {
+        method: "PUT",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ id, status })
     });
 };
 
