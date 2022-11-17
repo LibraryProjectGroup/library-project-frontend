@@ -5,7 +5,9 @@ import EditUser from "./interfaces/editUser.interface";
 import Borrow from "./interfaces/borrow.interface";
 import Book_list from "./interfaces/book_list.interface";
 import Book_list_entry from "./interfaces/book_list_entry.interface";
-import Book_request, { Book_request_status } from "./interfaces/book_request.interface";
+import Book_request, {
+    Book_request_status
+} from "./interfaces/book_request.interface";
 
 interface OKStatus {
     ok: boolean;
@@ -73,7 +75,7 @@ export const fetchUpdateUserData = async (
     editUser: EditUser
 ): Promise<OKStatus> => {
     return await authFetch(
-        `/user?id=${editUser?.id}&username=${editUser?.username}&administrator=${editUser?.administrator}`,
+        `/user?id=${editUser?.id}&username=${editUser?.username}&email=${editUser?.email}&administrator=${editUser?.administrator}`,
         {
             method: "PUT",
             headers: {
@@ -87,7 +89,7 @@ export const fetchAdminUpdateUserData = async (
     editUser: EditUser
 ): Promise<OKStatus> => {
     return await authFetch(
-        `/user/admin?id=${editUser?.id}&username=${editUser?.username}&administrator=${editUser?.administrator}`,
+        `/user/admin?id=${editUser?.id}&username=${editUser?.username}&email=${editUser?.email}&administrator=${editUser?.administrator}`,
         {
             method: "PUT",
             headers: {
@@ -260,13 +262,15 @@ export const fetchAddBookRequest = async (
     });
 };
 
-export const fetchUpdateBookRequest = async (id: number, status: number): Promise<OKStatus> => {
+export const fetchUpdateBookRequest = async (
+    id: number,
+    status: number
+): Promise<OKStatus> => {
     return await authFetch("/bookrequest/updatestatus", {
         method: "PUT",
         headers: {
             "content-type": "application/json"
         },
         body: JSON.stringify({ id, status })
-    }) 
-       
-}
+    });
+};
