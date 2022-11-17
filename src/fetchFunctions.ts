@@ -237,6 +237,8 @@ export const fetchExpiredLoans = async () => {
     });
 };
 
+// Book request
+
 export const fetchAllBookRequests = async () => {
     return await authFetch(`/bookrequest/all`, {
         method: "GET",
@@ -257,5 +259,61 @@ export const fetchAddBookRequest = async (
             "content-type": "application/json"
         },
         body: JSON.stringify({ isbn, title, reason })
+    });
+};
+
+// Book reservation
+
+export const fetchAllBookReservations = async () => {
+    await authFetch("/bookreservation/all", {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
+
+export const fetchAddBookReservation = async (
+    bookId: number
+): Promise<OKStatus> => {
+    return await authFetch("/bookreservation", {
+        method: "POST",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ bookId })
+    });
+};
+
+export const fetchCancelBookReservation = async (
+    bookId: number
+): Promise<OKStatus> => {
+    return await authFetch("/bookreservation/cancel", {
+        method: "POST",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ bookId })
+    });
+};
+
+export const fetchLoanBookReservation = async (
+    bookId: number
+): Promise<OKStatus> => {
+    return await authFetch("/bookreservation/loan", {
+        method: "POST",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ bookId })
+    });
+};
+
+export const fetchAllReservedBooks = async () => {
+    await authFetch(`/book/all/reserved`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
     });
 };
