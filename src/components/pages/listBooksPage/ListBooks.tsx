@@ -14,7 +14,12 @@ import {
     fetchDeleteBook,
     fetchAllCurrentBorrows,
     fetchCreateBorrow,
-    fetchCurrentBorrows
+    fetchCurrentBorrows,
+    fetchAddBookReservation,
+    fetchAllBookReservations,
+    fetchCancelBookReservation,
+    fetchLoanBookReservation,
+    fetchAllReservedBooks
 } from "../../../fetchFunctions";
 import {
     listBooksDeleteButton,

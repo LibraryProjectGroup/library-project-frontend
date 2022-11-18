@@ -8,8 +8,6 @@ on:
         branches: ["development"]
     pull_request:
         branches: ["development"]
-permissions:
-    contents: write
 
 env:
     TESTUSERNAME: ${{ secrets.REACT_APP_TEST_USERNAME }}
@@ -54,7 +52,17 @@ jobs:
                   npm start & 
                   npx wait-on http://localhost:3000 &&
                   robot --variable TESTUSERNAME:$TESTUSERNAME --variable TESTPASSWORD:$TESTPASSWORD --removekeywords  NAME:*logins* --outputdir robot/results robot/tests
-            - name: Deploy
-              uses: JamesIves/github-pages-deploy-action@v4
+
+    deploy:
+        runs-on: ubuntu-latest
+        needs: build
+        timeout-minutes: 5
+
+        steps:
+            - uses: actions/checkout@v1
+            - uses: jsmrcaga/action-netlify-deploy@master
               with:
-                  folder: build
+                  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+                  NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+                  build_command: CI= npm run build
+                  NETLIFY_DEPLOY_TO_PROD: true
