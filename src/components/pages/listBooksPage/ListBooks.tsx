@@ -353,7 +353,11 @@ const ListBooks: FC = (): JSX.Element => {
                     visible={requestVisible}
                     setVisible={setRequestVisible}
                 />
-                <Snackbar open={open === "expiring"} action={action}>
+                <Snackbar
+                    open={open === "expiring"}
+                    action={action}
+                    anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                >
                     <Alert
                         onClose={handleClose}
                         severity="warning"
@@ -363,7 +367,10 @@ const ListBooks: FC = (): JSX.Element => {
                         You have expiring book(s)
                     </Alert>
                 </Snackbar>
-                <Snackbar open={open === "expired"}>
+                <Snackbar
+                    open={open === "expired"}
+                    anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                >
                     <Alert
                         severity="error"
                         sx={{ width: "100%" }}
