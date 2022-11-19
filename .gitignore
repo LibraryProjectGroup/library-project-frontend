@@ -30,4 +30,4 @@ yarn-error.log*
 results
 
 # VS Code workspace settings
-settings.json
+.vscode

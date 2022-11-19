@@ -34,7 +34,7 @@ const LoansGrid: FC = (): JSX.Element => {
                 });
             }
         },
-        { field: "id", headerName: "Book ID", flex: 2 }
+        { field: "id", headerName: "Book ID", flex: 1 }
     ];
 
     useEffect(() => {

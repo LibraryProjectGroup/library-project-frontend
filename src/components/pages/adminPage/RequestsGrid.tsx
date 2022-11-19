@@ -24,11 +24,11 @@ const RequestsGrid: FC = (): JSX.Element => {
     const [requestsData, setRequestsData] = useState<Book_request[]>([]);
 
     const COLUMNS_LOANS: GridColDef[] = [
-        { field: "id", headerName: "Request ID", flex: 2 },
-        { field: "userId", headerName: "User ID", flex: 3 },
+        { field: "id", headerName: "Request ID", flex: 1 },
+        { field: "userId", headerName: "User ID", flex: 1 },
         { field: "isbn", headerName: "ISBN", flex: 2 },
-        { field: "title", headerName: "Title", flex: 2 },
-        { field: "reason", headerName: "Reason", flex: 2 },
+        { field: "title", headerName: "Title", flex: 3 },
+        { field: "reason", headerName: "Reason", flex: 3 },
         {
             field: "status",
             headerName: "Status",

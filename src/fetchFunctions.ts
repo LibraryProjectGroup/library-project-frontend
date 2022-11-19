@@ -280,7 +280,7 @@ export const fetchUpdateBookRequest = async (
 // Book reservation
 
 export const fetchAllBookReservations = async () => {
-    await authFetch("/bookreservation/all", {
+    return await authFetch("/bookreservation/all", {
         method: "GET",
         headers: {
             "content-type": "application/json;charset=UTF-8"
@@ -325,7 +325,7 @@ export const fetchLoanBookReservation = async (
 };
 
 export const fetchAllReservedBooks = async () => {
-    await authFetch(`/book/all/reserved`, {
+    return await authFetch(`/book/all/reserved`, {
         method: "GET",
         headers: {
             "content-type": "application/json;charset=UTF-8"
