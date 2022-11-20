@@ -288,6 +288,33 @@ export const fetchAllBookReservations = async () => {
     });
 };
 
+export const fetchJoinedBookReservations = async () => {
+    return await authFetch("/bookreservation/all/joined", {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
+
+export const fetchAllReservedBooks = async () => {
+    return await authFetch(`/book/all/reserved`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
+
+export const fetchCurrentBookReservations = async () => {
+    return await authFetch("/bookreservation/all/current", {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
+
 export const fetchAddBookReservation = async (
     bookId: number
 ): Promise<OKStatus> => {
@@ -321,14 +348,5 @@ export const fetchLoanBookReservation = async (
             "content-type": "application/json"
         },
         body: JSON.stringify({ bookId })
-    });
-};
-
-export const fetchAllReservedBooks = async () => {
-    return await authFetch(`/book/all/reserved`, {
-        method: "GET",
-        headers: {
-            "content-type": "application/json;charset=UTF-8"
-        }
     });
 };

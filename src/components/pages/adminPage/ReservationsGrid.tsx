@@ -7,26 +7,27 @@ import {
     GridColDef
 } from "@mui/x-data-grid";
 import { Button, IconButton } from "@mui/material";
-import Book_reservation from "../../../interfaces/book_reservation.interface";
+import JoinedReservation from "../../../interfaces/joinedReservation.interface";
 import {
-    fetchAllBookReservations,
+    fetchJoinedBookReservations,
     fetchCancelBookReservation
 } from "../../../fetchFunctions";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 const ReservationsGrid: FC = (): JSX.Element => {
     const [reservationsData, setReservationsData] = useState<
-        Book_reservation[]
+        JoinedReservation[]
     >([]);
 
     const COLUMNS_RESERVATIONS: GridColDef[] = [
-        { field: "id", headerName: "Reservation ID", flex: 2 },
-        { field: "userId", headerName: "User ID", flex: 2 },
-        { field: "bookId", headerName: "Book ID", flex: 2 },
+        { field: "id", headerName: "Reservation ID", flex: 1 },
+        { field: "username", headerName: "Username", flex: 2 },
+        { field: "title", headerName: "Book title", flex: 3 },
+        { field: "bookId", headerName: "Book id", flex: 1 },
         {
             field: "reservationDatetime",
             headerName: "Reservation time",
-            flex: 3,
+            flex: 2,
             valueFormatter(params) {
                 return new Date(params.value).toLocaleString("fi", {
                     year: "numeric",
@@ -40,8 +41,8 @@ const ReservationsGrid: FC = (): JSX.Element => {
         },
         {
             field: "loaned",
-            headerName: "Has been loaned",
-            flex: 2,
+            headerName: "Loaned",
+            flex: 1,
             renderCell(params) {
                 return params.value ? (
                     <div style={{ color: "green" }}>true</div>
@@ -52,8 +53,8 @@ const ReservationsGrid: FC = (): JSX.Element => {
         },
         {
             field: "canceled",
-            headerName: "Has been canceled",
-            flex: 2,
+            headerName: "Canceled",
+            flex: 1,
             renderCell(params) {
                 return params.value ? (
                     <div style={{ color: "green" }}>true</div>
@@ -65,8 +66,8 @@ const ReservationsGrid: FC = (): JSX.Element => {
         {
             field: "actions",
             type: "actions",
-            headerName: "Cancel reservation",
-            flex: 3,
+            headerName: "Cancel res.",
+            flex: 1,
             renderCell: (params) =>
                 params.row.canceled ? null : (
                     <div>
@@ -89,7 +90,7 @@ const ReservationsGrid: FC = (): JSX.Element => {
     }, []);
 
     const loadReservationsData = async () => {
-        const reservationsTmp = await fetchAllBookReservations();
+        const reservationsTmp = await fetchJoinedBookReservations();
         setReservationsData(reservationsTmp);
     };
 

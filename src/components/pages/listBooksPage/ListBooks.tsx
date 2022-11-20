@@ -7,6 +7,7 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { TheContext } from "../../../TheContext";
 import Book from "../../../interfaces/book.interface";
+import Book_reservation from "../../../interfaces/book_reservation.interface";
 import BookForm from "./BookForm";
 import UserListPopup from "./UserListPopup";
 import {
@@ -17,6 +18,7 @@ import {
     fetchCurrentBorrows,
     fetchAddBookReservation,
     fetchAllBookReservations,
+    fetchCurrentBookReservations,
     fetchCancelBookReservation,
     fetchLoanBookReservation,
     fetchAllReservedBooks
@@ -37,6 +39,9 @@ import BookRequestForm from "./BookRequestForm";
 
 const ListBooks: FC = (): JSX.Element => {
     const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
+    const [currentReservations, setCurrentReservations] = useState<
+        Book_reservation[]
+    >([]);
     const [userBorrows, setUserBorrows] = useState<Borrow[]>([]);
     const [books, setBooks] = useState<Book[]>([]);
 
@@ -64,6 +69,10 @@ const ListBooks: FC = (): JSX.Element => {
         setUserBorrows(await fetchCurrentBorrows());
     };
 
+    const fetchReservations = async () => {
+        setCurrentReservations(await fetchCurrentBookReservations());
+    };
+
     const bookInCurrentBorrows = (book: Book) => {
         let inCurrentBorrows = false;
         for (let i = 0; i < currentBorrows.length; i++) {
@@ -73,6 +82,30 @@ const ListBooks: FC = (): JSX.Element => {
         }
         return inCurrentBorrows;
     };
+
+    const bookInCurrentReservations = (book: Book) => {
+        let inCurrentReservations = false;
+        for (let i = 0; i < currentReservations.length; i++) {
+            if (currentReservations[i].bookId === book.id) {
+                inCurrentReservations = true;
+            }
+        }
+        return inCurrentReservations;
+    };
+
+    const userLoaningBook = (book: Book) => {
+        let isLoaning = false;
+        currentBorrows.forEach((borrow) => {
+            if (
+                borrow.book === book.id &&
+                borrow.library_user === context?.user?.id
+            ) {
+                isLoaning = true;
+            }
+        });
+        return isLoaning;
+    };
+
     const handleOpen = () => {
         for (const borrowed of userBorrows) {
             const currentDate = new Date();
@@ -150,6 +183,7 @@ const ListBooks: FC = (): JSX.Element => {
     useEffect(() => {
         fetchBooks();
         fetchBorrows();
+        fetchReservations();
         fetchUserBorrows();
     }, []);
 
@@ -272,6 +306,47 @@ const ListBooks: FC = (): JSX.Element => {
                             >
                                 LOAN
                             </Button>
+                            {!userLoaningBook(book) &&
+                                bookInCurrentBorrows(book) && (
+                                    <Button
+                                        sx={listBooksLoanButton}
+                                        variant="contained"
+                                        disabled={bookInCurrentReservations(
+                                            book
+                                        )}
+                                        onClick={async () => {
+                                            if (
+                                                window.confirm(
+                                                    "Do you want to RESERVE this book?"
+                                                )
+                                            ) {
+                                                let message =
+                                                    "Loaning succeeded";
+                                                await fetchAddBookReservation(
+                                                    book.id
+                                                )
+                                                    .then((res) => {
+                                                        if (!res.ok) {
+                                                            message =
+                                                                "Reservation failed";
+                                                        }
+                                                    })
+                                                    .then(() =>
+                                                        setPopUpConfirmationOpen(
+                                                            {
+                                                                ok: true,
+                                                                message: message
+                                                            }
+                                                        )
+                                                    );
+                                                await fetchBooks();
+                                                await fetchReservations();
+                                            }
+                                        }}
+                                    >
+                                        RESERVE
+                                    </Button>
+                                )}
                         </Stack>
                     </Stack>
                 </Paper>
@@ -360,7 +435,7 @@ const ListBooks: FC = (): JSX.Element => {
                         sx={{ width: "100%" }}
                         variant="filled"
                     >
-                        You have expiring book(s)
+                        You have expiring loan(s)
                     </Alert>
                 </Snackbar>
                 <Snackbar open={open === "expired"}>
@@ -369,7 +444,7 @@ const ListBooks: FC = (): JSX.Element => {
                         sx={{ width: "100%" }}
                         variant="filled"
                     >
-                        YOU HAVE EXPIRED BOOK(S)
+                        YOU HAVE EXPIRED LOAN(S)
                     </Alert>
                 </Snackbar>
             </Box>
