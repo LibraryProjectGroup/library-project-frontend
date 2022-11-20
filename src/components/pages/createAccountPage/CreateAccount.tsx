@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC } from "react";
+import React, { useState, useEffect, useContext, FC } from "react";
 import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
 import BACKEND_URL from "../../../backendUrl";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ import {
     createAccountHeaderContentText
 } from "../../../sxStyles";
 import { setSession } from "../../../auth";
+import { TheContext } from "../../../TheContext";
 
 const REQUIRED_PASSWORD_LENGTH = 8;
 
@@ -28,6 +29,7 @@ const CreateAccount: FC = () => {
     const [match, setMatch] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
+    const context = useContext(TheContext);
     const navigate = useNavigate();
 
     const inputChange: (event: React.ChangeEvent<HTMLInputElement>) => void = (
@@ -88,6 +90,7 @@ const CreateAccount: FC = () => {
             let data = await response.json();
             if (data.ok) {
                 setSession(data.secret);
+                context?.setIsLogin(true);
                 navigate("/list-books");
             } else {
                 setErrorMessage(data.message ? data.message : "internal error");
