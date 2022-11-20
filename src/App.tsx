@@ -11,6 +11,7 @@ import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { isAuthenticated } from "./auth";
 import UserBooklists from "./components/pages/userBooklistsPage/UserBooklistsPage";
 import UserBooks from "./components/pages/UserBooksPage/UserBooks";
+import UserReservations from "./components/pages/userBookReservationsPage/UserReservationsPage";
 
 function App() {
     const ProtectedRoute: FC<any> = (props) => {
@@ -62,6 +63,14 @@ function App() {
                         }
                     />
                     <Route
+                        path="/reservations"
+                        element={
+                            <ProtectedRoute>
+                                <UserReservations />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
                         path="/admin"
                         element={
                             <AdminRoute>
@@ -69,12 +78,7 @@ function App() {
                             </AdminRoute>
                         }
                     />
-                    <Route
-                        path="*" 
-                        element={
-                            <MissingPage />
-                        }
-                    />
+                    <Route path="*" element={<MissingPage />} />
                 </Routes>
             </BrowserRouter>
         </TheContextProvider>

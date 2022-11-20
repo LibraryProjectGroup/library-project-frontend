@@ -350,3 +350,13 @@ export const fetchLoanBookReservation = async (
         body: JSON.stringify({ bookId })
     });
 };
+
+export const fetchUserCurrentBookReservations = async (userId: number) => {
+    return await authFetch("/bookreservation/user/current", {
+        method: "POST",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ userId })
+    });
+};

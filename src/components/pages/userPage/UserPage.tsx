@@ -249,6 +249,15 @@ const MyAccount: FC = (): JSX.Element => {
                 sx={userPageMyListsButton}
                 variant="contained"
                 onClick={() => {
+                    navigate("/reservations");
+                }}
+            >
+                My book reservations
+            </Button>
+            <Button
+                sx={userPageMyListsButton}
+                variant="contained"
+                onClick={() => {
                     navigate("/booklists");
                 }}
             >
