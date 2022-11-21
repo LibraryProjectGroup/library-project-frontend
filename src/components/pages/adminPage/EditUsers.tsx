@@ -70,6 +70,12 @@ const EditUser: FC<IProps> = ({
                         value={user?.username}
                         onChange={(e) => onChange(e)}
                     />
+                    <TextField
+                        label="Email"
+                        name="email"
+                        value={user?.email}
+                        onChange={(e) => onChange(e)}
+                    />
 
                     <Stack direction="row" spacing={2} justifyContent="center">
                         <Button

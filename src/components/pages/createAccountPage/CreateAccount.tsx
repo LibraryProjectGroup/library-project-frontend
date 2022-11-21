@@ -14,6 +14,7 @@ import { setSession } from "../../../auth";
 const REQUIRED_PASSWORD_LENGTH = 8;
 
 const CreateAccount: FC = () => {
+    const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState({
         firstPassword: "",
@@ -80,6 +81,7 @@ const CreateAccount: FC = () => {
                 },
                 body: JSON.stringify({
                     username: username,
+                    email: email,
                     password: password.firstPassword
                 })
             });
@@ -163,6 +165,14 @@ const CreateAccount: FC = () => {
                                     marginTop: 4
                                 }}
                             >
+                                <TextField
+                                    label="Email"
+                                    variant="outlined"
+                                    margin="normal"
+                                    onChange={(event) => {
+                                        setEmail(event.target.value);
+                                    }}
+                                />
                                 <TextField
                                     label="Username"
                                     variant="outlined"

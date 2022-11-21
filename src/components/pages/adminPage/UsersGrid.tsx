@@ -19,6 +19,7 @@ const UsersGrid: FC = (): JSX.Element => {
     const COLUMNS_USERS: GridColDef[] = [
         { field: "id", headerName: "ID", flex: 2 },
         { field: "username", headerName: "Username", flex: 2 },
+        { field: "email", headerName: "Email", flex: 2 },
         {
             field: "administrator",
             headerName: "Administrator",

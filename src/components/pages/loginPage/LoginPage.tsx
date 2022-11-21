@@ -14,7 +14,7 @@ import { setSession } from "../../../auth";
 import { TheContext } from "../../../TheContext";
 
 const LoginPage: FC = (): JSX.Element => {
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMesssage] = useState("");
     const navigate = useNavigate();
@@ -48,7 +48,7 @@ const LoginPage: FC = (): JSX.Element => {
                 headers: {
                     "content-type": "application/json;charset=UTF-8"
                 },
-                body: JSON.stringify({ username: username, password: password })
+                body: JSON.stringify({ email: email, password: password })
             });
             let data = await response.json();
             if (data.ok) {
@@ -125,11 +125,11 @@ const LoginPage: FC = (): JSX.Element => {
                             </Typography>
                             <Box sx={loginBox}>
                                 <TextField
-                                    label="Username"
+                                    label="Email"
                                     variant="outlined"
                                     margin="normal"
                                     onChange={(event) => {
-                                        setUsername(event.target.value);
+                                        setEmail(event.target.value);
                                     }}
                                 />
 

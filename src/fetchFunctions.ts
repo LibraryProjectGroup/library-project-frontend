@@ -75,7 +75,7 @@ export const fetchUpdateUserData = async (
     editUser: EditUser
 ): Promise<OKStatus> => {
     return await authFetch(
-        `/user?id=${editUser?.id}&username=${editUser?.username}&administrator=${editUser?.administrator}`,
+        `/user?id=${editUser?.id}&username=${editUser?.username}&email=${editUser?.email}&administrator=${editUser?.administrator}`,
         {
             method: "PUT",
             headers: {
@@ -89,7 +89,7 @@ export const fetchAdminUpdateUserData = async (
     editUser: EditUser
 ): Promise<OKStatus> => {
     return await authFetch(
-        `/user/admin?id=${editUser?.id}&username=${editUser?.username}&administrator=${editUser?.administrator}`,
+        `/user/admin?id=${editUser?.id}&username=${editUser?.username}&email=${editUser?.email}&administrator=${editUser?.administrator}`,
         {
             method: "PUT",
             headers: {
