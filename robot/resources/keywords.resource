@@ -97,7 +97,7 @@ User who has not signed up tries to log in
     Click Button    xpath://button[contains(text(), 'Log in')]
 
 User will see alert about it
-    Wait Until Element Is Visible    xpath://*[contains(text(), 'No account by that username')]
+    Wait Until Element Is Visible    xpath://*[contains(text(), 'Invalid Email or Password')]
 
 User gives wrong password
     Wait Until Element Is Visible    xpath://input[contains(@id, ':r1:')]
@@ -107,13 +107,18 @@ User gives wrong password
     Click Button    xpath://button[contains(text(), 'Log in')]
 
 User will see alert about the wrong password
-    Wait Until Element Is Visible    xpath://*[contains(text(), 'Invalid password')]
+    Wait Until Element Is Visible    xpath://*[contains(text(), 'Invalid Email or Password')]
 
 User navigates to Create Account page
     Click Button    xpath://button[normalize-space()='Create account']
     Wait Until Element Is Visible    xpath://h4[normalize-space()='Create Account']
 
 User signs up with a 2 letter username
+    Wait Until Element Is Visible    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
+    Input Text
+    ...    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
+    ...    dummyemail@example.doesnotexist
+    ...    clear=True
     Wait Until Element Is Visible    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input
     Input Text    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input    Te    clear=True
     Wait Until Element Is Visible    xpath://input[@name='firstPassword']
@@ -127,6 +132,11 @@ User signs up with a 2 letter username
     Wait Until Element Is Visible    xpath://*[contains(text(), 'Username has to be between 3 and 50 characters')]
 
 User signs up with a 2 character password
+    Wait Until Element Is Visible    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
+    Input Text
+    ...    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
+    ...    dummyemail@example.doesnotexist
+    ...    clear=True
     Wait Until Element Is Visible    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input
     Input Text    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input    Testikaveri    clear=True
     Wait Until Element Is Visible    xpath://input[@name='firstPassword']
@@ -140,6 +150,11 @@ User will see alert that the password is too short
     Wait Until Element Is Visible    xpath://*[contains(text(), 'Passwords has to be atleast 8 characters long')]
 
 User signs up with password without uppercase character
+    Wait Until Element Is Visible    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
+    Input Text
+    ...    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
+    ...    dummyemail@example.doesnotexist
+    ...    clear=True
     Wait Until Element Is Visible    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input
     Input Text    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input    Testikaveri    clear=True
     Wait Until Element Is Visible    xpath://input[@name='firstPassword']
@@ -154,6 +169,11 @@ User will see alert that password is insufficient
     ...    xpath://*[contains(text(), 'Password has to have atleast one uppercase character, lowercase character, number, and special character')]
 
 User signs up with password without lowercase character
+    Wait Until Element Is Visible    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
+    Input Text
+    ...    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
+    ...    dummyemail@example.doesnotexist
+    ...    clear=True
     Wait Until Element Is Visible    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input
     Input Text    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input    Testikaveri    clear=True
     Wait Until Element Is Visible    xpath://input[@name='firstPassword']
@@ -164,6 +184,11 @@ User signs up with password without lowercase character
     Click Button    xpath://button[normalize-space()='SIGN UP']
 
 User signs up with password without number
+    Wait Until Element Is Visible    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
+    Input Text
+    ...    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
+    ...    dummyemail@example.doesnotexist
+    ...    clear=True
     Wait Until Element Is Visible    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input
     Input Text    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input    Testikaveri    clear=True
     Wait Until Element Is Visible    xpath://input[@name='firstPassword']
@@ -174,6 +199,11 @@ User signs up with password without number
     Click Button    xpath://button[normalize-space()='SIGN UP']
 
 User signs up with password without special character
+    Wait Until Element Is Visible    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
+    Input Text
+    ...    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
+    ...    dummyemail@example.doesnotexist
+    ...    clear=True
     Wait Until Element Is Visible    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input
     Input Text    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input    Testikaveri    clear=True
     Wait Until Element Is Visible    xpath://input[@name='firstPassword']
@@ -184,6 +214,11 @@ User signs up with password without special character
     Click Button    xpath://button[normalize-space()='SIGN UP']
 
  User signs up with existing username and password
+    Wait Until Element Is Visible    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
+    Input Text
+    ...    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
+    ...    dummyemail@example.doesnotexist
+    ...    clear=True
     Wait Until Element Is Visible    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input
     Input Text    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input    ${TESTUSERNAME}    clear=True
     Wait Until Element Is Visible    xpath://input[@name='firstPassword']
@@ -196,3 +231,8 @@ User signs up with password without special character
 User will see alert that username already exists
     Wait Until Element Is Visible
     ...    xpath://*[contains(text(), 'Username is already taken')]
+
+User navigates to booklist page
+    Execute Javascript    location.href='/list-books'
+    ${path}=    Execute Javascript    return window.location.pathname
+    Should Be Equal As Strings    ${path}    /list-books

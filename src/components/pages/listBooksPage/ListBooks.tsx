@@ -302,7 +302,7 @@ const ListBooks: FC = (): JSX.Element => {
                 </Fab>
                 {context?.user?.administrator && (
                     <Fab
-                        aria-label="add"
+                        aria-label="admin"
                         sx={addButton}
                         onClick={() => {
                             navigate("/admin");
