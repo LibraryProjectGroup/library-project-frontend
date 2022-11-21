@@ -321,7 +321,7 @@ const ListBooks: FC = (): JSX.Element => {
                                                 )
                                             ) {
                                                 let message =
-                                                    "Loaning succeeded";
+                                                    "Reservation succeeded";
                                                 await fetchAddBookReservation(
                                                     book.id
                                                 )
