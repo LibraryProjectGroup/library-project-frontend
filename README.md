@@ -1,13 +1,14 @@
+# EfiLibrary - About the project
+
 <!-- ABOUT THE PROJECT -->
-# About the project
 
-This is a project between the students of Business Information Technology Degree Programme in Haaga-Helia University of Applied Sciences, and Eficode Oy, a Finnish company specializing in enhancing software development, whose products are related to automation and devops consulting, as well as accessibility and user studies.
+EfiLibrary is a project between the students of Business Information Technology Degree Programme in Haaga-Helia University of Applied Sciences, and Eficode Oy, a Finnish company specializing in enhancing software development, whose products are related to automation and devops consulting, as well as accessibility and user studies.
 
-The library project was created and built from the ground up and in its entirety by the students of Haaga-Helia UAS for the use of Eficode Oy.
+The EfiLibrary project was created and built from the ground up and in its entirety by the students of Haaga-Helia UAS for the use of Eficode Oy.
 
 Knowledge is power.
 
-This library project is the transformation of the many physical copies of books owned by Eficode and scattered in different Eficode offices located in 10 different countries around the world, into one digital library in which the various users will be able to learn-from, teach-with, and enjoy sharing the knowledge easily and efficiently.
+This digital library project is the transformation of the many physical copies of books owned by Eficode and scattered in different Eficode offices located in 10 different countries around the world, into one digital library in which the various users will be able to learn-from, teach-with, and enjoy sharing knowledge easily and efficiently.
 
 The users will be able to borrow and return books, create lists of favorite books and watch other users' favorite lists, and browse through the library database.
 
