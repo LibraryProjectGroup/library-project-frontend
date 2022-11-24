@@ -300,7 +300,8 @@ const ListBooks: FC = (): JSX.Element => {
                 >
                     <AccountBoxIcon />
                 </Fab>
-                {context?.user?.administrator && (
+                {
+                context?.user?.administrator ?
                     <Fab
                         aria-label="admin"
                         sx={addButton}
@@ -310,7 +311,8 @@ const ListBooks: FC = (): JSX.Element => {
                     >
                         <AdminPanelSettingsIcon />
                     </Fab>
-                )}
+                    : <></>
+                }
                 <Stack spacing={3} sx={{ margin: "auto", width: "60%" }}>
                     {books?.map((book) => renderBookData(book))}
                 </Stack>
