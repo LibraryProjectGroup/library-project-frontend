@@ -44,7 +44,7 @@ const ExpiredGrid: FC = (): JSX.Element => {
         <DataGrid
             columns={COLUMNS_EXPIRED}
             rows={expiredData}
-            sx={{ width: "100%", height: 1000 }}
+            sx={{ width: "100%", height: 1000, backgroundColor: "white" }}
         ></DataGrid>
     );
 };
