@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, FC, Fragment } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Button } from "@mui/material";
 import User from "../../../interfaces/user.interface";
@@ -7,14 +7,22 @@ import {
     fetchDeleteUser,
     fetchAllUsers,
     fetchUserById,
-    fetchAdminUpdateUserData
+    fetchAdminUpdateUserData,
+    fetchPasswordResetSecret
 } from "../../../fetchFunctions";
 import UserForm from "./EditUsers";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
 
 const UsersGrid: FC = (): JSX.Element => {
     const [usersData, setUsersData] = useState<User[]>([]);
     const [oneUserData, setOneUserData] = useState<EditUser | null>(null);
     const [formVisible, setFormVisible] = useState(false);
+    const [open, setOpen] = useState(false);
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     const COLUMNS_USERS: GridColDef[] = [
         { field: "id", headerName: "ID", flex: 1 },
@@ -56,6 +64,29 @@ const UsersGrid: FC = (): JSX.Element => {
                     }}
                 >
                     Delete
+                </Button>
+            )
+        },
+        {
+            field: "password reset",
+            headerName: "Link to reset password",
+            flex: 1.5,
+            renderCell: (params) => (
+                <Button
+                    sx={{ color: "red" }}
+                    onClick={async () => {
+                        const result = await fetchPasswordResetSecret(
+                            params.row.id
+                        );
+                        if (result.ok) {
+                            navigator.clipboard.writeText(
+                                `${window.location.origin}/passwordreset/${result.secret}`
+                            );
+                            setOpen(true);
+                        }
+                    }}
+                >
+                    Generate
                 </Button>
             )
         }
@@ -105,6 +136,21 @@ const UsersGrid: FC = (): JSX.Element => {
                 rows={usersData}
                 sx={{ width: "100%", height: 1000 }}
             ></DataGrid>
+            <Snackbar
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            >
+                <Alert
+                    onClose={handleClose}
+                    severity="success"
+                    sx={{ width: "100%" }}
+                    variant="filled"
+                >
+                    Password reset link copied to clipboard
+                </Alert>
+            </Snackbar>
         </>
     );
 };
