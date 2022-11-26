@@ -106,7 +106,7 @@ const UserBooks: FC<{ booklist: Book_list; handleCloseList: Function }> = ({
                                         Location: {book.location}
                                     </Typography>
                                 </Stack>
-                                <Stack marginY={5}>
+                                <Stack alignItems="center">
                                     <Button
                                         sx={listBooksDeleteButton}
                                         variant="contained"
