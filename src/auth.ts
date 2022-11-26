@@ -15,7 +15,7 @@ async function authFetch(
         )}`
     };
     let res = await fetch(`${BACKENDURL}${path}`, options);
-    if(res.status == 401) {
+    if (res.status == 401) {
         window.localStorage.removeItem(SESSION_SECRET_KEY);
         window.localStorage.removeItem(SESSION_END_KEY);
     }

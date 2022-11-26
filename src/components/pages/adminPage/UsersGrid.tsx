@@ -17,13 +17,13 @@ const UsersGrid: FC = (): JSX.Element => {
     const [formVisible, setFormVisible] = useState(false);
 
     const COLUMNS_USERS: GridColDef[] = [
-        { field: "id", headerName: "ID", flex: 2 },
+        { field: "id", headerName: "ID", flex: 1 },
         { field: "username", headerName: "Username", flex: 2 },
         { field: "email", headerName: "Email", flex: 2 },
         {
             field: "administrator",
             headerName: "Administrator",
-            flex: 3,
+            flex: 1,
             valueFormatter(params) {
                 return params.value === 0 ? "false" : "true";
             }

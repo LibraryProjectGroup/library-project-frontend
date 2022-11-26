@@ -26,15 +26,20 @@ const LoansGrid: FC = (): JSX.Element => {
             field: "dueDate",
             headerName: "Due",
             flex: 2,
-            valueFormatter(params) {
-                return new Date(params.value).toLocaleString("fi", {
+            renderCell(params) {
+                const dueDate = new Date(params.value).toLocaleString("fi", {
                     year: "numeric",
                     month: "numeric",
                     day: "numeric"
                 });
+                return new Date(params.value) < new Date() ? (
+                    <div style={{ color: "red" }}>{dueDate}</div>
+                ) : (
+                    <div>{dueDate}</div>
+                );
             }
         },
-        { field: "id", headerName: "Book ID", flex: 2 }
+        { field: "id", headerName: "Book ID", flex: 1 }
     ];
 
     useEffect(() => {
