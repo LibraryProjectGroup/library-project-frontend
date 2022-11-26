@@ -12,6 +12,7 @@ import { isAuthenticated } from "./auth";
 import UserBooklists from "./components/pages/userBooklistsPage/UserBooklistsPage";
 import UserBooks from "./components/pages/UserBooksPage/UserBooks";
 import UserReservations from "./components/pages/userBookReservationsPage/UserReservationsPage";
+import { AppBar, Typography } from "@mui/material";
 
 function App() {
     const ProtectedRoute: FC<any> = (props) => {
@@ -30,6 +31,22 @@ function App() {
 
     return (
         <TheContextProvider>
+            <AppBar
+                position="static"
+                sx={{ backgroundColor: "white", height: 80 }}
+            >
+                <Typography
+                    variant="h4"
+                    sx={{
+                        fontFamily: "Merriweather",
+                        padding: 3,
+                        paddingLeft: 5,
+                        color: "black"
+                    }}
+                >
+                    efilibrary
+                </Typography>
+            </AppBar>
             <BrowserRouter>
                 <Routes>
                     <Route
