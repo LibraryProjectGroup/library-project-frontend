@@ -297,14 +297,13 @@ export const userPageMyListsButton: SxProps = {
 // Admin page
 
 export const adminPageTabs: SxProps = {
-    width: "100%"
+    width: "100%",
 };
 
 export const adminPageTab: SxProps = {
     fontFamily: "Montserrat",
     fontWeight: "bold",
     fontSize: 15,
-    backgroundColor: "#FFD100"
 };
 
 export const adminDeleteButton: SxProps = {
