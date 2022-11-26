@@ -396,7 +396,7 @@ const ListBooks: FC = (): JSX.Element => {
                         {context?.user?.administrator && (
                             <Tooltip title="Admin page">
                                 <Fab
-                                    aria-label="add"
+                                    aria-label="admin"
                                     sx={addButton}
                                     onClick={() => {
                                         navigate("/admin");
@@ -443,6 +443,7 @@ const ListBooks: FC = (): JSX.Element => {
                         />
                         <Tooltip title="Request a book">
                             <Fab
+                                aria-label="request"
                                 sx={addButton}
                                 onClick={() => {
                                     setRequestVisible(true);
