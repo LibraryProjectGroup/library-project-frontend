@@ -25,17 +25,21 @@ import {
 } from "../../../fetchFunctions";
 import { listBooksDeleteButton, userPageBackButton } from "../../../sxStyles";
 
-const UserBooks: FC<{ booklist: Book_list, handleCloseList: Function }> = ({ booklist, handleCloseList }): JSX.Element => {
+const UserBooks: FC<{ booklist: Book_list; handleCloseList: Function }> = ({
+    booklist,
+    handleCloseList
+}): JSX.Element => {
     const [books, setBooks] = useState<Book[]>([]);
     const [entries, setEntries] = useState<Book_list_entry[]>([]);
     const context = useContext(TheContext);
     const navigate = useNavigate();
 
     const fetchBooks = async () => setBooks(await fetchAllBooks());
-    const fetchEntries = async (id:number) => setEntries(await fetchEntriesByList(id));
+    const fetchEntries = async (id: number) =>
+        setEntries(await fetchEntriesByList(id));
 
     useEffect(() => {
-        if (booklist.id !== -1){   
+        if (booklist.id !== -1) {
             fetchBooks();
             fetchEntries(booklist.id);
         }
@@ -101,20 +105,18 @@ const UserBooks: FC<{ booklist: Book_list, handleCloseList: Function }> = ({ boo
                                     >
                                         Location: {book.location}
                                     </Typography>
-                                    <Stack marginY={1}>
-                                        <Button
-                                            sx={listBooksDeleteButton}
-                                            variant="contained"
-                                            onClick={async () => {
-                                                await fetchDeleteEntry(
-                                                    entry.id
-                                                );
-                                                await fetchEntries(booklist.id);
-                                            }}
-                                        >
-                                            Remove
-                                        </Button>
-                                    </Stack>
+                                </Stack>
+                                <Stack marginY={5}>
+                                    <Button
+                                        sx={listBooksDeleteButton}
+                                        variant="contained"
+                                        onClick={async () => {
+                                            await fetchDeleteEntry(entry.id);
+                                            await fetchEntries(booklist.id);
+                                        }}
+                                    >
+                                        Remove
+                                    </Button>
                                 </Stack>
                             </Stack>
                         </Paper>
