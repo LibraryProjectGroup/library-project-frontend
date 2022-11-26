@@ -75,8 +75,7 @@ const LoginPage: FC = (): JSX.Element => {
             alignItems="center"
             sx={{
                 maxWidth: dimensions.width,
-                minHeight: dimensions.height,
-                backgroundColor: "#f0f0ec"
+                minHeight: dimensions.height
             }}
         >
             <Grid
