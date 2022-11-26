@@ -1,5 +1,5 @@
 import React, { useState, useEffect, FC } from "react";
-import { Box, Tab, Tabs, Fab, Button } from "@mui/material";
+import { Box, Tab, Tabs, Fab, Button, Tooltip } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import {
@@ -32,15 +32,17 @@ const Admin: FC = (): JSX.Element => {
     };
     return (
         <Box sx={{ height: "100vh", width: "100%" }}>
-            <Fab
-                aria-label="back"
-                sx={userPageBackButton}
-                onClick={() => {
-                    navigate("/list-books");
-                }}
-            >
-                <ArrowBackIcon />
-            </Fab>
+            <Tooltip title="Back">
+                <Fab
+                    aria-label="back"
+                    sx={userPageBackButton}
+                    onClick={() => {
+                        navigate("/list-books");
+                    }}
+                >
+                    <ArrowBackIcon />
+                </Fab>
+            </Tooltip>
             <Box
                 sx={{
                     width: "70%",
