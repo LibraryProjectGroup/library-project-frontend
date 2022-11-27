@@ -393,7 +393,7 @@ const ListBooks: FC = (): JSX.Element => {
                                 <AccountBoxIcon />
                             </Fab>
                         </Tooltip>
-                        {context?.user?.administrator && (
+                        {context?.user?.administrator ? (
                             <Tooltip title="Admin page">
                                 <Fab
                                     aria-label="admin"
@@ -405,7 +405,9 @@ const ListBooks: FC = (): JSX.Element => {
                                     <AdminPanelSettingsIcon />
                                 </Fab>
                             </Tooltip>
-                        )}{" "}
+                        ) : (
+                            <></>
+                        )}
                     </Grid>
                     <Grid
                         item
@@ -462,7 +464,11 @@ const ListBooks: FC = (): JSX.Element => {
                     {books?.map((book) => renderBookData(book))}
                 </Stack>
 
-                <Snackbar open={open === "expiring"} action={action}>
+                <Snackbar
+                    open={open === "expiring"}
+                    action={action}
+                    anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                >
                     <Alert
                         onClose={handleClose}
                         severity="warning"
@@ -472,7 +478,10 @@ const ListBooks: FC = (): JSX.Element => {
                         You have expiring loan(s)
                     </Alert>
                 </Snackbar>
-                <Snackbar open={open === "expired"}>
+                <Snackbar
+                    open={open === "expired"}
+                    anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                >
                     <Alert
                         severity="error"
                         sx={{ width: "100%" }}
