@@ -146,7 +146,7 @@ export const fetchUserBooklists = async (): Promise<Book_list[]> => {
     return await authFetch(`/booklist/user`);
 };
 
-export const fetchBooklist = async (booklistId: number): Promise<Book> => {
+export const fetchBooklist = async (booklistId: number): Promise<Book_list> => {
     return await authFetch(`/booklist?id=${booklistId}`);
 };
 
@@ -237,6 +237,39 @@ export const fetchExpiredLoans = async () => {
         headers: {
             "content-type": "application/json;charset=UTF-8"
         }
+    });
+};
+
+export const fetchListBooks = async (listId: number): Promise<Book[]> => {
+    return await authFetch(`/booklist/books?id=${listId}`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
+
+export const fetchListInfo = async (
+    listId: number
+): Promise<{ userId: number; username: string; name: string }> => {
+    return await authFetch(`/booklist/info?id=${listId}`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
+
+export const fetchDeleteListEntryBook = async (
+    listId: number,
+    bookId: number
+): Promise<OKStatus> => {
+    return await authFetch("/booklistentry/book", {
+        method: "DELETE",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ listId, bookId })
     });
 };
 

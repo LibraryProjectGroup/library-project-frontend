@@ -11,8 +11,8 @@ import TheContextProvider, { TheContext } from "./TheContext";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { isAuthenticated } from "./auth";
 import UserBooklists from "./components/pages/userBooklistsPage/UserBooklistsPage";
-import UserBooks from "./components/pages/UserBooksPage/UserBooks";
 import UserReservations from "./components/pages/userBookReservationsPage/UserReservationsPage";
+import ListPage from "./components/pages/listPage/ListPage";
 
 function App() {
     const ProtectedRoute: FC<any> = (props) => {
@@ -64,6 +64,14 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <UserBooklists />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/list/:id"
+                        element={
+                            <ProtectedRoute>
+                                <ListPage />
                             </ProtectedRoute>
                         }
                     />
