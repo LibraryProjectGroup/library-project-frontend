@@ -10,7 +10,7 @@ Knowledge is power.
 
 This digital library project is the transformation of the many physical copies of books owned by Eficode and scattered in different Eficode offices located in 10 different countries around the world, into one digital library in which the various users will be able to learn-from, teach-with, and enjoy sharing knowledge easily and efficiently.
 
-The users will be able to borrow and return books, create lists of favorite books and watch other users' favorite lists, and browse through the library database.
+The users will be able to borrow and return books, create lists of favorite books and watch other users' favorite lists, as well as browse through the library database.
 
 Admins will be able to control the distribution of borrowed books and monitor the users' activity within the library.
 
@@ -26,6 +26,19 @@ Admins will be able to control the distribution of borrowed books and monitor th
       
 
 </div>
+
+The authentication is implemented using Bearer Tokens.
+
+The application is deployed in [https://efilibrary.netlify.app/](https://efilibrary.netlify.app/).
+
+<!-- INSTALLATION -->
+# How to Install 
+
+<!-- RUNNING -->
+# How to Run 
+
+<!-- TESTING -->
+# How to Test 
 
 <!-- TABLE OF CONTENTS -->
 # Table of Contents
@@ -227,5 +240,21 @@ See detailed documentation about Robot testing in [AboutRobotTests.md documentat
 <!-- CREDITS -->
 # Credits
 
-<!-- LICENCE -->
-# Licence
+Attribution in alphabetical order:
+
+* Michael Brown
+* Raúl Fernández Poolan
+* Eeli Killström
+* Jasmin Lumme
+* Anja Miscevic
+* Dung Pham
+* Shay Pisanty
+* Markus Sibakov
+* Elisa Tuovila
+* Veeti Vainikka
+* Tia Venäläinen
+
+<!-- LICENSE -->
+# License
+
+See the project's MIT License in [LICENSE.md](LICENSE.md)
