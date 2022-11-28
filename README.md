@@ -249,6 +249,7 @@ Attribution in alphabetical order:
 * Anja Miscevic
 * Dung Pham
 * Shay Pisanty
+* Axel Riska
 * Markus Sibakov
 * Elisa Tuovila
 * Veeti Vainikka
