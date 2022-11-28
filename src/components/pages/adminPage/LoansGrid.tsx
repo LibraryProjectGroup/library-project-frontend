@@ -55,7 +55,7 @@ const LoansGrid: FC = (): JSX.Element => {
         <DataGrid
             columns={COLUMNS_LOANS}
             rows={loansData}
-            sx={{ width: "100%", height: 1000 }}
+            sx={{ width: "100%", height: 1000, backgroundColor: "white" }}
         ></DataGrid>
     );
 };

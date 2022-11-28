@@ -115,8 +115,9 @@ const ListPage: FC = (): JSX.Element => {
                                     >
                                         Location: {book.location}
                                     </Typography>
+
                                     {context?.user?.id == userId && (
-                                        <Stack marginY={1}>
+                                        <Stack marginY={5}>
                                             <Button
                                                 sx={listBooksDeleteButton}
                                                 variant="contained"

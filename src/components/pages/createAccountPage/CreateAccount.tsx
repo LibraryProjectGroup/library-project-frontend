@@ -150,7 +150,7 @@ const CreateAccount: FC = () => {
                         elevation={10}
                         sx={{
                             width: 500,
-                            height: 500
+                            height: 650
                         }}
                     >
                         <Box sx={{ padding: 10 }}>

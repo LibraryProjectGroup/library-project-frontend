@@ -134,7 +134,7 @@ const UsersGrid: FC = (): JSX.Element => {
             <DataGrid
                 columns={COLUMNS_USERS}
                 rows={usersData}
-                sx={{ width: "100%", height: 1000 }}
+                sx={{ width: "100%", height: 1000, backgroundColor: "white" }}
             ></DataGrid>
             <Snackbar
                 open={open}

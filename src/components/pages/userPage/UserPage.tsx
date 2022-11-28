@@ -1,5 +1,5 @@
 import React, { useState, FC, useContext, useEffect } from "react";
-import { Paper, Typography, Button, Stack, Fab } from "@mui/material";
+import { Paper, Typography, Button, Stack, Fab, Tooltip } from "@mui/material";
 import { TheContext } from "../../../TheContext";
 import { useNavigate } from "react-router-dom";
 import {
@@ -167,7 +167,7 @@ const MyAccount: FC = (): JSX.Element => {
                                       " day(s)"}
                             </Typography>
                         </Stack>
-                        <Stack marginY={1} justifyContent="space-between">
+                        <Stack marginY={5} justifyContent="space-between">
                             <Button
                                 sx={userPageReturnButton}
                                 variant="contained"
@@ -224,27 +224,31 @@ const MyAccount: FC = (): JSX.Element => {
                 </p>
                 <p>Currently loaning {length} book(s)</p>
             </div>
-            <Fab
-                aria-label="back"
-                sx={userPageBackButton}
-                onClick={() => {
-                    navigate("/list-books");
-                }}
-            >
-                <ArrowBackIcon />
-            </Fab>
-            <Fab
-                aria-label="back"
-                sx={userPageBackButton}
-                onClick={() => {
-                    endSession();
-                    navigate("/login");
-                    // update user data when you logIn and logOut
-                    context?.setIsLogin(false);
-                }}
-            >
-                <LogoutIcon />
-            </Fab>
+            <Tooltip title="Back">
+                <Fab
+                    aria-label="back"
+                    sx={userPageBackButton}
+                    onClick={() => {
+                        navigate("/list-books");
+                    }}
+                >
+                    <ArrowBackIcon />
+                </Fab>
+            </Tooltip>
+            <Tooltip title="Log out">
+                <Fab
+                    aria-label="log out"
+                    sx={userPageBackButton}
+                    onClick={() => {
+                        endSession();
+                        navigate("/login");
+                        // update user data when you logIn and logOut
+                        context?.setIsLogin(false);
+                    }}
+                >
+                    <LogoutIcon />
+                </Fab>
+            </Tooltip>
             <Button
                 sx={userPageMyListsButton}
                 variant="contained"

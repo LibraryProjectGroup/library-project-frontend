@@ -1,5 +1,5 @@
 import React, { useState, useEffect, FC } from "react";
-import { Box, Tab, Tabs, Fab, Button } from "@mui/material";
+import { Box, Tab, Tabs, Fab, Button, Tooltip } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import {
@@ -32,46 +32,56 @@ const Admin: FC = (): JSX.Element => {
     };
     return (
         <Box sx={{ height: "100vh", width: "100%" }}>
-            <Tabs
-                value={currentTab}
-                onChange={handleTabChange}
-                centered={true}
-                sx={adminPageTabs}
-            >
-                <Tab label="Users" sx={adminPageTab} />
-                <Tab label="Books" sx={adminPageTab} />
-                <Tab label="Current loans" sx={adminPageTab} />
-                <Tab label="Expired loans" sx={adminPageTab} />
-                <Tab label="Book requests" sx={adminPageTab} />
-                <Tab label="Book reservations" sx={adminPageTab} />
-            </Tabs>
-            <Fab
-                aria-label="back"
-                sx={userPageBackButton}
-                onClick={() => {
-                    navigate("/list-books");
+            <Tooltip title="Back">
+                <Fab
+                    aria-label="back"
+                    sx={userPageBackButton}
+                    onClick={() => {
+                        navigate("/list-books");
+                    }}
+                >
+                    <ArrowBackIcon />
+                </Fab>
+            </Tooltip>
+            <Box
+                sx={{
+                    width: "70%",
+                    margin: "auto"
                 }}
             >
-                <ArrowBackIcon />
-            </Fab>
-            <TabPanel index={0} currentTab={currentTab}>
-                <UsersGrid />
-            </TabPanel>
-            <TabPanel index={1} currentTab={currentTab}>
-                <BooksGrid />
-            </TabPanel>
-            <TabPanel index={2} currentTab={currentTab}>
-                <LoansGrid />
-            </TabPanel>
-            <TabPanel index={3} currentTab={currentTab}>
-                <ExpiredGrid />
-            </TabPanel>
-            <TabPanel index={4} currentTab={currentTab}>
-                <RequestsGrid />
-            </TabPanel>
-            <TabPanel index={5} currentTab={currentTab}>
-                <ReservationsGrid />
-            </TabPanel>
+                <Tabs
+                    value={currentTab}
+                    onChange={handleTabChange}
+                    centered={true}
+                    sx={adminPageTabs}
+                >
+                    <Tab label="Users" sx={adminPageTab} />
+                    <Tab label="Books" sx={adminPageTab} />
+                    <Tab label="Current loans" sx={adminPageTab} />
+                    <Tab label="Expired loans" sx={adminPageTab} />
+                    <Tab label="Book requests" sx={adminPageTab} />
+                    <Tab label="Book reservations" sx={adminPageTab} />
+                </Tabs>
+
+                <TabPanel index={0} currentTab={currentTab}>
+                    <UsersGrid />
+                </TabPanel>
+                <TabPanel index={1} currentTab={currentTab}>
+                    <BooksGrid />
+                </TabPanel>
+                <TabPanel index={2} currentTab={currentTab}>
+                    <LoansGrid />
+                </TabPanel>
+                <TabPanel index={3} currentTab={currentTab}>
+                    <ExpiredGrid />
+                </TabPanel>
+                <TabPanel index={4} currentTab={currentTab}>
+                    <RequestsGrid />
+                </TabPanel>
+                <TabPanel index={5} currentTab={currentTab}>
+                    <ReservationsGrid />
+                </TabPanel>
+            </Box>
         </Box>
     );
 };

@@ -12,6 +12,7 @@ import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { isAuthenticated } from "./auth";
 import UserBooklists from "./components/pages/userBooklistsPage/UserBooklistsPage";
 import UserReservations from "./components/pages/userBookReservationsPage/UserReservationsPage";
+import { AppBar, Typography } from "@mui/material";
 import ListPage from "./components/pages/listPage/ListPage";
 
 function App() {
@@ -31,6 +32,22 @@ function App() {
 
     return (
         <TheContextProvider>
+            <AppBar
+                position="static"
+                sx={{ backgroundColor: "white", height: 80 }}
+            >
+                <Typography
+                    variant="h4"
+                    sx={{
+                        fontFamily: "Merriweather",
+                        padding: 3,
+                        paddingLeft: 5,
+                        color: "black"
+                    }}
+                >
+                    efilibrary
+                </Typography>
+            </AppBar>
             <BrowserRouter>
                 <Routes>
                     <Route
