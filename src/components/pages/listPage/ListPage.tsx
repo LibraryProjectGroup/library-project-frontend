@@ -38,7 +38,7 @@ const ListPage: FC = (): JSX.Element => {
             setUserId(data.userId);
         });
         fetchListBooks(Number(id)).then((data) => setBooks(data));
-    }, []);
+    }, [id]);
 
     return (
         <>

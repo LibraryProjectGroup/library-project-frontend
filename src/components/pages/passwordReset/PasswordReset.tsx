@@ -42,7 +42,7 @@ const PasswordReset: FC = (): JSX.Element => {
         return () => {
             window.removeEventListener("resize", handleResize);
         };
-    }, []);
+    }, [secret]);
 
     const handleChangePassword = async () => {
         try {
