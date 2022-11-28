@@ -27,7 +27,6 @@ import {
     listBooksFavoriteButton as favButton
 } from "../../../sxStyles";
 import { fetchBooklist } from "../../../fetchFunctions";
-import UserBooks from "../UserBooksPage/UserBooks";
 import EditBookListName from "./EditBookListName";
 import { arrayBuffer } from "stream/consumers";
 
@@ -40,11 +39,6 @@ const UserBooklists: FC = (): JSX.Element => {
     const [oneBookListDataToEditName, setOneBookListDataToEditName] =
         useState<Book_list | null>(null);
     const [formEditing, setFormEditing] = useState(false);
-    const [bookListSelected, setBookListSelected] = useState(false);
-    const [selectedBooklist, setSelectedBooklist] = useState<Book_list>({
-        id: -1,
-        name: ""
-    });
 
     const context = useContext(TheContext);
     const navigate = useNavigate();
@@ -58,18 +52,7 @@ const UserBooklists: FC = (): JSX.Element => {
     }, []);
 
     const handleUserBooksButton = (booklist: Book_list) => {
-        setSelectedBooklist(booklist);
-    };
-
-    useEffect(() => {
-        if (selectedBooklist.id !== -1) {
-            setBookListSelected(true);
-        }
-    }, [selectedBooklist]);
-
-    const handleCloseList = () => {
-        setBookListSelected(false);
-        setSelectedBooklist({ id: -1, name: "" });
+        navigate(`/list/${booklist.id}`);
     };
 
     const updateBookListName = async (editedBook: Book_list) => {
@@ -199,12 +182,7 @@ const UserBooklists: FC = (): JSX.Element => {
         return renderedBooklists;
     };*/
 
-    return bookListSelected ? (
-        <UserBooks
-            booklist={selectedBooklist}
-            handleCloseList={handleCloseList}
-        />
-    ) : (
+    return (
         <>
             <div style={{ position: "absolute", right: 30 }}>
                 <p>

@@ -5,6 +5,7 @@ import EditUser from "./interfaces/editUser.interface";
 import Borrow from "./interfaces/borrow.interface";
 import Book_list from "./interfaces/book_list.interface";
 import Book_list_entry from "./interfaces/book_list_entry.interface";
+import BACKEND_URL from "./backendUrl";
 import Book_request, {
     Book_request_status
 } from "./interfaces/book_request.interface";
@@ -145,7 +146,7 @@ export const fetchUserBooklists = async (): Promise<Book_list[]> => {
     return await authFetch(`/booklist/user`);
 };
 
-export const fetchBooklist = async (booklistId: number): Promise<Book> => {
+export const fetchBooklist = async (booklistId: number): Promise<Book_list> => {
     return await authFetch(`/booklist?id=${booklistId}`);
 };
 
@@ -236,6 +237,39 @@ export const fetchExpiredLoans = async () => {
         headers: {
             "content-type": "application/json;charset=UTF-8"
         }
+    });
+};
+
+export const fetchListBooks = async (listId: number): Promise<Book[]> => {
+    return await authFetch(`/booklist/books?id=${listId}`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
+
+export const fetchListInfo = async (
+    listId: number
+): Promise<{ userId: number; username: string; name: string }> => {
+    return await authFetch(`/booklist/info?id=${listId}`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
+
+export const fetchDeleteListEntryBook = async (
+    listId: number,
+    bookId: number
+): Promise<OKStatus> => {
+    return await authFetch("/booklistentry/book", {
+        method: "DELETE",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ listId, bookId })
     });
 };
 
@@ -358,5 +392,24 @@ export const fetchUserCurrentBookReservations = async (userId: number) => {
             "content-type": "application/json"
         },
         body: JSON.stringify({ userId })
+    });
+};
+
+export const fetchPasswordResetSecret = async (userId: number) => {
+    return await authFetch(`/passwordreset/secret?id=${userId}`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
+
+export const fetchPasswordReset = async (secret: string, password?: string) => {
+    return await fetch(`${BACKEND_URL}/passwordreset`, {
+        method: "POST",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        },
+        body: JSON.stringify({ secret, password })
     });
 };

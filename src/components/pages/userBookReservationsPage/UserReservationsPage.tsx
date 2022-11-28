@@ -17,16 +17,12 @@ const UserReservations: FC = (): JSX.Element => {
 
     useEffect(() => {
         fetchReservations(context?.user?.id);
-    }, []);
-
-    useEffect(() => {
-        console.log(reservations);
-    }, [reservations]);
+    }, [context]);
 
     const fetchReservations = async (userId: number | null | undefined) => {
-        if (userId) {
+        console.log("Reservations fetch");
+        userId &&
             setReservations(await fetchUserCurrentBookReservations(userId));
-        }
     };
 
     const renderReservationData = (reservation: JoinedReservation) => {

@@ -2,6 +2,7 @@ import { FC, useContext } from "react";
 import ListBooks from "./components/pages/listBooksPage/ListBooks";
 import LoginPage from "./components/pages/loginPage/LoginPage";
 import CreateAccount from "./components/pages/createAccountPage/CreateAccount";
+import PasswordReset from "./components/pages/passwordReset/PasswordReset";
 import MyAccount from "./components/pages/userPage/UserPage";
 import Admin from "./components/pages/adminPage/Admin";
 import UnauthorizedPage from "./components/pages/errorPages/UnauthorizedPage";
@@ -10,9 +11,9 @@ import TheContextProvider, { TheContext } from "./TheContext";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { isAuthenticated } from "./auth";
 import UserBooklists from "./components/pages/userBooklistsPage/UserBooklistsPage";
-import UserBooks from "./components/pages/UserBooksPage/UserBooks";
 import UserReservations from "./components/pages/userBookReservationsPage/UserReservationsPage";
 import { AppBar, Typography } from "@mui/material";
+import ListPage from "./components/pages/listPage/ListPage";
 
 function App() {
     const ProtectedRoute: FC<any> = (props) => {
@@ -56,6 +57,10 @@ function App() {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/create-account" element={<CreateAccount />} />
                     <Route
+                        path="/passwordreset/:secret"
+                        element={<PasswordReset />}
+                    />
+                    <Route
                         path="/list-books"
                         element={
                             <ProtectedRoute>
@@ -76,6 +81,14 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <UserBooklists />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/list/:id"
+                        element={
+                            <ProtectedRoute>
+                                <ListPage />
                             </ProtectedRoute>
                         }
                     />
