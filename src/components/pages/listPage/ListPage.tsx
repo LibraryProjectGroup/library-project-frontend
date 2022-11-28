@@ -45,7 +45,7 @@ const ListPage: FC = (): JSX.Element => {
             <Fab
                 aria-label="back"
                 sx={userPageBackButton}
-                onClick={() => navigate("/booklists")}
+                onClick={() => navigate("/")}
             >
                 <ArrowBackIcon />
             </Fab>
