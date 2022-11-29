@@ -15,6 +15,15 @@ export const loginButton: SxProps = {
     padding: 2
 };
 
+export const textButton: SxProps = {
+    fontFamily: "Montserrat",
+    fontWeight:600,
+    fontSize: 13,
+    width: "100%",
+    color: "black",
+    padding: 2
+};
+
 export const loginBox: SxProps = {
     display: "flex",
     flexDirection: "Column",
@@ -53,34 +62,7 @@ export const loginPaper: SxProps = {
     height: 500
 };
 
-// CreateAccount
 
-export const createAccountReturnButton: SxProps = {
-    fontFamily: "Montserrat",
-    fontWeight: "bold",
-    fontSize: 15,
-    width: "100%",
-    backgroundColor: "#FFD100",
-    color: "black",
-    "&:hover": {
-        backgroundColor: "#FFB500"
-    },
-    padding: 2
-};
-
-export const createAccountSignButton: SxProps = {
-    fontFamily: "Montserrat",
-    fontWeight: "bold",
-    fontSize: 15,
-    width: "40%",
-
-    backgroundColor: "#FFD100",
-    color: "black",
-    "&:hover": {
-        backgroundColor: "#FFB500"
-    },
-    padding: 2
-};
 
 export const createAccountBoxTitleText: SxProps = {
     textAlign: "center",
