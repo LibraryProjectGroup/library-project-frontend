@@ -236,3 +236,11 @@ User navigates to booklist page
     Execute Javascript    location.href='/list-books'
     ${path}=    Execute Javascript    return window.location.pathname
     Should Be Equal As Strings    ${path}    /list-books
+
+User presses back button
+    Wait until Element Is Visible    xpath://*[contains(@aria-label, 'back')]
+    Click Element    xpath://*[contains(@data-testid, 'ArrowBackIcon')]
+
+User is returned to booklist
+    ${path}=    Execute Javascript    return window.location.pathname
+    Should Be Equal As Strings    ${path}    /list-books
