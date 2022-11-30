@@ -105,15 +105,7 @@ function App() {
                             </AdminRoute>
                         }
                     />
-                    <Route
-                        path="*"
-                        element={
-                            <>
-                                <NavBar />
-                                <MissingPage />
-                            </>
-                        }
-                    />
+                    <Route path="*" element={<MissingPage />} />
                 </Routes>
             </BrowserRouter>
         </TheContextProvider>

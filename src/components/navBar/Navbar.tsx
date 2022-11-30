@@ -13,6 +13,8 @@ import { endSession } from "../../auth";
 import { userLogOutButton, userPageMyListsButton } from "../../sxStyles";
 import { TheContext } from "../../TheContext";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { log } from "console";
+import { gridColumnGroupsLookupSelector } from "@mui/x-data-grid";
 
 const NavBar: FC = (): JSX.Element => {
     const context = useContext(TheContext);
@@ -35,8 +37,13 @@ const NavBar: FC = (): JSX.Element => {
                             sx={{
                                 fontFamily: "Merriweather",
                                 paddingLeft: 5,
-                                color: "black"
+                                color: "black",
+                                cursor: "pointer",
+                                "&:hover": {
+                                    color: "#FFB500"
+                                }
                             }}
+                            onClick={() => navigate("/list-books")}
                         >
                             efilibrary
                         </Typography>

@@ -184,12 +184,6 @@ const UserBooklists: FC = (): JSX.Element => {
 
     return (
         <>
-            <div style={{ position: "absolute", right: 30 }}>
-                <p>
-                    User: <b>{context?.user?.username}</b>
-                </p>
-                <p>Book Lists</p>
-            </div>
             <Fab
                 aria-label="back"
                 sx={userPageBackButton}
