@@ -23,7 +23,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const MyAccount: FC = (): JSX.Element => {
     const [books, setBooks] = useState<{ [key: number]: Book }>([]);
-    const [borrows, setBorrows] = useState<Borrow[]>([]);
+
     const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
         ok: false,
         message: ""
@@ -39,10 +39,6 @@ const MyAccount: FC = (): JSX.Element => {
             sortedBooks[book.id] = book;
         }
         setBooks(sortedBooks);
-    };
-
-    const fetchBorrows = async () => {
-        setBorrows(await fetchCurrentBorrows());
     };
 
     const handleClosePopUpConfirmation = (
@@ -81,12 +77,14 @@ const MyAccount: FC = (): JSX.Element => {
 
     useEffect(() => {
         fetchBooks();
-        fetchBorrows();
+        context?.fetchBorrows();
     }, []);
 
     const renderBorrowedBooks = () => {
         let renderedBooks = [];
-        for (const borrowed of borrows) {
+        const borrowsData = context?.borrows;
+        if (borrowsData === undefined) return;
+        for (const borrowed of borrowsData) {
             const book = books[borrowed.book];
             const currentDate = new Date();
             const datedDueDate = new Date(borrowed.dueDate);
@@ -191,7 +189,7 @@ const MyAccount: FC = (): JSX.Element => {
                                                     message: message
                                                 })
                                             );
-                                        await fetchBorrows();
+                                        await context?.fetchBorrows();
                                     }
                                 }}
                             >
@@ -205,8 +203,6 @@ const MyAccount: FC = (): JSX.Element => {
         return renderedBooks;
     };
 
-    const length = renderBorrowedBooks().length;
-
     return (
         <>
             {/* Pop up element */}
@@ -218,9 +214,7 @@ const MyAccount: FC = (): JSX.Element => {
                 action={action}
             />
             {/* Pop up element */}
-            <div style={{ position: "absolute", right: 30 }}>
-                <p>Currently loaning {length} book(s)</p>
-            </div>
+
             <Tooltip title="Back">
                 <Fab
                     aria-label="back"

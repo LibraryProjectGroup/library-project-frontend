@@ -15,6 +15,7 @@ import { TheContext } from "../../TheContext";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { log } from "console";
 import { gridColumnGroupsLookupSelector } from "@mui/x-data-grid";
+import { fontSize } from "@mui/system";
 
 const NavBar: FC = (): JSX.Element => {
     const context = useContext(TheContext);
@@ -22,7 +23,7 @@ const NavBar: FC = (): JSX.Element => {
     return (
         <AppBar position="static" sx={{ backgroundColor: "white", height: 80 }}>
             <Box sx={{ height: "100%" }}>
-                <Grid container columns={{ xs: 6 }} sx={{ height: "100%" }}>
+                <Grid container columns={{ xs: 7 }} sx={{ height: "100%" }}>
                     <Grid
                         item
                         xs={1}
@@ -87,23 +88,38 @@ const NavBar: FC = (): JSX.Element => {
                     </Grid>
                     <Grid
                         item
-                        xs={1}
+                        xs={2}
                         sx={{
                             display: "flex",
                             justifyContent: "end",
                             alignItems: "center"
                         }}
                     >
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                fontFamily: "Merriweather",
-                                color: "black"
-                            }}
-                        >
-                            User: <b>{context?.user?.username}</b>
-                        </Typography>
-
+                        <div>
+                            <Typography
+                                variant="h6"
+                                sx={{
+                                    fontFamily: "Merriweather",
+                                    color: "black",
+                                    fontSize: 20
+                                }}
+                            >
+                                User: <b>{context?.user?.username}</b>
+                            </Typography>
+                            <Typography
+                                variant="h6"
+                                sx={{
+                                    fontFamily: "Merriweather",
+                                    color: "black",
+                                    fontSize: 15
+                                }}
+                            >
+                                <p style={{ margin: 0 }}>
+                                    Currently loaning {context?.borrows?.length}{" "}
+                                    book(s)
+                                </p>
+                            </Typography>
+                        </div>
                         <Tooltip title="Log out">
                             <Fab
                                 aria-label="log out"

@@ -261,11 +261,8 @@ export const userPageBackButton: SxProps = {
 };
 
 export const userLogOutButton: SxProps = {
-    // position: "relative",
-    // top: 50,
-    // marginBottom: 10,
     marginRight: 5,
-    marginLeft: 3,
+    marginLeft: 5,
     backgroundColor: "#FFD100",
     color: "black",
     "&:hover": {
