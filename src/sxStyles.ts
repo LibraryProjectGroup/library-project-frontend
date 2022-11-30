@@ -17,7 +17,7 @@ export const loginButton: SxProps = {
 
 export const textButton: SxProps = {
     fontFamily: "Montserrat",
-    fontWeight:600,
+    fontWeight: 600,
     fontSize: 13,
     width: "100%",
     color: "black",
@@ -61,8 +61,6 @@ export const loginPaper: SxProps = {
     width: 500,
     height: 500
 };
-
-
 
 export const createAccountBoxTitleText: SxProps = {
     textAlign: "center",
@@ -261,14 +259,25 @@ export const userPageBackButton: SxProps = {
     }
 };
 
+export const userLogOutButton: SxProps = {
+    // position: "relative",
+    // top: 50,
+    // marginBottom: 10,
+    marginRight: 5,
+    marginLeft: 3,
+    backgroundColor: "#FFD100",
+    color: "black",
+    "&:hover": {
+        backgroundColor: "#FFB500"
+    }
+};
+
 export const userPageMyListsButton: SxProps = {
     fontFamily: "Montserrat",
     fontWeight: "bold",
     fontSize: 15,
     position: "relative",
-    top: 50,
-    marginBottom: 10,
-    marginLeft: 5,
+    marginX: 2.5,
     backgroundColor: "#FFD100",
     color: "black",
     "&:hover": {
@@ -279,13 +288,13 @@ export const userPageMyListsButton: SxProps = {
 // Admin page
 
 export const adminPageTabs: SxProps = {
-    width: "100%",
+    width: "100%"
 };
 
 export const adminPageTab: SxProps = {
     fontFamily: "Montserrat",
     fontWeight: "bold",
-    fontSize: 15,
+    fontSize: 15
 };
 
 export const adminDeleteButton: SxProps = {
@@ -302,13 +311,9 @@ export const adminDeleteButton: SxProps = {
     //padding: 1,
 };
 
-
-
-
 // EditUser
 
 export const editUserBox: SxProps = {
-
     position: "absolute" as "absolute",
     top: "50%",
     left: "50%",
@@ -322,7 +327,6 @@ export const editUserBox: SxProps = {
 };
 
 export const editUserCancelButton: SxProps = {
-
     fontFamily: "Montserrat",
     fontWeight: "bold",
     fontSize: 15,
@@ -335,9 +339,7 @@ export const editUserCancelButton: SxProps = {
     //padding: 2,
 };
 
-
 export const editUserUpdateButton: SxProps = {
-
     fontFamily: "Montserrat",
     fontWeight: "bold",
     fontSize: 15,
@@ -389,5 +391,3 @@ export const editBookListCancelButton: SxProps = {
     }
     //padding: 2,
 };
-
-
