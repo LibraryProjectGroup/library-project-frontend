@@ -21,8 +21,12 @@ const UserReservations: FC = (): JSX.Element => {
 
     const fetchReservations = async (userId: number | null | undefined) => {
         console.log("Reservations fetch");
-        userId &&
-            setReservations(await fetchUserCurrentBookReservations(userId));
+        if (userId) {
+            const result = await fetchUserCurrentBookReservations(userId);
+            if (result.ok === "true") {
+                setReservations(result);
+            }
+        }
     };
 
     const renderReservationData = (reservation: JoinedReservation) => {
@@ -94,7 +98,7 @@ const UserReservations: FC = (): JSX.Element => {
                 <ArrowBackIcon />
             </Fab>
             {reservations ? (
-                reservations.map((reservation) =>
+                reservations?.map((reservation) =>
                     renderReservationData(reservation)
                 )
             ) : (
