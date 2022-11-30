@@ -9,10 +9,12 @@ import {
 } from "../../../sxStyles";
 import { fetchPasswordReset } from "../../../fetchFunctions";
 
+const REQUIRED_PASSWORD_LENGTH = 8;
+
 const PasswordReset: FC = (): JSX.Element => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [errorMessage, setErrorMesssage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const [invalid, setInvalid] = useState(false);
 
     const navigate = useNavigate();
@@ -46,10 +48,23 @@ const PasswordReset: FC = (): JSX.Element => {
 
     const handleChangePassword = async () => {
         try {
-            if (password != confirmPassword) {
-                setErrorMesssage("Passwords do not match");
-                return;
-            }
+            if (password != confirmPassword)
+                return setErrorMessage("Passwords do not match");
+
+            if (password.length < REQUIRED_PASSWORD_LENGTH)
+                return setErrorMessage(
+                    `Passwords has to be atleast ${REQUIRED_PASSWORD_LENGTH} characters long`
+                );
+            if (
+                !/[A-B]/.test(password) ||
+                !/[a-b]/.test(password) ||
+                !/\d/.test(password) ||
+                !/[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/.test(password)
+            )
+                return setErrorMessage(
+                    "Password has to have atleast one uppercase character, lowercase character, number, and special character"
+                );
+
             if (secret)
                 fetchPasswordReset(secret, password)
                     .then((res) => res.json())
@@ -57,7 +72,7 @@ const PasswordReset: FC = (): JSX.Element => {
                         if (data.ok) {
                             navigate("/");
                         } else {
-                            setErrorMesssage("Something went wrong");
+                            setErrorMessage("Something went wrong");
                         }
                     });
         } catch (error) {
