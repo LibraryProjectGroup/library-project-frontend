@@ -45,6 +45,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Alert from "@mui/material/Alert";
 import BookRequestForm from "./BookRequestForm";
+import NavBar from "../../navBar/Navbar";
 
 const ListBooks: FC = (): JSX.Element => {
     const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
@@ -382,17 +383,6 @@ const ListBooks: FC = (): JSX.Element => {
                     sx={{ marginBottom: 3 }}
                 >
                     <Grid item xs={2}>
-                        <Tooltip title="Account">
-                            <Fab
-                                aria-label="account"
-                                sx={addButton}
-                                onClick={() => {
-                                    navigate("/user");
-                                }}
-                            >
-                                <AccountBoxIcon />
-                            </Fab>
-                        </Tooltip>
                         {context?.user?.administrator ? (
                             <Tooltip title="Admin page">
                                 <Fab

@@ -219,9 +219,6 @@ const MyAccount: FC = (): JSX.Element => {
             />
             {/* Pop up element */}
             <div style={{ position: "absolute", right: 30 }}>
-                <p>
-                    User: <b>{context?.user?.username}</b>
-                </p>
                 <p>Currently loaning {length} book(s)</p>
             </div>
             <Tooltip title="Back">
@@ -235,38 +232,7 @@ const MyAccount: FC = (): JSX.Element => {
                     <ArrowBackIcon />
                 </Fab>
             </Tooltip>
-            <Tooltip title="Log out">
-                <Fab
-                    aria-label="log out"
-                    sx={userPageBackButton}
-                    onClick={() => {
-                        endSession();
-                        navigate("/login");
-                        // update user data when you logIn and logOut
-                        context?.setIsLogin(false);
-                    }}
-                >
-                    <LogoutIcon />
-                </Fab>
-            </Tooltip>
-            <Button
-                sx={userPageMyListsButton}
-                variant="contained"
-                onClick={() => {
-                    navigate("/reservations");
-                }}
-            >
-                My book reservations
-            </Button>
-            <Button
-                sx={userPageMyListsButton}
-                variant="contained"
-                onClick={() => {
-                    navigate("/booklists");
-                }}
-            >
-                My Lists
-            </Button>
+
             {renderBorrowedBooks()}
         </>
     );
