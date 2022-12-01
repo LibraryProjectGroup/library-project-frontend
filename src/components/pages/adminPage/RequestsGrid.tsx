@@ -19,6 +19,7 @@ import Book_request, {
     Book_request_status
 } from "../../../interfaces/book_request.interface";
 import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const RequestsGrid: FC = (): JSX.Element => {
     const [requestsData, setRequestsData] = useState<Book_request[]>([]);
@@ -33,7 +34,6 @@ const RequestsGrid: FC = (): JSX.Element => {
             field: "status",
             headerName: "Status",
             flex: 2,
-            type: "singleSelect",
             valueFormatter(params: any) {
                 switch (params.value) {
                     case 0:
@@ -46,24 +46,36 @@ const RequestsGrid: FC = (): JSX.Element => {
                         return "UNKNOWN";
                 }
             },
-            valueOptions: [0, 1, 2],
-            editable: true
+            valueOptions: [0, 1, 2]
         },
         {
-            field: "actions",
-            type: "actions",
-            headerName: "Actions",
+            field: "approve",
+            headerName: "Approve",
             renderCell: (params) => (
-                <div>
-                    <IconButton
-                        title="Save"
-                        onClick={() =>
-                            updateStatus(params.row.id, params.row.status)
-                        }
-                    >
-                        <CheckIcon />
-                    </IconButton>
-                </div>
+                <IconButton
+                    title="Approve"
+                    onClick={() => {
+                        updateStatus(params.row.id, 2);
+                        loadRequestsData();
+                    }}
+                >
+                    <CheckIcon />
+                </IconButton>
+            )
+        },
+        {
+            field: "deny",
+            headerName: "Deny",
+            renderCell: (params) => (
+                <IconButton
+                    title="Deny"
+                    onClick={() => {
+                        updateStatus(params.row.id, 1);
+                        loadRequestsData();
+                    }}
+                >
+                    <ClearIcon />
+                </IconButton>
             )
         }
     ];
