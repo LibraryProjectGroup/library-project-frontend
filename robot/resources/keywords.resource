@@ -65,7 +65,7 @@ User logins successfully
     Input Password    xpath://input[contains(@id, ':r3:')]    ${TESTPASSWORD}    clear=True    # password
     Click Button    xpath://button[contains(text(), 'Log in')]
     Wait Until Element Is Not Visible    xpath://*[contains(text(), 'No account by that username')]
-    Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'AccountBoxIcon')]
+    Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'LogoutIcon')]
 
 User deletes book from catalog with title ${title}
     Execute Javascript    location.reload()
@@ -75,9 +75,9 @@ User deletes book from catalog with title ${title}
     Wait Until Element Is Not Visible    xpath://*[contains(text(), '${title}')]
 
 User navigates to user page
-    Wait Until Element Is Visible    xpath://*[contains(@aria-label, 'account')]
-    Click Button    xpath://*[contains(@aria-label, 'account')]
-    Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'LogoutIcon')]
+    Execute Javascript    location.href='/user'
+    ${path}=    Execute Javascript    return window.location.pathname
+    Should Be Equal As Strings    ${path}    /user
 
 Book with title ${title} is available for loaning
     Wait Until Element Is Enabled
@@ -88,6 +88,7 @@ User tries to loan a book with title ${title}
     ...    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'LOAN')]
     Click Button    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'LOAN')]
     Alert Should Be Present    Do you want to LOAN this book?    ACCEPT
+    Wait Until Element Is Visible    xpath://*[contains(text(), 'Loaning succeeded')]
 
 User who has not signed up tries to log in
     Wait Until Element Is Visible    xpath://input[contains(@id, ':r1:')]
