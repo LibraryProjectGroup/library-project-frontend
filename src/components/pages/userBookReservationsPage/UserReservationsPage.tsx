@@ -3,7 +3,7 @@ import {
     fetchUserCurrentBookReservations,
     fetchCancelBookReservation
 } from "../../../fetchFunctions";
-import JoinedReservation from "../../../interfaces/joinedReservation.interface";
+import ExtendedReservation from "../../../interfaces/extendedReservation.interface";
 import { TheContext } from "../../../TheContext";
 import { Paper, Stack, Typography, Button, Fab } from "@mui/material";
 import { listBooksDeleteButton, userPageBackButton } from "../../../sxStyles";
@@ -11,7 +11,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 
 const UserReservations: FC = (): JSX.Element => {
-    const [reservations, setReservations] = useState<JoinedReservation[]>([]);
+    const [reservations, setReservations] = useState<ExtendedReservation[]>([]);
     const context = useContext(TheContext);
     const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ const UserReservations: FC = (): JSX.Element => {
             setReservations(await fetchUserCurrentBookReservations(userId));
     };
 
-    const renderReservationData = (reservation: JoinedReservation) => {
+    const renderReservationData = (reservation: ExtendedReservation) => {
         return (
             <Paper elevation={10} sx={{ padding: "2rem" }}>
                 <Stack direction="row" justifyContent="space-between">
