@@ -10,11 +10,13 @@ User can loan the book
     When User tries to loan a book with title Java oh Java
     And User navigates to user page
     Then User can find the Java oh Java book from the page
+    And User logout
 
-# User can not loan the book
-#    Given user selects the book they want to loan
-#    When user sees that the book is not available
-#    Then user is not able to loan the book
+ User can not loan the book
+    Given User2 login for testing
+    When User can find the Java oh Java book from the page
+    Then User sees that the book Java oh Java is not available
+    
 
 
 *** Keywords ***
@@ -32,10 +34,11 @@ User gives the required info
 User is able to loan the book
     Alert Should Be Present    xpath://*[contains(text(), 'Confirmed! Reservation info is sent to your email!')]
 
-User sees that the book is not available
-    Wait Until Element Is Visible    xpath://*[contains(text(), 'Information')]
-    Page Should Contain Element    xpath://*[contains(text(), 'Reserved')]
-    Element Should Be Disabled    xpath=(//button[contains(text(), 'Make reservation')])[1]
+User sees that the book ${title} is not available
+    Wait Until Element Is Visible    xpath://body/div[@id='root']/div/div[1]/div[2]
+    ${path}=    Execute Javascript    return window.location.pathname
+    Should Be Equal As Strings    ${path}    /list-books
+    Element Should Be Disabled    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'LOAN')]
 
 User is not able to loan the book
     Click Button    xpath=(//button[contains(text(), 'Go back')])[1]

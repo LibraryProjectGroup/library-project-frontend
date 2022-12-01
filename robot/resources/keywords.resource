@@ -15,6 +15,17 @@ Login for testing
     Run Keyword    User logins successfully
     Run Keyword    List of books is visible
 
+User logout
+    Execute Javascript    location.href='/user'    
+    Run Keyword    User presses logout button
+    Run Keyword    User is logged out
+    Run Keyword    User is returned to login Page
+    Close all browsers
+
+User2 login for testing
+    Run Keyword    User has home page open in browser
+    Run Keyword    User2 logins successfully
+    Run Keyword    List of books is visible
 User has home page open in browser
     Open Browser    url=${URL}    browser=${BROWSER}    options=add_argument("--no-sandbox")
     Set Window Size    1920    1080
@@ -128,7 +139,7 @@ User signs up with a 2 letter username
     Wait Until Element Is Enabled    xpath://button[normalize-space()='SIGN UP']
     Click Button    xpath://button[normalize-space()='SIGN UP']
 
- User will see alert that the username is too short
+User will see alert that the username is too short
     Wait Until Element Is Visible    xpath://*[contains(text(), 'Username has to be between 3 and 50 characters')]
 
 User signs up with a 2 character password
@@ -244,3 +255,49 @@ User presses back button
 User is returned to booklist
     ${path}=    Execute Javascript    return window.location.pathname
     Should Be Equal As Strings    ${path}    /list-books
+
+User navigates to reservations page
+    Wait Until Element Is Visible    xpath://*[contains(@aria-label, 'account')]
+    Click Button    xpath://*[contains(@aria-label, 'account')]
+    Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'LogoutIcon')]
+    Click Button    xpath://button[normalize-space()='My book reservations']
+    ${path}=    Execute Javascript    return window.location.pathname
+    Should Be Equal As Strings    ${path}    /reservations
+
+User2 logins successfully
+    Wait Until Element Is Visible    xpath://input[contains(@id, ':r1:')]
+    Input Password    xpath://input[contains(@id, ':r1:')]    ${TESTUSERNAME2}    clear=True    # username
+    Wait Until Element Is Visible    xpath://input[contains(@id, ':r3:')]
+    Input Password    xpath://input[contains(@id, ':r3:')]    ${TESTPASSWORD2}    clear=True    # password
+    Click Button    xpath://button[contains(text(), 'Log in')]
+    Wait Until Element Is Not Visible    xpath://*[contains(text(), 'No account by that username')]
+    Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'AccountBoxIcon')]
+
+User presses logout button
+    Wait until Element Is Visible    xpath://*[contains(@aria-label, 'back')]
+    Click Element    xpath://*[contains(@data-testid, 'LogoutIcon')]
+
+User is logged out
+    Wait until Element Is Visible   xpath://button[contains(text(), 'Log in')]
+
+User is returned to login Page
+    ${path}=    Execute Javascript    return window.location.pathname
+    Should Be Equal As Strings    ${path}    /login  
+
+User has loaned book with title ${title}
+    Wait Until Page Contains Element    xpath://*[contains(text(), '${title}')]
+
+User returns a book with title ${title}
+    Wait Until Element Is Visible
+    ...    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Return')]
+    Click Element    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Return')]
+    Alert Should Be Present    Do you want to RETURN this book?    ACCEPT
+    Wait Until Element Is Not Visible
+    ...    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Return')]
+
+Then others can loan it
+    Click Element    xpath://a[starts-with(@href, '/auth/book/all')]
+    Wait Until Element Is Visible    xpath://*[contains(text(), 'Name of the book')]
+    Click Button    xpath=(//button[contains(text(), 'Reserve')])
+    Wait Until Element Is Visible    xpath://*[contains(text(), 'Information')]
+    Page Should Contain Element    xpath://*[contains(text(), 'Available')]
