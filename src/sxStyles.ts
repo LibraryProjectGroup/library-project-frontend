@@ -17,7 +17,7 @@ export const loginButton: SxProps = {
 
 export const textButton: SxProps = {
     fontFamily: "Montserrat",
-    fontWeight:600,
+    fontWeight: 600,
     fontSize: 13,
     width: "100%",
     color: "black",
@@ -62,8 +62,6 @@ export const loginPaper: SxProps = {
     height: 500
 };
 
-
-
 export const createAccountBoxTitleText: SxProps = {
     textAlign: "center",
     fontFamily: "Montserrat",
@@ -100,6 +98,7 @@ export const addBookAddButton: SxProps = {
     fontWeight: "bold",
     fontSize: 15,
     marginLeft: 5,
+    marginBottom: 2,
     //width: "30%",
     backgroundColor: "#FFD100",
     color: "black",
@@ -240,6 +239,7 @@ export const userPageReturnButton: SxProps = {
     fontFamily: "Montserrat",
     fontWeight: "bold",
     fontSize: 15,
+    marginTop: 5,
     //width: "30%",
     backgroundColor: "#FFD100",
     color: "black",
@@ -250,9 +250,30 @@ export const userPageReturnButton: SxProps = {
 };
 
 export const userPageBackButton: SxProps = {
-    position: "relative",
-    top: 50,
-    marginBottom: 10,
+    position: "absolute",
+    fontSize: 15,
+    marginLeft: 5,
+    marginBottom: 2,
+    backgroundColor: "#FFD100",
+    color: "black",
+    "&:hover": {
+        backgroundColor: "#FFB500"
+    }
+};
+
+export const booklistsPageBackAndAddButtons: SxProps = {
+    fontSize: 15,
+    marginLeft: 5,
+    marginBottom: 2,
+    backgroundColor: "#FFD100",
+    color: "black",
+    "&:hover": {
+        backgroundColor: "#FFB500"
+    }
+};
+
+export const userLogOutButton: SxProps = {
+    marginRight: 5,
     marginLeft: 5,
     backgroundColor: "#FFD100",
     color: "black",
@@ -266,9 +287,7 @@ export const userPageMyListsButton: SxProps = {
     fontWeight: "bold",
     fontSize: 15,
     position: "relative",
-    top: 50,
-    marginBottom: 10,
-    marginLeft: 5,
+    marginX: 2.5,
     backgroundColor: "#FFD100",
     color: "black",
     "&:hover": {
@@ -279,13 +298,13 @@ export const userPageMyListsButton: SxProps = {
 // Admin page
 
 export const adminPageTabs: SxProps = {
-    width: "100%",
+    width: "100%"
 };
 
 export const adminPageTab: SxProps = {
     fontFamily: "Montserrat",
     fontWeight: "bold",
-    fontSize: 15,
+    fontSize: 15
 };
 
 export const adminDeleteButton: SxProps = {
@@ -302,13 +321,9 @@ export const adminDeleteButton: SxProps = {
     //padding: 1,
 };
 
-
-
-
 // EditUser
 
 export const editUserBox: SxProps = {
-
     position: "absolute" as "absolute",
     top: "50%",
     left: "50%",
@@ -322,7 +337,6 @@ export const editUserBox: SxProps = {
 };
 
 export const editUserCancelButton: SxProps = {
-
     fontFamily: "Montserrat",
     fontWeight: "bold",
     fontSize: 15,
@@ -335,9 +349,7 @@ export const editUserCancelButton: SxProps = {
     //padding: 2,
 };
 
-
 export const editUserUpdateButton: SxProps = {
-
     fontFamily: "Montserrat",
     fontWeight: "bold",
     fontSize: 15,
@@ -368,6 +380,8 @@ export const editBookListUpdateButton: SxProps = {
     fontFamily: "Montserrat",
     fontWeight: "bold",
     fontSize: 15,
+    marginLeft: 5,
+    marginBottom: 2,
     //width: "30%",
     backgroundColor: "#FFD100",
     color: "black",
@@ -389,5 +403,3 @@ export const editBookListCancelButton: SxProps = {
     }
     //padding: 2,
 };
-
-
