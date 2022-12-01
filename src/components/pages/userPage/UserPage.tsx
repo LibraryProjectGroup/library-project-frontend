@@ -86,6 +86,7 @@ const MyAccount: FC = (): JSX.Element => {
     useEffect(() => {
         fetchBooks();
         context?.fetchBorrows();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const renderBorrowedBooks = () => {
