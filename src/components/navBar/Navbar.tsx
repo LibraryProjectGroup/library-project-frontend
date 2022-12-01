@@ -58,6 +58,19 @@ const NavBar: FC = (): JSX.Element => {
                             alignItems: "center"
                         }}
                     >
+                        {context?.user?.administrator ? (
+                            <Button
+                                sx={userPageMyListsButton}
+                                variant="contained"
+                                onClick={() => {
+                                    navigate("/admin");
+                                }}
+                            >
+                                Admin page
+                            </Button>
+                        ) : (
+                            <></>
+                        )}
                         <Button
                             sx={userPageMyListsButton}
                             variant="contained"
@@ -114,10 +127,18 @@ const NavBar: FC = (): JSX.Element => {
                                     fontSize: 15
                                 }}
                             >
-                                <p style={{ margin: 0 }}>
-                                    Currently loaning {context?.borrows?.length}{" "}
-                                    book(s)
-                                </p>
+                                {context?.borrows &&
+                                    (context?.borrows?.length > 1 ? (
+                                        <p style={{ margin: 0 }}>
+                                            Currently loaning{" "}
+                                            {context?.borrows?.length} books
+                                        </p>
+                                    ) : (
+                                        <p style={{ margin: 0 }}>
+                                            Currently loaning{" "}
+                                            {context?.borrows?.length} book
+                                        </p>
+                                    ))}
                             </Typography>
                         </div>
                         <Tooltip title="Log out">

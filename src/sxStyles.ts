@@ -98,6 +98,7 @@ export const addBookAddButton: SxProps = {
     fontWeight: "bold",
     fontSize: 15,
     marginLeft: 5,
+    marginBottom: 2,
     //width: "30%",
     backgroundColor: "#FFD100",
     color: "black",
@@ -249,10 +250,21 @@ export const userPageReturnButton: SxProps = {
 };
 
 export const userPageBackButton: SxProps = {
-    position: "relative",
-    top: 50,
-    marginBottom: 10,
+    position: "absolute",
+    fontSize: 15,
     marginLeft: 5,
+    marginBottom: 2,
+    backgroundColor: "#FFD100",
+    color: "black",
+    "&:hover": {
+        backgroundColor: "#FFB500"
+    }
+};
+
+export const booklistsPageBackAndAddButtons: SxProps = {
+    fontSize: 15,
+    marginLeft: 5,
+    marginBottom: 2,
     backgroundColor: "#FFD100",
     color: "black",
     "&:hover": {
@@ -368,6 +380,8 @@ export const editBookListUpdateButton: SxProps = {
     fontFamily: "Montserrat",
     fontWeight: "bold",
     fontSize: 15,
+    marginLeft: 5,
+    marginBottom: 2,
     //width: "30%",
     backgroundColor: "#FFD100",
     color: "black",

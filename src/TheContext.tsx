@@ -19,6 +19,7 @@ const TheContextProvider: FC<IProps> = ({ children }) => {
     const [borrows, setBorrows] = useState<Borrow[]>([]);
 
     useEffect(() => {
+        fetchBorrows();
         if (isAuthenticated())
             authFetch("/user/session").then((user) => {
                 setUser(user);

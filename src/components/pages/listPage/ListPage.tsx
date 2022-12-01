@@ -1,4 +1,4 @@
-import { Button, Paper, Stack, Typography, Fab } from "@mui/material";
+import { Button, Paper, Stack, Typography, Fab, Box } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { FC, useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -41,11 +41,11 @@ const ListPage: FC = (): JSX.Element => {
     }, [id]);
 
     return (
-        <>
+        <Box sx={{ marginTop: 5, marginBottom: 5, position: "relative" }}>
             <Fab
                 aria-label="back"
                 sx={userPageBackButton}
-                onClick={() => navigate("/")}
+                onClick={() => navigate("/booklists")}
             >
                 <ArrowBackIcon />
             </Fab>
@@ -149,7 +149,7 @@ const ListPage: FC = (): JSX.Element => {
                         </Paper>
                     ))}
             </Stack>
-        </>
+        </Box>
     );
 };
 

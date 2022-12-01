@@ -5,7 +5,7 @@ import {
 } from "../../../fetchFunctions";
 import JoinedReservation from "../../../interfaces/joinedReservation.interface";
 import { TheContext } from "../../../TheContext";
-import { Paper, Stack, Typography, Button, Fab } from "@mui/material";
+import { Paper, Stack, Typography, Button, Fab, Box } from "@mui/material";
 import { listBooksDeleteButton, userPageBackButton } from "../../../sxStyles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
@@ -87,12 +87,12 @@ const UserReservations: FC = (): JSX.Element => {
     };
 
     return (
-        <div>
+        <Box sx={{ marginTop: 5, marginBottom: 5, position: "relative" }}>
             <Fab
                 aria-label="back"
                 sx={userPageBackButton}
                 onClick={() => {
-                    navigate("/user");
+                    navigate(-1);
                 }}
             >
                 <ArrowBackIcon />
@@ -119,7 +119,7 @@ const UserReservations: FC = (): JSX.Element => {
                     </Typography>
                 </div>
             )}
-        </div>
+        </Box>
     );
 };
 

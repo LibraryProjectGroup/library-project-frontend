@@ -1,5 +1,13 @@
 import React, { useState, FC, useContext, useEffect } from "react";
-import { Paper, Typography, Button, Stack, Fab, Tooltip } from "@mui/material";
+import {
+    Paper,
+    Typography,
+    Button,
+    Stack,
+    Fab,
+    Tooltip,
+    Box
+} from "@mui/material";
 import { TheContext } from "../../../TheContext";
 import { useNavigate } from "react-router-dom";
 import {
@@ -214,20 +222,21 @@ const MyAccount: FC = (): JSX.Element => {
                 action={action}
             />
             {/* Pop up element */}
+            <Box sx={{ marginTop: 5, marginBottom: 5, position: "relative" }}>
+                <Tooltip title="Back">
+                    <Fab
+                        aria-label="back"
+                        sx={userPageBackButton}
+                        onClick={() => {
+                            navigate(-1);
+                        }}
+                    >
+                        <ArrowBackIcon />
+                    </Fab>
+                </Tooltip>
 
-            <Tooltip title="Back">
-                <Fab
-                    aria-label="back"
-                    sx={userPageBackButton}
-                    onClick={() => {
-                        navigate("/list-books");
-                    }}
-                >
-                    <ArrowBackIcon />
-                </Fab>
-            </Tooltip>
-
-            {renderBorrowedBooks()}
+                {renderBorrowedBooks()}
+            </Box>
         </>
     );
 };
