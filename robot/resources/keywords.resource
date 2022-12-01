@@ -256,6 +256,7 @@ User is returned to booklist
     ${path}=    Execute Javascript    return window.location.pathname
     Should Be Equal As Strings    ${path}    /list-books
 
+<<<<<<< HEAD
 User navigates to reservations page
     Wait Until Element Is Visible    xpath://*[contains(@aria-label, 'account')]
     Click Button    xpath://*[contains(@aria-label, 'account')]
@@ -301,3 +302,20 @@ Then others can loan it
     Click Button    xpath=(//button[contains(text(), 'Reserve')])
     Wait Until Element Is Visible    xpath://*[contains(text(), 'Information')]
     Page Should Contain Element    xpath://*[contains(text(), 'Available')]
+=======
+Admin navigates to admin page
+    Execute Javascript    location.href='/admin'
+    ${path}=    Execute Javascript    return window.location.pathname
+    Should Be Equal As Strings    ${path}    /admin
+
+Tab with text ${tab} is pressed
+    Wait Until Element Is Visible    xpath://button[contains(text(), '${tab}')]
+    Click Button    xpath://button[contains(text(), '${tab}')]
+    Element Attribute Value Should Be    xpath://button[contains(text(), '${tab}')]    aria-selected    true
+
+Row that contains text ${text} is visible
+    Wait Until Element Is Visible    xpath://*[contains(text(), '${text}')]
+
+Row that contains attribute ${attr} with value ${val} is visible
+    Wait Until Element Is Visible    xpath://*[@${attr}='${val}']
+>>>>>>> 4ef46e02f6cce0251c5855022f2f8299b182c7cf
