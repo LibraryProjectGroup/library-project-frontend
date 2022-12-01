@@ -8,7 +8,8 @@ import {
     loginAuthBoxTitle,
     loginHeaderTitleText,
     loginHeaderContentText,
-    loginPaper
+    loginPaper,
+    textButton
 } from "../../../sxStyles";
 import { setSession } from "../../../auth";
 import { TheContext } from "../../../TheContext";
@@ -82,7 +83,7 @@ const LoginPage: FC = (): JSX.Element => {
                 item
                 container
                 alignItems="center"
-                sx={{ width: "95%", height: "90%" }}
+                sx={{ width: "95%", paddingBottom: 10 }}
             >
                 <Grid item xs={12} md={7}>
                     <Box>
@@ -156,19 +157,19 @@ const LoginPage: FC = (): JSX.Element => {
                                     Log in
                                 </Button>
                             </Box>
+                            <Box sx={{ textAlign: "center" }}>
+                                <Button
+                                    variant="text"
+                                    onClick={() => navigate("/create-account")}
+                                    sx={textButton}
+                                >
+                                    Create account
+                                </Button>
+                            </Box>
                         </Box>
                     </Paper>
                 </Grid>
             </Grid>
-            <Box sx={{ textAlign: "center" }}>
-                <Button
-                    variant="contained"
-                    onClick={() => navigate("/create-account")}
-                    sx={loginButton}
-                >
-                    Create account
-                </Button>
-            </Box>
         </Grid>
     );
 };

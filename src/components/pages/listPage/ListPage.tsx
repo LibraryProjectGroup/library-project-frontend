@@ -54,8 +54,8 @@ const ListPage: FC = (): JSX.Element => {
                     {invalid ? "Non-existant list" : name}
                 </Typography>
                 {!invalid && (
-                    <Typography variant="subtitle1">
-                        Author: {username}
+                    <Typography variant="subtitle1" sx={{ paddingBottom: 2 }}>
+                        Created by: {username}
                     </Typography>
                 )}
                 {!invalid &&
@@ -115,36 +115,36 @@ const ListPage: FC = (): JSX.Element => {
                                     >
                                         Location: {book.location}
                                     </Typography>
-
-                                    {context?.user?.id == userId && (
-                                        <Stack marginY={5}>
-                                            <Button
-                                                sx={listBooksDeleteButton}
-                                                variant="contained"
-                                                onClick={async () => {
-                                                    if (id) {
-                                                        let status =
-                                                            await fetchDeleteListEntryBook(
-                                                                Number(id),
-                                                                book.id
-                                                            );
-                                                        if (status.ok) {
-                                                            setBooks(
-                                                                books.filter(
-                                                                    (b) =>
-                                                                        b.id !=
-                                                                        book.id
-                                                                )
-                                                            );
-                                                        }
-                                                    }
-                                                }}
-                                            >
-                                                Remove
-                                            </Button>
-                                        </Stack>
-                                    )}
                                 </Stack>
+
+                                {context?.user?.id == userId && (
+                                    <Stack marginY={5}>
+                                        <Button
+                                            sx={listBooksDeleteButton}
+                                            variant="contained"
+                                            onClick={async () => {
+                                                if (id) {
+                                                    let status =
+                                                        await fetchDeleteListEntryBook(
+                                                            Number(id),
+                                                            book.id
+                                                        );
+                                                    if (status.ok) {
+                                                        setBooks(
+                                                            books.filter(
+                                                                (b) =>
+                                                                    b.id !=
+                                                                    book.id
+                                                            )
+                                                        );
+                                                    }
+                                                }
+                                            }}
+                                        >
+                                            Remove
+                                        </Button>
+                                    </Stack>
+                                )}
                             </Stack>
                         </Paper>
                     ))}
