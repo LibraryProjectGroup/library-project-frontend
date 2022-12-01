@@ -244,3 +244,19 @@ User presses back button
 User is returned to booklist
     ${path}=    Execute Javascript    return window.location.pathname
     Should Be Equal As Strings    ${path}    /list-books
+
+Admin navigates to admin page
+    Execute Javascript    location.href='/admin'
+    ${path}=    Execute Javascript    return window.location.pathname
+    Should Be Equal As Strings    ${path}    /admin
+
+Tab with text ${tab} is pressed
+    Wait Until Element Is Visible    xpath://button[contains(text(), '${tab}')]
+    Click Button    xpath://button[contains(text(), '${tab}')]
+    Element Attribute Value Should Be    xpath://button[contains(text(), '${tab}')]    aria-selected    true
+
+Row that contains text ${text} is visible
+    Wait Until Element Is Visible    xpath://*[contains(text(), '${text}')]
+
+Row that contains attribute ${attr} with value ${val} is visible
+    Wait Until Element Is Visible    xpath://*[@${attr}='${val}']
