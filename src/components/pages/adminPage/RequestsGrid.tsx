@@ -24,7 +24,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 const RequestsGrid: FC = (): JSX.Element => {
     const [requestsData, setRequestsData] = useState<Book_request[]>([]);
 
-    const COLUMNS_LOANS: GridColDef[] = [
+    const COLUMNS_REQUESTS: GridColDef[] = [
         { field: "id", headerName: "Request ID", flex: 1 },
         { field: "userId", headerName: "User ID", flex: 1 },
         { field: "isbn", headerName: "ISBN", flex: 2 },
@@ -45,8 +45,7 @@ const RequestsGrid: FC = (): JSX.Element => {
                     default:
                         return "UNKNOWN";
                 }
-            },
-            valueOptions: [0, 1, 2]
+            }
         },
         {
             field: "approve",
@@ -89,12 +88,14 @@ const RequestsGrid: FC = (): JSX.Element => {
         setRequestsData(requestsTmp);
     };
 
-    const updateStatus = async (id: number, status: Book_request_status) =>
+    const updateStatus = async (id: number, status: Book_request_status) => {
         await fetchUpdateBookRequest(id, status);
+        await loadRequestsData();
+    };
 
     return (
         <DataGrid
-            columns={COLUMNS_LOANS}
+            columns={COLUMNS_REQUESTS}
             rows={requestsData}
             sx={{ width: "100%", height: 1000, backgroundColor: "white" }}
         ></DataGrid>
