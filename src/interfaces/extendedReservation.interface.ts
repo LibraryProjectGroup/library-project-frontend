@@ -1,4 +1,4 @@
-interface JoinedReservation {
+interface ExtendedReservation {
     id: number;
     username: string;
     title: string;
@@ -6,6 +6,7 @@ interface JoinedReservation {
     reservationDatetime: string; // Apparently sent as a string in ISO_8601 format
     loaned: boolean;
     canceled: boolean;
+    returnDate: string | null;
 }
 
-export default JoinedReservation;
+export default ExtendedReservation;

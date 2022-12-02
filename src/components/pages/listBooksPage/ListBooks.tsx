@@ -45,6 +45,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Alert from "@mui/material/Alert";
 import BookRequestForm from "./BookRequestForm";
+import NavBar from "../../navBar/Navbar";
 
 const ListBooks: FC = (): JSX.Element => {
     const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
@@ -310,6 +311,7 @@ const ListBooks: FC = (): JSX.Element => {
                                             );
                                         await fetchBooks();
                                         await fetchBorrows();
+                                        await context?.fetchBorrows();
                                     }
                                 }}
                             >
@@ -374,92 +376,62 @@ const ListBooks: FC = (): JSX.Element => {
                 action={action_2}
             />
             {/* Pop up element */}
-            <Box sx={{ marginTop: 5, marginBottom: 5 }}>
-                <Grid
-                    container
-                    //justifyContent="space-between"
-                    columns={{ xs: 4 }}
-                    sx={{ marginBottom: 3 }}
+            <Box sx={{ marginTop: 5, marginBottom: 5, position: "relative" }}>
+                <div
+                    style={{
+                        position: "absolute",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}
                 >
-                    <Grid item xs={2}>
-                        <Tooltip title="Account">
-                            <Fab
-                                aria-label="account"
-                                sx={addButton}
-                                onClick={() => {
-                                    navigate("/user");
-                                }}
-                            >
-                                <AccountBoxIcon />
-                            </Fab>
-                        </Tooltip>
-                        {context?.user?.administrator ? (
-                            <Tooltip title="Admin page">
-                                <Fab
-                                    aria-label="admin"
-                                    sx={addButton}
-                                    onClick={() => {
-                                        navigate("/admin");
-                                    }}
-                                >
-                                    <AdminPanelSettingsIcon />
-                                </Fab>
-                            </Tooltip>
-                        ) : (
-                            <></>
-                        )}
-                    </Grid>
-                    <Grid
-                        item
-                        xs={2}
-                        sx={{ textAlign: "right", paddingRight: 4 }}
-                    >
-                        <Tooltip title="Add new book">
-                            <Fab
-                                aria-label="add"
-                                sx={addButton}
-                                onClick={() => {
-                                    setFormEditing(false);
-                                    setFormBook({
-                                        id: -1, // This wont get used
-                                        title: "",
-                                        author: "",
-                                        topic: "",
-                                        isbn: "",
-                                        location: "",
-                                        deleted: false
-                                    });
-                                    setFormVisible(true);
-                                }}
-                            >
-                                <AddIcon />
-                            </Fab>
-                        </Tooltip>
-                        <BookForm
-                            visible={formVisible}
-                            setVisible={setFormVisible}
-                            book={formBook}
-                            setBook={setFormBook}
-                            editing={formEditing}
-                            updateBooks={fetchBooks}
-                        />
-                        <Tooltip title="Request a book">
-                            <Fab
-                                aria-label="request"
-                                sx={addButton}
-                                onClick={() => {
-                                    setRequestVisible(true);
-                                }}
-                            >
-                                <AddCommentIcon />
-                            </Fab>
-                        </Tooltip>
-                        <BookRequestForm
-                            visible={requestVisible}
-                            setVisible={setRequestVisible}
-                        />
-                    </Grid>
-                </Grid>
+                    <Tooltip title="Request a book">
+                        <Fab
+                            aria-label="request"
+                            sx={addButton}
+                            onClick={() => {
+                                setRequestVisible(true);
+                            }}
+                        >
+                            <AddCommentIcon />
+                        </Fab>
+                    </Tooltip>
+                    <Tooltip title="Add new book">
+                        <Fab
+                            aria-label="add"
+                            sx={addButton}
+                            onClick={() => {
+                                setFormEditing(false);
+                                setFormBook({
+                                    id: -1, // This wont get used
+                                    title: "",
+                                    author: "",
+                                    topic: "",
+                                    isbn: "",
+                                    location: "",
+                                    deleted: false
+                                });
+                                setFormVisible(true);
+                            }}
+                        >
+                            <AddIcon />
+                        </Fab>
+                    </Tooltip>
+                </div>
+                <BookForm
+                    visible={formVisible}
+                    setVisible={setFormVisible}
+                    book={formBook}
+                    setBook={setFormBook}
+                    editing={formEditing}
+                    updateBooks={fetchBooks}
+                />
+
+                <BookRequestForm
+                    visible={requestVisible}
+                    setVisible={setRequestVisible}
+                />
                 <Stack spacing={3} sx={{ margin: "auto", width: "60%" }}>
                     {books?.map((book) => renderBookData(book))}
                 </Stack>

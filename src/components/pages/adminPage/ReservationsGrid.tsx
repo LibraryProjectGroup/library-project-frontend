@@ -7,16 +7,16 @@ import {
     GridColDef
 } from "@mui/x-data-grid";
 import { Button, IconButton } from "@mui/material";
-import JoinedReservation from "../../../interfaces/joinedReservation.interface";
+import ExtendedReservation from "../../../interfaces/extendedReservation.interface";
 import {
-    fetchJoinedBookReservations,
+    fetchAllExtendedBookReservations,
     fetchCancelBookReservation
 } from "../../../fetchFunctions";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 const ReservationsGrid: FC = (): JSX.Element => {
     const [reservationsData, setReservationsData] = useState<
-        JoinedReservation[]
+        ExtendedReservation[]
     >([]);
 
     const COLUMNS_RESERVATIONS: GridColDef[] = [
@@ -90,7 +90,7 @@ const ReservationsGrid: FC = (): JSX.Element => {
     }, []);
 
     const loadReservationsData = async () => {
-        const reservationsTmp = await fetchJoinedBookReservations();
+        const reservationsTmp = await fetchAllExtendedBookReservations();
         setReservationsData(reservationsTmp);
     };
 

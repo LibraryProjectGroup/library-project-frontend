@@ -19,11 +19,12 @@ import Book_request, {
     Book_request_status
 } from "../../../interfaces/book_request.interface";
 import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const RequestsGrid: FC = (): JSX.Element => {
     const [requestsData, setRequestsData] = useState<Book_request[]>([]);
 
-    const COLUMNS_LOANS: GridColDef[] = [
+    const COLUMNS_REQUESTS: GridColDef[] = [
         { field: "id", headerName: "Request ID", flex: 1 },
         { field: "userId", headerName: "User ID", flex: 1 },
         { field: "isbn", headerName: "ISBN", flex: 2 },
@@ -33,7 +34,6 @@ const RequestsGrid: FC = (): JSX.Element => {
             field: "status",
             headerName: "Status",
             flex: 2,
-            type: "singleSelect",
             valueFormatter(params: any) {
                 switch (params.value) {
                     case 0:
@@ -45,25 +45,36 @@ const RequestsGrid: FC = (): JSX.Element => {
                     default:
                         return "UNKNOWN";
                 }
-            },
-            valueOptions: [0, 1, 2],
-            editable: true
+            }
         },
         {
-            field: "actions",
-            type: "actions",
-            headerName: "Actions",
+            field: "approve",
+            headerName: "Approve",
             renderCell: (params) => (
-                <div>
-                    <IconButton
-                        title="Save"
-                        onClick={() =>
-                            updateStatus(params.row.id, params.row.status)
-                        }
-                    >
-                        <CheckIcon />
-                    </IconButton>
-                </div>
+                <IconButton
+                    title="Approve"
+                    onClick={() => {
+                        updateStatus(params.row.id, 2);
+                        loadRequestsData();
+                    }}
+                >
+                    <CheckIcon />
+                </IconButton>
+            )
+        },
+        {
+            field: "deny",
+            headerName: "Deny",
+            renderCell: (params) => (
+                <IconButton
+                    title="Deny"
+                    onClick={() => {
+                        updateStatus(params.row.id, 1);
+                        loadRequestsData();
+                    }}
+                >
+                    <ClearIcon />
+                </IconButton>
             )
         }
     ];
@@ -77,12 +88,14 @@ const RequestsGrid: FC = (): JSX.Element => {
         setRequestsData(requestsTmp);
     };
 
-    const updateStatus = async (id: number, status: Book_request_status) =>
+    const updateStatus = async (id: number, status: Book_request_status) => {
         await fetchUpdateBookRequest(id, status);
+        await loadRequestsData();
+    };
 
     return (
         <DataGrid
-            columns={COLUMNS_LOANS}
+            columns={COLUMNS_REQUESTS}
             rows={requestsData}
             sx={{ width: "100%", height: 1000, backgroundColor: "white" }}
         ></DataGrid>

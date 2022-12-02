@@ -7,7 +7,14 @@ const Missing: FC = () => {
     const navigate = useNavigate();
 
     return (
-        <div>
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center"
+            }}
+        >
             <h1 style={{ textAlign: "center" }}>404: NOT FOUND</h1>
             <h3 style={{ textAlign: "center" }}>
                 Sorry, the page doesn't exist

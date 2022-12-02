@@ -31,7 +31,15 @@ const Admin: FC = (): JSX.Element => {
         setCurrentTab(newValue);
     };
     return (
-        <Box sx={{ height: "100vh", width: "100%" }}>
+        <Box
+            sx={{
+                height: "100vh",
+                width: "100%",
+                marginTop: 5,
+                marginBottom: 5,
+                position: "relative"
+            }}
+        >
             <Tooltip title="Back">
                 <Fab
                     aria-label="back"
