@@ -35,7 +35,7 @@ User is able to loan the book
     Alert Should Be Present    xpath://*[contains(text(), 'Confirmed! Reservation info is sent to your email!')]
 
 User sees that the book ${title} is not available
-    Wait Until Element Is Visible    xpath://body/div[@id='root']/div/div[1]/div[2]
+    Wait Until Element Is Visible    xpath://button[@aria-label='add']
     ${path}=    Execute Javascript    return window.location.pathname
     Should Be Equal As Strings    ${path}    /list-books
     Element Should Be Disabled    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'LOAN')]

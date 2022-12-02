@@ -37,7 +37,7 @@ User can delete booklist
 User presses my lists button
     ${path}=    Execute Javascript    return window.location.pathname
     Should Be Equal As Strings    ${path}    /user
-    Click Button    xpath://button[normalize-space()='My Lists']
+    Click Element    xpath://p[normalize-space()='MY LISTS']
     ${path}=    Execute Javascript    return window.location.pathname
     Should Be Equal As Strings    ${path}    /booklists
 
@@ -83,7 +83,6 @@ List should be deleted
     Wait Until Element Is Not Visible    xpath://p[normalize-space()='testlist123']
 
 User navigates to user page with sleep
-    Wait Until Element Is Visible    xpath://*[contains(@aria-label, 'account')]
-    Sleep    5s
-    Click Button    xpath://*[contains(@aria-label, 'account')]
-    Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'LogoutIcon')]
+    Execute Javascript    location.href='/user'
+    ${path}=    Execute Javascript    return window.location.pathname
+    Should Be Equal As Strings    ${path}    /user
