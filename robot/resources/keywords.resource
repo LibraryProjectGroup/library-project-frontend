@@ -18,7 +18,7 @@ Login for testing
     Run Keyword    List of books is visible
 
 User logout
-    Execute Javascript    location.href='/user'    
+    Execute Javascript    location.href='/user'
     Run Keyword    User presses logout button
     Run Keyword    User is logged out
     Run Keyword    User is returned to login Page
@@ -28,6 +28,7 @@ User2 login for testing
     Run Keyword    User has home page open in browser
     Run Keyword    User2 logins successfully
     Run Keyword    List of books is visible
+
 User has home page open in browser
     Open Browser    url=${URL}    browser=${BROWSER}    options=add_argument("--no-sandbox")
     Set Window Size    1920    1080
@@ -279,11 +280,11 @@ User presses logout button
     Click Element    xpath://*[contains(@data-testid, 'LogoutIcon')]
 
 User is logged out
-    Wait until Element Is Visible   xpath://button[contains(text(), 'Log in')]
+    Wait until Element Is Visible    xpath://button[contains(text(), 'Log in')]
 
 User is returned to login Page
     ${path}=    Execute Javascript    return window.location.pathname
-    Should Be Equal As Strings    ${path}    /login  
+    Should Be Equal As Strings    ${path}    /login
 
 User has loaned book with title ${title}
     Wait Until Page Contains Element    xpath://*[contains(text(), '${title}')]
@@ -302,6 +303,7 @@ Then others can loan it
     Click Button    xpath=(//button[contains(text(), 'Reserve')])
     Wait Until Element Is Visible    xpath://*[contains(text(), 'Information')]
     Page Should Contain Element    xpath://*[contains(text(), 'Available')]
+
 Admin navigates to admin page
     Execute Javascript    location.href='/admin'
     ${path}=    Execute Javascript    return window.location.pathname
