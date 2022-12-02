@@ -7,6 +7,8 @@ ${URL}              http://127.0.0.1:3000/    # Localhost port 3000
 ${BROWSER}          headlesschrome
 ${TESTUSERNAME}     defaultusername    # Just to initialize the variable
 ${TESTPASSWORD}     doesnotexist    # Just to initialize the variable
+${TESTUSERNAME2}    defaultusername    # Just to initialize variable
+${TESTPASSWORD2}    doesnotexist    # Just to initialize the variable
 
 
 *** Keywords ***
