@@ -65,7 +65,9 @@ const ListBooks: FC = (): JSX.Element => {
         message: ""
     });
 
-    const [open, setOpen] = useState<"none" | "expiring" | "expired">("none");
+    const [open, setOpen] = useState<
+        "none" | "expiring" | "expired" | "bookform"
+    >("none");
 
     const context = useContext(TheContext);
     const navigate = useNavigate();
@@ -422,6 +424,10 @@ const ListBooks: FC = (): JSX.Element => {
                 <BookForm
                     visible={formVisible}
                     setVisible={setFormVisible}
+                    open={open}
+                    setOpen={setOpen}
+                    confirmation={popUpConfirmation}
+                    setConfirmation={setPopUpConfirmationOpen}
                     book={formBook}
                     setBook={setFormBook}
                     editing={formEditing}
