@@ -18,8 +18,6 @@ import { fetchUpdateBook, fetchAddBook } from "../../../fetchFunctions";
 interface IProps {
     visible: boolean;
     setVisible: Function;
-    open: string;
-    setOpen: Function;
     confirmation: Object;
     setConfirmation: Function;
     book: Book | null;
@@ -31,8 +29,6 @@ interface IProps {
 const EditBook: FC<IProps> = ({
     visible,
     setVisible,
-    open,
-    setOpen,
     confirmation,
     setConfirmation,
     book,
@@ -68,7 +64,6 @@ const EditBook: FC<IProps> = ({
     if (book == null) return <></>;
 
     const handleOpen = () => {
-        setOpen("bookform");
         editing
             ? setConfirmation({
                   ok: true,
