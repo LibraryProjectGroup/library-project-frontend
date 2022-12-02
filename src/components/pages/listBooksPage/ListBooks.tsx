@@ -265,10 +265,26 @@ const ListBooks: FC = (): JSX.Element => {
                                 }
                                 color="error"
                                 onClick={async () => {
-                                    const response = await fetchDeleteBook(
-                                        book.id
-                                    );
-                                    if (response.ok) fetchBooks();
+                                    if (
+                                        window.confirm(
+                                            "Do you want to DELETE this book?"
+                                        )
+                                    ) {
+                                        let message = "Delete succeeded";
+                                        await fetchDeleteBook(book.id)
+                                            .then((res) => {
+                                                if (!res.ok) {
+                                                    message = "Delete failed";
+                                                }
+                                            })
+                                            .then(() =>
+                                                setPopUpConfirmationOpen({
+                                                    ok: true,
+                                                    message: message
+                                                })
+                                            );
+                                        await fetchBooks();
+                                    }
                                 }}
                             >
                                 Delete book
@@ -424,8 +440,6 @@ const ListBooks: FC = (): JSX.Element => {
                 <BookForm
                     visible={formVisible}
                     setVisible={setFormVisible}
-                    open={open}
-                    setOpen={setOpen}
                     confirmation={popUpConfirmation}
                     setConfirmation={setPopUpConfirmationOpen}
                     book={formBook}
@@ -437,6 +451,8 @@ const ListBooks: FC = (): JSX.Element => {
                 <BookRequestForm
                     visible={requestVisible}
                     setVisible={setRequestVisible}
+                    confirmation={popUpConfirmation}
+                    setConfirmation={setPopUpConfirmationOpen}
                 />
                 <Stack spacing={3} sx={{ margin: "auto", width: "60%" }}>
                     {books?.map((book) => renderBookData(book))}
