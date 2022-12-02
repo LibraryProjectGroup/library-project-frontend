@@ -10,7 +10,7 @@ import {
 import { FC, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { endSession } from "../../auth";
-import { userLogOutButton, userPageMyListsButton } from "../../sxStyles";
+import { userLogOutButton, navbarPages } from "../../sxStyles";
 import { TheContext } from "../../TheContext";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { log } from "console";
@@ -59,45 +59,41 @@ const NavBar: FC = (): JSX.Element => {
                         }}
                     >
                         {context?.user?.administrator ? (
-                            <Button
-                                sx={userPageMyListsButton}
-                                variant="contained"
+                            <Typography
+                                sx={navbarPages}
                                 onClick={() => {
                                     navigate("/admin");
                                 }}
                             >
-                                Admin page
-                            </Button>
+                                ADMIN PAGE
+                            </Typography>
                         ) : (
                             <></>
                         )}
-                        <Button
-                            sx={userPageMyListsButton}
-                            variant="contained"
+                        <Typography
+                            sx={navbarPages}
                             onClick={() => {
                                 navigate("/user");
                             }}
                         >
-                            My loaned books
-                        </Button>
-                        <Button
-                            sx={userPageMyListsButton}
-                            variant="contained"
+                            MY LOANED BOOKS
+                        </Typography>
+                        <Typography
+                            sx={navbarPages}
                             onClick={() => {
                                 navigate("/reservations");
                             }}
                         >
-                            My book reservations
-                        </Button>
-                        <Button
-                            sx={userPageMyListsButton}
-                            variant="contained"
+                            MY BOOK RESERVATIONS
+                        </Typography>
+                        <Typography
+                            sx={navbarPages}
                             onClick={() => {
                                 navigate("/booklists");
                             }}
                         >
-                            My Lists
-                        </Button>
+                            MY LISTS
+                        </Typography>
                     </Grid>
                     <Grid
                         item
@@ -114,7 +110,7 @@ const NavBar: FC = (): JSX.Element => {
                                 sx={{
                                     fontFamily: "Merriweather",
                                     color: "black",
-                                    fontSize: 20
+                                    fontSize: 15
                                 }}
                             >
                                 User: <b>{context?.user?.username}</b>

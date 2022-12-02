@@ -288,11 +288,26 @@ export const userPageMyListsButton: SxProps = {
     fontSize: 15,
     position: "relative",
     marginX: 2.5,
-    backgroundColor: "#FFD100",
     color: "black",
+    cursor: "pointer",
     "&:hover": {
-        backgroundColor: "#FFB500"
+        borderBottom: "2px solid #FFB500"
     }
+
+};
+
+export const navbarPages: SxProps = {
+    fontFamily: "Montserrat",
+    fontWeight: "bold",
+    fontSize: 15,
+    position: "relative",
+    marginX: 2.5,
+    color: "black",
+    cursor: "pointer",
+    "&:hover": {
+        borderBottom: "2px solid #FFB500"
+    }
+
 };
 
 // Admin page
@@ -380,8 +395,6 @@ export const editBookListUpdateButton: SxProps = {
     fontFamily: "Montserrat",
     fontWeight: "bold",
     fontSize: 15,
-    marginLeft: 5,
-    marginBottom: 2,
     //width: "30%",
     backgroundColor: "#FFD100",
     color: "black",
