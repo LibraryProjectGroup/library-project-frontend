@@ -257,11 +257,8 @@ User is returned to booklist
     ${path}=    Execute Javascript    return window.location.pathname
     Should Be Equal As Strings    ${path}    /list-books
 
-<<<<<<< HEAD
 User navigates to reservations page
-    Wait Until Element Is Visible    xpath://*[contains(@aria-label, 'account')]
-    Click Button    xpath://*[contains(@aria-label, 'account')]
-    Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'LogoutIcon')]
+    Wait Until Element Is Visible    xpath://button[normalize-space()='My book reservations']
     Click Button    xpath://button[normalize-space()='My book reservations']
     ${path}=    Execute Javascript    return window.location.pathname
     Should Be Equal As Strings    ${path}    /reservations
@@ -273,7 +270,7 @@ User2 logins successfully
     Input Password    xpath://input[contains(@id, ':r3:')]    ${TESTPASSWORD2}    clear=True    # password
     Click Button    xpath://button[contains(text(), 'Log in')]
     Wait Until Element Is Not Visible    xpath://*[contains(text(), 'No account by that username')]
-    Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'AccountBoxIcon')]
+    Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'LogoutIcon')]
 
 User presses logout button
     Wait until Element Is Visible    xpath://*[contains(@aria-label, 'back')]
@@ -303,7 +300,6 @@ Then others can loan it
     Click Button    xpath=(//button[contains(text(), 'Reserve')])
     Wait Until Element Is Visible    xpath://*[contains(text(), 'Information')]
     Page Should Contain Element    xpath://*[contains(text(), 'Available')]
-=======
 Admin navigates to admin page
     Execute Javascript    location.href='/admin'
     ${path}=    Execute Javascript    return window.location.pathname
@@ -319,4 +315,3 @@ Row that contains text ${text} is visible
 
 Row that contains attribute ${attr} with value ${val} is visible
     Wait Until Element Is Visible    xpath://*[@${attr}='${val}']
->>>>>>> 4ef46e02f6cce0251c5855022f2f8299b182c7cf
