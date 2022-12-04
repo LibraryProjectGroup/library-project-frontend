@@ -395,6 +395,15 @@ export const fetchUserCurrentBookReservations = async (userId: number) => {
     });
 };
 
+export const fetchBookIdsWithActiveReservations = async () => {
+    return await authFetch("/bookreservation/active/bookids", {
+        method: "GET",
+        headers: {
+            "content-type": "application/json"
+        }
+    });
+};
+
 export const fetchPasswordResetSecret = async (userId: number) => {
     return await authFetch(`/passwordreset/secret?id=${userId}`, {
         method: "GET",

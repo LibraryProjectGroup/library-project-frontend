@@ -15,6 +15,11 @@ const UserReservations: FC = (): JSX.Element => {
     const context = useContext(TheContext);
     const navigate = useNavigate();
 
+    const loanOverdue = (dueDate: string) => {
+        const dueDateNextDay = new Date(dueDate).getTime() + 86400000;
+        return new Date().getTime() > dueDateNextDay;
+    };
+
     useEffect(() => {
         fetchReservations(context?.user?.id);
     }, [context]);
@@ -23,15 +28,19 @@ const UserReservations: FC = (): JSX.Element => {
         if (userId) {
             const reservations: ExtendedReservation[] =
                 await fetchUserCurrentBookReservations(userId);
+            console.log(reservations);
             if (reservations) {
                 setReservations(reservations);
             }
         }
     };
 
-    const renderReservationData = (reservation: ExtendedReservation) => {
+    const renderReservationData = (
+        reservation: ExtendedReservation,
+        index: number
+    ) => {
         return (
-            <Paper elevation={10} sx={{ padding: "2rem" }}>
+            <Paper elevation={10} sx={{ padding: "2rem" }} key={index}>
                 <Stack direction="row" justifyContent="space-between">
                     <Stack sx={{ alignSelf: "center" }}>
                         <Typography
@@ -60,6 +69,36 @@ const UserReservations: FC = (): JSX.Element => {
                                     hour: "numeric",
                                     minute: "numeric"
                                 })}
+                        </Typography>
+                        <Typography
+                            sx={{
+                                fontFamily: "Merriweather",
+                                fontWeight: "light",
+                                marginBottom: 3,
+                                color:
+                                    reservation.returnDate === null &&
+                                    loanOverdue(reservation.dueDate)
+                                        ? "red"
+                                        : null
+                            }}
+                        >
+                            {reservation.returnDate === null
+                                ? "Loan due: " +
+                                  new Date(reservation.dueDate).toLocaleString(
+                                      "fi",
+                                      {
+                                          year: "numeric",
+                                          month: "numeric",
+                                          day: "numeric"
+                                      }
+                                  )
+                                : `Returned: ${new Date(
+                                      reservation.dueDate
+                                  ).toLocaleString("fi", {
+                                      year: "numeric",
+                                      month: "numeric",
+                                      day: "numeric"
+                                  })}`}
                         </Typography>
                         <Button
                             sx={listBooksDeleteButton}
@@ -98,8 +137,8 @@ const UserReservations: FC = (): JSX.Element => {
                 <ArrowBackIcon />
             </Fab>
             {reservations ? (
-                reservations?.map((reservation) =>
-                    renderReservationData(reservation)
+                reservations?.map((reservation, index) =>
+                    renderReservationData(reservation, index)
                 )
             ) : (
                 <div
