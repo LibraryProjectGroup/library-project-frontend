@@ -20,11 +20,11 @@ const UserReservations: FC = (): JSX.Element => {
     }, [context]);
 
     const fetchReservations = async (userId: number | null | undefined) => {
-        console.log("Reservations fetch");
         if (userId) {
-            const result = await fetchUserCurrentBookReservations(userId);
-            if (result.ok === "true") {
-                setReservations(result);
+            const reservations: ExtendedReservation[] =
+                await fetchUserCurrentBookReservations(userId);
+            if (reservations) {
+                setReservations(reservations);
             }
         }
     };
