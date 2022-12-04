@@ -1,7 +1,16 @@
-<!-- ABOUT THE PROJECT -->
-# About the project
+# EfiLibrary - About the project
 
--- Project description --
+<!-- ABOUT THE PROJECT -->
+
+EfiLibrary is a project between the students of Business Information Technology Degree Programme in Haaga-Helia University of Applied Sciences, and Eficode Oy, a Finnish company specializing in enhancing software development, whose products are related to automation and devops consulting, as well as accessibility and user studies.
+
+The EfiLibrary project was created and built from the ground up and in its entirety by the students of Haaga-Helia UAS for the use of Eficode Oy.
+
+This digital library project is the transformation of the many physical copies of books owned by Eficode and scattered in different Eficode offices located in 10 different countries around the world, into one digital library in which the various users will be able to learn-from, teach-with, and enjoy sharing knowledge easily and efficiently.
+
+The users will be able to borrow and return books, create lists of favorite books and watch other users' favorite lists, as well as browse through the library database.
+
+Admins will be able to control the distribution of borrowed books and monitor the users' activity within the library.
 
 ## Built with 
 
@@ -16,21 +25,12 @@
 
 </div>
 
-<!-- TABLE OF CONTENTS -->
-# Table of Contents
+The authentication is implemented using Bearer Tokens.
 
+The application is deployed in [https://efilibrary.netlify.app/](https://efilibrary.netlify.app/).
 
-<!-- GETTING STARTED -->
-# Getting Started 
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Installation
-
-## Available Scripts
-
-In the project directory, you can run:
-
+<!-- INSTALLATION -->
+# How to Start
 ### `npm start`
 
 Runs the app in the development mode.\
@@ -39,10 +39,8 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<!-- RUNNING -->
+# How to Run
 
 ### `npm run build`
 
@@ -54,6 +52,15 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+<!-- TESTING -->
+# How to Test 
+### `npm test`
+
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+<!-- EJECTING -->
+# How to Eject
 ### `npm run eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
@@ -64,15 +71,8 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-
 <!-- USAGE -->
-# Usage
+# Usage will be updated after backend readme has been updated
 
 <details>
 <summary> Backend endpoints </summary>
@@ -216,5 +216,23 @@ See detailed documentation about Robot testing in [AboutRobotTests.md documentat
 <!-- CREDITS -->
 # Credits
 
-<!-- LICENCE -->
-# Licence
+Attribution in alphabetical order:
+
+* Michael Brown
+* Raúl Fernández Poolan
+* Eeli Killström
+* Jong Lau
+* Jasmin Lumme
+* Anja Miscevic
+* Dung Pham
+* Shay Pisanty
+* Axel Riska
+* Markus Sibakov
+* Elisa Tuovila
+* Veeti Vainikka
+* Tia Venäläinen
+
+<!-- LICENSE -->
+# License
+
+See the project's MIT License in [LICENSE.md](LICENSE.md)
