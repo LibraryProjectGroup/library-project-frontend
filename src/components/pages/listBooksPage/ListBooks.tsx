@@ -27,7 +27,7 @@ import {
     fetchCurrentBorrows,
     fetchAddBookReservation,
     fetchAllBookReservations,
-    fetchBookIdsWithActiveReservations,
+    fetchActiveAndLoanableReservations,
     fetchCurrentBookReservations,
     fetchCancelBookReservation,
     fetchLoanBookReservation,
@@ -46,6 +46,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Alert from "@mui/material/Alert";
 import BookRequestForm from "./BookRequestForm";
+import { LOAN_DAYS, RESERVATION_DAYS, MS_IN_DAY } from "../../../constants";
 
 const ListBooks: FC = (): JSX.Element => {
     const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
@@ -54,8 +55,8 @@ const ListBooks: FC = (): JSX.Element => {
     >([]);
     const [userBorrows, setUserBorrows] = useState<Borrow[]>([]);
     const [books, setBooks] = useState<Book[]>([]);
-    const [bookIdsWithActiveReservation, setBookIdsWithActiveReservation] =
-        useState<number[]>([]);
+    const [activeAndLoanableReservations, setActiveAndLoanableReservations] =
+        useState<any[]>([]);
     const [requestVisible, setRequestVisible] = useState(false);
 
     const [formBook, setFormBook] = useState<Book | null>(null);
@@ -84,9 +85,9 @@ const ListBooks: FC = (): JSX.Element => {
         setCurrentReservations(await fetchCurrentBookReservations());
     };
 
-    const fetchActiveResBookIDs = async () => {
-        setBookIdsWithActiveReservation(
-            await fetchBookIdsWithActiveReservations()
+    const fetchActiveReservedAndLoanable = async () => {
+        setActiveAndLoanableReservations(
+            await fetchActiveAndLoanableReservations()
         );
     };
 
@@ -202,16 +203,93 @@ const ListBooks: FC = (): JSX.Element => {
         fetchBorrows();
         fetchReservations();
         fetchUserBorrows();
-        fetchActiveResBookIDs();
+        fetchActiveReservedAndLoanable();
     }, []);
-
-    useEffect(() => {
-        console.log("ACTIVE:");
-        console.log(bookIdsWithActiveReservation);
-    }, [bookIdsWithActiveReservation]);
 
     // eslint-disable-next-line
     useEffect(handleOpen, [userBorrows]);
+
+    const renderLoanButton = (book: Book) => {
+        if (
+            !activeAndLoanableReservations
+                .map((obj) => obj.bookId)
+                .includes(book.id)
+        ) {
+            return (
+                <Button
+                    sx={listBooksLoanButton}
+                    variant="contained"
+                    disabled={bookInCurrentBorrows(book)}
+                    onClick={async () => {
+                        if (window.confirm("Do you want to LOAN this book?")) {
+                            let message = "Loaning succeeded";
+                            await fetchCreateBorrow(book.id)
+                                .then((res) => {
+                                    if (!res.ok) {
+                                        message = "Loaning failed";
+                                    }
+                                })
+                                .then(() =>
+                                    setPopUpConfirmationOpen({
+                                        ok: true,
+                                        message: message
+                                    })
+                                );
+                            await fetchBooks();
+                            await fetchBorrows();
+                        }
+                    }}
+                >
+                    LOAN
+                </Button>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const renderReserveButton = (book: Book) => {
+        if (
+            !userLoaningBook(book) &&
+            !activeAndLoanableReservations
+                .map((obj) => obj.bookId)
+                .includes(book.id) &&
+            bookInCurrentBorrows(book)
+        ) {
+            return (
+                <Button
+                    sx={listBooksLoanButton}
+                    variant="contained"
+                    disabled={bookInCurrentReservations(book)}
+                    onClick={async () => {
+                        if (
+                            window.confirm("Do you want to RESERVE this book?")
+                        ) {
+                            let message = "Reservation succeeded";
+                            await fetchAddBookReservation(book.id)
+                                .then((res) => {
+                                    if (!res.ok) {
+                                        message = "Reservation failed";
+                                    }
+                                })
+                                .then(() =>
+                                    setPopUpConfirmationOpen({
+                                        ok: true,
+                                        message: message
+                                    })
+                                );
+                            await fetchBooks();
+                            await fetchReservations();
+                        }
+                    }}
+                >
+                    RESERVE
+                </Button>
+            );
+        } else {
+            return null;
+        }
+    };
 
     const renderBookData = (book: Book) => {
         if (!book.deleted) {
@@ -260,6 +338,54 @@ const ListBooks: FC = (): JSX.Element => {
                             >
                                 Location: {book.location}
                             </Typography>
+                            {bookInCurrentBorrows(book) && (
+                                <Typography
+                                    sx={{
+                                        fontFamily: "Merriweather",
+                                        fontWeight: "light"
+                                    }}
+                                >
+                                    {`Loan due: ${currentBorrows
+                                        .filter(
+                                            (borrow) => borrow.book === book.id
+                                        )
+                                        .map((borrow) =>
+                                            new Date(
+                                                borrow.dueDate
+                                            ).toLocaleString("fi", {
+                                                year: "numeric",
+                                                month: "numeric",
+                                                day: "numeric"
+                                            })
+                                        )}.`}
+                                </Typography>
+                            )}
+                            {activeAndLoanableReservations
+                                .map((obj) => obj.bookId)
+                                .includes(book.id) && (
+                                <Typography
+                                    sx={{
+                                        fontFamily: "Merriweather",
+                                        fontWeight: "light",
+                                        color: "orange"
+                                    }}
+                                >
+                                    {`Reservation due: ${currentReservations
+                                        .filter((obj) => obj.bookId === book.id)
+                                        .map((obj) =>
+                                            new Date(
+                                                new Date(
+                                                    obj.reservationDatetime
+                                                ).getTime() +
+                                                    RESERVATION_DAYS * MS_IN_DAY
+                                            ).toLocaleString("fi", {
+                                                year: "numeric",
+                                                month: "numeric",
+                                                day: "numeric"
+                                            })
+                                        )}.`}
+                                </Typography>
+                            )}
                         </Stack>
                         <Stack
                             marginY={1}
@@ -299,77 +425,8 @@ const ListBooks: FC = (): JSX.Element => {
                             >
                                 Edit book
                             </Button>
-                            <Button
-                                sx={listBooksLoanButton}
-                                variant="contained"
-                                disabled={bookInCurrentBorrows(book)}
-                                onClick={async () => {
-                                    if (
-                                        window.confirm(
-                                            "Do you want to LOAN this book?"
-                                        )
-                                    ) {
-                                        let message = "Loaning succeeded";
-                                        await fetchCreateBorrow(book.id)
-                                            .then((res) => {
-                                                if (!res.ok) {
-                                                    message = "Loaning failed";
-                                                }
-                                            })
-                                            .then(() =>
-                                                setPopUpConfirmationOpen({
-                                                    ok: true,
-                                                    message: message
-                                                })
-                                            );
-                                        await fetchBooks();
-                                        await fetchBorrows();
-                                    }
-                                }}
-                            >
-                                LOAN
-                            </Button>
-                            {!userLoaningBook(book) &&
-                                bookInCurrentBorrows(book) && (
-                                    <Button
-                                        sx={listBooksLoanButton}
-                                        variant="contained"
-                                        disabled={bookInCurrentReservations(
-                                            book
-                                        )}
-                                        onClick={async () => {
-                                            if (
-                                                window.confirm(
-                                                    "Do you want to RESERVE this book?"
-                                                )
-                                            ) {
-                                                let message =
-                                                    "Reservation succeeded";
-                                                await fetchAddBookReservation(
-                                                    book.id
-                                                )
-                                                    .then((res) => {
-                                                        if (!res.ok) {
-                                                            message =
-                                                                "Reservation failed";
-                                                        }
-                                                    })
-                                                    .then(() =>
-                                                        setPopUpConfirmationOpen(
-                                                            {
-                                                                ok: true,
-                                                                message: message
-                                                            }
-                                                        )
-                                                    );
-                                                await fetchBooks();
-                                                await fetchReservations();
-                                            }
-                                        }}
-                                    >
-                                        RESERVE
-                                    </Button>
-                                )}
+                            {renderLoanButton(book)}
+                            {renderReserveButton(book)}
                         </Stack>
                     </Stack>
                 </Paper>

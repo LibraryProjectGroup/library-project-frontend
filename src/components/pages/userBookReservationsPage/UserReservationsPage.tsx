@@ -1,7 +1,9 @@
 import { useState, FC, useContext, useEffect } from "react";
 import {
     fetchUserCurrentBookReservations,
-    fetchCancelBookReservation
+    fetchCancelBookReservation,
+    fetchLoanBookReservation,
+    fetchCreateBorrow
 } from "../../../fetchFunctions";
 import ExtendedReservation from "../../../interfaces/extendedReservation.interface";
 import { TheContext } from "../../../TheContext";
@@ -32,6 +34,15 @@ const UserReservations: FC = (): JSX.Element => {
             if (reservations) {
                 setReservations(reservations);
             }
+        }
+    };
+    const loanReservation = async (bookId: number, reservationId: number) => {
+        const response1 = await fetchLoanBookReservation(reservationId);
+        const response2 = await fetchCreateBorrow(bookId);
+        if (response1.ok && response2.ok) {
+            return response1;
+        } else {
+            return { ok: false };
         }
     };
 
@@ -93,13 +104,40 @@ const UserReservations: FC = (): JSX.Element => {
                                       }
                                   )
                                 : `Returned: ${new Date(
-                                      reservation.dueDate
+                                      reservation.returnDate
                                   ).toLocaleString("fi", {
                                       year: "numeric",
                                       month: "numeric",
                                       day: "numeric"
                                   })}`}
                         </Typography>
+                        {reservation.returnDate && (
+                            <Button
+                                sx={{
+                                    ...listBooksDeleteButton,
+                                    color: "green",
+                                    marginBottom: 1
+                                }}
+                                variant="contained"
+                                color="error"
+                                onClick={async () => {
+                                    if (
+                                        window.confirm("Loan this reservation?")
+                                    ) {
+                                        const response = await loanReservation(
+                                            reservation.bookId,
+                                            reservation.id
+                                        );
+                                        if (response.ok)
+                                            fetchReservations(
+                                                context?.user?.id
+                                            );
+                                    }
+                                }}
+                            >
+                                Loan reservation
+                            </Button>
+                        )}
                         <Button
                             sx={listBooksDeleteButton}
                             variant="contained"

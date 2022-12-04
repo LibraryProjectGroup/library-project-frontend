@@ -374,14 +374,14 @@ export const fetchCancelBookReservation = async (
 };
 
 export const fetchLoanBookReservation = async (
-    bookId: number
+    reservationId: number
 ): Promise<OKStatus> => {
     return await authFetch("/bookreservation/loan", {
         method: "POST",
         headers: {
             "content-type": "application/json"
         },
-        body: JSON.stringify({ bookId })
+        body: JSON.stringify({ reservationId })
     });
 };
 
@@ -395,8 +395,8 @@ export const fetchUserCurrentBookReservations = async (userId: number) => {
     });
 };
 
-export const fetchBookIdsWithActiveReservations = async () => {
-    return await authFetch("/bookreservation/active/bookids", {
+export const fetchActiveAndLoanableReservations = async () => {
+    return await authFetch("/bookreservation/active/loanable", {
         method: "GET",
         headers: {
             "content-type": "application/json"
