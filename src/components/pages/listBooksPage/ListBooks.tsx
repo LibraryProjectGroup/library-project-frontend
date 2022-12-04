@@ -65,7 +65,9 @@ const ListBooks: FC = (): JSX.Element => {
         message: ""
     });
 
-    const [open, setOpen] = useState<"none" | "expiring" | "expired">("none");
+    const [open, setOpen] = useState<
+        "none" | "expiring" | "expired" | "bookform"
+    >("none");
 
     const context = useContext(TheContext);
     const navigate = useNavigate();
@@ -263,10 +265,26 @@ const ListBooks: FC = (): JSX.Element => {
                                 }
                                 color="error"
                                 onClick={async () => {
-                                    const response = await fetchDeleteBook(
-                                        book.id
-                                    );
-                                    if (response.ok) fetchBooks();
+                                    if (
+                                        window.confirm(
+                                            "Do you want to DELETE this book?"
+                                        )
+                                    ) {
+                                        let message = "Delete succeeded";
+                                        await fetchDeleteBook(book.id)
+                                            .then((res) => {
+                                                if (!res.ok) {
+                                                    message = "Delete failed";
+                                                }
+                                            })
+                                            .then(() =>
+                                                setPopUpConfirmationOpen({
+                                                    ok: true,
+                                                    message: message
+                                                })
+                                            );
+                                        await fetchBooks();
+                                    }
                                 }}
                             >
                                 Delete book
@@ -422,6 +440,8 @@ const ListBooks: FC = (): JSX.Element => {
                 <BookForm
                     visible={formVisible}
                     setVisible={setFormVisible}
+                    confirmation={popUpConfirmation}
+                    setConfirmation={setPopUpConfirmationOpen}
                     book={formBook}
                     setBook={setFormBook}
                     editing={formEditing}
@@ -431,6 +451,8 @@ const ListBooks: FC = (): JSX.Element => {
                 <BookRequestForm
                     visible={requestVisible}
                     setVisible={setRequestVisible}
+                    confirmation={popUpConfirmation}
+                    setConfirmation={setPopUpConfirmationOpen}
                 />
                 <Stack spacing={3} sx={{ margin: "auto", width: "60%" }}>
                     {books?.map((book) => renderBookData(book))}

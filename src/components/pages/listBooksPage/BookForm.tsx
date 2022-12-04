@@ -18,6 +18,8 @@ import { fetchUpdateBook, fetchAddBook } from "../../../fetchFunctions";
 interface IProps {
     visible: boolean;
     setVisible: Function;
+    confirmation: Object;
+    setConfirmation: Function;
     book: Book | null;
     setBook: Function;
     editing: boolean;
@@ -27,6 +29,8 @@ interface IProps {
 const EditBook: FC<IProps> = ({
     visible,
     setVisible,
+    confirmation,
+    setConfirmation,
     book,
     setBook,
     editing,
@@ -58,6 +62,18 @@ const EditBook: FC<IProps> = ({
     };
 
     if (book == null) return <></>;
+
+    const handleOpen = () => {
+        editing
+            ? setConfirmation({
+                  ok: true,
+                  message: "Book has been edited"
+              })
+            : setConfirmation({
+                  ok: true,
+                  message: "Book has been added"
+              });
+    };
 
     return (
         <Modal open={visible} onClose={() => setVisible(false)}>
@@ -106,9 +122,10 @@ const EditBook: FC<IProps> = ({
                         <Button
                             sx={editBookUpdateButton}
                             variant="contained"
-                            onClick={() =>
-                                editing ? updateBook(book) : addBook(book)
-                            }
+                            onClick={() => {
+                                editing ? updateBook(book) : addBook(book);
+                                handleOpen();
+                            }}
                         >
                             {editing ? "Update" : "Add"}
                         </Button>
