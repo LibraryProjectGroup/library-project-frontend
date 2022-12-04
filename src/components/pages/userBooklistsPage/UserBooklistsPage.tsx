@@ -7,7 +7,8 @@ import {
     Fab,
     Card,
     CardActionArea,
-    Box
+    Box,
+    Tooltip
 } from "@mui/material";
 import { TheContext } from "../../../TheContext";
 import { useNavigate } from "react-router-dom";
@@ -203,21 +204,22 @@ const UserBooklists: FC = (): JSX.Element => {
                 >
                     <ArrowBackIcon />
                 </Fab>
-
-                <Fab
-                    aria-label="add"
-                    sx={booklistsPageBackAndAddButtons}
-                    onClick={() => {
-                        setFormEditing(false);
-                        setFormBooklist({
-                            id: -1, // This wont get used
-                            name: ""
-                        });
-                        setFormVisible(true);
-                    }}
-                >
-                    <AddIcon />
-                </Fab>
+                <Tooltip title="Create new list">
+                    <Fab
+                        aria-label="add"
+                        sx={booklistsPageBackAndAddButtons}
+                        onClick={() => {
+                            setFormEditing(false);
+                            setFormBooklist({
+                                id: -1, // This wont get used
+                                name: ""
+                            });
+                            setFormVisible(true);
+                        }}
+                    >
+                        <AddIcon />
+                    </Fab>
+                </Tooltip>
             </div>
 
             {renderBookLists()}
