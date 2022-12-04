@@ -26,6 +26,10 @@ export const fetchPagedBooks = async (
     return await authFetch(`/book/page?page=${page}&pageSize=${pageSize}`);
 };
 
+export const fetchAllBooksCount = async (): Promise<number> => {
+    return await authFetch(`/book/count`);
+};
+
 export const fetchBook = async (bookId: string): Promise<Book> => {
     return await authFetch(`/book?id=${bookId}`);
 };

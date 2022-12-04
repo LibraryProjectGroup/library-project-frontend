@@ -34,7 +34,8 @@ import {
     fetchCancelBookReservation,
     fetchLoanBookReservation,
     fetchAllReservedBooks,
-    fetchPagedBooks
+    fetchPagedBooks,
+    fetchAllBooksCount
 } from "../../../fetchFunctions";
 import {
     listBooksDeleteButton,
@@ -63,6 +64,7 @@ const ListBooks: FC = (): JSX.Element => {
     const [books, setBooks] = useState<Book[]>([]);
     const [bookPage, setBookPage] = useState(1);
     const [bookPageSize, setBookPageSize] = useState(20);
+    const [bookCount, setBookCount] = useState<number>(0);
 
     const [requestVisible, setRequestVisible] = useState(false);
 
@@ -79,7 +81,14 @@ const ListBooks: FC = (): JSX.Element => {
     const context = useContext(TheContext);
     const navigate = useNavigate();
 
-    const fetchBooks = useCallback(async () => setBooks(await fetchPagedBooks(bookPage, bookPageSize)), [bookPage, bookPageSize]);
+    const fetchBooks = useCallback(async () => {
+        setBooks(await fetchPagedBooks(bookPage, bookPageSize))
+        fetchBookCount();
+    }, [bookPage, bookPageSize]);
+
+    const fetchBookCount = async() => {
+        setBookCount(await fetchAllBooksCount());
+    }
 
     const fetchBorrows = async () =>
         setCurrentBorrows(await fetchAllCurrentBorrows());
@@ -484,6 +493,20 @@ const ListBooks: FC = (): JSX.Element => {
                     <Grid
                         sx={{ textAlign: "center", marginBottom: 3}}
                         >
+
+                        <FormControl sx={{ marginLeft: 4, marginBottom: 0, marginTop: 2, minWidth: 80 }} size="small">
+                            <InputLabel id="Page">Page</InputLabel>
+                            <Select
+                                labelId="page"
+                                id="page"
+                                value={String(bookPage)}
+                                label="page"
+                                onChange={(event: SelectChangeEvent) => {setBookPage(Number(event.target.value))}}
+                            >
+                                {Array(Math.ceil(bookCount / bookPageSize)).fill(null).map((x, i) => <MenuItem value={i+1}>{i+1}</MenuItem>)}
+                            </Select>
+                        </FormControl>
+                                                
                         <Tooltip title="First Page">
                             <Fab
                                 aria-label="first1"
@@ -511,7 +534,7 @@ const ListBooks: FC = (): JSX.Element => {
                                 aria-label="next1"
                                 sx={addButton}
                                 onClick={()=>{handlePageButton(true)}}
-                                disabled={books.length < bookPageSize}
+                                disabled={bookPageSize * bookPage >= bookCount}
                                 >
                                 <ArrowRightIcon />
                             </Fab>
@@ -556,7 +579,7 @@ const ListBooks: FC = (): JSX.Element => {
                                     aria-label="next2"
                                     sx={addButton}
                                     onClick={()=>{handlePageButton(true)}}
-                                    disabled={books.length<1}
+                                    disabled={bookPageSize * bookPage >= bookCount}
                                     >
                                     <ArrowRightIcon />
                                 </Fab>
