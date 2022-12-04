@@ -333,8 +333,8 @@ export const fetchAllBookReservations = async () => {
     });
 };
 
-export const fetchJoinedBookReservations = async () => {
-    return await authFetch("/bookreservation/all/joined", {
+export const fetchAllExtendedBookReservations = async () => {
+    return await authFetch("/bookreservation/all/extended", {
         method: "GET",
         headers: {
             "content-type": "application/json;charset=UTF-8"

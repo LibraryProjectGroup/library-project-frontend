@@ -8,7 +8,7 @@ on:
         branches: ["development"]
     pull_request:
         branches: ["development"]
-
+        
 env:
     TESTUSERNAME: ${{ secrets.REACT_APP_TEST_USERNAME }}
     TESTPASSWORD: ${{ secrets.REACT_APP_TEST_PASSWORD }}
@@ -60,7 +60,7 @@ jobs:
 
         steps:
             - uses: actions/checkout@v1
-            - uses: jsmrcaga/action-netlify-deploy@master
+            - uses: jsmrcaga/action-netlify-deploy@v1.8.0
               with:
                   NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
                   NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
