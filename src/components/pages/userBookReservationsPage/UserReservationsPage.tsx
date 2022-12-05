@@ -1,7 +1,9 @@
 import { useState, FC, useContext, useEffect } from "react";
 import {
     fetchUserCurrentBookReservations,
-    fetchCancelBookReservation
+    fetchCancelBookReservation,
+    fetchLoanBookReservation,
+    fetchCreateBorrow
 } from "../../../fetchFunctions";
 import ExtendedReservation from "../../../interfaces/extendedReservation.interface";
 import { TheContext } from "../../../TheContext";
@@ -15,21 +17,34 @@ const UserReservations: FC = (): JSX.Element => {
     const context = useContext(TheContext);
     const navigate = useNavigate();
 
+    const loanOverdue = (dueDate: string) => {
+        const dueDateNextDay = new Date(dueDate).getTime() + 86400000;
+        return new Date().getTime() > dueDateNextDay;
+    };
+
     useEffect(() => {
         fetchReservations(context?.user?.id);
     }, [context]);
 
     const fetchReservations = async (userId: number | null | undefined) => {
         if (userId) {
-            const reservations: ExtendedReservation[] =
-                await fetchUserCurrentBookReservations(userId);
-            if (reservations) {
-                setReservations(reservations);
-            }
+            setReservations(await fetchUserCurrentBookReservations(userId));
+        }
+    };
+    const loanReservation = async (bookId: number, reservationId: number) => {
+        const response1 = await fetchLoanBookReservation(reservationId);
+        const response2 = await fetchCreateBorrow(bookId);
+        if (response1.ok && response2.ok) {
+            return response1;
+        } else {
+            return { ok: false };
         }
     };
 
-    const renderReservationData = (reservation: ExtendedReservation) => {
+    const renderReservationData = (
+        reservation: ExtendedReservation,
+        index: number
+    ) => {
         return (
             <Paper
                 elevation={10}
@@ -69,6 +84,65 @@ const UserReservations: FC = (): JSX.Element => {
                                     minute: "numeric"
                                 })}
                         </Typography>
+                        <Typography
+                            sx={{
+                                fontFamily: "Merriweather",
+                                fontWeight: "light",
+                                marginBottom: 3,
+                                color:
+                                    reservation.returnDate === null &&
+                                    loanOverdue(reservation.dueDate)
+                                        ? "red"
+                                        : null
+                            }}
+                        >
+                            {reservation.returnDate === null
+                                ? "Loan due: " +
+                                  new Date(reservation.dueDate).toLocaleString(
+                                      "fi",
+                                      {
+                                          year: "numeric",
+                                          month: "numeric",
+                                          day: "numeric"
+                                      }
+                                  )
+                                : `Returned: ${new Date(
+                                      reservation.returnDate
+                                  ).toLocaleString("fi", {
+                                      year: "numeric",
+                                      month: "numeric",
+                                      day: "numeric"
+                                  })}`}
+                        </Typography>
+                        {reservation.returnDate && (
+                            <Button
+                                sx={{
+                                    ...listBooksDeleteButton,
+                                    color: "green",
+                                    marginBottom: 1
+                                }}
+                                variant="contained"
+                                color="error"
+                                onClick={async () => {
+                                    if (
+                                        window.confirm("Loan this reservation?")
+                                    ) {
+                                        await loanReservation(
+                                            reservation.bookId,
+                                            reservation.id
+                                        ).then((response) => {
+                                            if (response.ok) {
+                                                fetchReservations(
+                                                    context?.user?.id
+                                                );
+                                            }
+                                        });
+                                    }
+                                }}
+                            >
+                                Loan reservation
+                            </Button>
+                        )}
                     </Stack>
                     <Stack sx={{ alignSelf: "center" }}>
                         <Button
@@ -108,8 +182,8 @@ const UserReservations: FC = (): JSX.Element => {
                 <ArrowBackIcon />
             </Fab>
             {reservations ? (
-                reservations?.map((reservation) =>
-                    renderReservationData(reservation)
+                reservations?.map((reservation, index) =>
+                    renderReservationData(reservation, index)
                 )
             ) : (
                 <div

@@ -1,4 +1,11 @@
-import React, { useState, FC, useEffect, useContext, Fragment, useCallback } from "react";
+import React, {
+    useState,
+    FC,
+    useEffect,
+    useContext,
+    Fragment,
+    useCallback
+} from "react";
 import {
     Paper,
     Typography,
@@ -14,9 +21,9 @@ import AddIcon from "@mui/icons-material/Add";
 import AddCommentIcon from "@mui/icons-material/AddComment";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
 import { TheContext } from "../../../TheContext";
 import Book from "../../../interfaces/book.interface";
 import Book_reservation from "../../../interfaces/book_reservation.interface";
@@ -30,6 +37,7 @@ import {
     fetchCurrentBorrows,
     fetchAddBookReservation,
     fetchAllBookReservations,
+    fetchActiveAndLoanableReservations,
     fetchCurrentBookReservations,
     fetchCancelBookReservation,
     fetchLoanBookReservation,
@@ -49,12 +57,12 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Alert from "@mui/material/Alert";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import BookRequestForm from "./BookRequestForm";
-import NavBar from "../../navBar/Navbar";
+import { LOAN_DAYS, RESERVATION_DAYS, MS_IN_DAY } from "../../../constants";
 
 const ListBooks: FC = (): JSX.Element => {
     const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
@@ -63,6 +71,8 @@ const ListBooks: FC = (): JSX.Element => {
     >([]);
     const [userBorrows, setUserBorrows] = useState<Borrow[]>([]);
     const [books, setBooks] = useState<Book[]>([]);
+    const [activeAndLoanableReservations, setActiveAndLoanableReservations] =
+        useState<any[]>([]);
     const [bookPage, setBookPage] = useState(1);
     const [bookPageSize, setBookPageSize] = useState(20);
     const [bookCount, setBookCount] = useState<number>(0);
@@ -85,13 +95,13 @@ const ListBooks: FC = (): JSX.Element => {
     const navigate = useNavigate();
 
     const fetchBooks = useCallback(async () => {
-        setBooks(await fetchPagedBooks(bookPage, bookPageSize))
+        setBooks(await fetchPagedBooks(bookPage, bookPageSize));
         fetchBookCount();
     }, [bookPage, bookPageSize]);
 
-    const fetchBookCount = async() => {
+    const fetchBookCount = async () => {
         setBookCount(await fetchAllBooksCount());
-    }
+    };
 
     const fetchBorrows = async () =>
         setCurrentBorrows(await fetchAllCurrentBorrows());
@@ -104,9 +114,14 @@ const ListBooks: FC = (): JSX.Element => {
         setCurrentReservations(await fetchCurrentBookReservations());
     };
 
+    const fetchActiveReservedAndLoanable = async () => {
+        setActiveAndLoanableReservations(
+            await fetchActiveAndLoanableReservations()
+        );
+    };
     const handlePageButton = (forward: boolean) => {
-        setBookPage(bookPage + (forward ? 1 : -1))
-    }
+        setBookPage(bookPage + (forward ? 1 : -1));
+    };
 
     const bookInCurrentBorrows = (book: Book) => {
         let inCurrentBorrows = false;
@@ -220,14 +235,97 @@ const ListBooks: FC = (): JSX.Element => {
         fetchBorrows();
         fetchReservations();
         fetchUserBorrows();
+        fetchActiveReservedAndLoanable();
     }, [fetchBooks]);
 
     // eslint-disable-next-line
     useEffect(handleOpen, [userBorrows]);
 
     useEffect(() => {
-        fetchBooks()
-    }, [bookPage, fetchBooks])
+        fetchBooks();
+    }, [bookPage, fetchBooks]);
+
+    const renderLoanButton = (book: Book) => {
+        if (
+            !activeAndLoanableReservations
+                .map((obj) => obj.bookId)
+                .includes(book.id)
+        ) {
+            return (
+                <Button
+                    sx={listBooksLoanButton}
+                    variant="contained"
+                    disabled={bookInCurrentBorrows(book)}
+                    onClick={async () => {
+                        if (window.confirm("Do you want to LOAN this book?")) {
+                            let message = "Loaning succeeded";
+                            await fetchCreateBorrow(book.id)
+                                .then((res) => {
+                                    if (!res.ok) {
+                                        message = "Loaning failed";
+                                    }
+                                })
+                                .then(() =>
+                                    setPopUpConfirmationOpen({
+                                        ok: true,
+                                        message: message
+                                    })
+                                );
+                            await fetchBooks();
+                            await fetchBorrows();
+                        }
+                    }}
+                >
+                    LOAN
+                </Button>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const renderReserveButton = (book: Book) => {
+        if (
+            !userLoaningBook(book) &&
+            !activeAndLoanableReservations
+                .map((obj) => obj.bookId)
+                .includes(book.id) &&
+            bookInCurrentBorrows(book)
+        ) {
+            return (
+                <Button
+                    sx={listBooksLoanButton}
+                    variant="contained"
+                    disabled={bookInCurrentReservations(book)}
+                    onClick={async () => {
+                        if (
+                            window.confirm("Do you want to RESERVE this book?")
+                        ) {
+                            let message = "Reservation succeeded";
+                            await fetchAddBookReservation(book.id)
+                                .then((res) => {
+                                    if (!res.ok) {
+                                        message = "Reservation failed";
+                                    }
+                                })
+                                .then(() =>
+                                    setPopUpConfirmationOpen({
+                                        ok: true,
+                                        message: message
+                                    })
+                                );
+                            await fetchBooks();
+                            await fetchReservations();
+                        }
+                    }}
+                >
+                    RESERVE
+                </Button>
+            );
+        } else {
+            return null;
+        }
+    };
 
     const renderBookData = (book: Book) => {
         if (!book.deleted) {
@@ -276,6 +374,54 @@ const ListBooks: FC = (): JSX.Element => {
                             >
                                 Location: {book.location}
                             </Typography>
+                            {bookInCurrentBorrows(book) && (
+                                <Typography
+                                    sx={{
+                                        fontFamily: "Merriweather",
+                                        fontWeight: "light"
+                                    }}
+                                >
+                                    {`Loan due: ${currentBorrows
+                                        .filter(
+                                            (borrow) => borrow.book === book.id
+                                        )
+                                        .map((borrow) =>
+                                            new Date(
+                                                borrow.dueDate
+                                            ).toLocaleString("fi", {
+                                                year: "numeric",
+                                                month: "numeric",
+                                                day: "numeric"
+                                            })
+                                        )}.`}
+                                </Typography>
+                            )}
+                            {activeAndLoanableReservations
+                                .map((obj) => obj.bookId)
+                                .includes(book.id) && (
+                                <Typography
+                                    sx={{
+                                        fontFamily: "Merriweather",
+                                        fontWeight: "light",
+                                        color: "orange"
+                                    }}
+                                >
+                                    {`Reservation due: ${currentReservations
+                                        .filter((obj) => obj.bookId === book.id)
+                                        .map((obj) =>
+                                            new Date(
+                                                new Date(
+                                                    obj.reservationDatetime
+                                                ).getTime() +
+                                                    RESERVATION_DAYS * MS_IN_DAY
+                                            ).toLocaleString("fi", {
+                                                year: "numeric",
+                                                month: "numeric",
+                                                day: "numeric"
+                                            })
+                                        )}.`}
+                                </Typography>
+                            )}
                         </Stack>
                         <Stack
                             marginY={1}
@@ -331,78 +477,8 @@ const ListBooks: FC = (): JSX.Element => {
                             >
                                 Edit book
                             </Button>
-                            <Button
-                                sx={listBooksLoanButton}
-                                variant="contained"
-                                disabled={bookInCurrentBorrows(book)}
-                                onClick={async () => {
-                                    if (
-                                        window.confirm(
-                                            "Do you want to LOAN this book?"
-                                        )
-                                    ) {
-                                        let message = "Loaning succeeded";
-                                        await fetchCreateBorrow(book.id)
-                                            .then((res) => {
-                                                if (!res.ok) {
-                                                    message = "Loaning failed";
-                                                }
-                                            })
-                                            .then(() =>
-                                                setPopUpConfirmationOpen({
-                                                    ok: true,
-                                                    message: message
-                                                })
-                                            );
-                                        await fetchBooks();
-                                        await fetchBorrows();
-                                        await context?.fetchBorrows();
-                                    }
-                                }}
-                            >
-                                LOAN
-                            </Button>
-                            {!userLoaningBook(book) &&
-                                bookInCurrentBorrows(book) && (
-                                    <Button
-                                        sx={listBooksLoanButton}
-                                        variant="contained"
-                                        disabled={bookInCurrentReservations(
-                                            book
-                                        )}
-                                        onClick={async () => {
-                                            if (
-                                                window.confirm(
-                                                    "Do you want to RESERVE this book?"
-                                                )
-                                            ) {
-                                                let message =
-                                                    "Reservation succeeded";
-                                                await fetchAddBookReservation(
-                                                    book.id
-                                                )
-                                                    .then((res) => {
-                                                        if (!res.ok) {
-                                                            message =
-                                                                "Reservation failed";
-                                                        }
-                                                    })
-                                                    .then(() =>
-                                                        setPopUpConfirmationOpen(
-                                                            {
-                                                                ok: true,
-                                                                message: message
-                                                            }
-                                                        )
-                                                    );
-                                                await fetchBooks();
-                                                await fetchReservations();
-                                            }
-                                        }}
-                                    >
-                                        RESERVE
-                                    </Button>
-                                )}
+                            {renderLoanButton(book)}
+                            {renderReserveButton(book)}
                         </Stack>
                     </Stack>
                 </Paper>
@@ -421,7 +497,7 @@ const ListBooks: FC = (): JSX.Element => {
                 action={action_2}
             />
             {/* Pop up element */}
-            <Box sx={{ marginTop: 5, marginBottom: 5, position: "relative" }}>
+            <Box sx={{ marginTop: 5, marginBottom: 5 }}>
                 <div
                     style={{
                         position: "absolute",
@@ -481,101 +557,129 @@ const ListBooks: FC = (): JSX.Element => {
                     confirmation={popUpConfirmation}
                     setConfirmation={setPopUpConfirmationOpen}
                 />
-                <Grid
-                        sx={{ textAlign: "center", marginBottom: 3}}
+                <Grid sx={{ textAlign: "center", marginBottom: 3 }}>
+                    <FormControl
+                        sx={{
+                            marginLeft: 4,
+                            marginBottom: 0,
+                            marginTop: 2,
+                            minWidth: 80
+                        }}
+                        size="small"
+                    >
+                        <InputLabel id="Page">Page</InputLabel>
+                        <Select
+                            labelId="page"
+                            id="page"
+                            value={String(bookPage)}
+                            label="page"
+                            onChange={(event: SelectChangeEvent) => {
+                                setBookPage(Number(event.target.value));
+                            }}
                         >
+                            {Array(Math.ceil(bookCount / bookPageSize))
+                                .fill(null)
+                                .map((x, i) => (
+                                    <MenuItem value={i + 1}>{i + 1}</MenuItem>
+                                ))}
+                        </Select>
+                    </FormControl>
 
-                        <FormControl sx={{ marginLeft: 4, marginBottom: 0, marginTop: 2, minWidth: 80 }} size="small">
-                            <InputLabel id="Page">Page</InputLabel>
-                            <Select
-                                labelId="page"
-                                id="page"
-                                value={String(bookPage)}
-                                label="page"
-                                onChange={(event: SelectChangeEvent) => {setBookPage(Number(event.target.value))}}
-                            >
-                                {Array(Math.ceil(bookCount / bookPageSize)).fill(null).map((x, i) => <MenuItem value={i+1}>{i+1}</MenuItem>)}
-                            </Select>
-                        </FormControl>
-                                                
-                        <Tooltip title="First Page">
-                            <Fab
-                                aria-label="first1"
-                                sx={addButton}
-                                onClick={()=>{setBookPage(1)}}
-                                disabled={bookPage <= 1}
-                                >
-                                <FirstPageIcon />
-                            </Fab>
-                        </Tooltip>
+                    <Tooltip title="First Page">
+                        <Fab
+                            aria-label="first1"
+                            sx={addButton}
+                            onClick={() => {
+                                setBookPage(1);
+                            }}
+                            disabled={bookPage <= 1}
+                        >
+                            <FirstPageIcon />
+                        </Fab>
+                    </Tooltip>
 
-                        <Tooltip title="Previous Page">
-                            <Fab
-                                aria-label="previous1"
-                                sx={addButton}
-                                onClick={()=>{handlePageButton(false)}}
-                                disabled={bookPage <= 1}
-                                >
-                                <ArrowLeftIcon />
-                            </Fab>
-                        </Tooltip>
-                        
-                        <Tooltip title="Next Page">
-                            <Fab
-                                aria-label="next1"
-                                sx={addButton}
-                                onClick={()=>{handlePageButton(true)}}
-                                disabled={bookPageSize * bookPage >= bookCount}
-                                >
-                                <ArrowRightIcon />
-                            </Fab>
-                        </Tooltip>
+                    <Tooltip title="Previous Page">
+                        <Fab
+                            aria-label="previous1"
+                            sx={addButton}
+                            onClick={() => {
+                                handlePageButton(false);
+                            }}
+                            disabled={bookPage <= 1}
+                        >
+                            <ArrowLeftIcon />
+                        </Fab>
+                    </Tooltip>
 
-                        <FormControl sx={{ marginLeft: 4, marginBottom: 0, marginTop: 2, minWidth: 120 }} size="small">
-                            <InputLabel id="pageSize">Books per Page</InputLabel>
-                            <Select
-                                labelId="pageSize"
-                                id="pageSize"
-                                value={String(bookPageSize)}
-                                label="Page Size"
-                                onChange={(event: SelectChangeEvent) => {setBookPageSize(Number(event.target.value))}}
-                            >
-                                <MenuItem value={5}>5</MenuItem>
-                                <MenuItem value={10}>10</MenuItem>
-                                <MenuItem value={20}>20</MenuItem>
-                                <MenuItem value={50}>50</MenuItem>
-                            </Select>
-                        </FormControl>
-                                
-                    </Grid>
+                    <Tooltip title="Next Page">
+                        <Fab
+                            aria-label="next1"
+                            sx={addButton}
+                            onClick={() => {
+                                handlePageButton(true);
+                            }}
+                            disabled={bookPageSize * bookPage >= bookCount}
+                        >
+                            <ArrowRightIcon />
+                        </Fab>
+                    </Tooltip>
+
+                    <FormControl
+                        sx={{
+                            marginLeft: 4,
+                            marginBottom: 0,
+                            marginTop: 2,
+                            minWidth: 120
+                        }}
+                        size="small"
+                    >
+                        <InputLabel id="pageSize">Books per Page</InputLabel>
+                        <Select
+                            labelId="pageSize"
+                            id="pageSize"
+                            value={String(bookPageSize)}
+                            label="Page Size"
+                            onChange={(event: SelectChangeEvent) => {
+                                setBookPageSize(Number(event.target.value));
+                            }}
+                        >
+                            <MenuItem value={5}>5</MenuItem>
+                            <MenuItem value={10}>10</MenuItem>
+                            <MenuItem value={20}>20</MenuItem>
+                            <MenuItem value={50}>50</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
                 <Stack spacing={3} sx={{ margin: "auto", width: "60%" }}>
                     {books?.map((book) => renderBookData(book))}
                 </Stack>
 
-                <Grid
-                            sx={{ textAlign: "center", marginTop: 3}}
-                            >
-                            <Tooltip title="Previous Page">
-                                <Fab
-                                    aria-label="previous2"
-                                    sx={addButton}
-                                    onClick={()=>{handlePageButton(false)}}
-                                    disabled={bookPage<=1}
-                                    >
-                                    <ArrowLeftIcon />
-                                </Fab>
-                            </Tooltip>
-                            <Tooltip title="Next Page">
-                                <Fab
-                                    aria-label="next2"
-                                    sx={addButton}
-                                    onClick={()=>{handlePageButton(true)}}
-                                    disabled={bookPageSize * bookPage >= bookCount}
-                                    >
-                                    <ArrowRightIcon />
-                                </Fab>
-                            </Tooltip>
-                        </Grid>
+                <Grid sx={{ textAlign: "center", marginTop: 3 }}>
+                    <Tooltip title="Previous Page">
+                        <Fab
+                            aria-label="previous2"
+                            sx={addButton}
+                            onClick={() => {
+                                handlePageButton(false);
+                            }}
+                            disabled={bookPage <= 1}
+                        >
+                            <ArrowLeftIcon />
+                        </Fab>
+                    </Tooltip>
+                    <Tooltip title="Next Page">
+                        <Fab
+                            aria-label="next2"
+                            sx={addButton}
+                            onClick={() => {
+                                handlePageButton(true);
+                            }}
+                            disabled={bookPageSize * bookPage >= bookCount}
+                        >
+                            <ArrowRightIcon />
+                        </Fab>
+                    </Tooltip>
+                </Grid>
 
                 <Snackbar
                     open={open === "expiring"}
