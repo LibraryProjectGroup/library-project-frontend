@@ -57,6 +57,7 @@ Admin can upgrade user to admin
     Wait Until Element Is Visible    xpath://h4[normalize-space()='Edit user']
     Click Element    xpath://input[@name='administrator']//ancestor::div[1]//div[@role='button']
     Click Element    xpath://li[normalize-space()='True']
+    Sleep    1s
     Click Button    xpath://button[normalize-space()='Update']
     Wait Until Element Is Visible
     ...    xpath://div[contains(text(), 'testattavatyyppi')]//ancestor::div[2]//div[contains(text(), 'true')]
@@ -73,6 +74,7 @@ User downgrades themself
     Wait Until Element Is Visible    xpath://h4[normalize-space()='Edit user']
     Click Element    xpath://input[@name='administrator']//ancestor::div[1]//div[@role='button']
     Click Element    xpath://li[normalize-space()='False']
+    Sleep    1s
     Click Button    xpath://button[normalize-space()='Update']
     Wait Until Element Is Visible
     ...    xpath://div[contains(text(), 'testattavatyyppi')]//ancestor::div[2]//div[contains(text(), 'false')]

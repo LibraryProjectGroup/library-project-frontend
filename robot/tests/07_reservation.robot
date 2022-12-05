@@ -44,15 +44,16 @@ User deletes book from catalog with title Java oh Java
 
 *** Keywords ***
 User reserves book with title ${title}
-    Wait Until Element Is Visible    xpath://body/div[@id='root']/div/div[1]/div[1]
+    Wait Until Element Is Visible    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'RESERVE')]
     Click Button    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'RESERVE')]
     Alert Should Be Present    Do you want to RESERVE this book?    ACCEPT
 
 User cancels reservation of book with title ${title}
-    Wait Until Element Is Visible    xpath://body/div[@id='root']/div/div[1]
+    Wait Until Element Is Visible    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Cancel reservation')]
     Click Button    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Cancel reservation')]
     Alert Should Be Present    Cancel this reservation?    ACCEPT
-    Wait Until Element Is Visible    xpath://p[normalize-space()='You have no current book reservations']
+    Execute Javascript    location.reload()
+    Wait Until Element Is Not Visible    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Cancel reservation')]
 
 User can reserve book with title ${title}
     Wait Until Element Is Visible    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'RESERVE')]

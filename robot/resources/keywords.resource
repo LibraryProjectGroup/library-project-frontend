@@ -262,8 +262,7 @@ User is returned to booklist
     Should Be Equal As Strings    ${path}    /list-books
 
 User navigates to reservations page
-    Wait Until Element Is Visible    xpath://button[normalize-space()='My book reservations']
-    Click Button    xpath://button[normalize-space()='My book reservations']
+    Execute Javascript    location.href='/reservations'
     ${path}=    Execute Javascript    return window.location.pathname
     Should Be Equal As Strings    ${path}    /reservations
 
