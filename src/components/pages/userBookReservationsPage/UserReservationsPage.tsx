@@ -31,9 +31,17 @@ const UserReservations: FC = (): JSX.Element => {
 
     const renderReservationData = (reservation: ExtendedReservation) => {
         return (
-            <Paper elevation={10} sx={{ padding: "2rem" }}>
+            <Paper
+                elevation={10}
+                sx={{
+                    padding: "1rem",
+                    width: "60%",
+                    margin: "auto",
+                    marginBottom: 1
+                }}
+            >
                 <Stack direction="row" justifyContent="space-between">
-                    <Stack sx={{ alignSelf: "center" }}>
+                    <Stack sx={{ alignSelf: "center", paddingTop: 2 }}>
                         <Typography
                             sx={{
                                 fontFamily: "Montserrat",
@@ -61,6 +69,8 @@ const UserReservations: FC = (): JSX.Element => {
                                     minute: "numeric"
                                 })}
                         </Typography>
+                    </Stack>
+                    <Stack sx={{ alignSelf: "center" }}>
                         <Button
                             sx={listBooksDeleteButton}
                             variant="contained"
