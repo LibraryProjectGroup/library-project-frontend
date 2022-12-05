@@ -56,8 +56,8 @@ const PasswordReset: FC = (): JSX.Element => {
                     `Passwords has to be atleast ${REQUIRED_PASSWORD_LENGTH} characters long`
                 );
             if (
-                !/[A-B]/.test(password) ||
-                !/[a-b]/.test(password) ||
+                !/[A-ZÅÄÖ]/.test(password) ||
+                !/[a-zåäö]/.test(password) ||
                 !/\d/.test(password) ||
                 !/[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/.test(password)
             )

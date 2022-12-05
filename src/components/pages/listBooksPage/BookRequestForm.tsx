@@ -17,11 +17,15 @@ import { fetchAddBookRequest } from "../../../fetchFunctions";
 interface IProps {
     visible: boolean;
     setVisible: Function;
+    confirmation: Object;
+    setConfirmation: Function;
 }
 
 const RequestBook: FC<IProps> = ({
     visible,
-    setVisible
+    setVisible,
+    confirmation,
+    setConfirmation
 }: IProps): JSX.Element => {
     const [isbn, setIsbn] = useState<string>("");
     const [title, setTitle] = useState<string>("");
@@ -32,6 +36,13 @@ const RequestBook: FC<IProps> = ({
         if (response.ok) {
             setVisible(false);
         }
+    };
+
+    const handleOpen = () => {
+        setConfirmation({
+            ok: true,
+            message: "Book request has been submitted"
+        });
     };
 
     return (
@@ -66,7 +77,10 @@ const RequestBook: FC<IProps> = ({
                         <Button
                             sx={editBookUpdateButton}
                             variant="contained"
-                            onClick={requestBook}
+                            onClick={() => {
+                                requestBook();
+                                handleOpen();
+                            }}
                         >
                             Add
                         </Button>
