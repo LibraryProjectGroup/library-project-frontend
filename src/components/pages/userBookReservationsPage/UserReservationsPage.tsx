@@ -28,12 +28,7 @@ const UserReservations: FC = (): JSX.Element => {
 
     const fetchReservations = async (userId: number | null | undefined) => {
         if (userId) {
-            const reservations: ExtendedReservation[] =
-                await fetchUserCurrentBookReservations(userId);
-            console.log(reservations);
-            if (reservations) {
-                setReservations(reservations);
-            }
+            setReservations(await fetchUserCurrentBookReservations(userId));
         }
     };
     const loanReservation = async (bookId: number, reservationId: number) => {
@@ -124,14 +119,16 @@ const UserReservations: FC = (): JSX.Element => {
                                     if (
                                         window.confirm("Loan this reservation?")
                                     ) {
-                                        const response = await loanReservation(
+                                        await loanReservation(
                                             reservation.bookId,
                                             reservation.id
-                                        );
-                                        if (response.ok)
-                                            fetchReservations(
-                                                context?.user?.id
-                                            );
+                                        ).then((response) => {
+                                            if (response.ok) {
+                                                fetchReservations(
+                                                    context?.user?.id
+                                                );
+                                            }
+                                        });
                                     }
                                 }}
                             >
