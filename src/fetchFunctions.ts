@@ -387,8 +387,6 @@ export const fetchCancelBookReservation = async (
 export const fetchLoanBookReservation = async (
     reservationId: number
 ): Promise<OKStatus> => {
-    console.log("reservationId:");
-    console.log(reservationId);
     return await authFetch("/bookreservation/loan", {
         method: "POST",
         headers: {
