@@ -1,4 +1,4 @@
-import { Button, Paper, Stack, Typography, Fab, Box } from "@mui/material";
+import { Button, Paper, Stack, Typography, Fab, Box, Snackbar, Alert } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { FC, useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -17,6 +17,7 @@ const ListPage: FC = (): JSX.Element => {
     const [name, setName] = useState("");
     const [books, setBooks] = useState<Book[]>([]);
     const [invalid, setInvalid] = useState(false);
+    const [popupOpen, setPopupOpen] = useState(false);
 
     const { id } = useParams();
     const navigate = useNavigate();
@@ -54,9 +55,17 @@ const ListPage: FC = (): JSX.Element => {
                     {invalid ? "Non-existant list" : name}
                 </Typography>
                 {!invalid && (
-                    <Typography variant="subtitle1" sx={{ paddingBottom: 2 }}>
-                        Created by: {username}
-                    </Typography>
+                    <>
+                        <Typography variant="subtitle1" sx={{ paddingBottom: 2 }}>
+                            Created by: {username}
+                        </Typography>
+                        <div style={{ display: "flex", justifyContent: "center", marginBottom: "10px" }}>
+                            <Button sx={listBooksDeleteButton} onClick={() => {
+                                navigator.clipboard.writeText(`${window.location.origin}/list/${id}`);
+                                setPopupOpen(true);
+                            }}>Copy Link</Button>
+                        </div>
+                    </>
                 )}
                 {!invalid &&
                     books.map((book) => (
@@ -149,6 +158,21 @@ const ListPage: FC = (): JSX.Element => {
                         </Paper>
                     ))}
             </Stack>
+            <Snackbar
+                open={popupOpen}
+                autoHideDuration={6000}
+                onClose={() => setPopupOpen(false)}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            >
+                <Alert
+                    onClose={() => setPopupOpen(false)}
+                    severity="success"
+                    sx={{ width: "100%" }}
+                    variant="filled"
+                >
+                    Copied list link to clipboard
+                </Alert>
+            </Snackbar>
         </Box>
     );
 };
