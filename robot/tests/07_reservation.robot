@@ -47,8 +47,10 @@ User reserves book with title ${title}
     Wait Until Element Is Visible    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'RESERVE')]
     Click Button    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'RESERVE')]
     Alert Should Be Present    Do you want to RESERVE this book?    ACCEPT
+    Sleep    1s
 
 User cancels reservation of book with title ${title}
+    
     Wait Until Element Is Visible    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Cancel reservation')]
     Click Button    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Cancel reservation')]
     Alert Should Be Present    Cancel this reservation?    ACCEPT
