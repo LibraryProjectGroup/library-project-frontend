@@ -47,7 +47,8 @@ User reserves book with title ${title}
     Wait Until Element Is Visible    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'RESERVE')]
     Click Button    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'RESERVE')]
     Alert Should Be Present    Do you want to RESERVE this book?    ACCEPT
-    Sleep    1s
+    Execute Javascript    location.reload()
+    
 
 User cancels reservation of book with title ${title}
     
