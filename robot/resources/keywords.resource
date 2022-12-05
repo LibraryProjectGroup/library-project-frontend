@@ -86,6 +86,7 @@ User deletes book from catalog with title ${title}
     Wait Until Element Is Enabled
     ...    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Delete book')]
     Click Button    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Delete book')]
+    Alert Should Be Present    Do you want to DELETE this book?    ACCEPT
     Wait Until Element Is Not Visible    xpath://*[contains(text(), '${title}')]
 
 User navigates to user page

@@ -286,12 +286,12 @@ export const userPageMyListsButton: SxProps = {
     fontFamily: "Montserrat",
     fontWeight: "bold",
     fontSize: 15,
-    position: "relative",
-    marginX: 2.5,
+    backgroundColor: "#FFD100",
+    marginLeft:5,
     color: "black",
     cursor: "pointer",
     "&:hover": {
-        borderBottom: "2px solid #FFB500"
+        backgroundColor: "#FFB500"
     }
 
 };

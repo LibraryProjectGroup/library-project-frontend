@@ -1,4 +1,4 @@
-import React, { useState, FC, useEffect, useContext, Fragment } from "react";
+import React, { useState, FC, useEffect, useContext, Fragment, useCallback } from "react";
 import {
     Paper,
     Typography,
@@ -14,6 +14,9 @@ import AddIcon from "@mui/icons-material/Add";
 import AddCommentIcon from "@mui/icons-material/AddComment";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
 import { TheContext } from "../../../TheContext";
 import Book from "../../../interfaces/book.interface";
 import Book_reservation from "../../../interfaces/book_reservation.interface";
@@ -30,7 +33,9 @@ import {
     fetchCurrentBookReservations,
     fetchCancelBookReservation,
     fetchLoanBookReservation,
-    fetchAllReservedBooks
+    fetchAllReservedBooks,
+    fetchPagedBooks,
+    fetchAllBooksCount
 } from "../../../fetchFunctions";
 import {
     listBooksDeleteButton,
@@ -44,6 +49,10 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Alert from "@mui/material/Alert";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import BookRequestForm from "./BookRequestForm";
 import NavBar from "../../navBar/Navbar";
 
@@ -54,6 +63,9 @@ const ListBooks: FC = (): JSX.Element => {
     >([]);
     const [userBorrows, setUserBorrows] = useState<Borrow[]>([]);
     const [books, setBooks] = useState<Book[]>([]);
+    const [bookPage, setBookPage] = useState(1);
+    const [bookPageSize, setBookPageSize] = useState(20);
+    const [bookCount, setBookCount] = useState<number>(0);
 
     const [requestVisible, setRequestVisible] = useState(false);
 
@@ -65,12 +77,21 @@ const ListBooks: FC = (): JSX.Element => {
         message: ""
     });
 
-    const [open, setOpen] = useState<"none" | "expiring" | "expired">("none");
+    const [open, setOpen] = useState<
+        "none" | "expiring" | "expired" | "bookform"
+    >("none");
 
     const context = useContext(TheContext);
     const navigate = useNavigate();
 
-    const fetchBooks = async () => setBooks(await fetchAllBooks());
+    const fetchBooks = useCallback(async () => {
+        setBooks(await fetchPagedBooks(bookPage, bookPageSize))
+        fetchBookCount();
+    }, [bookPage, bookPageSize]);
+
+    const fetchBookCount = async() => {
+        setBookCount(await fetchAllBooksCount());
+    }
 
     const fetchBorrows = async () =>
         setCurrentBorrows(await fetchAllCurrentBorrows());
@@ -82,6 +103,10 @@ const ListBooks: FC = (): JSX.Element => {
     const fetchReservations = async () => {
         setCurrentReservations(await fetchCurrentBookReservations());
     };
+
+    const handlePageButton = (forward: boolean) => {
+        setBookPage(bookPage + (forward ? 1 : -1))
+    }
 
     const bookInCurrentBorrows = (book: Book) => {
         let inCurrentBorrows = false;
@@ -195,10 +220,14 @@ const ListBooks: FC = (): JSX.Element => {
         fetchBorrows();
         fetchReservations();
         fetchUserBorrows();
-    }, []);
+    }, [fetchBooks]);
 
     // eslint-disable-next-line
     useEffect(handleOpen, [userBorrows]);
+
+    useEffect(() => {
+        fetchBooks()
+    }, [bookPage, fetchBooks])
 
     const renderBookData = (book: Book) => {
         if (!book.deleted) {
@@ -263,10 +292,26 @@ const ListBooks: FC = (): JSX.Element => {
                                 }
                                 color="error"
                                 onClick={async () => {
-                                    const response = await fetchDeleteBook(
-                                        book.id
-                                    );
-                                    if (response.ok) fetchBooks();
+                                    if (
+                                        window.confirm(
+                                            "Do you want to DELETE this book?"
+                                        )
+                                    ) {
+                                        let message = "Delete succeeded";
+                                        await fetchDeleteBook(book.id)
+                                            .then((res) => {
+                                                if (!res.ok) {
+                                                    message = "Delete failed";
+                                                }
+                                            })
+                                            .then(() =>
+                                                setPopUpConfirmationOpen({
+                                                    ok: true,
+                                                    message: message
+                                                })
+                                            );
+                                        await fetchBooks();
+                                    }
                                 }}
                             >
                                 Delete book
@@ -422,6 +467,8 @@ const ListBooks: FC = (): JSX.Element => {
                 <BookForm
                     visible={formVisible}
                     setVisible={setFormVisible}
+                    confirmation={popUpConfirmation}
+                    setConfirmation={setPopUpConfirmationOpen}
                     book={formBook}
                     setBook={setFormBook}
                     editing={formEditing}
@@ -431,10 +478,104 @@ const ListBooks: FC = (): JSX.Element => {
                 <BookRequestForm
                     visible={requestVisible}
                     setVisible={setRequestVisible}
+                    confirmation={popUpConfirmation}
+                    setConfirmation={setPopUpConfirmationOpen}
                 />
+                <Grid
+                        sx={{ textAlign: "center", marginBottom: 3}}
+                        >
+
+                        <FormControl sx={{ marginLeft: 4, marginBottom: 0, marginTop: 2, minWidth: 80 }} size="small">
+                            <InputLabel id="Page">Page</InputLabel>
+                            <Select
+                                labelId="page"
+                                id="page"
+                                value={String(bookPage)}
+                                label="page"
+                                onChange={(event: SelectChangeEvent) => {setBookPage(Number(event.target.value))}}
+                            >
+                                {Array(Math.ceil(bookCount / bookPageSize)).fill(null).map((x, i) => <MenuItem value={i+1}>{i+1}</MenuItem>)}
+                            </Select>
+                        </FormControl>
+                                                
+                        <Tooltip title="First Page">
+                            <Fab
+                                aria-label="first1"
+                                sx={addButton}
+                                onClick={()=>{setBookPage(1)}}
+                                disabled={bookPage <= 1}
+                                >
+                                <FirstPageIcon />
+                            </Fab>
+                        </Tooltip>
+
+                        <Tooltip title="Previous Page">
+                            <Fab
+                                aria-label="previous1"
+                                sx={addButton}
+                                onClick={()=>{handlePageButton(false)}}
+                                disabled={bookPage <= 1}
+                                >
+                                <ArrowLeftIcon />
+                            </Fab>
+                        </Tooltip>
+                        
+                        <Tooltip title="Next Page">
+                            <Fab
+                                aria-label="next1"
+                                sx={addButton}
+                                onClick={()=>{handlePageButton(true)}}
+                                disabled={bookPageSize * bookPage >= bookCount}
+                                >
+                                <ArrowRightIcon />
+                            </Fab>
+                        </Tooltip>
+
+                        <FormControl sx={{ marginLeft: 4, marginBottom: 0, marginTop: 2, minWidth: 120 }} size="small">
+                            <InputLabel id="pageSize">Books per Page</InputLabel>
+                            <Select
+                                labelId="pageSize"
+                                id="pageSize"
+                                value={String(bookPageSize)}
+                                label="Page Size"
+                                onChange={(event: SelectChangeEvent) => {setBookPageSize(Number(event.target.value))}}
+                            >
+                                <MenuItem value={5}>5</MenuItem>
+                                <MenuItem value={10}>10</MenuItem>
+                                <MenuItem value={20}>20</MenuItem>
+                                <MenuItem value={50}>50</MenuItem>
+                            </Select>
+                        </FormControl>
+                                
+                    </Grid>
                 <Stack spacing={3} sx={{ margin: "auto", width: "60%" }}>
                     {books?.map((book) => renderBookData(book))}
                 </Stack>
+
+                <Grid
+                            sx={{ textAlign: "center", marginTop: 3}}
+                            >
+                            <Tooltip title="Previous Page">
+                                <Fab
+                                    aria-label="previous2"
+                                    sx={addButton}
+                                    onClick={()=>{handlePageButton(false)}}
+                                    disabled={bookPage<=1}
+                                    >
+                                    <ArrowLeftIcon />
+                                </Fab>
+                            </Tooltip>
+                            <Tooltip title="Next Page">
+                                <Fab
+                                    aria-label="next2"
+                                    sx={addButton}
+                                    onClick={()=>{handlePageButton(true)}}
+                                    disabled={bookPageSize * bookPage >= bookCount}
+                                    >
+                                    <ArrowRightIcon />
+                                </Fab>
+                            </Tooltip>
+                        </Grid>
 
                 <Snackbar
                     open={open === "expiring"}
