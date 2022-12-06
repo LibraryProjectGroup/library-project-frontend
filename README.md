@@ -5,8 +5,8 @@
 <!-- ABOUT THE PROJECT -->
 
 <p float="left">
-<img src="screenshots/login.PNG" height="200" width="400"> 
-<img src="screenshots/booklist.PNG" height="200" width="400">
+<img src="screenshots/login.PNG" height="250" width="400"> 
+<img src="screenshots/booklist.PNG" height="250" width="400">
 </p>
 
 EfiLibrary is a project between the students of Business Information Technology Degree Programme in Haaga-Helia University of Applied Sciences, and Eficode Oy, a Finnish company specializing in enhancing software development, whose products are related to automation and devops consulting, as well as accessibility and user studies.
