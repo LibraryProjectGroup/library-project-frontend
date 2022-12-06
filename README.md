@@ -8,7 +8,9 @@ The EfiLibrary project was created and built from the ground up and in its entir
 
 This digital library project is the transformation of the many physical copies of books owned by Eficode and scattered in different Eficode offices located in 10 different countries around the world, into one digital library in which the various users will be able to learn-from, teach-with, and enjoy sharing knowledge easily and efficiently.
 
-The users will be able to borrow and return books, create lists of favorite books and watch other users' favorite lists, as well as browse through the library database.
+The users will be able to loan, reserve, and return books, create lists of favorite books and watch other users' favorite lists, as well as browse through the library database. 
+
+Admin users can view users, books, loans, reservations, and requests on a restricted page. Admin users can also edit and delete users, and generate a password reset link if need be. In addition, admin users can deny, allow, or cancel book requests and reservations in the restricted admin page.
 
 Admins will be able to control the distribution of borrowed books and monitor the users' activity within the library.
 
