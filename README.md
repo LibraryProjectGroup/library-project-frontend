@@ -106,6 +106,7 @@ Attribution in alphabetical order:
 * Dung Pham
 * Shay Pisanty
 * Axel Riska
+* Aleksi Saarinen
 * Markus Sibakov
 * Elisa Tuovila
 * Veeti Vainikka
