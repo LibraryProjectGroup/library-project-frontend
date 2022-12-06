@@ -21,20 +21,24 @@ Admins will be able to control the distribution of borrowed books and monitor th
 
 ## Built with 
 
-<!-- ICONS found at: https://github.com/devicons/devicon/tree/master/icons -->
+<!-- ICONS found at: ht<rtps://github.com/devicons/devicon/tree/master/icons -->
 <div>
       <img src="https://github.com/devicons/devicon/blob/master/icons/typescript/typescript-original.svg" title="TS" alt="TS" width="40" height="40"/>&nbsp;
       <img src="https://github.com/devicons/devicon/blob/master/icons/nodejs/nodejs-original-wordmark.svg" title="Node.js" alt="Node.js" width="40" height="40"/>&nbsp;
+      <img src=" https://github.com/devicons/devicon/blob/master/icons/react/react-original-wordmark.svg" title="React" alt="React" width="40" height="40"/>&nbsp;
       <img src="https://github.com/devicons/devicon/blob/master/icons/materialui/materialui-original.svg" title="MaterialUI" alt="MaterialUI" width="40" height="40"/>&nbsp;
       <img src="https://github.com/devicons/devicon/blob/master/icons/docker/docker-original.svg" title="Docker" alt="Docker" width="40" height="40"/>&nbsp;
-      
-      
-
 </div>
 
-The authentication is implemented using Bearer Tokens.
-
+<br/>
+Efilibrary consists of a frontend and a backend with a connected relational database. Both front- and backend are written in TypeScript and are using React and Express respectively as their main framework and library.
+<br/>
+<br/>
+The frontend’s user interface is divided into pages that are routed through react-router-dom. To access pages other than the login page or signup page, users can create accounts and securely log in in through HTTPS with passwords that are hashed on server-side. Authentication is implemented using Bearer Tokens.
+<br/>
+<br/>
 The application is deployed in [https://efilibrary.netlify.app/](https://efilibrary.netlify.app/).
+
 
 # Getting Started With npm
 <!-- INSTALLATION -->
