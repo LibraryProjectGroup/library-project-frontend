@@ -1,5 +1,13 @@
 import React, { useState, FC, useContext, useEffect } from "react";
-import { Paper, Typography, Button, Stack, Fab } from "@mui/material";
+import {
+    Paper,
+    Typography,
+    Button,
+    Stack,
+    Fab,
+    Tooltip,
+    Box
+} from "@mui/material";
 import { TheContext } from "../../../TheContext";
 import { useNavigate } from "react-router-dom";
 import {
@@ -23,7 +31,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const MyAccount: FC = (): JSX.Element => {
     const [books, setBooks] = useState<{ [key: number]: Book }>([]);
-    const [borrows, setBorrows] = useState<Borrow[]>([]);
+
     const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
         ok: false,
         message: ""
@@ -39,10 +47,6 @@ const MyAccount: FC = (): JSX.Element => {
             sortedBooks[book.id] = book;
         }
         setBooks(sortedBooks);
-    };
-
-    const fetchBorrows = async () => {
-        setBorrows(await fetchCurrentBorrows());
     };
 
     const handleClosePopUpConfirmation = (
@@ -81,12 +85,15 @@ const MyAccount: FC = (): JSX.Element => {
 
     useEffect(() => {
         fetchBooks();
-        fetchBorrows();
+        context?.fetchBorrows();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const renderBorrowedBooks = () => {
         let renderedBooks = [];
-        for (const borrowed of borrows) {
+        const borrowsData = context?.borrows;
+        if (borrowsData === undefined) return;
+        for (const borrowed of borrowsData) {
             const book = books[borrowed.book];
             const currentDate = new Date();
             const datedDueDate = new Date(borrowed.dueDate);
@@ -94,6 +101,7 @@ const MyAccount: FC = (): JSX.Element => {
             const calculatedTime = Math.floor(
                 (datedDueDate.getTime() - currentDate.getTime()) / convertToDay
             );
+
             if (!book) continue;
             renderedBooks.push(
                 <Paper
@@ -157,10 +165,16 @@ const MyAccount: FC = (): JSX.Element => {
                                         calculatedTime <= 5 ? "red" : "inherit"
                                 }}
                             >
-                                Expiring in: {calculatedTime} day(s)
+                                {calculatedTime < 0
+                                    ? "Expired by: " +
+                                      Math.abs(calculatedTime) +
+                                      " day(s)"
+                                    : "Expiring in: " +
+                                      calculatedTime +
+                                      " day(s)"}
                             </Typography>
                         </Stack>
-                        <Stack marginY={1} justifyContent="space-between">
+                        <Stack marginY={5} justifyContent="space-between">
                             <Button
                                 sx={userPageReturnButton}
                                 variant="contained"
@@ -184,7 +198,7 @@ const MyAccount: FC = (): JSX.Element => {
                                                     message: message
                                                 })
                                             );
-                                        await fetchBorrows();
+                                        await context?.fetchBorrows();
                                     }
                                 }}
                             >
@@ -198,8 +212,6 @@ const MyAccount: FC = (): JSX.Element => {
         return renderedBooks;
     };
 
-    const length = renderBorrowedBooks().length;
-
     return (
         <>
             {/* Pop up element */}
@@ -211,41 +223,21 @@ const MyAccount: FC = (): JSX.Element => {
                 action={action}
             />
             {/* Pop up element */}
-            <div style={{ position: "absolute", right: 30 }}>
-                <p>
-                    User: <b>{context?.user?.username}</b>
-                </p>
-                <p>Currently loaning {length} book(s)</p>
-            </div>
-            <Fab
-                aria-label="back"
-                sx={userPageBackButton}
-                onClick={() => {
-                    navigate("/list-books");
-                }}
-            >
-                <ArrowBackIcon />
-            </Fab>
-            <Fab
-                aria-label="back"
-                sx={userPageBackButton}
-                onClick={() => {
-                    endSession();
-                    navigate("/login");
-                }}
-            >
-                <LogoutIcon />
-            </Fab>
-            <Button
-                sx={userPageMyListsButton}
-                variant="contained"
-                onClick={() => {
-                    navigate("/booklists");
-                }}
-            >
-                My Lists
-            </Button>
-            {renderBorrowedBooks()}
+            <Box sx={{ marginTop: 5, marginBottom: 5, position: "relative" }}>
+                <Tooltip title="Back">
+                    <Fab
+                        aria-label="back"
+                        sx={userPageBackButton}
+                        onClick={() => {
+                            navigate(-1);
+                        }}
+                    >
+                        <ArrowBackIcon />
+                    </Fab>
+                </Tooltip>
+
+                {renderBorrowedBooks()}
+            </Box>
         </>
     );
 };

@@ -1,19 +1,21 @@
-import React, { useState, useEffect, FC } from "react";
+import React, { useState, useEffect, useContext, FC } from "react";
 import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
 import BACKEND_URL from "../../../backendUrl";
 import { useNavigate } from "react-router-dom";
 import {
-    createAccountReturnButton,
-    createAccountSignButton,
+    loginButton,
     createAccountBoxTitleText,
     createAccountHeaderTitleText,
-    createAccountHeaderContentText
+    createAccountHeaderContentText,
+    textButton
 } from "../../../sxStyles";
 import { setSession } from "../../../auth";
+import { TheContext } from "../../../TheContext";
 
 const REQUIRED_PASSWORD_LENGTH = 8;
 
 const CreateAccount: FC = () => {
+    const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState({
         firstPassword: "",
@@ -27,6 +29,12 @@ const CreateAccount: FC = () => {
     const [match, setMatch] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
+    const [dimensions, setDimensions] = React.useState({
+        height: window.innerHeight,
+        width: window.innerWidth
+    });
+
+    const context = useContext(TheContext);
     const navigate = useNavigate();
 
     const inputChange: (event: React.ChangeEvent<HTMLInputElement>) => void = (
@@ -59,6 +67,18 @@ const CreateAccount: FC = () => {
         setSpecialChar(
             /[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/.test(password.firstPassword)
         );
+        const handleResize = () => {
+            setDimensions({
+                height: window.innerHeight,
+                width: window.innerWidth
+            });
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
     }, [password]);
 
     const handleCreateAccount = async () => {
@@ -80,12 +100,14 @@ const CreateAccount: FC = () => {
                 },
                 body: JSON.stringify({
                     username: username,
+                    email: email,
                     password: password.firstPassword
                 })
             });
             let data = await response.json();
             if (data.ok) {
                 setSession(data.secret);
+                context?.setIsLogin(true);
                 navigate("/list-books");
             } else {
                 setErrorMessage(data.message ? data.message : "internal error");
@@ -104,19 +126,13 @@ const CreateAccount: FC = () => {
             alignItems="center"
             sx={{
                 maxWidth: window.innerWidth,
-                minHeight: window.innerHeight,
-                backgroundColor: "#f0f0ec"
+                minHeight: window.innerHeight
             }}
         >
-            <Grid
-                item
-                container
-                alignItems="center"
-                sx={{ width: "95%", height: "90%" }}
-            >
+            <Grid item container alignItems="center" sx={{ width: "95%" }}>
                 <Grid item xs={12} md={7}>
                     <Box>
-                        <Box sx={{ padding: 10 }}>
+                        <Box sx={{ padding: 10, paddingBottom: 30 }}>
                             <Typography
                                 variant="h1" //not responsive font
                                 sx={createAccountHeaderTitleText}
@@ -125,9 +141,9 @@ const CreateAccount: FC = () => {
                             </Typography>
                             <Typography sx={createAccountHeaderContentText}>
                                 Important! To create a valid password you will
-                                need at least 8 characters, and you will need to
-                                use uppercase, lowercase, and a number. The use
-                                of special characters is forbidden.
+                                need at least 8 characters with at least one
+                                uppercase, lowercase, number and special
+                                character.
                             </Typography>
                         </Box>
                     </Box>
@@ -145,7 +161,7 @@ const CreateAccount: FC = () => {
                         elevation={10}
                         sx={{
                             width: 500,
-                            height: 500
+                            height: 650
                         }}
                     >
                         <Box sx={{ padding: 10 }}>
@@ -163,6 +179,14 @@ const CreateAccount: FC = () => {
                                     marginTop: 4
                                 }}
                             >
+                                <TextField
+                                    label="Email"
+                                    variant="outlined"
+                                    margin="normal"
+                                    onChange={(event) => {
+                                        setEmail(event.target.value);
+                                    }}
+                                />
                                 <TextField
                                     label="Username"
                                     variant="outlined"
@@ -196,24 +220,24 @@ const CreateAccount: FC = () => {
                                 <Button
                                     variant="contained"
                                     onClick={handleCreateAccount}
-                                    sx={createAccountSignButton}
+                                    sx={loginButton}
                                 >
                                     SIGN UP
+                                </Button>
+                            </Box>
+                            <Box sx={{ textAlign: "center" }}>
+                                <Button
+                                    variant="text"
+                                    onClick={() => navigate("/login")}
+                                    sx={textButton}
+                                >
+                                    Cancel
                                 </Button>
                             </Box>
                         </Box>
                     </Paper>
                 </Grid>
             </Grid>
-            <Box sx={{ textAlign: "center" }}>
-                <Button
-                    variant="contained"
-                    onClick={() => navigate("/login")}
-                    sx={createAccountReturnButton}
-                >
-                    Return
-                </Button>
-            </Box>
         </Grid>
     );
 };

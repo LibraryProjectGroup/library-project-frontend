@@ -5,7 +5,10 @@ import EditUser from "./interfaces/editUser.interface";
 import Borrow from "./interfaces/borrow.interface";
 import Book_list from "./interfaces/book_list.interface";
 import Book_list_entry from "./interfaces/book_list_entry.interface";
-import Book_request from "./interfaces/book_request.interface";
+import BACKEND_URL from "./backendUrl";
+import Book_request, {
+    Book_request_status
+} from "./interfaces/book_request.interface";
 
 interface OKStatus {
     ok: boolean;
@@ -14,6 +17,17 @@ interface OKStatus {
 
 export const fetchAllBooks = async (): Promise<Book[]> => {
     return await authFetch(`/book/all`);
+};
+
+export const fetchPagedBooks = async (
+    page: number,
+    pageSize: number | null
+): Promise<Book[]> => {
+    return await authFetch(`/book/page?page=${page}&pageSize=${pageSize}`);
+};
+
+export const fetchAllBooksCount = async (): Promise<number> => {
+    return await authFetch(`/book/count`);
 };
 
 export const fetchBook = async (bookId: string): Promise<Book> => {
@@ -73,7 +87,7 @@ export const fetchUpdateUserData = async (
     editUser: EditUser
 ): Promise<OKStatus> => {
     return await authFetch(
-        `/user?id=${editUser?.id}&username=${editUser?.username}&administrator=${editUser?.administrator}`,
+        `/user?id=${editUser?.id}&username=${editUser?.username}&email=${editUser?.email}&administrator=${editUser?.administrator}`,
         {
             method: "PUT",
             headers: {
@@ -87,7 +101,7 @@ export const fetchAdminUpdateUserData = async (
     editUser: EditUser
 ): Promise<OKStatus> => {
     return await authFetch(
-        `/user/admin?id=${editUser?.id}&username=${editUser?.username}&administrator=${editUser?.administrator}`,
+        `/user/admin?id=${editUser?.id}&username=${editUser?.username}&email=${editUser?.email}&administrator=${editUser?.administrator}`,
         {
             method: "PUT",
             headers: {
@@ -143,7 +157,7 @@ export const fetchUserBooklists = async (): Promise<Book_list[]> => {
     return await authFetch(`/booklist/user`);
 };
 
-export const fetchBooklist = async (booklistId: number): Promise<Book> => {
+export const fetchBooklist = async (booklistId: number): Promise<Book_list> => {
     return await authFetch(`/booklist?id=${booklistId}`);
 };
 
@@ -237,6 +251,41 @@ export const fetchExpiredLoans = async () => {
     });
 };
 
+export const fetchListBooks = async (listId: number): Promise<Book[]> => {
+    return await authFetch(`/booklist/books?id=${listId}`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
+
+export const fetchListInfo = async (
+    listId: number
+): Promise<{ userId: number; username: string; name: string }> => {
+    return await authFetch(`/booklist/info?id=${listId}`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
+
+export const fetchDeleteListEntryBook = async (
+    listId: number,
+    bookId: number
+): Promise<OKStatus> => {
+    return await authFetch("/booklistentry/book", {
+        method: "DELETE",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ listId, bookId })
+    });
+};
+
+// Book request
+
 export const fetchAllBookRequests = async () => {
     return await authFetch(`/bookrequest/all`, {
         method: "GET",
@@ -257,5 +306,130 @@ export const fetchAddBookRequest = async (
             "content-type": "application/json"
         },
         body: JSON.stringify({ isbn, title, reason })
+    });
+};
+
+export const fetchUpdateBookRequest = async (
+    id: number,
+    status: number
+): Promise<OKStatus> => {
+    return await authFetch("/bookrequest/updatestatus", {
+        method: "PUT",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ id, status })
+    });
+};
+
+// Book reservation
+
+export const fetchAllBookReservations = async () => {
+    return await authFetch("/bookreservation/all", {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
+
+export const fetchAllExtendedBookReservations = async () => {
+    return await authFetch("/bookreservation/all/extended", {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
+
+export const fetchAllReservedBooks = async () => {
+    return await authFetch(`/book/all/reserved`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
+
+export const fetchCurrentBookReservations = async () => {
+    return await authFetch("/bookreservation/all/current", {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
+
+export const fetchAddBookReservation = async (
+    bookId: number
+): Promise<OKStatus> => {
+    return await authFetch("/bookreservation", {
+        method: "POST",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ bookId })
+    });
+};
+
+export const fetchCancelBookReservation = async (
+    bookId: number
+): Promise<OKStatus> => {
+    return await authFetch("/bookreservation/cancel", {
+        method: "POST",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ bookId })
+    });
+};
+
+export const fetchLoanBookReservation = async (
+    reservationId: number
+): Promise<OKStatus> => {
+    return await authFetch("/bookreservation/loan", {
+        method: "POST",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ reservationId })
+    });
+};
+
+export const fetchUserCurrentBookReservations = async (userId: number) => {
+    return await authFetch("/bookreservation/user/current", {
+        method: "POST",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({ userId })
+    });
+};
+
+export const fetchActiveAndLoanableReservations = async () => {
+    return await authFetch("/bookreservation/active/loanable", {
+        method: "GET",
+        headers: {
+            "content-type": "application/json"
+        }
+    });
+};
+
+export const fetchPasswordResetSecret = async (userId: number) => {
+    return await authFetch(`/passwordreset/secret?id=${userId}`, {
+        method: "GET",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        }
+    });
+};
+
+export const fetchPasswordReset = async (secret: string, password?: string) => {
+    return await fetch(`${BACKEND_URL}/passwordreset`, {
+        method: "POST",
+        headers: {
+            "content-type": "application/json;charset=UTF-8"
+        },
+        body: JSON.stringify({ secret, password })
     });
 };

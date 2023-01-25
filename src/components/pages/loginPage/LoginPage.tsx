@@ -1,4 +1,4 @@
-import React, { useState, FC, useEffect } from "react";
+import React, { useState, FC, useEffect, useContext } from "react";
 import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
 import BACKEND_URL from "../../../backendUrl";
 import { useNavigate } from "react-router-dom";
@@ -8,15 +8,19 @@ import {
     loginAuthBoxTitle,
     loginHeaderTitleText,
     loginHeaderContentText,
-    loginPaper
+    loginPaper,
+    textButton
 } from "../../../sxStyles";
 import { setSession } from "../../../auth";
+import { TheContext } from "../../../TheContext";
 
 const LoginPage: FC = (): JSX.Element => {
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMesssage] = useState("");
     const navigate = useNavigate();
+
+    const context = useContext(TheContext);
 
     const [dimensions, setDimensions] = React.useState({
         height: window.innerHeight,
@@ -45,12 +49,14 @@ const LoginPage: FC = (): JSX.Element => {
                 headers: {
                     "content-type": "application/json;charset=UTF-8"
                 },
-                body: JSON.stringify({ username: username, password: password })
+                body: JSON.stringify({ email: email, password: password })
             });
             let data = await response.json();
             if (data.ok) {
                 setSession(data.secret);
                 navigate("/list-books");
+                // update user data when you logIn and logOut
+                context?.setIsLogin(true);
             } else {
                 setErrorMesssage(
                     data.message ? data.message : "internal error"
@@ -70,15 +76,14 @@ const LoginPage: FC = (): JSX.Element => {
             alignItems="center"
             sx={{
                 maxWidth: dimensions.width,
-                minHeight: dimensions.height,
-                backgroundColor: "#f0f0ec"
+                minHeight: dimensions.height
             }}
         >
             <Grid
                 item
                 container
                 alignItems="center"
-                sx={{ width: "95%", height: "90%" }}
+                sx={{ width: "95%", paddingBottom: 10 }}
             >
                 <Grid item xs={12} md={7}>
                     <Box>
@@ -120,11 +125,11 @@ const LoginPage: FC = (): JSX.Element => {
                             </Typography>
                             <Box sx={loginBox}>
                                 <TextField
-                                    label="Username"
+                                    label="Email"
                                     variant="outlined"
                                     margin="normal"
                                     onChange={(event) => {
-                                        setUsername(event.target.value);
+                                        setEmail(event.target.value);
                                     }}
                                 />
 
@@ -152,19 +157,19 @@ const LoginPage: FC = (): JSX.Element => {
                                     Log in
                                 </Button>
                             </Box>
+                            <Box sx={{ textAlign: "center" }}>
+                                <Button
+                                    variant="text"
+                                    onClick={() => navigate("/create-account")}
+                                    sx={textButton}
+                                >
+                                    Create account
+                                </Button>
+                            </Box>
                         </Box>
                     </Paper>
                 </Grid>
             </Grid>
-            <Box sx={{ textAlign: "center" }}>
-                <Button
-                    variant="contained"
-                    onClick={() => navigate("/create-account")}
-                    sx={loginButton}
-                >
-                    Create account
-                </Button>
-            </Box>
         </Grid>
     );
 };

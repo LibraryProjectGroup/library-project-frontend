@@ -6,7 +6,9 @@ import {
     Stack,
     Fab,
     Card,
-    CardActionArea
+    CardActionArea,
+    Box,
+    Tooltip
 } from "@mui/material";
 import { TheContext } from "../../../TheContext";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +18,7 @@ import {
     fetchUserBooklists
 } from "../../../fetchFunctions";
 import Book_list from "../../../interfaces/book_list.interface";
-import { userPageBackButton, userPageReturnButton } from "../../../sxStyles";
+import { booklistsPageBackAndAddButtons } from "../../../sxStyles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddIcon from "@mui/icons-material/Add";
 import BooklistForm from "./BooklistForm";
@@ -27,7 +29,6 @@ import {
     listBooksFavoriteButton as favButton
 } from "../../../sxStyles";
 import { fetchBooklist } from "../../../fetchFunctions";
-import UserBooks from "../UserBooksPage/UserBooks";
 import EditBookListName from "./EditBookListName";
 import { arrayBuffer } from "stream/consumers";
 
@@ -40,11 +41,6 @@ const UserBooklists: FC = (): JSX.Element => {
     const [oneBookListDataToEditName, setOneBookListDataToEditName] =
         useState<Book_list | null>(null);
     const [formEditing, setFormEditing] = useState(false);
-    const [bookListSelected, setBookListSelected] = useState(false);
-    const [selectedBooklist, setSelectedBooklist] = useState<Book_list>({
-        id: -1,
-        name: ""
-    });
 
     const context = useContext(TheContext);
     const navigate = useNavigate();
@@ -58,18 +54,7 @@ const UserBooklists: FC = (): JSX.Element => {
     }, []);
 
     const handleUserBooksButton = (booklist: Book_list) => {
-        setSelectedBooklist(booklist);
-    };
-
-    useEffect(() => {
-        if (selectedBooklist.id !== -1) {
-            setBookListSelected(true);
-        }
-    }, [selectedBooklist]);
-
-    const handleCloseList = () => {
-        setBookListSelected(false);
-        setSelectedBooklist({ id: -1, name: "" });
+        navigate(`/list/${booklist.id}`);
     };
 
     const updateBookListName = async (editedBook: Book_list) => {
@@ -199,43 +184,43 @@ const UserBooklists: FC = (): JSX.Element => {
         return renderedBooklists;
     };*/
 
-    return bookListSelected ? (
-        <UserBooks
-            booklist={selectedBooklist}
-            handleCloseList={handleCloseList}
-        />
-    ) : (
-        <>
-            <div style={{ position: "absolute", right: 30 }}>
-                <p>
-                    User: <b>{context?.user?.username}</b>
-                </p>
-                <p>Book Lists</p>
+    return (
+        <Box sx={{ marginTop: 5, marginBottom: 5, position: "relative" }}>
+            <div
+                style={{
+                    position: "absolute",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}
+            >
+                <Fab
+                    aria-label="back"
+                    sx={booklistsPageBackAndAddButtons}
+                    onClick={() => {
+                        navigate(-1);
+                    }}
+                >
+                    <ArrowBackIcon />
+                </Fab>
+                <Tooltip title="Create new list">
+                    <Fab
+                        aria-label="add"
+                        sx={booklistsPageBackAndAddButtons}
+                        onClick={() => {
+                            setFormEditing(false);
+                            setFormBooklist({
+                                id: -1, // This wont get used
+                                name: ""
+                            });
+                            setFormVisible(true);
+                        }}
+                    >
+                        <AddIcon />
+                    </Fab>
+                </Tooltip>
             </div>
-            <Fab
-                aria-label="back"
-                sx={userPageBackButton}
-                onClick={() => {
-                    navigate("/user");
-                }}
-            >
-                <ArrowBackIcon />
-            </Fab>
-
-            <Fab
-                aria-label="add"
-                sx={userPageBackButton}
-                onClick={() => {
-                    setFormEditing(false);
-                    setFormBooklist({
-                        id: -1, // This wont get used
-                        name: ""
-                    });
-                    setFormVisible(true);
-                }}
-            >
-                <AddIcon />
-            </Fab>
 
             {renderBookLists()}
 
@@ -254,7 +239,7 @@ const UserBooklists: FC = (): JSX.Element => {
                 setOneBookListDataToEditName={setOneBookListDataToEditName}
                 updateBookListName={updateBookListName}
             />
-        </>
+        </Box>
     );
 };
 

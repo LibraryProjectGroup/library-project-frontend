@@ -2,7 +2,6 @@
   "name": "library-project-frontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://libraryprojectgroup.github.io",
   "dependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
@@ -33,7 +32,7 @@
     "test": "react-scripts test",
     "robottests": "robot --variablefile ../library-project-secrets.py --removekeywords  NAME:*logins* --outputdir robot/results robot/tests",
     "eject": "react-scripts eject",
-    "dockertests": "robot --variable TESTUSERNAME:${TESTUSERNAME} --variable TESTPASSWORD:${TESTPASSWORD} --removekeywords  NAME:*logins* --outputdir robot/results robot/tests",
+    "dockertests": "robot --variable TESTUSERNAME:${TESTUSERNAME} --variable TESTPASSWORD:${TESTPASSWORD} --variable TESTUSERNAME2:${TESTUSERNAME2} --variable TESTPASSWORD2:${TESTPASSWORD2} --removekeywords  NAME:*logins* --outputdir robot/results robot/tests",
     "startserverandtest": "react-scripts start & wait-on http://localhost:3000 && npm run dockertests"
   },
   "eslintConfig": {
