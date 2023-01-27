@@ -1,4 +1,4 @@
-import BACKENDURL from "./backendUrl";
+import BACKEND_URL from "./backendUrl";
 const SESSION_SECRET_KEY = "session-secret";
 const SESSION_END_KEY = "session-length";
 const SESSION_LENGTH = 60 * 60 * 24 * 7;
@@ -14,7 +14,10 @@ async function authFetch(
             SESSION_SECRET_KEY
         )}`
     };
-    let res = await fetch(`${BACKENDURL}${path}`, options);
+    if (!BACKEND_URL) {
+        throw new Error("No backend URL");
+    }
+    let res = await fetch(`${BACKEND_URL}${path}`, options);
     if (res.status == 401) {
         window.localStorage.removeItem(SESSION_SECRET_KEY);
         window.localStorage.removeItem(SESSION_END_KEY);
