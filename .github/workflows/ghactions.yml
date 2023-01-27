@@ -1,70 +1,45 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: Node.js CI
 
 on:
-    push:
-        branches: ["development"]
-    pull_request:
-        branches: ["development"]
-        
+  push:
+    branches: ["development"]
+  pull_request:
+    branches: ["development"]
+
 env:
-    TESTUSERNAME: ${{ secrets.REACT_APP_TEST_USERNAME }}
-    TESTPASSWORD: ${{ secrets.REACT_APP_TEST_PASSWORD }}
-    TESTUSERNAME2: ${{ secrets.REACT_APP_TEST_USERNAME2 }}
-    TESTPASSWORD2: ${{ secrets.REACT_APP_TEST_PASSWORD2 }}
+  TESTUSERNAME: ${{ secrets.REACT_APP_TEST_USERNAME }}
+  TESTPASSWORD: ${{ secrets.REACT_APP_TEST_PASSWORD }}
+  TESTUSERNAME2: ${{ secrets.REACT_APP_TEST_USERNAME2 }}
+  TESTPASSWORD2: ${{ secrets.REACT_APP_TEST_PASSWORD2 }}
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        timeout-minutes: 5
-
-        strategy:
-            matrix:
-                node-version: [16.x]
-                # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-        steps:
-            - uses: actions/checkout@v3
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v3
-              with:
-                  node-version: ${{ matrix.node-version }}
-                  cache: "npm"
-            - name: Set up Python 3.9
-              uses: actions/setup-python@v2
-              with:
-                  python-version: 3.9
-            - name: Install dependencies
-              run: |
-                  python -m pip install --upgrade pip
-                  pip install -r requirements.txt
-            - name: Install chrome web driver
-              uses: nanasess/setup-chromedriver@v1
-            - run: |
-                  export DISPLAY=:99
-                  chromedriver --url-base=/wd/hub &
-                  sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
-
-            - run: npm ci
-            - run: npm run build --if-present
-            - run: |
-                  npm test &&
-                  npm start & 
-                  npx wait-on http://localhost:3000 &&
-                  robot --variable TESTUSERNAME:$TESTUSERNAME --variable TESTPASSWORD:$TESTPASSWORD --variable TESTUSERNAME2:${TESTUSERNAME2} --variable TESTPASSWORD2:${TESTPASSWORD2} --removekeywords  NAME:*logins* --outputdir robot/results robot/tests
-
-    deploy:
-        runs-on: ubuntu-latest
-        needs: build
-        timeout-minutes: 5
-
-        steps:
-            - uses: actions/checkout@v1
-            - uses: jsmrcaga/action-netlify-deploy@v1.8.0
-              with:
-                  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-                  NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-                  build_command: CI= npm run build
-                  NETLIFY_DEPLOY_TO_PROD: true
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: "npm"
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Install chrome web driver
+        uses: nanasess/setup-chromedriver@v1
+      - run: |
+          export DISPLAY=:99
+          chromedriver --url-base=/wd/hub &
+          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: |
+          npm test &&
+          npm start & 
+          npx wait-on http://localhost:3000 &&
+          robot --variable TESTUSERNAME:$TESTUSERNAME --variable TESTPASSWORD:$TESTPASSWORD --variable TESTUSERNAME2:${TESTUSERNAME2} --variable TESTPASSWORD2:${TESTPASSWORD2} --removekeywords  NAME:*logins* --outputdir robot/results robot/tests
