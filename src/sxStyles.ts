@@ -27,10 +27,10 @@ export const textButton: SxProps = {
 export const loginBox: SxProps = {
   display: "flex",
   flexDirection: "Column",
-  marginBottom: 5,
-  marginTop: 4,
+  margin: '1rem 0',
 };
 
+//code not been used anywhere
 export const loginAuthBox: SxProps = {
   padding: 10,
 };
@@ -46,24 +46,25 @@ export const loginAuthBoxHeaderText: SxProps = {
   fontWeight: "bold",
 };
 
-export const loginHeaderTitleText: SxProps = {
+export const loginRegisterTitle: SxProps = {
   display:'flex',
   alignItems:'center',
   justifyContent:{xs:'center', md:'flex-start'},
   fontFamily: "Merriweather",
   fontWeight: "bold",
   fontSize:{xs:'4rem', sm:'6rem'},
-  marginBottom:'1rem',
+  marginBottom:'2rem',
 };
 
-export const loginHeaderContentText: SxProps = {
+export const loginRegisterContent: SxProps = {
   fontFamily: "Merriweather",
   fontWeight: "light",
 };
 
 export const loginPaper: SxProps = {
-  width: 500,
-  height: 500,
+  width: '100%',
+  height: 'auto',
+  margin:'1rem'
 };
 
 export const createAccountBoxTitleText: SxProps = {
