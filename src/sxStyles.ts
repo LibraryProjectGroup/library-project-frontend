@@ -47,9 +47,13 @@ export const loginAuthBoxHeaderText: SxProps = {
 };
 
 export const loginHeaderTitleText: SxProps = {
+  display:'flex',
+  alignItems:'center',
+  justifyContent:{xs:'center', md:'flex-start'},
   fontFamily: "Merriweather",
   fontWeight: "bold",
-  paddingBottom: 5,
+  fontSize:{xs:'4rem', sm:'6rem'},
+  marginBottom:'1rem',
 };
 
 export const loginHeaderContentText: SxProps = {
