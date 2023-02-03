@@ -5,59 +5,59 @@ import Loan from "../../../interfaces/loan.interface";
 import { fetchAllCurrentLoans } from "../../../fetchFunctions";
 
 const LoansGrid: FC = (): JSX.Element => {
-    const [loansData, setLoansData] = useState<Loan[]>([]);
+  const [loansData, setLoansData] = useState<Loan[]>([]);
 
-    const COLUMNS_LOANS: GridColDef[] = [
-        { field: "username", headerName: "Username", flex: 2 },
-        { field: "title", headerName: "Book title", flex: 3 },
-        {
-            field: "borrowDate",
-            headerName: "Borrowed",
-            flex: 2,
-            valueFormatter(params) {
-                return new Date(params.value).toLocaleString("fi", {
-                    year: "numeric",
-                    month: "numeric",
-                    day: "numeric"
-                });
-            }
-        },
-        {
-            field: "dueDate",
-            headerName: "Due",
-            flex: 2,
-            renderCell(params) {
-                const dueDate = new Date(params.value).toLocaleString("fi", {
-                    year: "numeric",
-                    month: "numeric",
-                    day: "numeric"
-                });
-                return new Date(params.value) < new Date() ? (
-                    <div style={{ color: "red" }}>{dueDate}</div>
-                ) : (
-                    <div>{dueDate}</div>
-                );
-            }
-        },
-        { field: "id", headerName: "Book ID", flex: 1 }
-    ];
+  const COLUMNS_LOANS: GridColDef[] = [
+    { field: "username", headerName: "Username", flex: 2 },
+    { field: "title", headerName: "Book title", flex: 3 },
+    {
+      field: "borrowDate",
+      headerName: "Borrowed",
+      flex: 2,
+      valueFormatter(params) {
+        return new Date(params.value).toLocaleString("fi", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+        });
+      },
+    },
+    {
+      field: "dueDate",
+      headerName: "Due",
+      flex: 2,
+      renderCell(params) {
+        const dueDate = new Date(params.value).toLocaleString("fi", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+        });
+        return new Date(params.value) < new Date() ? (
+          <div style={{ color: "red" }}>{dueDate}</div>
+        ) : (
+          <div>{dueDate}</div>
+        );
+      },
+    },
+    { field: "id", headerName: "Book ID", flex: 1 },
+  ];
 
-    useEffect(() => {
-        loadLoansData();
-    }, []);
+  useEffect(() => {
+    loadLoansData();
+  }, []);
 
-    const loadLoansData = async () => {
-        const loansTmp = await fetchAllCurrentLoans();
-        setLoansData(loansTmp);
-    };
+  const loadLoansData = async () => {
+    const loansTmp = await fetchAllCurrentLoans();
+    setLoansData(loansTmp);
+  };
 
-    return (
-        <DataGrid
-            columns={COLUMNS_LOANS}
-            rows={loansData}
-            sx={{ width: "100%", height: 1000, backgroundColor: "white" }}
-        ></DataGrid>
-    );
+  return (
+    <DataGrid
+      columns={COLUMNS_LOANS}
+      rows={loansData}
+      sx={{ width: "100%", height: 1000, backgroundColor: "white" }}
+    ></DataGrid>
+  );
 };
 
 export default LoansGrid;

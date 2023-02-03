@@ -9,8 +9,8 @@ _You can choose your preferred environment for robot testing. We recommend using
 
 ## :heavy_check_mark: Prequisites
 
--   [Docker](https://docs.docker.com/get-docker/) installed
--   Docker engine running on your computer before testing (e.g. Docker desktop opened)
+- [Docker](https://docs.docker.com/get-docker/) installed
+- Docker engine running on your computer before testing (e.g. Docker desktop opened)
 
 ### :page_facing_up: Create your local secret file for Docker
 
@@ -51,9 +51,9 @@ docker compose up
 
 ## :heavy_check_mark: Prequisites
 
--   [Docker](https://docs.docker.com/get-docker/) installed
--   VSCode in use
--   Docker engine running on your computer before testing (e.g. Docker desktop opened)
+- [Docker](https://docs.docker.com/get-docker/) installed
+- VSCode in use
+- Docker engine running on your computer before testing (e.g. Docker desktop opened)
 
 ### :page_facing_up: Create your local secret file for Docker
 
@@ -71,7 +71,7 @@ After that, VSCode starts building the DevContainer. This is quite a slow proces
 
 1. Start server by typing `npm start` in VSCode DevContainer Terminal.
 
-    _You know you're in a right terminal when the line starts with `node ➜ /workspaces/library-project-frontend $ `._
+   _You know you're in a right terminal when the line starts with `node ➜ /workspaces/library-project-frontend $ `._
 
 2. Open another DevContainer terminal from VSCode, and type `npm run dockertests`
 
@@ -107,8 +107,8 @@ pip --version
 
 To install Robot Framework, you need to have:
 
--   [Python](https://www.python.org/downloads/) installed
--   [PIP](https://pip.pypa.io/en/stable/installation/) package management tool installed
+- [Python](https://www.python.org/downloads/) installed
+- [PIP](https://pip.pypa.io/en/stable/installation/) package management tool installed
 
 ## :twisted_rightwards_arrows: Configure PATH
 
@@ -116,9 +116,9 @@ It's important to have all the needed folders in "PATH", so they can be accessed
 
 The folders that must be in 'Path' are:
 
--   _Python_, eg. `Python39` for Python v3.9
--   _Python Scripts_, eg. `Python39\Scripts` for Python v3.9
--   _Python site-packages_, eg. `Python39\Lib\site-packages` for Python v3.9 _(note: the Lib folder might not exist with newer Python versions)_
+- _Python_, eg. `Python39` for Python v3.9
+- _Python Scripts_, eg. `Python39\Scripts` for Python v3.9
+- _Python site-packages_, eg. `Python39\Lib\site-packages` for Python v3.9 _(note: the Lib folder might not exist with newer Python versions)_
 
 ### **:arrow_right: Go to environment variable settings**
 
@@ -146,9 +146,9 @@ Find 'Path' under System variables > 'Edit' > (Add folders if necessary) > 'OK' 
 
 The tests are using headless Chrome by default, so you have to install a driver for the tests to access your Chrome browser. You also need to have Chrome in your local machine beforehand.
 
--   Check your Chrome version from your Chrome browser settings
--   Download `.zip` of WebDriver [here](https://chromedriver.chromium.org/downloads) based on your Chrome's version number
--   Unzip `chromedriver.exe` to your Python's `Scripts` folder (so that it is automatically in 'Path')
+- Check your Chrome version from your Chrome browser settings
+- Download `.zip` of WebDriver [here](https://chromedriver.chromium.org/downloads) based on your Chrome's version number
+- Unzip `chromedriver.exe` to your Python's `Scripts` folder (so that it is automatically in 'Path')
 
 ## :page_facing_up: Create your local secret file
 
