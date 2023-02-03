@@ -1,7 +1,5 @@
 # EfiLibrary - About the project
 
-
-
 # EfiLibrary - About the project
 
 <!-- ABOUT THE PROJECT -->
@@ -19,7 +17,7 @@ The EfiLibrary project was created and built from the ground up and in its entir
 
 This digital library project is the transformation of the many physical copies of books owned by Eficode and scattered in different Eficode offices located in 10 different countries around the world, into one digital library in which the various users will be able to learn-from, teach-with, and enjoy sharing knowledge easily and efficiently.
 
-The users will be able to loan, reserve, and return books, create lists of favorite books and watch other users' favorite lists, as well as browse through the library database. 
+The users will be able to loan, reserve, and return books, create lists of favorite books and watch other users' favorite lists, as well as browse through the library database.
 
 Admins will be able to control the distribution of borrowed books and monitor the users' activity within the library on a restricted admin page. Admin users can view users, books, loans, reservations, and requests. Admin users can also edit and delete users, and generate a password reset link if need be. In addition, admin users can deny, allow, or cancel book requests and reservations in the restricted admin page.
 The EfiLibrary project was created and built from the ground up and in its entirety by the students of Haaga-Helia UAS for the use of Eficode Oy.
@@ -32,7 +30,7 @@ The users will be able to borrow and return books, create lists of favorite book
 
 Admins will be able to control the distribution of borrowed books and monitor the users' activity within the library.
 
-## Built with 
+## Built with
 
 <!-- ICONS found at: ht<rtps://github.com/devicons/devicon/tree/master/icons -->
 <div>
@@ -52,10 +50,12 @@ The frontend’s user interface is divided into pages that are routed through re
 <br/>
 The application is deployed in [https://efilibrary.netlify.app/](https://efilibrary.netlify.app/).
 
-
 # Getting Started With npm
+
 <!-- INSTALLATION -->
+
 ## How to Start
+
 #### `npm start`
 
 Runs the app in the development mode.\
@@ -65,6 +65,7 @@ The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
 <!-- BUILDING -->
+
 ## How to Build
 
 #### `npm run build`
@@ -78,14 +79,18 @@ Your app is ready to be deployed!
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 <!-- TESTING -->
-## How to Test 
+
+## How to Test
+
 #### `npm test`
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 <!-- EJECTING -->
+
 ## How to Eject
+
 #### `npm run eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
@@ -101,18 +106,23 @@ The authentication is implemented using Bearer Tokens.
 The application is deployed in [https://efilibrary.netlify.app/](https://efilibrary.netlify.app/).
 
 <!-- INSTALLATION -->
-# How to Install 
+
+# How to Install
 
 <!-- RUNNING -->
-# How to Run 
+
+# How to Run
 
 <!-- TESTING -->
-# How to Test 
+
+# How to Test
 
 <!-- TABLE OF CONTENTS -->
+
 # Table of Contents
 
 <!-- USAGE -->
+
 # Usage
 
 <details>
@@ -247,53 +257,55 @@ Response schema:
 
 </details>
 
-
-
 <!-- ROBOT TESTS -->
+
 # RobotTests
 
 See detailed documentation about Robot testing in [AboutRobotTests.md documentation file](robot/aboutRobotTests.md).
 
 <!-- CREDITS -->
+
 # Credits
 
 Attribution in alphabetical order:
 
-* Michael Brown
-* Raúl Fernández Poolan
-* Eeli Killström
-* Jasmin Lumme
-* Anja Miscevic
-* Dung Pham
-* Shay Pisanty
-* Axel Riska
-* Markus Sibakov
-* Elisa Tuovila
-* Veeti Vainikka
-* Tia Venäläinen
+- Michael Brown
+- Raúl Fernández Poolan
+- Eeli Killström
+- Jasmin Lumme
+- Anja Miscevic
+- Dung Pham
+- Shay Pisanty
+- Axel Riska
+- Markus Sibakov
+- Elisa Tuovila
+- Veeti Vainikka
+- Tia Venäläinen
 
 <!-- LICENSE -->
+
 # License
 
 See the project's MIT License in [LICENSE.md](LICENSE.md)
 Attribution in alphabetical order:
 
-* Michael Brown
-* Raúl Fernández Poolan
-* Eeli Killström
-* Jong Lau
-* Jasmin Lumme
-* Anja Miscevic
-* Dung Pham
-* Shay Pisanty
-* Axel Riska
-* Aleksi Saarinen
-* Markus Sibakov
-* Elisa Tuovila
-* Veeti Vainikka
-* Tia Venäläinen
+- Michael Brown
+- Raúl Fernández Poolan
+- Eeli Killström
+- Jong Lau
+- Jasmin Lumme
+- Anja Miscevic
+- Dung Pham
+- Shay Pisanty
+- Axel Riska
+- Aleksi Saarinen
+- Markus Sibakov
+- Elisa Tuovila
+- Veeti Vainikka
+- Tia Venäläinen
 
 <!-- LICENSE -->
+
 # License
 
 See the project's MIT License in [LICENSE.md](LICENSE.md)

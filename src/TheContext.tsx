@@ -10,39 +10,39 @@ import User from "./interfaces/user.interface";
 export const TheContext = createContext<ContextData | null>(null);
 
 interface IProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 const TheContextProvider: FC<IProps> = ({ children }) => {
-    const [user, setUser] = useState<User | null>(null);
-    const [isLogin, setIsLogin] = useState(false); // update user data when you logIn and logOut
-    const [borrows, setBorrows] = useState<Borrow[]>([]);
+  const [user, setUser] = useState<User | null>(null);
+  const [isLogin, setIsLogin] = useState(false); // update user data when you logIn and logOut
+  const [borrows, setBorrows] = useState<Borrow[]>([]);
 
-    useEffect(() => {
-        fetchBorrows();
-        if (isAuthenticated())
-            authFetch("/user/session").then((user) => {
-                setUser(user);
-            });
-    }, [isLogin]);
+  useEffect(() => {
+    fetchBorrows();
+    if (isAuthenticated())
+      authFetch("/user/session").then((user) => {
+        setUser(user);
+      });
+  }, [isLogin]);
 
-    const fetchBorrows = async () => {
-        setBorrows(await fetchCurrentBorrows());
-    };
+  const fetchBorrows = async () => {
+    setBorrows(await fetchCurrentBorrows());
+  };
 
-    return (
-        <TheContext.Provider
-            value={{
-                user,
-                borrows,
-                setUser,
-                setIsLogin,
-                fetchBorrows
-            }}
-        >
-            {children}
-        </TheContext.Provider>
-    );
+  return (
+    <TheContext.Provider
+      value={{
+        user,
+        borrows,
+        setUser,
+        setIsLogin,
+        fetchBorrows,
+      }}
+    >
+      {children}
+    </TheContext.Provider>
+  );
 };
 
 export default TheContextProvider;

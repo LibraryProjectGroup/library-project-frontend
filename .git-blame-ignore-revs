@@ -1,0 +1,5 @@
+# Add this file to Git in order to ignore these commits:
+#   git config blame.ignoreRevsFile .git-blame-ignore-revs
+
+# Code formatting
+1e6398d18fae63d97e6d19b92607289b10e803ec
