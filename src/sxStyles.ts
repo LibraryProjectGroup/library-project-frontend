@@ -30,17 +30,7 @@ export const loginBox: SxProps = {
   margin: '1rem 0',
 };
 
-//code not been used anywhere
-export const loginAuthBox: SxProps = {
-  padding: 10,
-};
-
-export const loginAuthBoxTitle: SxProps = {
-  textAlign: "center",
-  fontFamily: "Montserrat",
-  fontWeight: "bold",
-};
-export const loginAuthBoxHeaderText: SxProps = {
+export const AuthBoxTitle: SxProps = {
   textAlign: "center",
   fontFamily: "Montserrat",
   fontWeight: "bold",
@@ -65,23 +55,6 @@ export const loginPaper: SxProps = {
   width: '100%',
   height: 'auto',
   margin:'1rem'
-};
-
-export const createAccountBoxTitleText: SxProps = {
-  textAlign: "center",
-  fontFamily: "Montserrat",
-  fontWeight: "bold",
-};
-
-export const createAccountHeaderTitleText: SxProps = {
-  fontFamily: "Merriweather",
-  fontWeight: "bold",
-  paddingBottom: 5,
-};
-
-export const createAccountHeaderContentText: SxProps = {
-  fontFamily: "Merriweather",
-  fontWeight: "light",
 };
 
 // AddBook

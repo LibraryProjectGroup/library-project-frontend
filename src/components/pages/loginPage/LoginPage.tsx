@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {
   loginButton,
   loginBox,
-  loginAuthBoxTitle,
+  AuthBoxTitle,
   loginPaper,
   textButton,
   loginRegisterTitle,
@@ -115,7 +115,7 @@ const LoginPage: FC = (): JSX.Element => {
         >
           <Paper elevation={10} sx={loginPaper}>
             <Box sx={{ padding: '3rem' }}>
-              <Typography variant="h4" sx={loginAuthBoxTitle}>
+              <Typography variant="h4" sx={AuthBoxTitle}>
                 Login
               </Typography>
               <Box sx={loginBox}>
