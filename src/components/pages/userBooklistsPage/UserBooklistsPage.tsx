@@ -9,6 +9,7 @@ import {
   CardActionArea,
   Box,
   Tooltip,
+  Container,
 } from "@mui/material";
 import { TheContext } from "../../../TheContext";
 import { useNavigate } from "react-router-dom";
@@ -79,7 +80,7 @@ const UserBooklists: FC = (): JSX.Element => {
             marginBottom: 1,
           }}
         >
-          <Stack direction="row" justifyContent="space-between">
+          <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between">
             <Stack>
               <Typography
                 sx={{
@@ -185,13 +186,14 @@ const UserBooklists: FC = (): JSX.Element => {
 
   return (
     <Box sx={{ marginTop: 5, marginBottom: 5, position: "relative" }}>
-      <div
-        style={{
-          position: "absolute",
+      <Container
+        sx={{
+          position: {sm:"none", md:"absolute"},
           display: "flex",
-          flexDirection: "column",
+          flexDirection: {sm:'row',md:"column"} ,
+          gap:{xs:'2rem', md:'unset'},
           justifyContent: "center",
-          alignItems: "center",
+          alignItems: "flex-start",
         }}
       >
         <Fab
@@ -219,7 +221,7 @@ const UserBooklists: FC = (): JSX.Element => {
             <AddIcon />
           </Fab>
         </Tooltip>
-      </div>
+      </Container>
 
       {renderBookLists()}
 

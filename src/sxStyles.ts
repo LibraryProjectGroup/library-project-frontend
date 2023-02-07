@@ -124,16 +124,14 @@ export const addBookCancelButton: SxProps = {
 // EditBook
 
 export const editBookBox: SxProps = {
-  position: "absolute" as "absolute",
+  position: "absolute",
   top: "50%",
   left: "50%",
+  width:{xs:'15rem', md:'25rem'},
   transform: "translate(-50%, -50%)",
-  width: 400,
   bgcolor: "background.paper",
   boxShadow: 24,
-  paddingTop: 4,
-  paddingX: 4,
-  paddingBottom: 2,
+  padding: '2rem 2rem 1rem 2rem',
 };
 
 export const editBookUpdateButton: SxProps = {
@@ -263,7 +261,7 @@ export const userPageBackButton: SxProps = {
 
 export const booklistsPageBackAndAddButtons: SxProps = {
   fontSize: 15,
-  marginLeft: 5,
+  marginLeft: {sm:0, md:'2.5rem'},
   marginBottom: 2,
   backgroundColor: "#FFD100",
   color: "black",
