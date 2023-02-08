@@ -10,6 +10,7 @@ const BooksGrid: FC = (): JSX.Element => {
         { field: "id", headerName: "ID", flex: 1 },
         { field: "title", headerName: "Title", flex: 5 },
         { field: "author", headerName: "Author", flex: 4 },
+        { field: "year", headerName: "Year", flex: 4 },
         { field: "topic", headerName: "Topic", flex: 4 },
         { field: "location", headerName: "Location", flex: 3 },
         { field: "isbn", headerName: "ISBN", flex: 3 }

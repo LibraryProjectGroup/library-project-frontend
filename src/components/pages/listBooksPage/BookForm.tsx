@@ -113,6 +113,12 @@ const EditBook: FC<IProps> = ({
                         onChange={(e) => onChange(e)}
                     />
                     <TextField
+                        label="Year"
+                        name="year"
+                        value={book.year}
+                        onChange={(e) => onChange(e)}
+                    />
+                    <TextField
                         label="Location"
                         name="location"
                         value={book.location}
