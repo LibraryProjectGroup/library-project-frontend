@@ -80,7 +80,10 @@ const UserBooklists: FC = (): JSX.Element => {
             marginBottom: 1,
           }}
         >
-          <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between">
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            justifyContent="space-between"
+          >
             <Stack>
               <Typography
                 sx={{
@@ -188,10 +191,10 @@ const UserBooklists: FC = (): JSX.Element => {
     <Box sx={{ marginTop: 5, marginBottom: 5, position: "relative" }}>
       <Container
         sx={{
-          position: {sm:"none", md:"absolute"},
+          position: { sm: "none", md: "absolute" },
           display: "flex",
-          flexDirection: {sm:'row',md:"column"} ,
-          gap:{xs:'2rem', md:'unset'},
+          flexDirection: { sm: "row", md: "column" },
+          gap: { xs: "2rem", md: "unset" },
           justifyContent: "center",
           alignItems: "flex-start",
         }}
