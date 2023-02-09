@@ -1,12 +1,6 @@
-import {
-  AppBar,
-  Box,
-  Button,
-  Fab,
-  Grid,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import * as React from 'react';
+import { AppBar, Box, Button, Fab, Grid, Tooltip, Typography, Container, Toolbar, Avatar, IconButton } from "@mui/material";
+import MenuIcon from '@mui/icons-material/Menu';
 import { FC, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { endSession } from "../../auth";
@@ -18,46 +12,51 @@ import { gridColumnGroupsLookupSelector } from "@mui/x-data-grid";
 import { fontSize } from "@mui/system";
 
 const NavBar: FC = (): JSX.Element => {
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
   const context = useContext(TheContext);
   const navigate = useNavigate();
+
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
   return (
     <AppBar position="static" sx={{ backgroundColor: "white", height: 80 }}>
-      <Box sx={{ height: "100%" }}>
-        <Grid container columns={{ xs: 7 }} sx={{ height: "100%" }}>
-          <Grid
-            item
-            xs={1}
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          
+          {/* Navbar large screens */}
+          <Typography
+            variant="h4"
             sx={{
-              display: "flex",
-              justifyContent: "start",
-              alignItems: "center",
+              display: { xs: "none", md: "flex" },
+              fontFamily: "Merriweather",
+              paddingLeft: 5,
+              color: "black",
+              cursor: "pointer",
+              "&:hover": {
+                color: "#FFB500",
+              },
             }}
+            onClick={() => navigate("/list-books")}
           >
-            <Typography
-              variant="h4"
-              sx={{
-                fontFamily: "Merriweather",
-                paddingLeft: 5,
-                color: "black",
-                cursor: "pointer",
-                "&:hover": {
-                  color: "#FFB500",
-                },
-              }}
-              onClick={() => navigate("/list-books")}
-            >
-              efilibrary
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={4}
-            sx={{
-              display: "flex",
-              justifyContent: "start",
-              alignItems: "center",
-            }}
-          >
+            EfiLibrary
+          </Typography>
+
+          <Box sx={{ flexGrow: 1, display: {xs: "none", md: "flex"} }} >
             {context?.user?.administrator ? (
               <Typography
                 sx={navbarPages}
@@ -94,17 +93,81 @@ const NavBar: FC = (): JSX.Element => {
             >
               MY LISTS
             </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={2}
+          </Box>
+
+          {/* Navbar Hamburger */}
+          <Typography
+            variant="h4"
             sx={{
-              display: "flex",
-              justifyContent: "end",
-              alignItems: "center",
+              display: { xs: "flex", md: "none" },
+              flexGrow: 1,
+              fontFamily: "Merriweather",
+              paddingLeft: 5,
+              color: "black",
+              cursor: "pointer",
+              "&:hover": {
+                color: "#FFB500",
+              },
             }}
+            onClick={() => navigate("/list-books")}
           >
-            <div>
+            EfiLibrary
+          </Typography>
+
+          <Box sx={{ flexGrow: 1, display: {xs: "flex", md: "none"} }} >
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+              >
+              <MenuIcon />
+            </IconButton>
+            {context?.user?.administrator ? (
+              <Typography
+                sx={navbarPages}
+                onClick={() => {
+                  navigate("/admin");
+                }}
+              >
+                ADMIN PAGE
+              </Typography>
+            ) : (
+              <></>
+            )}
+            <Typography
+              sx={navbarPages}
+              onClick={() => {
+                navigate("/user");
+              }}
+            >
+              MY LOANED BOOKS
+            </Typography>
+            <Typography
+              sx={navbarPages}
+              onClick={() => {
+                navigate("/reservations");
+              }}
+            >
+              MY BOOK RESERVATIONS
+            </Typography>
+            <Typography
+              sx={navbarPages}
+              onClick={() => {
+                navigate("/booklists");
+              }}
+            >
+              MY LISTS
+            </Typography>
+          </Box>
+
+        {/* Navbar Hamburger 
+          <Box sx={{ display: "flex", justifyContent: "end", alignItems: "center", }} >
+            <Tooltip title="User settings">
+              <Avatar></Avatar>
+            </Tooltip>
               <Typography
                 variant="h6"
                 sx={{
@@ -134,7 +197,6 @@ const NavBar: FC = (): JSX.Element => {
                     </p>
                   ))}
               </Typography>
-            </div>
             <Tooltip title="Log out">
               <Fab
                 aria-label="log out"
@@ -149,9 +211,11 @@ const NavBar: FC = (): JSX.Element => {
                 <LogoutIcon />
               </Fab>
             </Tooltip>
-          </Grid>
-        </Grid>
-      </Box>
+          </Box>
+          */}
+
+        </Toolbar>
+      </Container>
     </AppBar>
   );
 };
