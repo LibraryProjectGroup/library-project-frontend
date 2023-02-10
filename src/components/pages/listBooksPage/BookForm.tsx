@@ -75,20 +75,6 @@ const EditBook: FC<IProps> = ({
         });
   };
 
-  if (book == null) return <></>;
-
-  const handleOpen = () => {
-    editing
-      ? setConfirmation({
-          ok: true,
-          message: "Book has been edited",
-        })
-      : setConfirmation({
-          ok: true,
-          message: "Book has been added",
-        });
-  };
-
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
       <Box sx={editBookBox}>
