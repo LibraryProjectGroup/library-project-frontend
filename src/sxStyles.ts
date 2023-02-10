@@ -274,11 +274,14 @@ export const userPageMyListsButton: SxProps = {
 };
 
 //Navbar pages styles
-export const navbarPages: SxProps = {
+export const navbarPagesHamburger: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
   color: "black",
+};
+
+export const navbarMenuItemHamburger: SxProps = {
   cursor: "pointer",
   "&:hover": {
     borderBottom: "2px solid #FFB500",

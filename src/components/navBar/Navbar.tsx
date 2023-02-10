@@ -1,18 +1,17 @@
 import * as React from 'react';
-import { AppBar, Box, Fab, Grid, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem } from "@mui/material";
+import { AppBar, Box, Fab, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import { FC, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { endSession } from "../../auth";
-import { userLogOutButton, navbarPages, navbarPagesLarge } from "../../sxStyles";
+import { userLogOutButton, navbarPagesHamburger, navbarPagesLarge, navbarMenuItemHamburger } from "../../sxStyles";
 import { TheContext } from "../../TheContext";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { log } from "console";
 import { gridColumnGroupsLookupSelector } from "@mui/x-data-grid";
 import { fontSize } from "@mui/system";
-import AdbIcon from '@mui/icons-material/Adb';
 
-const NavBar2: FC = (): JSX.Element => {
+const NavBar: FC = (): JSX.Element => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -35,7 +34,7 @@ const NavBar2: FC = (): JSX.Element => {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "white", height: 80 }}>
+    <AppBar position="static" sx={{ backgroundColor: "white", height: 80, justifyContent: "center" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
 
@@ -46,7 +45,7 @@ const NavBar2: FC = (): JSX.Element => {
             component="a"
             sx={{
               mr: 2,
-              display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' },
+              display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' },
               fontFamily: "Merriweather",
               letterSpacing: '.3rem',
               color: "black",
@@ -61,7 +60,7 @@ const NavBar2: FC = (): JSX.Element => {
           </Typography>
 
           {/* Navbar pages, Hamburger menu */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'flex', md: 'none', lg: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'flex', md: 'flex', lg: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -87,16 +86,13 @@ const NavBar2: FC = (): JSX.Element => {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', sm: 'block', md: 'none', lg: 'none' },
+                display: { xs: 'block', sm: 'block', md: 'block', lg: 'none' },
               }}
             >
-              <MenuItem onClick={() => { navigate("/admin"); }}>
+              <MenuItem onClick={() => { navigate("/admin"); handleCloseNavMenu(); }} sx={navbarMenuItemHamburger}>
                 {context?.user?.administrator ? (
                   <Typography
-                    sx={navbarPages}
-                    onClick={() => {
-                      navigate("/admin");
-                    }}
+                    sx={navbarPagesHamburger}
                   >
                     ADMIN PAGE
                   </Typography>
@@ -104,32 +100,23 @@ const NavBar2: FC = (): JSX.Element => {
                   <></>
                 )}
               </MenuItem>
-              <MenuItem onClick={() => { navigate("/user"); }}>
+              <MenuItem onClick={() => { navigate("/user"); handleCloseNavMenu(); }} sx={navbarMenuItemHamburger}>
                 <Typography
-                  sx={navbarPages}
-                  onClick={() => {
-                    navigate("/user");
-                  }}
+                  sx={navbarPagesHamburger}
                 >
                   LOANED BOOKS
                 </Typography>
               </MenuItem>
-              <MenuItem onClick={() => {navigate("/reservations");}}>
+              <MenuItem onClick={() => { navigate("/reservations"); handleCloseNavMenu(); }} sx={navbarMenuItemHamburger}>
                 <Typography
-                  sx={navbarPages}
-                  onClick={() => {
-                    navigate("/reservations");
-                  }}
+                  sx={navbarPagesHamburger}
                 >
                   BOOK RESERVATIONS
                 </Typography>
               </MenuItem>
-              <MenuItem onClick={() => { navigate("/booklists"); }}>
+              <MenuItem onClick={() => { navigate("/booklists"); handleCloseNavMenu(); }} sx={navbarMenuItemHamburger}>
                 <Typography
-                  sx={navbarPages}
-                  onClick={() => {
-                    navigate("/booklists");
-                  }}
+                  sx={navbarPagesHamburger}
                 >
                   MY LISTS
                 </Typography>
@@ -143,7 +130,7 @@ const NavBar2: FC = (): JSX.Element => {
             noWrap
             sx={{
               mr: 2,
-              display: { xs: 'flex', sm: 'flex', md: 'none', lg: 'none' },
+              display: { xs: 'flex', sm: 'flex', md: 'flex', lg: 'none' },
               flexGrow: 1,
               fontFamily: "Merriweather",
               letterSpacing: '.3rem',
@@ -159,46 +146,6 @@ const NavBar2: FC = (): JSX.Element => {
           </Typography>
 
           {/* Navbar pages for large screens */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'none', md: 'flex', lg: 'none' } }} >
-            {context?.user?.administrator ? (
-              <Button
-                sx={navbarPages}
-                onClick={() => {
-                  navigate("/admin");
-                }}
-              >
-              ADMIN PAGE
-              </Button>
-            ) : (
-              <></>
-            )}
-            <Button
-              sx={navbarPages}
-              onClick={() => {
-                navigate("/user");
-              }}
-            >
-              LOANED BOOKS
-            </Button>
-            <Button
-              sx={navbarPages}
-              onClick={() => {
-                navigate("/reservations");
-              }}
-            >
-              BOOK RESERVATIONS
-            </Button>
-            <Button
-              sx={navbarPages}
-              onClick={() => {
-                navigate("/booklists");
-              }}
-            >
-              LISTS
-            </Button>
-          </Box>
-
-          {/* Navbar pages for larger screens */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' } }} >
             {context?.user?.administrator ? (
               <Button
@@ -207,7 +154,7 @@ const NavBar2: FC = (): JSX.Element => {
                   navigate("/admin");
                 }}
               >
-                ADMIN PAGE
+              ADMIN PAGE
               </Button>
             ) : (
               <></>
@@ -239,7 +186,7 @@ const NavBar2: FC = (): JSX.Element => {
           </Box>
 
           {/* User & Log out for Hamburger menu */}
-          <Box sx={{ flexGrow: 0, display: { xs: 'flex', sm: 'flex', md: 'none', lg: 'none' } }}>
+          <Box sx={{ flexGrow: 0, display: { xs: 'flex', sm: 'flex', md: 'flex', lg: 'none' } }}>
             <Tooltip title={context?.user?.username}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar></Avatar>
@@ -268,15 +215,24 @@ const NavBar2: FC = (): JSX.Element => {
                 <Typography textAlign="center">Account</Typography>
               </MenuItem>
               <MenuItem>
-                <Typography textAlign="center">Log out</Typography>
+                <Typography textAlign="center"
+                  onClick={() => {
+                    endSession();
+                    navigate("/login");
+                    // update user data when you logIn and logOut
+                    context?.setIsLogin(false);
+                  }}
+                >
+                  Log out
+                </Typography>
               </MenuItem>
             </Menu>
           </Box>
 
           {/* User & Log out for large screens */}
-          <Box sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }} >
+          <Box sx={{ display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' } }} >
             <Tooltip title={context?.user?.username}>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <IconButton sx={{ p: 0 }}>
                 <Avatar></Avatar>
               </IconButton>
             </Tooltip>
@@ -333,4 +289,4 @@ const NavBar2: FC = (): JSX.Element => {
   );
 };
 
-export default NavBar2;
+export default NavBar;
