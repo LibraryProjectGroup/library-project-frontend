@@ -3,6 +3,7 @@ interface Book {
   library_user?: number;
   title: string;
   author: string;
+  year: number;
   topic: string;
   isbn: string;
   location: string;

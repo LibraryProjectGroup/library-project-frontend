@@ -342,6 +342,16 @@ const ListBooks: FC = (): JSX.Element => {
               >
                 Author: {book.author}
               </Typography>
+
+              <Typography
+                sx={{
+                  fontFamily: "Merriweather",
+                  fontWeight: "light",
+                }}
+              >
+                Year: {book.year}
+              </Typography>
+
               <Typography
                 sx={{
                   fontFamily: "Merriweather",
@@ -506,6 +516,7 @@ const ListBooks: FC = (): JSX.Element => {
                   id: -1, // This wont get used
                   title: "",
                   author: "",
+                  year: new Date().getFullYear(),
                   topic: "",
                   isbn: "",
                   location: "",
