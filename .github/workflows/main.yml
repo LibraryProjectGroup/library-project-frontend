@@ -1,17 +1,10 @@
-name: Node.js CI
+name: main CI
 
 on:
   push:
-    branches: ["development"]
+    branches: ["main"]
   pull_request:
-    branches: ["development"]
-
-env:
-  TESTUSERNAME: ${{ secrets.REACT_APP_TEST_USERNAME }}
-  TESTPASSWORD: ${{ secrets.REACT_APP_TEST_PASSWORD }}
-  TESTUSERNAME2: ${{ secrets.REACT_APP_TEST_USERNAME2 }}
-  TESTPASSWORD2: ${{ secrets.REACT_APP_TEST_PASSWORD2 }}
-
+    branches: ["main"]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -39,7 +32,6 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
       - run: |
-          npm test &&
           npm start & 
-          npx wait-on http://localhost:3000 &&
-          robot --variable TESTUSERNAME:$TESTUSERNAME --variable TESTPASSWORD:$TESTPASSWORD --variable TESTUSERNAME2:${TESTUSERNAME2} --variable TESTPASSWORD2:${TESTPASSWORD2} --removekeywords  NAME:*logins* --outputdir robot/results robot/tests
+          sleep 10s &&
+          npm test

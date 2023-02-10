@@ -1,11 +1,11 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import App from '../App';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import App from "../App";
 
 // initial test to check if add button is present:
-test('renders header', () => {
+test("renders header", () => {
   const page = render(<App />);
-  const headerElement = screen.getByText("Efilibrary")
+  const headerElement = screen.getByText("Efilibrary");
   expect(headerElement).toBeInTheDocument();
 });
 
