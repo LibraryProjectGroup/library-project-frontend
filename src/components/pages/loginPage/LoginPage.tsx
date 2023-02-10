@@ -1,7 +1,7 @@
 import React, { useState, FC, useEffect, useContext } from "react";
 import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
 import BACKEND_URL from "../../../backendUrl";
-import { useNavigate } from "react-router-dom";
+import { Route, useNavigate } from "react-router-dom";
 import {
   loginButton,
   loginBox,
@@ -41,6 +41,19 @@ const LoginPage: FC = (): JSX.Element => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const user = params.get("user");
+    const secret = params.get("secret");
+    if (!user || !secret) {
+      return;
+    }
+    setSession(secret);
+    navigate("/list-books");
+    // update user data when you logIn and logOut
+    context?.setIsLogin(true);
+  }, [context, navigate]);
 
   const handleLogin = async () => {
     try {
@@ -157,6 +170,19 @@ const LoginPage: FC = (): JSX.Element => {
                   sx={textButton}
                 >
                   Create account
+                </Button>
+              </Box>
+              <Box>
+                <Button
+                  variant="text"
+                  onClick={() => {
+                    window.location.replace(
+                      "http://localhost:3002/auth/oidc/login"
+                    );
+                  }}
+                  sx={textButton}
+                >
+                  Authenticate with Google
                 </Button>
               </Box>
             </Box>
