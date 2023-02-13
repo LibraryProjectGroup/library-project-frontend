@@ -59,7 +59,7 @@ export const loginHeaderContentText: SxProps = {
 
 export const loginPaper: SxProps = {
   width: 500,
-  height: 500,
+  height: "100%",
 };
 
 export const createAccountBoxTitleText: SxProps = {
