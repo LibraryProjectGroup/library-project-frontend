@@ -71,7 +71,7 @@ const EditBooklist: FC<IProps> = ({
               fontFamily: "Montserrat",
               fontWeight: "bold",
             }}
-            variant="h4"
+            variant='h4'
           >
             {editing ? `Edit ${booklist.name}` : "Add new booklist"}
           </Typography>
