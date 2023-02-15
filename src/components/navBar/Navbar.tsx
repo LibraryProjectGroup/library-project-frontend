@@ -45,7 +45,7 @@ const NavBar: FC = (): JSX.Element => {
             component="a"
             sx={{
               mr: 2,
-              display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' },
+              display: { xs: 'none', lg: 'flex' },
               fontFamily: "Merriweather",
               letterSpacing: '.3rem',
               color: "black",
@@ -60,7 +60,7 @@ const NavBar: FC = (): JSX.Element => {
           </Typography>
 
           {/* Navbar pages, Hamburger menu */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'flex', md: 'flex', lg: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -86,7 +86,7 @@ const NavBar: FC = (): JSX.Element => {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', sm: 'block', md: 'block', lg: 'none' },
+                display: { xs: 'block', lg: 'none' },
               }}
             >
               <MenuItem onClick={() => { navigate("/admin"); handleCloseNavMenu(); }} sx={navbarMenuItemHamburger}>
@@ -130,7 +130,7 @@ const NavBar: FC = (): JSX.Element => {
             noWrap
             sx={{
               mr: 2,
-              display: { xs: 'flex', sm: 'flex', md: 'flex', lg: 'none' },
+              display: { xs: 'flex', lg: 'none' },
               flexGrow: 1,
               fontFamily: "Merriweather",
               letterSpacing: '.3rem',
@@ -146,7 +146,7 @@ const NavBar: FC = (): JSX.Element => {
           </Typography>
 
           {/* Navbar pages for large screens */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' } }} >
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' } }} >
             {context?.user?.administrator ? (
               <Button
                 sx={navbarPagesLarge}
@@ -186,7 +186,7 @@ const NavBar: FC = (): JSX.Element => {
           </Box>
 
           {/* User & Log out for Hamburger menu */}
-          <Box sx={{ flexGrow: 0, display: { xs: 'flex', sm: 'flex', md: 'flex', lg: 'none' } }}>
+          <Box sx={{ flexGrow: 0, display: { xs: 'flex', lg: 'none' } }}>
             <Tooltip title={context?.user?.username}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar></Avatar>
@@ -208,12 +208,14 @@ const NavBar: FC = (): JSX.Element => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
+              {/* 
               <MenuItem>
                 <Typography textAlign="center">Profile</Typography>
               </MenuItem>
               <MenuItem>
                 <Typography textAlign="center">Account</Typography>
               </MenuItem>
+              */}
               <MenuItem>
                 <Typography textAlign="center"
                   onClick={() => {
@@ -230,12 +232,7 @@ const NavBar: FC = (): JSX.Element => {
           </Box>
 
           {/* User & Log out for large screens */}
-          <Box sx={{ display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' } }} >
-            <Tooltip title={context?.user?.username}>
-              <IconButton sx={{ p: 0 }}>
-                <Avatar></Avatar>
-              </IconButton>
-            </Tooltip>
+          <Box sx={{ display: { xs: 'none', lg: 'flex' } }} >
             <Box sx={{ marginLeft: 1, marginTop: 1}}>
             <Typography
               variant="h6"
