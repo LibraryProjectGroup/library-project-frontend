@@ -104,14 +104,14 @@ const NavBar: FC = (): JSX.Element => {
                 <Typography
                   sx={navbarPagesHamburger}
                 >
-                  LOANED BOOKS
+                  MY LOANED BOOKS
                 </Typography>
               </MenuItem>
               <MenuItem onClick={() => { navigate("/reservations"); handleCloseNavMenu(); }} sx={navbarMenuItemHamburger}>
                 <Typography
                   sx={navbarPagesHamburger}
                 >
-                  BOOK RESERVATIONS
+                  MY BOOK RESERVATIONS
                 </Typography>
               </MenuItem>
               <MenuItem onClick={() => { navigate("/booklists"); handleCloseNavMenu(); }} sx={navbarMenuItemHamburger}>
@@ -165,7 +165,7 @@ const NavBar: FC = (): JSX.Element => {
                 navigate("/user");
               }}
             >
-              LOANED BOOKS
+              MY LOANED BOOKS
             </Button>
             <Button
               sx={navbarPagesLarge}
@@ -173,7 +173,7 @@ const NavBar: FC = (): JSX.Element => {
                 navigate("/reservations");
               }}
             >
-              BOOK RESERVATIONS
+              MY BOOK RESERVATIONS
             </Button>
             <Button
               sx={navbarPagesLarge}
@@ -181,7 +181,7 @@ const NavBar: FC = (): JSX.Element => {
                 navigate("/booklists");
               }}
             >
-              LISTS
+              MY LISTS
             </Button>
           </Box>
 
