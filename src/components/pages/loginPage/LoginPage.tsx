@@ -177,7 +177,7 @@ const LoginPage: FC = (): JSX.Element => {
                   variant="text"
                   onClick={() => {
                     window.location.replace(
-                      `${process.env.REACT_APP_BACKEND_URL}/auth/oidc/login?issuer=google`
+                      `${process.env.REACT_APP_BACKEND_URL}/auth/oidc/login?issuer=1`
                     );
                   }}
                   sx={textButton}
