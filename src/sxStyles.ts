@@ -248,10 +248,10 @@ export const booklistsPageBackAndAddButtons: SxProps = {
 };
 
 export const userLogOutButton: SxProps = {
-  marginRight: 5,
-  marginLeft: 5,
+  marginRight: 1,
+  marginLeft: 1,
   backgroundColor: "#FFD100",
-  color: "black",
+  color: "primary",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
@@ -270,12 +270,25 @@ export const userPageMyListsButton: SxProps = {
   },
 };
 
-export const navbarPages: SxProps = {
+//Navbar pages styles
+export const navbarPagesHamburger: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
-  position: "relative",
-  marginX: 2.5,
+  color: "black",
+};
+
+export const navbarMenuItemHamburger: SxProps = {
+  cursor: "pointer",
+  "&:hover": {
+    borderBottom: "2px solid #FFB500",
+  },
+};
+
+export const navbarPagesLarge: SxProps = {
+  fontFamily: "Montserrat",
+  fontWeight: "bold",
+  fontSize: 15,
   color: "black",
   cursor: "pointer",
   "&:hover": {
@@ -284,7 +297,6 @@ export const navbarPages: SxProps = {
 };
 
 // Admin page
-
 export const adminPageTabs: SxProps = {
   width: "100%",
 };
