@@ -248,15 +248,6 @@ export const userPageReturnButton: SxProps = {
 };
 
 export const userPageBackButton: SxProps = {
-  // position: "absolute",
-  // fontSize: 15,
-  // marginLeft: 5,
-  // marginBottom: 2,
-  // backgroundColor: "#FFD100",
-  // color: "black",
-  // "&:hover": {
-  //   backgroundColor: "#FFB500",
-  // },
   fontSize: 15,
   marginLeft: { sm: 0, md: "2.5rem" },
   marginBottom: 2,
