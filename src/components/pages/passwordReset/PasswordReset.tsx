@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   loginButton,
   loginBox,
-  loginAuthBoxTitle,
+  AuthBoxTitle,
   loginPaper,
 } from "../../../sxStyles";
 import { fetchPasswordReset } from "../../../fetchFunctions";
@@ -95,7 +95,7 @@ const PasswordReset: FC = (): JSX.Element => {
     >
       <Paper elevation={10} sx={loginPaper}>
         <Box sx={{ padding: 10 }}>
-          <Typography variant="h4" sx={loginAuthBoxTitle}>
+          <Typography variant="h4" sx={AuthBoxTitle}>
             {invalid
               ? "This link is invalid or expired"
               : "Choose new password"}

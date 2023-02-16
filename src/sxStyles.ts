@@ -27,56 +27,34 @@ export const textButton: SxProps = {
 export const loginBox: SxProps = {
   display: "flex",
   flexDirection: "Column",
-  marginBottom: 5,
-  marginTop: 4,
+  margin: '1rem 0',
 };
 
-export const loginAuthBox: SxProps = {
-  padding: 10,
-};
-
-export const loginAuthBoxTitle: SxProps = {
-  textAlign: "center",
-  fontFamily: "Montserrat",
-  fontWeight: "bold",
-};
-export const loginAuthBoxHeaderText: SxProps = {
+export const AuthBoxTitle: SxProps = {
   textAlign: "center",
   fontFamily: "Montserrat",
   fontWeight: "bold",
 };
 
-export const loginHeaderTitleText: SxProps = {
+export const loginRegisterTitle: SxProps = {
+  display:'flex',
+  alignItems:'center',
+  justifyContent:{xs:'center', md:'flex-start'},
   fontFamily: "Merriweather",
   fontWeight: "bold",
-  paddingBottom: 5,
+  fontSize:{xs:'4rem', sm:'6rem'},
+  marginBottom:'2rem',
 };
 
-export const loginHeaderContentText: SxProps = {
+export const loginRegisterContent: SxProps = {
   fontFamily: "Merriweather",
   fontWeight: "light",
 };
 
 export const loginPaper: SxProps = {
-  width: 500,
-  height: 500,
-};
-
-export const createAccountBoxTitleText: SxProps = {
-  textAlign: "center",
-  fontFamily: "Montserrat",
-  fontWeight: "bold",
-};
-
-export const createAccountHeaderTitleText: SxProps = {
-  fontFamily: "Merriweather",
-  fontWeight: "bold",
-  paddingBottom: 5,
-};
-
-export const createAccountHeaderContentText: SxProps = {
-  fontFamily: "Merriweather",
-  fontWeight: "light",
+  width: '100%',
+  height: 'auto',
+  margin:'1rem'
 };
 
 // AddBook
@@ -124,16 +102,14 @@ export const addBookCancelButton: SxProps = {
 // EditBook
 
 export const editBookBox: SxProps = {
-  position: "absolute" as "absolute",
+  position: "absolute",
   top: "50%",
   left: "50%",
+  width: { xs: "15rem", md: "25rem" },
   transform: "translate(-50%, -50%)",
-  width: 400,
   bgcolor: "background.paper",
   boxShadow: 24,
-  paddingTop: 4,
-  paddingX: 4,
-  paddingBottom: 2,
+  padding: "2rem 2rem 1rem 2rem",
 };
 
 export const editBookUpdateButton: SxProps = {
@@ -250,9 +226,8 @@ export const userPageReturnButton: SxProps = {
 };
 
 export const userPageBackButton: SxProps = {
-  position: "absolute",
   fontSize: 15,
-  marginLeft: 5,
+  marginLeft: { sm: 0, md: "2.5rem" },
   marginBottom: 2,
   backgroundColor: "#FFD100",
   color: "black",
@@ -263,7 +238,7 @@ export const userPageBackButton: SxProps = {
 
 export const booklistsPageBackAndAddButtons: SxProps = {
   fontSize: 15,
-  marginLeft: 5,
+  marginLeft: { sm: 0, md: "2.5rem" },
   marginBottom: 2,
   backgroundColor: "#FFD100",
   color: "black",
@@ -273,10 +248,10 @@ export const booklistsPageBackAndAddButtons: SxProps = {
 };
 
 export const userLogOutButton: SxProps = {
-  marginRight: 5,
-  marginLeft: 5,
+  marginRight: 1,
+  marginLeft: 1,
   backgroundColor: "#FFD100",
-  color: "black",
+  color: "primary",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
@@ -295,12 +270,25 @@ export const userPageMyListsButton: SxProps = {
   },
 };
 
-export const navbarPages: SxProps = {
+//Navbar pages styles
+export const navbarPagesHamburger: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
-  position: "relative",
-  marginX: 2.5,
+  color: "black",
+};
+
+export const navbarMenuItemHamburger: SxProps = {
+  cursor: "pointer",
+  "&:hover": {
+    borderBottom: "2px solid #FFB500",
+  },
+};
+
+export const navbarPagesLarge: SxProps = {
+  fontFamily: "Montserrat",
+  fontWeight: "bold",
+  fontSize: 15,
   color: "black",
   cursor: "pointer",
   "&:hover": {
@@ -309,7 +297,6 @@ export const navbarPages: SxProps = {
 };
 
 // Admin page
-
 export const adminPageTabs: SxProps = {
   width: "100%",
 };
@@ -378,11 +365,11 @@ export const editUserUpdateButton: SxProps = {
 // EditBookList
 
 export const editBookListBox: SxProps = {
-  position: "absolute" as "absolute",
+  position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  // maxWidth: 400,
   bgcolor: "background.paper",
   boxShadow: 24,
   paddingTop: 4,
