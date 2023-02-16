@@ -141,6 +141,16 @@ const ListPage: FC = (): JSX.Element => {
                   >
                     Author: {book.author}
                   </Typography>
+
+                  <Typography
+                    sx={{
+                      fontFamily: "Merriweather",
+                      fontWeight: "light",
+                    }}
+                  >
+                    Year: {book.year}
+                  </Typography>
+
                   <Typography
                     sx={{
                       fontFamily: "Merriweather",
