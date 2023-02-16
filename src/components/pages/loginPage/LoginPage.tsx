@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import {
   loginButton,
   loginBox,
-  loginAuthBoxTitle,
-  loginHeaderTitleText,
-  loginHeaderContentText,
+  AuthBoxTitle,
   loginPaper,
   textButton,
+  loginRegisterTitle,
+  loginRegisterContent,
 } from "../../../sxStyles";
 import { setSession } from "../../../auth";
 import { TheContext } from "../../../TheContext";
@@ -85,14 +85,14 @@ const LoginPage: FC = (): JSX.Element => {
       >
         <Grid item xs={12} md={7}>
           <Box>
-            <Box sx={{ padding: 10 }}>
+            <Box sx={{ margin: '4rem 4rem 2rem 4rem' }}>
               <Typography
                 variant="h1" //not responsive font
-                sx={loginHeaderTitleText}
+                sx={loginRegisterTitle}
               >
                 Efilibrary
               </Typography>
-              <Typography sx={loginHeaderContentText}>
+              <Typography sx={loginRegisterContent}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                 enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -114,8 +114,8 @@ const LoginPage: FC = (): JSX.Element => {
           }}
         >
           <Paper elevation={10} sx={loginPaper}>
-            <Box sx={{ padding: 10 }}>
-              <Typography variant="h4" sx={loginAuthBoxTitle}>
+            <Box sx={{ padding: '3rem' }}>
+              <Typography variant="h4" sx={AuthBoxTitle}>
                 Login
               </Typography>
               <Box sx={loginBox}>

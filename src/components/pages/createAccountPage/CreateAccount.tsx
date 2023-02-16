@@ -4,10 +4,10 @@ import BACKEND_URL from "../../../backendUrl";
 import { useNavigate } from "react-router-dom";
 import {
   loginButton,
-  createAccountBoxTitleText,
-  createAccountHeaderTitleText,
-  createAccountHeaderContentText,
   textButton,
+  loginRegisterTitle,
+  loginRegisterContent,
+  AuthBoxTitle,
 } from "../../../sxStyles";
 import { setSession } from "../../../auth";
 import { TheContext } from "../../../TheContext";
@@ -130,14 +130,14 @@ const CreateAccount: FC = () => {
       <Grid item container alignItems="center" sx={{ width: "95%" }}>
         <Grid item xs={12} md={7}>
           <Box>
-            <Box sx={{ padding: 10, paddingBottom: 30 }}>
+            <Box sx={{ margin:'4rem 4rem 2rem 4rem' }}>
               <Typography
                 variant="h1" //not responsive font
-                sx={createAccountHeaderTitleText}
+                sx={loginRegisterTitle}
               >
                 Efilibrary
               </Typography>
-              <Typography sx={createAccountHeaderContentText}>
+              <Typography sx={loginRegisterContent}>
                 Important! To create a valid password you will need at least 8
                 characters with at least one uppercase, lowercase, number and
                 special character.
@@ -162,7 +162,7 @@ const CreateAccount: FC = () => {
             }}
           >
             <Box sx={{ padding: 10 }}>
-              <Typography variant="h4" sx={createAccountBoxTitleText}>
+              <Typography variant="h4" sx={AuthBoxTitle}>
                 Create Account
               </Typography>
               <Box
