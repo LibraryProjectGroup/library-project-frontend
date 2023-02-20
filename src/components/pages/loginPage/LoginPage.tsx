@@ -85,7 +85,7 @@ const LoginPage: FC = (): JSX.Element => {
       >
         <Grid item xs={12} md={7}>
           <Box>
-            <Box sx={{ margin: '4rem 4rem 2rem 4rem' }}>
+            <Box sx={{ margin: "4rem 4rem 2rem 4rem" }}>
               <Typography
                 variant="h1" //not responsive font
                 sx={loginRegisterTitle}
@@ -114,7 +114,7 @@ const LoginPage: FC = (): JSX.Element => {
           }}
         >
           <Paper elevation={10} sx={loginPaper}>
-            <Box sx={{ padding: '3rem' }}>
+            <Box sx={{ padding: "3rem" }}>
               <Typography variant="h4" sx={AuthBoxTitle}>
                 Login
               </Typography>
