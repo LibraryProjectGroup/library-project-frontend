@@ -15,6 +15,7 @@ import {
 	Fab,
 	Grid,
 	Tooltip,
+	TablePagination,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
@@ -65,6 +66,38 @@ import BookRequestForm from "./BookRequestForm";
 import { LOAN_DAYS, RESERVATION_DAYS, MS_IN_DAY } from "../../../constants";
 
 const ListBooks: FC = (): JSX.Element => {
+	// trying feature
+	const [page, setPage] = React.useState(0);
+	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+	// const handleChangePage = (
+	// 	event: React.MouseEvent<HTMLButtonElement> | null,
+	// 	newPage: number
+	// ) => {
+	// 	console.log(newPage);
+	// 	setPage(newPage);
+	// };
+
+	// const handleChangeRowsPerPage = (
+	// 	event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+	// ) => {
+	// 	setRowsPerPage(parseInt(event.target.value));
+	// 	setPage(0);
+	// };
+
+	const handleChangePage = (event: unknown, newPage: number) => {
+		setPage(newPage);
+		console.log(books);
+	};
+
+	const handleChangeRowsPerPage = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		setRowsPerPage(+event.target.value);
+		setPage(0);
+	};
+	// feature ends here
+
 	const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
 	const [currentReservations, setCurrentReservations] = useState<
 		Book_reservation[]
@@ -74,7 +107,7 @@ const ListBooks: FC = (): JSX.Element => {
 	const [activeAndLoanableReservations, setActiveAndLoanableReservations] =
 		useState<any[]>([]);
 	const [bookPage, setBookPage] = useState(1);
-	const [bookPageSize, setBookPageSize] = useState(20);
+	const [bookPageSize, setBookPageSize] = useState(books.length);
 	const [bookCount, setBookCount] = useState<number>(0);
 
 	const [requestVisible, setRequestVisible] = useState(false);
@@ -563,110 +596,30 @@ const ListBooks: FC = (): JSX.Element => {
 					<Grid
 						sx={{
 							textAlign: "center",
-							marginBottom: 3,
 							display: "flex",
 							width: "100%",
 							justifyContent: "center",
 						}}
 					>
-						<FormControl
-							sx={{
-								marginLeft: 4,
-								marginBottom: 0,
-								marginTop: 2,
-								minWidth: 80,
-							}}
-							size="small"
-						>
-							<InputLabel id="Page">Page</InputLabel>
-							<Select
-								labelId="page"
-								id="page"
-								value={String(bookPage)}
-								label="page"
-								onChange={(event: SelectChangeEvent) => {
-									setBookPage(Number(event.target.value));
-								}}
-							>
-								{Array(Math.ceil(bookCount / bookPageSize))
-									.fill(null)
-									.map((x, i) => (
-										<MenuItem value={i + 1}>{i + 1}</MenuItem>
-									))}
-							</Select>
-						</FormControl>
-
-						<Tooltip title="First Page">
-							<Fab
-								aria-label="first1"
-								sx={addButton}
-								onClick={() => {
-									setBookPage(1);
-								}}
-								disabled={bookPage <= 1}
-							>
-								<FirstPageIcon />
-							</Fab>
-						</Tooltip>
-
-						<Tooltip title="Previous Page">
-							<Fab
-								aria-label="previous1"
-								sx={addButton}
-								onClick={() => {
-									handlePageButton(false);
-								}}
-								disabled={bookPage <= 1}
-							>
-								<ArrowLeftIcon />
-							</Fab>
-						</Tooltip>
-
-						<Tooltip title="Next Page">
-							<Fab
-								aria-label="next1"
-								sx={addButton}
-								onClick={() => {
-									handlePageButton(true);
-								}}
-								disabled={bookPageSize * bookPage >= bookCount}
-							>
-								<ArrowRightIcon />
-							</Fab>
-						</Tooltip>
-
-						<FormControl
-							sx={{
-								marginLeft: 4,
-								marginBottom: 0,
-								marginTop: 2,
-								minWidth: 80,
-							}}
-							size="small"
-						>
-							<InputLabel id="pageSize">Books per Page</InputLabel>
-							<Select
-								labelId="pageSize"
-								id="pageSize"
-								value={String(bookPageSize)}
-								label="Page Size"
-								onChange={(event: SelectChangeEvent) => {
-									setBookPageSize(Number(event.target.value));
-								}}
-							>
-								<MenuItem value={5}>5</MenuItem>
-								<MenuItem value={10}>10</MenuItem>
-								<MenuItem value={20}>20</MenuItem>
-								<MenuItem value={50}>50</MenuItem>
-							</Select>
-						</FormControl>
+						<TablePagination
+							component="div"
+							count={books.length}
+							rowsPerPageOptions={[5, 10, 25]}
+							page={page}
+							onPageChange={handleChangePage}
+							rowsPerPage={rowsPerPage}
+							onRowsPerPageChange={handleChangeRowsPerPage}
+							labelRowsPerPage="Books per page:"
+						/>
 					</Grid>
 				</Box>
 				<Stack
 					spacing={3}
 					sx={{ margin: "2rem", display: "flex", alignItems: "center" }}
 				>
-					{books?.map((book) => renderBookData(book))}
+					{books
+						?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+						.map((book) => renderBookData(book))}
 				</Stack>
 
 				<Grid sx={{ textAlign: "center", marginTop: 3 }}>
