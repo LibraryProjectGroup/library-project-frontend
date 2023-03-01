@@ -60,43 +60,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import Alert from "@mui/material/Alert";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import BookRequestForm from "./BookRequestForm";
 import { LOAN_DAYS, RESERVATION_DAYS, MS_IN_DAY } from "../../../constants";
 
 const ListBooks: FC = (): JSX.Element => {
-	// trying feature
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-	// const handleChangePage = (
-	// 	event: React.MouseEvent<HTMLButtonElement> | null,
-	// 	newPage: number
-	// ) => {
-	// 	console.log(newPage);
-	// 	setPage(newPage);
-	// };
-
-	// const handleChangeRowsPerPage = (
-	// 	event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-	// ) => {
-	// 	setRowsPerPage(parseInt(event.target.value));
-	// 	setPage(0);
-	// };
-
-	const handleChangePage = (event: unknown, newPage: number) => {
-		setPage(newPage);
-		console.log(books);
-	};
-
-	const handleChangeRowsPerPage = (
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
-		setRowsPerPage(+event.target.value);
-		setPage(0);
-	};
-	// feature ends here
 
 	const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
 	const [currentReservations, setCurrentReservations] = useState<
@@ -224,6 +194,18 @@ const ListBooks: FC = (): JSX.Element => {
 			</IconButton>
 		</Fragment>
 	);
+
+	const handleChangePage = (event: unknown, newPage: number) => {
+		setPage(newPage);
+		console.log(books);
+	};
+
+	const handleChangeRowsPerPage = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		setRowsPerPage(+event.target.value);
+		setPage(0);
+	};
 
 	const handleClosePopUpConfirmation = (
 		event: React.SyntheticEvent | Event,
@@ -622,31 +604,24 @@ const ListBooks: FC = (): JSX.Element => {
 						.map((book) => renderBookData(book))}
 				</Stack>
 
-				<Grid sx={{ textAlign: "center", marginTop: 3 }}>
-					<Tooltip title="Previous Page">
-						<Fab
-							aria-label="previous2"
-							sx={addButton}
-							onClick={() => {
-								handlePageButton(false);
-							}}
-							disabled={bookPage <= 1}
-						>
-							<ArrowLeftIcon />
-						</Fab>
-					</Tooltip>
-					<Tooltip title="Next Page">
-						<Fab
-							aria-label="next2"
-							sx={addButton}
-							onClick={() => {
-								handlePageButton(true);
-							}}
-							disabled={bookPageSize * bookPage >= bookCount}
-						>
-							<ArrowRightIcon />
-						</Fab>
-					</Tooltip>
+				<Grid
+					sx={{
+						textAlign: "center",
+						display: "flex",
+						width: "100%",
+						justifyContent: "center",
+					}}
+				>
+					<TablePagination
+						component="div"
+						count={books.length}
+						rowsPerPageOptions={[5, 10, 25]}
+						page={page}
+						onPageChange={handleChangePage}
+						rowsPerPage={rowsPerPage}
+						onRowsPerPageChange={handleChangeRowsPerPage}
+						labelRowsPerPage="Books per page:"
+					/>
 				</Grid>
 
 				<Snackbar
