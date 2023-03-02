@@ -142,6 +142,15 @@ const EditBook: FC<IProps> = ({
             >
               Cancel
             </Button>
+            
+            <Button
+              sx={editBookCancelButton}
+              variant="contained"
+              onClick={() => setVisible(false)}
+            >
+              Test Button for Api
+            </Button>
+
           </Stack>
         </Stack>
       </Box>
