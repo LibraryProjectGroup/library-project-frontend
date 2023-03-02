@@ -1,5 +1,6 @@
 import React, { useState, useEffect, FC } from "react";
 import { Box, Tab, Tabs, Fab, Button, Tooltip } from "@mui/material";
+import { Container } from "@mui/system";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import {
@@ -38,20 +39,31 @@ const Admin: FC = (): JSX.Element => {
         position: "relative",
       }}
     >
-      <Tooltip title="Back">
-        <Fab
-          aria-label="back"
-          sx={userPageBackButton}
-          onClick={() => {
-            navigate("/list-books");
-          }}
-        >
-          <ArrowBackIcon />
-        </Fab>
-      </Tooltip>
+      <Container
+        sx={{
+          position: { sm: "none", md: "absolute" },
+          display: "flex",
+          flexDirection: { sm: "row", md: "column" },
+          gap: { xs: "2rem", md: "unset" },
+          justifyContent: "center",
+          alignItems: "flex-start",
+        }}
+      >
+        <Tooltip title="Back">
+          <Fab
+            aria-label="back"
+            sx={userPageBackButton}
+            onClick={() => {
+              navigate("/list-books");
+            }}
+          >
+            <ArrowBackIcon />
+          </Fab>
+        </Tooltip>
+      </Container>
       <Box
         sx={{
-          width: "70%",
+          width: {sm: "90%", md: "70%" },
           margin: "auto",
         }}
       >
@@ -59,6 +71,9 @@ const Admin: FC = (): JSX.Element => {
           value={currentTab}
           onChange={handleTabChange}
           centered={true}
+          variant="scrollable"
+          scrollButtons
+          allowScrollButtonsMobile
           sx={adminPageTabs}
         >
           <Tab label="Users" sx={adminPageTab} />
