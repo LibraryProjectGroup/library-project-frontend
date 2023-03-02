@@ -1,7 +1,5 @@
 # EfiLibrary - About the project
 
-# EfiLibrary - About the project
-
 <!-- ABOUT THE PROJECT -->
 
 <p float="left">
@@ -87,24 +85,6 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-<!-- EJECTING -->
-
-## How to Eject
-
-#### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-The authentication is implemented using Bearer Tokens.
-
-The application is deployed in [https://efilibrary.netlify.app/](https://efilibrary.netlify.app/).
-
 <!-- INSTALLATION -->
 
 # How to Install
@@ -120,142 +100,6 @@ The application is deployed in [https://efilibrary.netlify.app/](https://efilibr
 <!-- TABLE OF CONTENTS -->
 
 # Table of Contents
-
-<!-- USAGE -->
-
-# Usage
-
-<details>
-<summary> Backend endpoints </summary>
-
-### Book
-
-#### /book?id={id} (GET)
-
-Response schema:
-
-```JSON
-{
-    "title": "Book",
-    "description": "Book",
-    "type": "object",
-    "properties":{
-      "id":{"type":"string"},
-      "libraryUser":{"type":"User"},
-      "topic":{"type":"Topic"},
-      "title":{"type":"string"},
-      "author":{"type":"string"},
-      "isbn":{"type":"string"},
-      "location":{"type":"string"}
-    }
-}
-```
-
-#### /book (POST)
-
-Response schema:
-
-```JSON
-{
-    "title": "Ok",
-    "description": "Ok",
-    "type": "object",
-    "properties":{
-      "ok":{"type":"boolean"}
-    }
-}
-```
-
-#### /book (PUT)
-
-Response schema:
-
-```JSON
-{
-    "title": "Ok",
-    "description": "Ok",
-    "type": "object",
-    "properties":{
-      "ok":{"type":"boolean"}
-    }
-}
-```
-
-#### /book?id={id} (DELETE)
-
-Response schema:
-
-```JSON
-{
-    "title": "Ok",
-    "description": "Ok",
-    "type": "object",
-    "properties":{
-      "ok":{"type":"boolean"}
-    }
-}
-```
-
-#### /book/all (GET)
-
-Response schema:
-
-```JSON
-{
-  "type":"array",
-  "items": {
-    "title": "Book",
-    "description": "Book",
-    "type": "object",
-    "properties":{
-      "libraryUser":{"type":"User"},
-      "topic":{"type":"Topic"},
-      "title":{"type":"string"},
-      "author":{"type":"string"},
-      "isbn":{"type":"string"},
-      "location":{"type":"string"}
-    }
-}
-```
-
-### User
-
-#### /user?id={id} (GET)
-
-Response schema:
-
-```JSON
-{
-    "title": "User",
-    "description": "User",
-    "type": "object",
-    "properties":{
-      "books":{"type":"array"},
-      "userId":{"type":"string"},
-      "userName":{"type":"string"},
-}
-```
-
-#### /user/all (GET)
-
-Response schema:
-
-```JSON
-{
-  "type":"array",
-  "items": {
-    "title": "User",
-    "description": "User",
-    "type": "object",
-    "properties":{
-      "books":{"type":"array"},
-      "userId":{"type":"string"},
-      "userName":{"type":"string"},
-    }
-}
-```
-
-</details>
 
 <!-- ROBOT TESTS -->
 
