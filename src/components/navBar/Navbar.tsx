@@ -257,6 +257,9 @@ const NavBar: FC = (): JSX.Element => {
             >
               <MenuItem>
                 <Typography
+                  sx={{
+                    marginRight: 1,
+                  }}
                   textAlign="center"
                   onClick={() => {
                     endSession();
@@ -267,6 +270,7 @@ const NavBar: FC = (): JSX.Element => {
                 >
                   Log out
                 </Typography>
+                <LogoutIcon />
               </MenuItem>
             </Menu>
           </Box>
