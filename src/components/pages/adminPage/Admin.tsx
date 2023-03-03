@@ -63,7 +63,7 @@ const Admin: FC = (): JSX.Element => {
       </Container>
       <Box
         sx={{
-          width: {sm: "90%", md: "70%" },
+          width: { sm: "90%", md: "70%" },
           margin: "auto",
         }}
       >

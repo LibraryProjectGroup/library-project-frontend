@@ -114,13 +114,15 @@ const NavBar: FC = (): JSX.Element => {
               }}
             >
               {context?.user?.administrator ? (
-              <MenuItem onClick={() => { navigate("/admin"); handleCloseNavMenu(); }} sx={navbarMenuItemHamburger}>
-                <Typography
-                  sx={navbarPagesHamburger}
+                <MenuItem
+                  onClick={() => {
+                    navigate("/admin");
+                    handleCloseNavMenu();
+                  }}
+                  sx={navbarMenuItemHamburger}
                 >
-                  ADMIN PAGE
-                </Typography>
-              </MenuItem>
+                  <Typography sx={navbarPagesHamburger}>ADMIN PAGE</Typography>
+                </MenuItem>
               ) : (
                 <></>
               )}
@@ -221,23 +223,27 @@ const NavBar: FC = (): JSX.Element => {
 
           {/* User & Log out for Hamburger menu */}
           <Box sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}>
-            <Tooltip 
-              title={context?.borrows &&
-              (context?.borrows?.length > 1 || context?.borrows?.length == 0 ? (
-                <p style={{ margin: 0 }}>
-                  <p>User: {context?.user?.username}</p>
-                  <p>Currently loaning {context?.borrows?.length} books</p>
-                </p>
-              ) : (
-                <p style={{ margin: 0 }}>
-                  <p>User: {context?.user?.username}</p>
-                  <p>Currently loaning {context?.borrows?.length} book</p>
-                </p>
-              ))}>
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  {/* Avatar is for icon in mobile view. Could and should change in future */}
-                  <Avatar></Avatar>
-                </IconButton>
+            <Tooltip
+              title={
+                context?.borrows &&
+                (context?.borrows?.length > 1 ||
+                context?.borrows?.length == 0 ? (
+                  <p style={{ margin: 0 }}>
+                    <p>User: {context?.user?.username}</p>
+                    <p>Currently loaning {context?.borrows?.length} books</p>
+                  </p>
+                ) : (
+                  <p style={{ margin: 0 }}>
+                    <p>User: {context?.user?.username}</p>
+                    <p>Currently loaning {context?.borrows?.length} book</p>
+                  </p>
+                ))
+              }
+            >
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                {/* Avatar is for icon in mobile view. Could and should change in future */}
+                <Avatar></Avatar>
+              </IconButton>
             </Tooltip>
             <Menu
               sx={{ mt: "45px" }}
@@ -286,7 +292,7 @@ const NavBar: FC = (): JSX.Element => {
                   fontSize: 12.5,
                 }}
               >
-                { /* Current user text */}
+                {/* Current user text */}
                 User: <b>{context?.user?.username}</b>
               </Typography>
               <Typography
@@ -299,7 +305,8 @@ const NavBar: FC = (): JSX.Element => {
               >
                 {/* Currently loaning x books / book text */}
                 {context?.borrows &&
-                  (context?.borrows?.length > 1 || context?.borrows?.length == 0 ? (
+                  (context?.borrows?.length > 1 ||
+                  context?.borrows?.length == 0 ? (
                     <p style={{ margin: 0 }}>
                       Currently loaning {context?.borrows?.length} books
                     </p>
@@ -308,7 +315,6 @@ const NavBar: FC = (): JSX.Element => {
                       Currently loaning {context?.borrows?.length} book
                     </p>
                   ))}
-
               </Typography>
             </Box>
             <Tooltip title="Log out">
