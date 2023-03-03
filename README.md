@@ -46,66 +46,42 @@ Efilibrary consists of a frontend and a backend with a connected relational data
 The frontend’s user interface is divided into pages that are routed through react-router-dom. To access pages other than the login page or signup page, users can create accounts and securely log in in through HTTPS with passwords that are hashed on server-side. Authentication is implemented using Bearer Tokens.
 <br/>
 <br/>
-The application is deployed in [https://efilibrary.netlify.app/](https://efilibrary.netlify.app/).
 
-# Getting Started With npm
 
-<!-- INSTALLATION -->
-
-## How to Start
-
-#### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-<!-- BUILDING -->
-
-## How to Build
-
-#### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-<!-- TESTING -->
-
-## How to Test
-
-#### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Running the Program Locally
 
 <!-- INSTALLATION -->
 
-# How to Install
+## How to Install
+
+You need to have npm installed to run this project, you can check if you have it installed by running `npm -v` in the command line.
+
+Clone the repository on your computer. Detailed instructions can be found [here](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository?tool=webui).
+
+Use `npm ci` or `npm install` to install node modules.
 
 <!-- RUNNING -->
 
-# How to Run
+## How to Run
 
-<!-- TESTING -->
+```pwsh
+npm start
+```
 
-# How to Test
+This runs the app in the development mode.
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.\
+The page will reload if you make edits.
 
-<!-- TABLE OF CONTENTS -->
-
-# Table of Contents
 
 <!-- ROBOT TESTS -->
 
 # RobotTests
 
 See detailed documentation about Robot testing in [AboutRobotTests.md documentation file](robot/aboutRobotTests.md).
+
+<!-- DEPLOYMENT -->
+
+# Deployment
 
 <!-- CREDITS -->
 
