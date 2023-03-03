@@ -47,7 +47,6 @@ The frontend’s user interface is divided into pages that are routed through re
 <br/>
 <br/>
 
-
 # Running the Program Locally
 
 <!-- INSTALLATION -->
@@ -71,7 +70,6 @@ npm start
 This runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.\
 The page will reload if you make edits.
-
 
 <!-- ROBOT TESTS -->
 
