@@ -36,6 +36,8 @@ const EditBook: FC<IProps> = ({
   editing,
   updateBooks,
 }: IProps): JSX.Element => {
+  const isbn = "9780575088498";
+  const [data, setData] = useState([]);
   const updateBook = async (newBook: Book) => {
     const response = await fetchUpdateBook(newBook);
     if (response.ok) {
@@ -77,7 +79,7 @@ const EditBook: FC<IProps> = ({
 
   const Fetchspi = () => {
     console.log("Fetchapi")
-    const isbn = "9780575088498";
+    
     fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn + "&key=AIzaSyDQIsAIinLXi7UWR_dO_oRBWJtkAcZHwiE")
     .then(response => response.json())
     .then((result) => {
@@ -158,7 +160,7 @@ const EditBook: FC<IProps> = ({
             <Button
               sx={editBookCancelButton}
               variant="contained"
-              onClick={() => Fetchspi}
+              onClick={() => Fetchspi()}
             >
               Test Button for Api
             </Button>
