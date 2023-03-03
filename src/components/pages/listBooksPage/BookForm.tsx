@@ -75,6 +75,18 @@ const EditBook: FC<IProps> = ({
         });
   };
 
+  const Fetchspi = () => {
+    console.log("Fetchapi")
+    const isbn = "9780575088498";
+    fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn + "&key=AIzaSyDQIsAIinLXi7UWR_dO_oRBWJtkAcZHwiE")
+    .then(response => response.json())
+    .then((result) => {
+      console.log("Success:", result);
+    })
+    .catch(err => console.log(err))
+    //.then(data => setData(data))
+  }
+
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
       <Box sx={editBookBox}>
@@ -146,7 +158,7 @@ const EditBook: FC<IProps> = ({
             <Button
               sx={editBookCancelButton}
               variant="contained"
-              onClick={() => setVisible(false)}
+              onClick={() => Fetchspi}
             >
               Test Button for Api
             </Button>
@@ -157,5 +169,7 @@ const EditBook: FC<IProps> = ({
     </Modal>
   );
 };
+
+console.log("TEST")
 
 export default EditBook;
