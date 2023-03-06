@@ -36,8 +36,7 @@ const EditBook: FC<IProps> = ({
   editing,
   updateBooks,
 }: IProps): JSX.Element => {
-  const isbn = "9780575088498";
-  const [data, setData] = useState([]);
+  const apikey = "&key=AIzaSyDQIsAIinLXi7UWR_dO_oRBWJtkAcZHwiE";
   const updateBook = async (newBook: Book) => {
     const response = await fetchUpdateBook(newBook);
     if (response.ok) {
@@ -77,16 +76,20 @@ const EditBook: FC<IProps> = ({
         });
   };
 
-  const Fetchspi = () => {
-    console.log("Fetchapi")
-    
-    fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn + "&key=AIzaSyDQIsAIinLXi7UWR_dO_oRBWJtkAcZHwiE")
-    .then(response => response.json())
-    .then((result) => {
-      console.log("Success:", result);
-    })
-    .catch(err => console.log(err))
-    //.then(data => setData(data))
+  const scanner = () => {
+    book.isbn = "9781784161859"
+    if (book.isbn != "") {
+      fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + book.isbn + apikey)
+      .then(response => response.json())
+      .then((result) => {
+        const x = result.items[0].volumeInfo.publishedDate;
+        console.log("Success:", result.items[0].volumeInfo.title);
+        book.author = result.items[0].volumeInfo.authors[0];
+        book.title = result.items[0].volumeInfo.title;
+        book.year = x[0]+x[1]+x[2]+x[3];
+      })
+      .catch(err => console.log(err))
+    }
   }
 
   return (
@@ -160,9 +163,9 @@ const EditBook: FC<IProps> = ({
             <Button
               sx={editBookCancelButton}
               variant="contained"
-              onClick={() => Fetchspi()}
+              onClick={() => scanner()}
             >
-              Test Button for Api
+              Scanner
             </Button>
 
           </Stack>
@@ -171,7 +174,5 @@ const EditBook: FC<IProps> = ({
     </Modal>
   );
 };
-
-console.log("TEST")
 
 export default EditBook;
