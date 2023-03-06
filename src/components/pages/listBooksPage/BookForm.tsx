@@ -14,6 +14,7 @@ import {
   editBookCancelButton,
 } from "../../../sxStyles";
 import { fetchUpdateBook, fetchAddBook } from "../../../fetchFunctions";
+import CameraPopup from "../../Scanner/CameraPopup";
 
 interface IProps {
   visible: boolean;
@@ -37,6 +38,11 @@ const EditBook: FC<IProps> = ({
   updateBooks,
 }: IProps): JSX.Element => {
   const apikey = "&key=AIzaSyDQIsAIinLXi7UWR_dO_oRBWJtkAcZHwiE";
+  const [cameraVisible, setCameraVisible] = useState(false);
+  const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
+    ok: false,
+    message: "",
+  });
   const updateBook = async (newBook: Book) => {
     const response = await fetchUpdateBook(newBook);
     if (response.ok) {
@@ -75,21 +81,18 @@ const EditBook: FC<IProps> = ({
           message: "Book has been added",
         });
   };
-
-  const scanner = () => {
-    book.isbn = "9781784161859"
-    if (book.isbn != "") {
-      fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + book.isbn + apikey)
-      .then(response => response.json())
-      .then((result) => {
-        const x = result.items[0].volumeInfo.publishedDate;
-        console.log("Success:", result.items[0].volumeInfo.title);
-        book.author = result.items[0].volumeInfo.authors[0];
-        book.title = result.items[0].volumeInfo.title;
-        book.year = x[0]+x[1]+x[2]+x[3];
-      })
-      .catch(err => console.log(err))
-    }
+  
+  if (book.isbn != "") {
+    fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + book.isbn + apikey)
+    .then(response => response.json())
+    .then((result) => {
+      const x = result.items[0].volumeInfo.publishedDate;
+      console.log("Success:", result.items[0].volumeInfo.title);
+      book.author = result.items[0].volumeInfo.authors[0];
+      book.title = result.items[0].volumeInfo.title;
+      book.year = x[0]+x[1]+x[2]+x[3];
+    })
+    .catch(err => console.log(err))
   }
 
   return (
@@ -163,10 +166,20 @@ const EditBook: FC<IProps> = ({
             <Button
               sx={editBookCancelButton}
               variant="contained"
-              onClick={() => scanner()}
+              onClick={() => {
+                setCameraVisible(true);
+              }}
             >
+            
               Scanner
             </Button>
+
+            <CameraPopup
+              visible={cameraVisible}
+              setVisible={setCameraVisible}
+              confirmation={popUpConfirmation}
+              setConfirmation={setPopUpConfirmationOpen}
+            />
 
           </Stack>
         </Stack>
