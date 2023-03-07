@@ -58,7 +58,7 @@ const CameraPopup: FC<IProps> = ({
     return (
         <Modal open={visible} onClose={() => setVisible(false)}>
             <Box sx={editBookBox}>
-                <Button onClick={scanner}>AAA</Button>
+                <Button onClick={scanner}>Open camera scanner</Button>
                 <div id="reader"></div>           
             </Box>
         </Modal>

@@ -14,7 +14,7 @@ import {
   editBookCancelButton,
 } from "../../../sxStyles";
 import { fetchUpdateBook, fetchAddBook } from "../../../fetchFunctions";
-import CameraPopup from "../../Scanner/CameraPopup";
+import CameraPopup from "../../scanner/CameraPopup";
 
 interface IProps {
   visible: boolean;
