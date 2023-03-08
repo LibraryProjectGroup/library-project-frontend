@@ -1,6 +1,6 @@
 import { useState, useEffect, FC, Fragment } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Button } from "@mui/material";
+import { Button, Modal } from "@mui/material";
 import User from "../../../interfaces/user.interface";
 import EditUser from "../../../interfaces/editUser.interface";
 import {
@@ -19,6 +19,10 @@ const UsersGrid: FC = (): JSX.Element => {
   const [oneUserData, setOneUserData] = useState<EditUser | null>(null);
   const [formVisible, setFormVisible] = useState(false);
   const [open, setOpen] = useState(false);
+  const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
+    ok: false,
+    message: "",
+  });
 
   const handleClose = () => {
     setOpen(false);
@@ -58,9 +62,23 @@ const UsersGrid: FC = (): JSX.Element => {
       renderCell: (params) => (
         <Button
           sx={{ color: "red" }}
-          onClick={() => {
-            deleteUser(params.row.id);
-            loadUsersData();
+          onClick={async () => {
+            if (window.confirm("Do you want to delete this user?")) {
+              let message = "Deletion succeeded";
+              await fetchDeleteUser(params.row.id)
+                .then((res) => {
+                  if (!res.ok) {
+                    message = "Deletion failed";
+                  }
+                })
+                .then(() =>
+                  setPopUpConfirmationOpen({
+                    ok: true,
+                    message: message,
+                  })
+                );
+              await loadUsersData();
+            }
           }}
         >
           Delete
@@ -149,6 +167,7 @@ const UsersGrid: FC = (): JSX.Element => {
         </Alert>
       </Snackbar>
     </>
+    
   );
 };
 
