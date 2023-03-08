@@ -203,7 +203,7 @@ const UserBooklists: FC = (): JSX.Element => {
           aria-label="back"
           sx={booklistsPageBackAndAddButtons}
           onClick={() => {
-            navigate(-1);
+            navigate("/list-books");
           }}
         >
           <ArrowBackIcon />

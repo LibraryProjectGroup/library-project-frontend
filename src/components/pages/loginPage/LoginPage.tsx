@@ -90,7 +90,7 @@ const LoginPage: FC = (): JSX.Element => {
                 variant="h1" //not responsive font
                 sx={loginRegisterTitle}
               >
-                Efilibrary
+                EfiLibrary
               </Typography>
               <Typography sx={loginRegisterContent}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

@@ -239,7 +239,7 @@ const MyAccount: FC = (): JSX.Element => {
             aria-label="back"
             sx={userPageBackButton}
             onClick={() => {
-              navigate(-1);
+              navigate("/list-books");
             }}
           >
             <ArrowBackIcon />
