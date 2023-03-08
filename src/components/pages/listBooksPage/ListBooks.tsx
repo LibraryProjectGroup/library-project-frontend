@@ -513,7 +513,6 @@ const ListBooks: FC = (): JSX.Element => {
               onClick={() => {
                 setFormEditing(false);
                 setFormBook({
-                  
                   // api key: AIzaSyDQIsAIinLXi7UWR_dO_oRBWJtkAcZHwiE
 
                   id: -1, // This wont get used

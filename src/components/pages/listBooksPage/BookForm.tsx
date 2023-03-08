@@ -81,18 +81,23 @@ const EditBook: FC<IProps> = ({
           message: "Book has been added",
         });
   };
-  
+
+  const fetchApi = (isbn: String) => {
+    console.log(isbn + "Test");
+    fetch(
+      "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn + apikey
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        const x = result.items[0].volumeInfo.publishedDate;
+        console.log("Success:", result.items[0].volumeInfo.title);
+        setBook({isbn: isbn, author: result.items[0].volumeInfo.authors[0], title: result.items[0].volumeInfo.title, year: x[0] + x[1] + x[2] + x[3]});
+      })
+      .catch((err) => console.log(err));
+  }
+
   if (book.isbn != "") {
-    fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + book.isbn + apikey)
-    .then(response => response.json())
-    .then((result) => {
-      const x = result.items[0].volumeInfo.publishedDate;
-      console.log("Success:", result.items[0].volumeInfo.title);
-      book.author = result.items[0].volumeInfo.authors[0];
-      book.title = result.items[0].volumeInfo.title;
-      book.year = x[0]+x[1]+x[2]+x[3];
-    })
-    .catch(err => console.log(err))
+    fetchApi(book.isbn);
   }
 
   return (
@@ -162,7 +167,7 @@ const EditBook: FC<IProps> = ({
             >
               Cancel
             </Button>
-            
+
             <Button
               sx={editBookCancelButton}
               variant="contained"
@@ -170,7 +175,6 @@ const EditBook: FC<IProps> = ({
                 setCameraVisible(true);
               }}
             >
-            
               Scanner
             </Button>
 
@@ -179,8 +183,8 @@ const EditBook: FC<IProps> = ({
               setVisible={setCameraVisible}
               confirmation={popUpConfirmation}
               setConfirmation={setPopUpConfirmationOpen}
+              callApi={fetchApi}
             />
-
           </Stack>
         </Stack>
       </Box>
