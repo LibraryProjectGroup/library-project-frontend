@@ -167,7 +167,6 @@ const UsersGrid: FC = (): JSX.Element => {
         </Alert>
       </Snackbar>
     </>
-    
   );
 };
 
