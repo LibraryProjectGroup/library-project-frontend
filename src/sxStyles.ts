@@ -27,7 +27,7 @@ export const textButton: SxProps = {
 export const loginBox: SxProps = {
   display: "flex",
   flexDirection: "Column",
-  margin: '1rem 0',
+  margin: "1rem 0",
 };
 
 export const AuthBoxTitle: SxProps = {
@@ -37,13 +37,13 @@ export const AuthBoxTitle: SxProps = {
 };
 
 export const loginRegisterTitle: SxProps = {
-  display:'flex',
-  alignItems:'center',
-  justifyContent:{xs:'center', md:'flex-start'},
+  display: "flex",
+  alignItems: "center",
+  justifyContent: { xs: "center", md: "flex-start" },
   fontFamily: "Merriweather",
   fontWeight: "bold",
-  fontSize:{xs:'4rem', sm:'6rem'},
-  marginBottom:'2rem',
+  fontSize: { xs: "4rem", sm: "6rem" },
+  marginBottom: "2rem",
 };
 
 export const loginRegisterContent: SxProps = {
@@ -52,9 +52,9 @@ export const loginRegisterContent: SxProps = {
 };
 
 export const loginPaper: SxProps = {
-  width: '100%',
-  height: 'auto',
-  margin:'1rem'
+  width: "100%",
+  height: "auto",
+  margin: "1rem",
 };
 
 // AddBook

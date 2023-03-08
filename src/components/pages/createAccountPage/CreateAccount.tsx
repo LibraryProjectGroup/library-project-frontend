@@ -130,7 +130,7 @@ const CreateAccount: FC = () => {
       <Grid item container alignItems="center" sx={{ width: "95%" }}>
         <Grid item xs={12} md={7}>
           <Box>
-            <Box sx={{ margin:'4rem 4rem 2rem 4rem' }}>
+            <Box sx={{ margin: "4rem 4rem 2rem 4rem" }}>
               <Typography
                 variant="h1" //not responsive font
                 sx={loginRegisterTitle}

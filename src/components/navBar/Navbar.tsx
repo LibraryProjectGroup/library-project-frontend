@@ -1,10 +1,28 @@
-import * as React from 'react';
-import { AppBar, Box, Fab, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem } from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
+import * as React from "react";
+import {
+  AppBar,
+  Box,
+  Fab,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  Avatar,
+  Button,
+  Tooltip,
+  MenuItem,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import { FC, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { endSession } from "../../auth";
-import { userLogOutButton, navbarPagesHamburger, navbarPagesLarge, navbarMenuItemHamburger } from "../../sxStyles";
+import {
+  userLogOutButton,
+  navbarPagesHamburger,
+  navbarPagesLarge,
+  navbarMenuItemHamburger,
+} from "../../sxStyles";
 import { TheContext } from "../../TheContext";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { log } from "console";
@@ -12,8 +30,12 @@ import { gridColumnGroupsLookupSelector } from "@mui/x-data-grid";
 import { fontSize } from "@mui/system";
 
 const NavBar: FC = (): JSX.Element => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
 
   const context = useContext(TheContext);
   const navigate = useNavigate();
@@ -34,10 +56,12 @@ const NavBar: FC = (): JSX.Element => {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "white", height: 80, justifyContent: "center" }}>
+    <AppBar
+      position="static"
+      sx={{ backgroundColor: "white", height: 80, justifyContent: "center" }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-
           {/* Navbar title for large screens */}
           <Typography
             variant="h4"
@@ -45,9 +69,9 @@ const NavBar: FC = (): JSX.Element => {
             component="a"
             sx={{
               mr: 2,
-              display: { xs: 'none', lg: 'flex' },
+              display: { xs: "none", lg: "flex" },
               fontFamily: "Merriweather",
-              letterSpacing: '.3rem',
+              letterSpacing: ".3rem",
               color: "black",
               cursor: "pointer",
               "&:hover": {
@@ -60,7 +84,7 @@ const NavBar: FC = (): JSX.Element => {
           </Typography>
 
           {/* Navbar pages, Hamburger menu */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", lg: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -75,51 +99,63 @@ const NavBar: FC = (): JSX.Element => {
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
+                vertical: "bottom",
+                horizontal: "left",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
+                vertical: "top",
+                horizontal: "left",
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', lg: 'none' },
+                display: { xs: "block", lg: "none" },
               }}
             >
-              <MenuItem onClick={() => { navigate("/admin"); handleCloseNavMenu(); }} sx={navbarMenuItemHamburger}>
+              <MenuItem
+                onClick={() => {
+                  navigate("/admin");
+                  handleCloseNavMenu();
+                }}
+                sx={navbarMenuItemHamburger}
+              >
                 {context?.user?.administrator ? (
-                  <Typography
-                    sx={navbarPagesHamburger}
-                  >
-                    ADMIN PAGE
-                  </Typography>
+                  <Typography sx={navbarPagesHamburger}>ADMIN PAGE</Typography>
                 ) : (
                   <></>
                 )}
               </MenuItem>
-              <MenuItem onClick={() => { navigate("/user"); handleCloseNavMenu(); }} sx={navbarMenuItemHamburger}>
-                <Typography
-                  sx={navbarPagesHamburger}
-                >
+              <MenuItem
+                onClick={() => {
+                  navigate("/user");
+                  handleCloseNavMenu();
+                }}
+                sx={navbarMenuItemHamburger}
+              >
+                <Typography sx={navbarPagesHamburger}>
                   MY LOANED BOOKS
                 </Typography>
               </MenuItem>
-              <MenuItem onClick={() => { navigate("/reservations"); handleCloseNavMenu(); }} sx={navbarMenuItemHamburger}>
-                <Typography
-                  sx={navbarPagesHamburger}
-                >
+              <MenuItem
+                onClick={() => {
+                  navigate("/reservations");
+                  handleCloseNavMenu();
+                }}
+                sx={navbarMenuItemHamburger}
+              >
+                <Typography sx={navbarPagesHamburger}>
                   MY BOOK RESERVATIONS
                 </Typography>
               </MenuItem>
-              <MenuItem onClick={() => { navigate("/booklists"); handleCloseNavMenu(); }} sx={navbarMenuItemHamburger}>
-                <Typography
-                  sx={navbarPagesHamburger}
-                >
-                  MY LISTS
-                </Typography>
+              <MenuItem
+                onClick={() => {
+                  navigate("/booklists");
+                  handleCloseNavMenu();
+                }}
+                sx={navbarMenuItemHamburger}
+              >
+                <Typography sx={navbarPagesHamburger}>MY LISTS</Typography>
               </MenuItem>
             </Menu>
           </Box>
@@ -130,10 +166,10 @@ const NavBar: FC = (): JSX.Element => {
             noWrap
             sx={{
               mr: 2,
-              display: { xs: 'flex', lg: 'none' },
+              display: { xs: "flex", lg: "none" },
               flexGrow: 1,
               fontFamily: "Merriweather",
-              letterSpacing: '.3rem',
+              letterSpacing: ".3rem",
               color: "black",
               cursor: "pointer",
               "&:hover": {
@@ -146,7 +182,7 @@ const NavBar: FC = (): JSX.Element => {
           </Typography>
 
           {/* Navbar pages for large screens */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' } }} >
+          <Box sx={{ flexGrow: 1, display: { xs: "none", lg: "flex" } }}>
             {context?.user?.administrator ? (
               <Button
                 sx={navbarPagesLarge}
@@ -154,7 +190,7 @@ const NavBar: FC = (): JSX.Element => {
                   navigate("/admin");
                 }}
               >
-              ADMIN PAGE
+                ADMIN PAGE
               </Button>
             ) : (
               <></>
@@ -186,24 +222,24 @@ const NavBar: FC = (): JSX.Element => {
           </Box>
 
           {/* User & Log out for Hamburger menu */}
-          <Box sx={{ flexGrow: 0, display: { xs: 'flex', lg: 'none' } }}>
+          <Box sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}>
             <Tooltip title={context?.user?.username}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar></Avatar>
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
@@ -217,7 +253,8 @@ const NavBar: FC = (): JSX.Element => {
               </MenuItem>
               */}
               <MenuItem>
-                <Typography textAlign="center"
+                <Typography
+                  textAlign="center"
                   onClick={() => {
                     endSession();
                     navigate("/login");
@@ -232,37 +269,37 @@ const NavBar: FC = (): JSX.Element => {
           </Box>
 
           {/* User & Log out for large screens */}
-          <Box sx={{ display: { xs: 'none', lg: 'flex' } }} >
-            <Box sx={{ marginLeft: 1, marginTop: 1}}>
-            <Typography
-              variant="h6"
-              sx={{
-                fontFamily: "Merriweather",
-                color: "black",
-                fontSize: 12.5,
-              }}
-            >
-              User: <b>{context?.user?.username}</b>
-            </Typography>
-            <Typography
-              variant="h6"
-              sx={{
-                fontFamily: "Merriweather",
-                color: "black",
-                fontSize: 12.5,
-              }}
-            >
-              {context?.borrows &&
-                (context?.borrows?.length > 1 ? (
-                  <p style={{ margin: 0 }}>
-                    Currently loaning {context?.borrows?.length} books
-                  </p>
-                ) : (
-                  <p style={{ margin: 0 }}>
-                    Currently loaning {context?.borrows?.length} book
-                  </p>
-                ))}
-            </Typography>
+          <Box sx={{ display: { xs: "none", lg: "flex" } }}>
+            <Box sx={{ marginLeft: 1, marginTop: 1 }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  fontFamily: "Merriweather",
+                  color: "black",
+                  fontSize: 12.5,
+                }}
+              >
+                User: <b>{context?.user?.username}</b>
+              </Typography>
+              <Typography
+                variant="h6"
+                sx={{
+                  fontFamily: "Merriweather",
+                  color: "black",
+                  fontSize: 12.5,
+                }}
+              >
+                {context?.borrows &&
+                  (context?.borrows?.length > 1 ? (
+                    <p style={{ margin: 0 }}>
+                      Currently loaning {context?.borrows?.length} books
+                    </p>
+                  ) : (
+                    <p style={{ margin: 0 }}>
+                      Currently loaning {context?.borrows?.length} book
+                    </p>
+                  ))}
+              </Typography>
             </Box>
             <Tooltip title="Log out">
               <Fab
@@ -279,7 +316,6 @@ const NavBar: FC = (): JSX.Element => {
               </Fab>
             </Tooltip>
           </Box>
-
         </Toolbar>
       </Container>
     </AppBar>
