@@ -1,4 +1,4 @@
-import React, { useState, FC, useEffect, useContext } from "react";
+import React, { useState, FC, useEffect, useContext, useCallback } from "react";
 import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
 import BACKEND_URL from "../../../backendUrl";
 import { useNavigate } from "react-router-dom";
@@ -42,36 +42,52 @@ const LoginPage: FC = (): JSX.Element => {
     };
   }, []);
 
-  const handleLogin = async () => {
-    try {
-      const response = await fetch(`${BACKEND_URL}/auth/login`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json;charset=UTF-8",
-        },
-        body: JSON.stringify({ email: email, password: password }),
-      });
-      let data = await response.json();
-      if (data.ok) {
-        setSession(data.secret);
-        navigate("/list-books");
-        // update user data when you logIn and logOut
-        context?.setIsLogin(true);
-      } else {
-        setErrorMesssage(data.message ? data.message : "internal error");
+  
+  const handleLogin = useCallback(async () => {
+      try {
+        const response = await fetch(`${BACKEND_URL}/auth/login`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json;charset=UTF-8",
+          },
+          body: JSON.stringify({ email: email, password: password }),
+        });
+        let data = await response.json();
+        if (data.ok) {
+          setSession(data.secret);
+          navigate("/list-books");
+          // update user data when you logIn and logOut
+          context?.setIsLogin(true);
+        } else {
+          setErrorMesssage(data.message ? data.message : "internal error");
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  }, [email, password, navigate, context])
+  
+  useEffect(() => {
+    const listener = async (event: KeyboardEvent) => {
+      
+      // Checks that the event target is an input and that the enter key was pressed
+      if (event.target instanceof HTMLInputElement && (event.code === "Enter" || event.code === "NumpadEnter")) {
+        event.preventDefault();
+        await handleLogin();
+      }
+    };
+    document.addEventListener("keydown", listener);
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
+  }, [handleLogin]);
 
   return (
     <Grid
-      container
-      flex-wrap="wrap"
-      direction="row"
-      justifyContent="space-around"
-      alignItems="center"
+    container
+    flex-wrap="wrap"
+    direction="row"
+    justifyContent="space-around"
+    alignItems="center"
       sx={{
         maxWidth: dimensions.width,
         minHeight: dimensions.height,
