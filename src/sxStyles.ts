@@ -183,7 +183,7 @@ export const listBooksEntryAddButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
-  margin: "3px",
+  // margin: "3px",
   //marginTop: "1rem",
   //width: "30%",
   whiteSpace: "nowrap",
