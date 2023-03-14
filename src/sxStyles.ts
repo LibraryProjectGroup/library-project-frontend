@@ -401,3 +401,42 @@ export const editBookListCancelButton: SxProps = {
   },
   //padding: 2,
 };
+
+//Modal styles
+export const modalPopup: SxProps = {
+  fontSize: 12,
+}
+
+export const headerPopup: SxProps = {
+  width: "100%",
+  borderBottom: "1px solid gray",
+  fontSize: 18,
+  textAlign: "center",
+  padding: 5,
+}
+
+export const contentPopup: SxProps = {
+  width: "100%",
+  padding: "10px 5px",
+}
+
+export const actionsPopup: SxProps = {
+  width: "100%",
+  padding: "10px 5px",
+  margin: "auto",
+  textAlign: "center",
+}
+
+export const closePopup: SxProps = {
+  cursor: "pointer",
+  position: "absolute",
+  display: "block",
+  padding: "2px 5px",
+  lineHeight: 20,
+  right: -10,
+  top: -10,
+  fontSize: 24,
+  background: "#ffffff",
+  borderRadius: 18,
+  border: "1px solid #cfcece",
+}
