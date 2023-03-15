@@ -14,7 +14,7 @@ import UserForm from "./EditUsers";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import Popup from 'reactjs-popup';
-import DeleteUser from "./DeleteUserButton";
+import DeleteUser from "./DeleteUser";
 
 import 'reactjs-popup/dist/index.css';
 
@@ -70,24 +70,6 @@ const UsersGrid: FC = (): JSX.Element => {
           onClick={() => {
             setRowId(params.row.id);
             setFormVisible(true);
-            console.log(params.row.id);
-            /*
-            if (window.confirm("Do you want to delete this user?")) {
-              let message = "Deletion succeeded";
-              await fetchDeleteUser(params.row.id)
-                .then((res) => {
-                  if (!res.ok) {
-                    message = "Deletion failed";
-                  }
-                })
-                .then(() =>
-                  setPopUpConfirmationOpen({
-                    ok: true,
-                    message: message,
-                  })
-                );
-              await loadUsersData();
-            }*/
           }}
         >
           Delete
@@ -154,6 +136,7 @@ const UsersGrid: FC = (): JSX.Element => {
         confirmation={popUpConfirmation}
         setConfirmation={setPopUpConfirmationOpen}
         userId={rowId}
+        deleteUser={deleteUser}
       />
       <UserForm
         visible={formVisible}
