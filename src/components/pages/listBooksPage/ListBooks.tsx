@@ -568,13 +568,13 @@ const ListBooks: FC = (): JSX.Element => {
             editing={formEditing}
             updateBooks={fetchBooks}
           />
-
           <BookRequestForm
             visible={requestVisible}
             setVisible={setRequestVisible}
             confirmation={popUpConfirmation}
             setConfirmation={setPopUpConfirmationOpen}
           />
+          <DeleteBook />
           <Grid
             sx={{
               textAlign: "center",
