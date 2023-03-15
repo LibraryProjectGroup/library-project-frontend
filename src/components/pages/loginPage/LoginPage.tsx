@@ -42,14 +42,19 @@ const LoginPage: FC = (): JSX.Element => {
     };
   }, []);
 
-  const handleLogin = useCallback(async () => {
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const password = (form.elements.namedItem("password") as HTMLInputElement)
+      .value;
     try {
       const response = await fetch(`${BACKEND_URL}/auth/login`, {
         method: "POST",
         headers: {
           "content-type": "application/json;charset=UTF-8",
         },
-        body: JSON.stringify({ email: email, password: password }),
+        body: JSON.stringify({ email, password }),
       });
       let data = await response.json();
       if (data.ok) {
@@ -63,124 +68,110 @@ const LoginPage: FC = (): JSX.Element => {
     } catch (error) {
       console.error(error);
     }
-  }, [email, password, navigate, context]);
-
-  useEffect(() => {
-    const listener = async (event: KeyboardEvent) => {
-      // Checks that the event target is an input and that the enter key was pressed
-      if (
-        event.target instanceof HTMLInputElement &&
-        (event.code === "Enter" || event.code === "NumpadEnter")
-      ) {
-        event.preventDefault();
-        await handleLogin();
-      }
-    };
-    document.addEventListener("keydown", listener);
-    return () => {
-      document.removeEventListener("keydown", listener);
-    };
-  }, [handleLogin]);
+  };
 
   return (
-    <Grid
-      container
-      flex-wrap="wrap"
-      direction="row"
-      justifyContent="space-around"
-      alignItems="center"
-      sx={{
-        maxWidth: dimensions.width,
-        minHeight: dimensions.height,
-      }}
-    >
+    <form onSubmit={(event) => handleLogin(event)}>
       <Grid
-        item
         container
+        flex-wrap="wrap"
+        direction="row"
+        justifyContent="space-around"
         alignItems="center"
-        sx={{ width: "95%", paddingBottom: 10 }}
+        sx={{
+          maxWidth: dimensions.width,
+          minHeight: dimensions.height,
+        }}
       >
-        <Grid item xs={12} md={7}>
-          <Box>
-            <Box sx={{ margin: "4rem 4rem 2rem 4rem" }}>
-              <Typography
-                variant="h1" //not responsive font
-                sx={loginRegisterTitle}
-              >
-                EfiLibrary
-              </Typography>
-              <Typography sx={loginRegisterContent}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </Typography>
-            </Box>
-          </Box>
-        </Grid>
         <Grid
           item
-          xs={12}
-          md={5}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
+          container
+          alignItems="center"
+          sx={{ width: "95%", paddingBottom: 10 }}
         >
-          <Paper elevation={10} sx={loginPaper}>
-            <Box sx={{ padding: "3rem" }}>
-              <Typography variant="h4" sx={AuthBoxTitle}>
-                Login
-              </Typography>
-              <Box sx={loginBox}>
-                <TextField
-                  label="Email"
-                  variant="outlined"
-                  margin="normal"
-                  onChange={(event) => {
-                    setEmail(event.target.value);
-                  }}
-                />
-
-                <TextField
-                  label="Password"
-                  variant="outlined"
-                  type="password"
-                  margin="normal"
-                  onChange={(event) => {
-                    setPassword(event.target.value);
-                  }}
-                />
-                {errorMessage && (
-                  <Typography sx={{ color: "red" }}>{errorMessage}</Typography>
-                )}
-              </Box>
-              <Box sx={{ textAlign: "center" }}>
-                <Button
-                  variant="contained"
-                  onClick={handleLogin}
-                  sx={loginButton}
+          <Grid item xs={12} md={7}>
+            <Box>
+              <Box sx={{ margin: "4rem 4rem 2rem 4rem" }}>
+                <Typography
+                  variant="h1" //not responsive font
+                  sx={loginRegisterTitle}
                 >
-                  Log in
-                </Button>
-              </Box>
-              <Box sx={{ textAlign: "center" }}>
-                <Button
-                  variant="text"
-                  onClick={() => navigate("/create-account")}
-                  sx={textButton}
-                >
-                  Create account
-                </Button>
+                  EfiLibrary
+                </Typography>
+                <Typography sx={loginRegisterContent}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                </Typography>
               </Box>
             </Box>
-          </Paper>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={5}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Paper elevation={10} sx={loginPaper}>
+              <Box sx={{ padding: "3rem" }}>
+                <Typography variant="h4" sx={AuthBoxTitle}>
+                  Login
+                </Typography>
+                <Box sx={loginBox}>
+                  <TextField
+                    label="Email"
+                    variant="outlined"
+                    margin="normal"
+                    name="email"
+                    onChange={(event) => {
+                      setEmail(event.target.value);
+                    }}
+                  />
+
+                  <TextField
+                    label="Password"
+                    variant="outlined"
+                    type="password"
+                    margin="normal"
+                    name="password"
+                    onChange={(event) => {
+                      setPassword(event.target.value);
+                    }}
+                  />
+                  {errorMessage && (
+                    <Typography sx={{ color: "red" }}>
+                      {errorMessage}
+                    </Typography>
+                  )}
+                </Box>
+                <Box sx={{ textAlign: "center" }}>
+                  <Button variant="contained" type="submit" sx={loginButton}>
+                    Log in
+                  </Button>
+                </Box>
+                <Box sx={{ textAlign: "center" }}>
+                  <Button
+                    variant="text"
+                    onClick={() => navigate("/create-account")}
+                    sx={textButton}
+                  >
+                    Create account
+                  </Button>
+                </Box>
+              </Box>
+            </Paper>
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </form>
   );
 };
 
