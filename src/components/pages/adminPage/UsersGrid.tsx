@@ -31,13 +31,14 @@ const UsersGrid: FC = (): JSX.Element => {
   };
 
   const COLUMNS_USERS: GridColDef[] = [
-    { field: "id", headerName: "ID", flex: 1 },
-    { field: "username", headerName: "Username", flex: 2 },
-    { field: "email", headerName: "Email", flex: 2 },
+    { field: "id", headerName: "ID", flex: 1, minWidth: 70 },
+    { field: "username", headerName: "Username", flex: 2, minWidth: 160 },
+    { field: "email", headerName: "Email", flex: 2, minWidth: 230 },
     {
       field: "administrator",
       headerName: "Administrator",
-      flex: 1,
+      flex: 1.5,
+      minWidth: 110,
       valueFormatter(params) {
         return params.value === 0 ? "false" : "true";
       },
@@ -46,6 +47,7 @@ const UsersGrid: FC = (): JSX.Element => {
       field: "edit",
       headerName: "Edit user",
       flex: 1.5,
+      minWidth: 80,
       renderCell: (params) => (
         <Button
           sx={{ color: "blue" }}
@@ -61,6 +63,7 @@ const UsersGrid: FC = (): JSX.Element => {
       field: "delete",
       headerName: "Delete user",
       flex: 1.5,
+      minWidth: 100,
       renderCell: (params) => (
         <Button
           sx={{ color: "red" }}
@@ -76,7 +79,8 @@ const UsersGrid: FC = (): JSX.Element => {
     {
       field: "password reset",
       headerName: "Link to reset password",
-      flex: 1.5,
+      flex: 2,
+      minWidth: 170,
       renderCell: (params) => (
         <Button
           sx={{ color: "red" }}

@@ -7,13 +7,13 @@ const BooksGrid: FC = (): JSX.Element => {
   const [booksData, setBooksData] = useState<Book[]>([]);
 
   const COLUMNS_BOOKS: GridColDef[] = [
-    { field: "id", headerName: "ID", flex: 1 },
-    { field: "title", headerName: "Title", flex: 5 },
-    { field: "author", headerName: "Author", flex: 4 },
-    { field: "year", headerName: "Year", flex: 4 },
-    { field: "topic", headerName: "Topic", flex: 4 },
-    { field: "location", headerName: "Location", flex: 3 },
-    { field: "isbn", headerName: "ISBN", flex: 3 },
+    { field: "id", headerName: "ID", flex: 1, minWidth: 70 },
+    { field: "title", headerName: "Title", flex: 5, minWidth: 140 },
+    { field: "author", headerName: "Author", flex: 4, minWidth: 140 },
+    { field: "year", headerName: "Year", flex: 4, minWidth: 60 },
+    { field: "topic", headerName: "Topic", flex: 4, minWidth: 100 },
+    { field: "location", headerName: "Location", flex: 3, minWidth: 140 },
+    { field: "isbn", headerName: "ISBN", flex: 3, minWidth: 160 },
   ];
 
   useEffect(() => {
