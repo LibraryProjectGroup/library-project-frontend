@@ -405,7 +405,7 @@ export const editBookListCancelButton: SxProps = {
 //Modal styles
 export const modalPopup: SxProps = {
   fontSize: 12,
-}
+};
 
 export const headerPopup: SxProps = {
   width: "100%",
@@ -413,19 +413,19 @@ export const headerPopup: SxProps = {
   fontSize: 18,
   textAlign: "center",
   padding: 5,
-}
+};
 
 export const contentPopup: SxProps = {
   width: "100%",
   padding: "10px 5px",
-}
+};
 
 export const actionsPopup: SxProps = {
   width: "100%",
   padding: "10px 5px",
   margin: "auto",
   textAlign: "center",
-}
+};
 
 export const closePopup: SxProps = {
   cursor: "pointer",
@@ -439,4 +439,4 @@ export const closePopup: SxProps = {
   background: "#ffffff",
   borderRadius: 18,
   border: "1px solid #cfcece",
-}
+};

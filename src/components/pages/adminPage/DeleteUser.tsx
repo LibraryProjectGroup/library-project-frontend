@@ -12,9 +12,7 @@ import {
   editBookUpdateButton,
   editBookCancelButton,
 } from "../../../sxStyles";
-import {
-  fetchDeleteUser,
-} from "../../../fetchFunctions";
+import { fetchDeleteUser } from "../../../fetchFunctions";
 import { fetchAddBookRequest } from "../../../fetchFunctions";
 
 interface IProps {
@@ -40,13 +38,13 @@ const DeleteUsers: FC<IProps> = ({
         <Stack spacing={2}>
           <Stack direction="row" spacing={2} justifyContent="center">
             <Typography
-                sx={{
-                  fontFamily: "Merriweather",
-                  fontWeight: "light",
-                }}
-              >
-                Do you want to delete this user?
-              </Typography>
+              sx={{
+                fontFamily: "Merriweather",
+                fontWeight: "light",
+              }}
+            >
+              Do you want to delete this user?
+            </Typography>
           </Stack>
           <Stack direction="row" spacing={2} justifyContent="center">
             <Button

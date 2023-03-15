@@ -13,10 +13,7 @@ import {
 import UserForm from "./EditUsers";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
-import Popup from 'reactjs-popup';
 import DeleteUser from "./DeleteUser";
-
-import 'reactjs-popup/dist/index.css';
 
 const UsersGrid: FC = (): JSX.Element => {
   const [usersData, setUsersData] = useState<User[]>([]);

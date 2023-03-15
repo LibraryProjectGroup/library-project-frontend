@@ -14,8 +14,6 @@ import LoansGrid from "./LoansGrid";
 import ExpiredGrid from "./ExpiredGrid";
 import RequestsGrid from "./RequestsGrid";
 import ReservationsGrid from "./ReservationsGrid";
-import Popup from 'reactjs-popup';
-import 'reactjs-popup/dist/index.css';
 
 const Admin: FC = (): JSX.Element => {
   const [currentTab, setCurrentTab] = useState<number>(0);
