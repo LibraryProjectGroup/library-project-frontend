@@ -44,10 +44,6 @@ const LoginPage: FC = (): JSX.Element => {
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const form = event.currentTarget;
-    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
-    const password = (form.elements.namedItem("password") as HTMLInputElement)
-      .value;
     try {
       const response = await fetch(`${BACKEND_URL}/auth/login`, {
         method: "POST",
@@ -130,7 +126,6 @@ const LoginPage: FC = (): JSX.Element => {
                     label="Email"
                     variant="outlined"
                     margin="normal"
-                    name="email"
                     onChange={(event) => {
                       setEmail(event.target.value);
                     }}
@@ -141,7 +136,6 @@ const LoginPage: FC = (): JSX.Element => {
                     variant="outlined"
                     type="password"
                     margin="normal"
-                    name="password"
                     onChange={(event) => {
                       setPassword(event.target.value);
                     }}
