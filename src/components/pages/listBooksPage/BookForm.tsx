@@ -1,4 +1,4 @@
-import { useState, FC } from "react";
+import { useEffect, useState, FC } from "react";
 import {
   Modal,
   Box,
@@ -38,6 +38,7 @@ const EditBook: FC<IProps> = ({
   updateBooks,
 }: IProps): JSX.Element => {
   const apikey = "&key=AIzaSyDQIsAIinLXi7UWR_dO_oRBWJtkAcZHwiE";
+  const [lastIsbn, setLastIsbn] = useState("");
   const [cameraVisible, setCameraVisible] = useState(false);
   const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
     ok: false,
@@ -81,12 +82,11 @@ const EditBook: FC<IProps> = ({
           message: "Book has been added",
         });
   };
-
-  const fetchApi = (isbn: String) => {
-    console.log(isbn + "Test");
-    fetch(
-      "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn + apikey
-    )
+  
+   
+  const fetchApi = (isbn: string) => {
+    console.log(isbn + " Scanner Test");
+    fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn)
       .then((response) => response.json())
       .then((result) => {
         const x = result.items[0].volumeInfo.publishedDate;
@@ -94,14 +94,21 @@ const EditBook: FC<IProps> = ({
         setBook({isbn: isbn, author: result.items[0].volumeInfo.authors[0], title: result.items[0].volumeInfo.title, year: x[0] + x[1] + x[2] + x[3]});
       })
       .catch((err) => console.log(err));
-  }
+  };
 
-  if (book.isbn != "") {
+  const handleClose = () => {
+    setVisible(false);
+  };
+
+  if(book.isbn != "" && book.isbn != lastIsbn) {
+    setLastIsbn(book.isbn);
     fetchApi(book.isbn);
-  }
+  } else if (book.isbn == "" && lastIsbn != "") {
+    setLastIsbn("");
+  };
 
   return (
-    <Modal open={visible} onClose={() => setVisible(false)}>
+    <Modal open={visible} onClose={() => handleClose()}>
       <Box sx={editBookBox}>
         <Stack spacing={2}>
           <Typography
