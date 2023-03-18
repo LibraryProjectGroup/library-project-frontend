@@ -1,6 +1,6 @@
 import { useState, useEffect, FC, Fragment } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Button, Modal } from "@mui/material";
+import { Button } from "@mui/material";
 import User from "../../../interfaces/user.interface";
 import EditUser from "../../../interfaces/editUser.interface";
 import {
@@ -18,7 +18,10 @@ import DeleteUser from "./DeleteUser";
 const UsersGrid: FC = (): JSX.Element => {
   const [usersData, setUsersData] = useState<User[]>([]);
   const [oneUserData, setOneUserData] = useState<EditUser | null>(null);
+
+  const [requestVisible, setRequestVisible] = useState(false);
   const [formVisible, setFormVisible] = useState(false);
+  
   const [open, setOpen] = useState(false);
   const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
     ok: false,
@@ -117,14 +120,14 @@ const UsersGrid: FC = (): JSX.Element => {
   const editUser = async (id: number) => {
     let userData = await fetchUserById(id);
     userData.administrator = userData.administrator === 1 ? "true" : "false";
-    setFormVisible(true);
+    setRequestVisible(true);
     setOneUserData(userData);
   };
 
   const updateUser = async (editedUser: EditUser) => {
     const ok = await fetchAdminUpdateUserData(editedUser);
     if (ok?.ok) {
-      setFormVisible(false);
+      setRequestVisible(false);
       await loadUsersData();
     }
   };
@@ -140,8 +143,8 @@ const UsersGrid: FC = (): JSX.Element => {
         deleteUser={deleteUser}
       />
       <UserForm
-        visible={formVisible}
-        setVisible={setFormVisible}
+        visible={requestVisible}
+        setVisible={setRequestVisible}
         setOneUserData={setOneUserData}
         user={oneUserData}
         updateUser={updateUser}

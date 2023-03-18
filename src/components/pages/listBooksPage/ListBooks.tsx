@@ -29,6 +29,9 @@ import { TheContext } from "../../../TheContext";
 import Book from "../../../interfaces/book.interface";
 import Book_reservation from "../../../interfaces/book_reservation.interface";
 import BookForm from "./BookForm";
+import DeleteBook from "./DeleteBook";
+import LoanBook from "./LoanBook";
+import ReserveBook from "./ReserveBook";
 import UserListPopup from "./UserListPopup";
 import {
   fetchAllBooks,
@@ -53,6 +56,7 @@ import {
   addBookAddButton as addButton,
   listBooksFavoriteButton as favButton,
 } from "../../../sxStyles";
+import { ToastContainer, toast } from 'react-toastify';
 import Borrow from "../../../interfaces/borrow.interface";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
@@ -60,9 +64,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import Alert from "@mui/material/Alert";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import BookRequestForm from "./BookRequestForm";
 import { LOAN_DAYS, RESERVATION_DAYS, MS_IN_DAY } from "../../../constants";
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const ListBooks: FC = (): JSX.Element => {
   const [page, setPage] = React.useState(0);
@@ -79,11 +84,15 @@ const ListBooks: FC = (): JSX.Element => {
   const [bookPage, setBookPage] = useState(1);
   const [bookPageSize, setBookPageSize] = useState(books.length);
   const [bookCount, setBookCount] = useState<number>(0);
+  const [bookId, setBookId] = useState<number>(0);
 
   const [requestVisible, setRequestVisible] = useState(false);
+  const [formVisible, setFormVisible] = useState(false);
+  const [deleteVisible, setDeleteVisible] = useState(false);
+  const [loanVisible, setLoanVisible] = useState(false);
+  const [reserveVisible, setReserveVisible] = useState(false);
 
   const [formBook, setFormBook] = useState<Book | null>(null);
-  const [formVisible, setFormVisible] = useState(false);
   const [formEditing, setFormEditing] = useState(false);
   const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
     ok: false,
@@ -266,23 +275,8 @@ const ListBooks: FC = (): JSX.Element => {
           variant="contained"
           disabled={bookInCurrentBorrows(book)}
           onClick={async () => {
-            if (window.confirm("Do you want to LOAN this book?")) {
-              let message = "Loaning succeeded";
-              await fetchCreateBorrow(book.id)
-                .then((res) => {
-                  if (!res.ok) {
-                    message = "Loaning failed";
-                  }
-                })
-                .then(() =>
-                  setPopUpConfirmationOpen({
-                    ok: true,
-                    message: message,
-                  })
-                );
-              await fetchBooks();
-              await fetchBorrows();
-            }
+            setBookId(book.id);
+            setLoanVisible(true);
           }}
         >
           LOAN
@@ -307,23 +301,8 @@ const ListBooks: FC = (): JSX.Element => {
           variant="contained"
           disabled={bookInCurrentReservations(book)}
           onClick={async () => {
-            if (window.confirm("Do you want to RESERVE this book?")) {
-              let message = "Reservation succeeded";
-              await fetchAddBookReservation(book.id)
-                .then((res) => {
-                  if (!res.ok) {
-                    message = "Reservation failed";
-                  }
-                })
-                .then(() =>
-                  setPopUpConfirmationOpen({
-                    ok: true,
-                    message: message,
-                  })
-                );
-              await fetchBooks();
-              await fetchReservations();
-            }
+            setBookId(book.id);
+            setReserveVisible(true);
           }}
         >
           RESERVE
@@ -454,26 +433,13 @@ const ListBooks: FC = (): JSX.Element => {
                 }
                 color="error"
                 onClick={async () => {
-                  if (window.confirm("Do you want to DELETE this book?")) {
-                    let message = "Delete succeeded";
-                    await fetchDeleteBook(book.id)
-                      .then((res) => {
-                        if (!res.ok) {
-                          message = "Delete failed";
-                        }
-                      })
-                      .then(() =>
-                        setPopUpConfirmationOpen({
-                          ok: true,
-                          message: message,
-                        })
-                      );
-                    await fetchBooks();
-                  }
+                  setBookId(book.id);
+                  setDeleteVisible(true);
                 }}
               >
                 Delete book
               </Button>
+              
               <Button
                 sx={listBooksEditButton}
                 variant="contained"
@@ -492,7 +458,9 @@ const ListBooks: FC = (): JSX.Element => {
               {renderLoanButton(book)}
               {renderReserveButton(book)}
             </Stack>
+            
           </Stack>
+          
         </Paper>
       );
     }
@@ -574,7 +542,35 @@ const ListBooks: FC = (): JSX.Element => {
             confirmation={popUpConfirmation}
             setConfirmation={setPopUpConfirmationOpen}
           />
-          <DeleteBook />
+          <DeleteBook
+            visible={deleteVisible}
+            setVisible={setDeleteVisible}
+            confirmation={popUpConfirmation}
+            setConfirmation={setPopUpConfirmationOpen}
+            bookId={bookId}
+            fetchBooks={fetchBooks}
+            fetchDeleteBook={fetchDeleteBook}
+          />
+          <LoanBook
+            visible={loanVisible}
+            setVisible={setLoanVisible}
+            confirmation={popUpConfirmation}
+            setConfirmation={setPopUpConfirmationOpen}
+            bookId={bookId}
+            fetchCreateBorrow={fetchCreateBorrow}
+            fetchBooks={fetchBooks}
+            fetchBorrows={fetchBorrows}
+          />
+          <ReserveBook
+            visible={reserveVisible}
+            setVisible={setReserveVisible}
+            confirmation={popUpConfirmation}
+            setConfirmation={setPopUpConfirmationOpen}
+            bookId={bookId}
+            fetchCreateBorrow={fetchCreateBorrow}
+            fetchBooks={fetchBooks}
+            fetchBorrows={fetchBorrows}
+          />
           <Grid
             sx={{
               textAlign: "center",
@@ -624,6 +620,18 @@ const ListBooks: FC = (): JSX.Element => {
           />
         </Grid>
 
+        <ToastContainer
+          position="bottom-left"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <Snackbar
           open={open === "expiring"}
           action={action}

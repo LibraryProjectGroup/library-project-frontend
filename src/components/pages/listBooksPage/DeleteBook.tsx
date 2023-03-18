@@ -1,27 +1,27 @@
-import { useState, FC } from "react";
+import { FC } from "react";
 import {
   Modal,
   Box,
   Button,
-  TextField,
   Stack,
   Typography,
 } from "@mui/material";
 import {
-  editBookBox,
-  editBookUpdateButton,
-  editBookCancelButton,
+  BookBox,
+  ConfirmButton,
+  CancelButton,
 } from "../../../sxStyles";
-import { fetchDeleteUser } from "../../../fetchFunctions";
-import { fetchAddBookRequest } from "../../../fetchFunctions";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface IProps {
   visible: boolean;
   setVisible: Function;
   confirmation: Object;
   setConfirmation: Function;
-  userId: String;
-  deleteUser: Function;
+  bookId: number;
+  fetchDeleteBook: Function;
+  fetchBooks: Function;
 }
 
 const DeleteBook: FC<IProps> = ({
@@ -29,37 +29,41 @@ const DeleteBook: FC<IProps> = ({
   setVisible,
   confirmation,
   setConfirmation,
-  userId,
-  deleteUser,
+  bookId,
+  fetchDeleteBook,
+  fetchBooks,
 }: IProps): JSX.Element => {
+  const deletionMessage = () => toast.success("Deletion succeeded");
+
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
-      <Box sx={editBookBox}>
+      <Box sx={BookBox}>
         <Stack spacing={2}>
           <Stack direction="row" spacing={2} justifyContent="center">
             <Typography
               sx={{
-                fontFamily: "Merriweather",
-                fontWeight: "light",
+                fontFamily: "Montserrat",
+                fontWeight: "bold",
               }}
             >
-              Do you want to delete this user?
+              Do you want to delete this book?
             </Typography>
           </Stack>
           <Stack direction="row" spacing={2} justifyContent="center">
             <Button
-              sx={editBookUpdateButton}
+              sx={ConfirmButton}
               variant="contained"
-              onClick={() => {
-                console.log(userId);
-                deleteUser(userId);
+              onClick={async () => {
+                await fetchDeleteBook(bookId);
+                await fetchBooks();
                 setVisible(false);
+                deletionMessage();
               }}
             >
               Delete
             </Button>
             <Button
-              sx={editBookCancelButton}
+              sx={CancelButton}
               variant="contained"
               onClick={() => setVisible(false)}
             >
@@ -71,3 +75,5 @@ const DeleteBook: FC<IProps> = ({
     </Modal>
   );
 };
+
+export default DeleteBook;
