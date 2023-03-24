@@ -11,6 +11,7 @@ import { Paper, Stack, Typography, Button, Fab, Box } from "@mui/material";
 import { listBooksDeleteButton, userPageBackButton } from "../../../sxStyles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
+import { Container } from "@mui/system";
 
 const UserReservations: FC = (): JSX.Element => {
   const [reservations, setReservations] = useState<ExtendedReservation[]>([]);
@@ -49,14 +50,24 @@ const UserReservations: FC = (): JSX.Element => {
       <Paper
         elevation={10}
         sx={{
-          padding: "1rem",
+          display: "flex",
+          alignItems: { xs: "center" },
+          justifyContent: { xs: "center" },
+          padding: "2rem",
           width: "60%",
           margin: "auto",
           marginBottom: 1,
+          textAlign: "left",
         }}
       >
-        <Stack direction="row" justifyContent="space-between">
-          <Stack sx={{ alignSelf: "center", paddingTop: 2 }}>
+        <Stack
+          sx={{
+            flexDirection: { xs: "column", md: "row" },
+            justifyContent: { xs: "center", md: "space-between" },
+            width: "100%",
+          }}
+        >
+          <Stack>
             <Typography
               sx={{
                 fontFamily: "Montserrat",
@@ -160,15 +171,26 @@ const UserReservations: FC = (): JSX.Element => {
 
   return (
     <Box sx={{ marginTop: 5, marginBottom: 5, position: "relative" }}>
-      <Fab
-        aria-label="back"
-        sx={userPageBackButton}
-        onClick={() => {
-          navigate(-1);
+      <Container
+        sx={{
+          position: { sm: "none", md: "absolute" },
+          display: "flex",
+          flexDirection: { sm: "row", md: "column" },
+          gap: { xs: "2rem", md: "unset" },
+          justifyContent: "center",
+          alignItems: "flex-start",
         }}
       >
-        <ArrowBackIcon />
-      </Fab>
+        <Fab
+          aria-label="back"
+          sx={userPageBackButton}
+          onClick={() => {
+            navigate("/list-books");
+          }}
+        >
+          <ArrowBackIcon />
+        </Fab>
+      </Container>
       {reservations ? (
         reservations?.map((reservation, index) =>
           renderReservationData(reservation, index)
