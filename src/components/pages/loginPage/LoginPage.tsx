@@ -174,18 +174,18 @@ const LoginPage: FC = (): JSX.Element => {
                   </Button>
                 </Box>
                 <Box sx={{ textAlign: "center" }}>
-                <Button
-                  variant="text"
-                  onClick={() => {
-                    window.location.replace(
-                      `${process.env.REACT_APP_BACKEND_URL}/auth/oidc/login?issuer=1`
-                    );
-                  }}
-                  sx={textButton}
-                >
-                  Authenticate with Google
-                </Button>
-              </Box>
+                  <Button
+                    variant="text"
+                    onClick={() => {
+                      window.location.replace(
+                        `${process.env.REACT_APP_BACKEND_URL}/auth/oidc/login?issuer=1`
+                      );
+                    }}
+                    sx={textButton}
+                  >
+                    Authenticate with Google
+                  </Button>
+                </Box>
               </Box>
             </Paper>
           </Grid>
