@@ -329,15 +329,19 @@ const ListBooks: FC = (): JSX.Element => {
                 sx={{
                   fontFamily: "Montserrat",
                   fontWeight: "bold",
-                  marginBottom: 2,
+                  marginBottom: 1,
                 }}
               >
                 {book.title}
               </Typography>
+              
+              <img alt="Image_not_found" width={120} src={book.image}/>
+
               <Typography
                 sx={{
                   fontFamily: "Merriweather",
                   fontWeight: "light",
+                  marginTop: 1,
                 }}
               >
                 Author: {book.author}
@@ -517,6 +521,7 @@ const ListBooks: FC = (): JSX.Element => {
 
                   id: -1, // This wont get used
                   title: "",
+                  image: "",
                   author: "",
                   year: new Date().getFullYear(),
                   topic: "",

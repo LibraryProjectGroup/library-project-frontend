@@ -9,6 +9,7 @@ const BooksGrid: FC = (): JSX.Element => {
   const COLUMNS_BOOKS: GridColDef[] = [
     { field: "id", headerName: "ID", flex: 1 },
     { field: "title", headerName: "Title", flex: 5 },
+    { field: "image", headerName: "Image", flex: 5 },
     { field: "author", headerName: "Author", flex: 4 },
     { field: "year", headerName: "Year", flex: 4 },
     { field: "topic", headerName: "Topic", flex: 4 },
