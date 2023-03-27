@@ -358,8 +358,8 @@ const ListBooks: FC = (): JSX.Element => {
               >
                 {book.title}
               </Typography>
-              
-              <img alt="Image_not_found" width={120} src={book.image}/>
+
+              <img alt="Image_not_found" width={120} src={book.image} />
 
               <Typography
                 sx={{

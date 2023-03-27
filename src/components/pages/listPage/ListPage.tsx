@@ -142,7 +142,7 @@ const ListPage: FC = (): JSX.Element => {
                   >
                     {book.image}
                   </Typography>
-                  
+
                   <Typography
                     sx={{
                       fontFamily: "Merriweather",

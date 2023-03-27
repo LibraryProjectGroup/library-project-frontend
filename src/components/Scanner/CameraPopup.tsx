@@ -34,7 +34,7 @@ const CameraPopup: FC<IProps> = ({
       callApi(decodedText);
       console.log(decodedText);
       setVisible(false);
-      setConfirmation(true);      
+      setConfirmation(true);
     }
 
     // error handling (fix this)

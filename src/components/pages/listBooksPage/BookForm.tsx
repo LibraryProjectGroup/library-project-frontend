@@ -82,8 +82,7 @@ const EditBook: FC<IProps> = ({
           message: "Book has been added",
         });
   };
-  
-   
+
   const fetchApi = (isbn: string) => {
     console.log(isbn + " Scanner Test");
     fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn)
@@ -91,9 +90,21 @@ const EditBook: FC<IProps> = ({
       .then((result) => {
         const x = result.items[0].volumeInfo.publishedDate;
         if (result.items[0].volumeInfo.imageLinks !== undefined) {
-          setBook({isbn: isbn, author: result.items[0].volumeInfo.authors[0], image: result.items[0].volumeInfo.imageLinks.thumbnail, title: result.items[0].volumeInfo.title, year: x[0] + x[1] + x[2] + x[3]});
+          setBook({
+            isbn: isbn,
+            author: result.items[0].volumeInfo.authors[0],
+            image: result.items[0].volumeInfo.imageLinks.thumbnail,
+            title: result.items[0].volumeInfo.title,
+            year: x[0] + x[1] + x[2] + x[3],
+          });
         } else {
-          setBook({isbn: isbn, author: result.items[0].volumeInfo.authors[0], image: "https://images.isbndb.com/covers/91/26/9789513119126.jpg", title: result.items[0].volumeInfo.title, year: x[0] + x[1] + x[2] + x[3]});
+          setBook({
+            isbn: isbn,
+            author: result.items[0].volumeInfo.authors[0],
+            image: "https://images.isbndb.com/covers/91/26/9789513119126.jpg",
+            title: result.items[0].volumeInfo.title,
+            year: x[0] + x[1] + x[2] + x[3],
+          });
         }
       })
       .catch((err) => console.log(err));
@@ -103,12 +114,12 @@ const EditBook: FC<IProps> = ({
     setVisible(false);
   };
 
-  if(book.isbn != "" && book.isbn != lastIsbn) {
+  if (book.isbn != "" && book.isbn != lastIsbn) {
     setLastIsbn(book.isbn);
     fetchApi(book.isbn);
   } else if (book.isbn == "" && lastIsbn != "") {
     setLastIsbn("");
-  };
+  }
 
   return (
     <Modal open={visible} onClose={() => handleClose()}>
