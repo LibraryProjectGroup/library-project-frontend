@@ -546,11 +546,10 @@ const ListBooks: FC = (): JSX.Element => {
                 onClick={() => {
                   setFormEditing(false);
                   setFormBook({
-  
-                  id: -1, // This wont get used
+                    id: -1, // This wont get used
                     title: "",
                     image: "",
-                  author: "",
+                    author: "",
                     year: new Date().getFullYear(),
                     topic: "",
                     isbn: "",
