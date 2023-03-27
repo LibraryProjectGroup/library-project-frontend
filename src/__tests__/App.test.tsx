@@ -5,7 +5,7 @@ import App from "../App";
 // initial test to check if add button is present:
 test("renders header", () => {
   const page = render(<App />);
-  const headerElement = screen.getByText("Efilibrary");
+  const headerElement = screen.getByText("EfiLibrary");
   expect(headerElement).toBeInTheDocument();
 });
 

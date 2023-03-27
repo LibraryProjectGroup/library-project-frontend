@@ -7,6 +7,7 @@ import {
   Fab,
   Tooltip,
   Box,
+  Container,
 } from "@mui/material";
 import { TheContext } from "../../../TheContext";
 import { useNavigate } from "react-router-dom";
@@ -234,17 +235,26 @@ const MyAccount: FC = (): JSX.Element => {
       />
       {/* Pop up element */}
       <Box sx={{ marginTop: 5, marginBottom: 5, position: "relative" }}>
-        <Tooltip title="Back">
+        <Container
+          sx={{
+            position: { sm: "none", md: "absolute" },
+            display: "flex",
+            flexDirection: { sm: "row", md: "column" },
+            gap: { xs: "2rem", md: "unset" },
+            justifyContent: "center",
+            alignItems: "flex-start",
+          }}
+        >
           <Fab
             aria-label="back"
             sx={userPageBackButton}
             onClick={() => {
-              navigate(-1);
+              navigate("/list-books");
             }}
           >
             <ArrowBackIcon />
           </Fab>
-        </Tooltip>
+        </Container>
 
         {renderBorrowedBooks()}
       </Box>

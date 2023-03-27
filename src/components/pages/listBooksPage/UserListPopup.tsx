@@ -153,8 +153,23 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
     };*/
 
   return (
-    <div>
-      <Button size="small" sx={favButton} onClick={handleClick}>
+    <Box
+      sx={{
+        width: "100%",
+        display: "flex",
+        justifyContent: { xs: "flex-start", md: "flex-end" },
+      }}
+    >
+      <Button
+        size="small"
+        sx={{
+          fontFamily: "Montserrat",
+          fontWeight: "bold",
+          color: "#545353",
+          marginY: "0.5rem",
+        }}
+        onClick={handleClick}
+      >
         + add
       </Button>
       <Popover
@@ -163,17 +178,17 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        transformOrigin={{
-          vertical: "top",
+          vertical: "bottom",
           horizontal: "left",
         }}
+        // transformOrigin={{
+        // 	vertical: "bottom",
+        // 	horizontal: "center",
+        // }}
       >
         <List>{renderBooklists()}</List>
       </Popover>
-    </div>
+    </Box>
   );
 };
 
