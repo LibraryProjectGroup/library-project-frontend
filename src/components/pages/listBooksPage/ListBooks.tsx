@@ -15,6 +15,7 @@ import {
   Fab,
   Grid,
   Tooltip,
+  TablePagination,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
@@ -59,12 +60,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import Alert from "@mui/material/Alert";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import BookRequestForm from "./BookRequestForm";
 import { LOAN_DAYS, RESERVATION_DAYS, MS_IN_DAY } from "../../../constants";
 
 const ListBooks: FC = (): JSX.Element => {
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
   const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
   const [currentReservations, setCurrentReservations] = useState<
     Book_reservation[]
@@ -74,7 +77,7 @@ const ListBooks: FC = (): JSX.Element => {
   const [activeAndLoanableReservations, setActiveAndLoanableReservations] =
     useState<any[]>([]);
   const [bookPage, setBookPage] = useState(1);
-  const [bookPageSize, setBookPageSize] = useState(20);
+  const [bookPageSize, setBookPageSize] = useState(books.length);
   const [bookCount, setBookCount] = useState<number>(0);
 
   const [requestVisible, setRequestVisible] = useState(false);
@@ -191,6 +194,18 @@ const ListBooks: FC = (): JSX.Element => {
       </IconButton>
     </Fragment>
   );
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+    console.log(books);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
   const handleClosePopUpConfirmation = (
     event: React.SyntheticEvent | Event,
@@ -322,9 +337,18 @@ const ListBooks: FC = (): JSX.Element => {
   const renderBookData = (book: Book) => {
     if (!book.deleted) {
       return (
-        <Paper elevation={10} sx={{ padding: "2rem" }}>
-          <Stack direction="row" justifyContent="space-between">
-            <Stack sx={{ alignSelf: "center" }}>
+        <Paper
+          elevation={10}
+          sx={{ padding: "2rem", width: { xs: "90%", md: "60%" } }}
+        >
+          <Stack
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", md: "row" },
+              justifyContent: { md: "space-between" },
+            }}
+          >
+            <Stack>
               <Typography
                 sx={{
                   fontFamily: "Montserrat",
@@ -419,7 +443,7 @@ const ListBooks: FC = (): JSX.Element => {
                 </Typography>
               )}
             </Stack>
-            <Stack marginY={1} justifyContent="start" paddingLeft="2rem">
+            <Stack>
               <UserListPopup book={book} />
               <Button
                 sx={listBooksDeleteButton}
@@ -485,190 +509,119 @@ const ListBooks: FC = (): JSX.Element => {
         action={action_2}
       />
       {/* Pop up element */}
-      <Box sx={{ marginTop: 5, marginBottom: 5 }}>
-        <div
-          style={{
-            position: "absolute",
+      <Box sx={{ marginTop: 5, marginBottom: 5, width: "100%" }}>
+        <Box
+          sx={{
             display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
+            flexDirection: { xs: "column", md: "row" },
           }}
         >
-          <Tooltip title="Request a book">
-            <Fab
-              aria-label="request"
-              sx={addButton}
-              onClick={() => {
-                setRequestVisible(true);
-              }}
-            >
-              <AddCommentIcon />
-            </Fab>
-          </Tooltip>
-          <Tooltip title="Add new book">
-            <Fab
-              aria-label="add"
-              sx={addButton}
-              onClick={() => {
-                setFormEditing(false);
-                setFormBook({
-                  // api key: AIzaSyDQIsAIinLXi7UWR_dO_oRBWJtkAcZHwiE
-                  id: -1, // This wont get used
-                  title: "",
-                  author: "",
-                  year: new Date().getFullYear(),
-                  topic: "",
-                  isbn: "",
-                  location: "",
-                  deleted: false,
-                });
-                setFormVisible(true);
-              }}
-            >
-              <AddIcon />
-            </Fab>
-          </Tooltip>
-        </div>
-        <BookForm
-          visible={formVisible}
-          setVisible={setFormVisible}
-          confirmation={popUpConfirmation}
-          setConfirmation={setPopUpConfirmationOpen}
-          book={formBook}
-          setBook={setFormBook}
-          editing={formEditing}
-          updateBooks={fetchBooks}
-        />
-
-        <BookRequestForm
-          visible={requestVisible}
-          setVisible={setRequestVisible}
-          confirmation={popUpConfirmation}
-          setConfirmation={setPopUpConfirmationOpen}
-        />
-        <Grid sx={{ textAlign: "center", marginBottom: 3 }}>
-          <FormControl
+          <Box
             sx={{
-              marginLeft: 4,
-              marginBottom: 0,
-              marginTop: 2,
-              minWidth: 80,
+              display: "flex",
+              flexDirection: { xs: "row", md: "column" },
+              justifyContent: { xs: "center", md: "flex-start" },
+              alignItems: "center",
             }}
-            size="small"
           >
-            <InputLabel id="Page">Page</InputLabel>
-            <Select
-              labelId="page"
-              id="page"
-              value={String(bookPage)}
-              label="page"
-              onChange={(event: SelectChangeEvent) => {
-                setBookPage(Number(event.target.value));
-              }}
-            >
-              {Array(Math.ceil(bookCount / bookPageSize))
-                .fill(null)
-                .map((x, i) => (
-                  <MenuItem value={i + 1}>{i + 1}</MenuItem>
-                ))}
-            </Select>
-          </FormControl>
+            <Tooltip title="Request a book">
+              <Fab
+                aria-label="request"
+                sx={addButton}
+                onClick={() => {
+                  setRequestVisible(true);
+                }}
+              >
+                <AddCommentIcon />
+              </Fab>
+            </Tooltip>
+            <Tooltip title="Add new book">
+              <Fab
+                aria-label="add"
+                sx={addButton}
+                onClick={() => {
+                  setFormEditing(false);
+                  setFormBook({
+                    id: -1, // This wont get used
+                    title: "",
+                    author: "",
+                    year: new Date().getFullYear(),
+                    topic: "",
+                    isbn: "",
+                    location: "",
+                    deleted: false,
+                  });
+                  setFormVisible(true);
+                }}
+              >
+                <AddIcon />
+              </Fab>
+            </Tooltip>
+          </Box>
+          <BookForm
+            visible={formVisible}
+            setVisible={setFormVisible}
+            confirmation={popUpConfirmation}
+            setConfirmation={setPopUpConfirmationOpen}
+            book={formBook}
+            setBook={setFormBook}
+            editing={formEditing}
+            updateBooks={fetchBooks}
+          />
 
-          <Tooltip title="First Page">
-            <Fab
-              aria-label="first1"
-              sx={addButton}
-              onClick={() => {
-                setBookPage(1);
-              }}
-              disabled={bookPage <= 1}
-            >
-              <FirstPageIcon />
-            </Fab>
-          </Tooltip>
-
-          <Tooltip title="Previous Page">
-            <Fab
-              aria-label="previous1"
-              sx={addButton}
-              onClick={() => {
-                handlePageButton(false);
-              }}
-              disabled={bookPage <= 1}
-            >
-              <ArrowLeftIcon />
-            </Fab>
-          </Tooltip>
-
-          <Tooltip title="Next Page">
-            <Fab
-              aria-label="next1"
-              sx={addButton}
-              onClick={() => {
-                handlePageButton(true);
-              }}
-              disabled={bookPageSize * bookPage >= bookCount}
-            >
-              <ArrowRightIcon />
-            </Fab>
-          </Tooltip>
-
-          <FormControl
+          <BookRequestForm
+            visible={requestVisible}
+            setVisible={setRequestVisible}
+            confirmation={popUpConfirmation}
+            setConfirmation={setPopUpConfirmationOpen}
+          />
+          <Grid
             sx={{
-              marginLeft: 4,
-              marginBottom: 0,
-              marginTop: 2,
-              minWidth: 120,
+              textAlign: "center",
+              display: "flex",
+              width: "100%",
+              justifyContent: "center",
             }}
-            size="small"
           >
-            <InputLabel id="pageSize">Books per Page</InputLabel>
-            <Select
-              labelId="pageSize"
-              id="pageSize"
-              value={String(bookPageSize)}
-              label="Page Size"
-              onChange={(event: SelectChangeEvent) => {
-                setBookPageSize(Number(event.target.value));
-              }}
-            >
-              <MenuItem value={5}>5</MenuItem>
-              <MenuItem value={10}>10</MenuItem>
-              <MenuItem value={20}>20</MenuItem>
-              <MenuItem value={50}>50</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Stack spacing={3} sx={{ margin: "auto", width: "60%" }}>
-          {books?.map((book) => renderBookData(book))}
+            <TablePagination
+              component="div"
+              count={books.length}
+              rowsPerPageOptions={[5, 10, 25]}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              labelRowsPerPage="Books per page:"
+            />
+          </Grid>
+        </Box>
+        <Stack
+          spacing={3}
+          sx={{ margin: "2rem", display: "flex", alignItems: "center" }}
+        >
+          {books
+            ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((book) => renderBookData(book))}
         </Stack>
 
-        <Grid sx={{ textAlign: "center", marginTop: 3 }}>
-          <Tooltip title="Previous Page">
-            <Fab
-              aria-label="previous2"
-              sx={addButton}
-              onClick={() => {
-                handlePageButton(false);
-              }}
-              disabled={bookPage <= 1}
-            >
-              <ArrowLeftIcon />
-            </Fab>
-          </Tooltip>
-          <Tooltip title="Next Page">
-            <Fab
-              aria-label="next2"
-              sx={addButton}
-              onClick={() => {
-                handlePageButton(true);
-              }}
-              disabled={bookPageSize * bookPage >= bookCount}
-            >
-              <ArrowRightIcon />
-            </Fab>
-          </Tooltip>
+        <Grid
+          sx={{
+            textAlign: "center",
+            display: "flex",
+            width: "100%",
+            justifyContent: "center",
+          }}
+        >
+          <TablePagination
+            component="div"
+            count={books.length}
+            rowsPerPageOptions={[5, 10, 25]}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            labelRowsPerPage="Books per page:"
+          />
         </Grid>
 
         <Snackbar

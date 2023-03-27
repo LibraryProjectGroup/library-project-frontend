@@ -57,6 +57,23 @@ export const loginPaper: SxProps = {
   margin: "1rem",
 };
 
+export const createAccountBoxTitleText: SxProps = {
+  textAlign: "center",
+  fontFamily: "Montserrat",
+  fontWeight: "bold",
+};
+
+export const createAccountHeaderTitleText: SxProps = {
+  fontFamily: "Merriweather",
+  fontWeight: "bold",
+  paddingBottom: 5,
+};
+
+export const createAccountHeaderContentText: SxProps = {
+  fontFamily: "Merriweather",
+  fontWeight: "light",
+};
+
 // AddBook
 
 export const addBookFormBox: SxProps = {
@@ -183,7 +200,7 @@ export const listBooksEntryAddButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
-  margin: "3px",
+  // margin: "3px",
   //marginTop: "1rem",
   //width: "30%",
   whiteSpace: "nowrap",
