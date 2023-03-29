@@ -22,10 +22,6 @@ const CreateAccount: FC = () => {
     secondPassword: "",
   });
   const [validLength, setValidLength] = useState(false);
-  const [hasNumber, setHasNumber] = useState(false);
-  const [upperCase, setUpperCase] = useState(false);
-  const [lowerCase, setLowerCase] = useState(false);
-  const [specialChar, setSpecialChar] = useState(false);
   const [match, setMatch] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -51,19 +47,9 @@ const CreateAccount: FC = () => {
     setValidLength(
       password.firstPassword.length >= REQUIRED_PASSWORD_LENGTH ? true : false
     );
-    setUpperCase(
-      password.firstPassword.toLowerCase() !== password.firstPassword
-    );
-    setLowerCase(
-      password.firstPassword.toUpperCase() !== password.firstPassword
-    );
-    setHasNumber(/\d/.test(password.firstPassword));
     setMatch(
       !!password.firstPassword &&
         password.firstPassword === password.secondPassword
-    );
-    setSpecialChar(
-      /[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/.test(password.firstPassword)
     );
     const handleResize = () => {
       setDimensions({
@@ -87,10 +73,6 @@ const CreateAccount: FC = () => {
     if (!validLength)
       return setErrorMessage(
         `Passwords has to be atleast ${REQUIRED_PASSWORD_LENGTH} characters long`
-      );
-    if (!upperCase || !lowerCase || !hasNumber || !specialChar)
-      return setErrorMessage(
-        "Password has to have atleast one uppercase character, lowercase character, number, and special character"
       );
 
     try {
@@ -143,8 +125,7 @@ const CreateAccount: FC = () => {
                 </Typography>
                 <Typography sx={loginRegisterContent}>
                   Important! To create a valid password you will need at least 8
-                  characters with at least one uppercase, lowercase, number and
-                  special character.
+                  characters.
                 </Typography>
               </Box>
             </Box>

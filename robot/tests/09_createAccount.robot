@@ -18,19 +18,3 @@ User creates account with too short username
 User creates account with too short password
     Given User signs up with a 2 character password
     Then User will see alert that the password is too short
-
-User creates password without uppercase character
-    Given User signs up with password without uppercase character
-    Then User will see alert that password is insufficient
-
-User creates password without lowercase character
-    Given User signs up with password without lowercase character
-    Then User will see alert that password is insufficient
-
-User creates password without number
-    Given User signs up with password without number
-    Then User will see alert that password is insufficient
-
-User creates password without special character
-    Given User signs up with password without special character
-    Then User will see alert that password is insufficient
