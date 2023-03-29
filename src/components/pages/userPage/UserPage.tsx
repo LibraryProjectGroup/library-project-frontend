@@ -24,20 +24,24 @@ import {
   userPageBackButton,
   userPageMyListsButton,
 } from "../../../sxStyles";
+import ReturnBook from "./ReturnBook";
 import { endSession } from "../../../auth";
 import Borrow from "../../../interfaces/borrow.interface";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { ToastContainer, toast } from "react-toastify";
 
 const MyAccount: FC = (): JSX.Element => {
   const [books, setBooks] = useState<{ [key: number]: Book }>([]);
+  const [borrowedId, setBorrowedId] = useState<number>(0);
 
   const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
     ok: false,
     message: "",
   });
 
+  const [returnVisible, setReturnVisible] = useState(false);
   const context = useContext(TheContext);
   const navigate = useNavigate();
 
@@ -185,22 +189,8 @@ const MyAccount: FC = (): JSX.Element => {
                 sx={userPageReturnButton}
                 variant="contained"
                 onClick={async () => {
-                  if (window.confirm("Do you want to RETURN this book?")) {
-                    let message = "Returning succeeded";
-                    await fetchReturnBorrowed(borrowed.id)
-                      .then((res) => {
-                        if (!res.ok) {
-                          message = "Returning failed";
-                        }
-                      })
-                      .then(() =>
-                        setPopUpConfirmationOpen({
-                          ok: true,
-                          message: message,
-                        })
-                      );
-                    await context?.fetchBorrows();
-                  }
+                  setBorrowedId(borrowed.id);
+                  setReturnVisible(true);
                 }}
               >
                 Return
@@ -222,6 +212,27 @@ const MyAccount: FC = (): JSX.Element => {
         onClose={handleClosePopUpConfirmation}
         message={popUpConfirmation.message}
         action={action}
+      />
+      <ReturnBook
+        visible={returnVisible}
+        setVisible={setReturnVisible}
+        confirmation={popUpConfirmation}
+        setConfirmation={setPopUpConfirmationOpen}
+        borrowedId={borrowedId}
+        fetchReturnBorrowed={fetchReturnBorrowed}
+        fetchBorrows={context?.fetchBorrows()}
+      />
+      <ToastContainer
+        position="bottom-left"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
       />
       {/* Pop up element */}
       <Box sx={{ marginTop: 5, marginBottom: 5, position: "relative" }}>

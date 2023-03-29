@@ -1,18 +1,12 @@
 import { FC } from "react";
-import {
-  Modal,
-  Box,
-  Button,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Modal, Box, Button, Stack, Typography } from "@mui/material";
 import {
   editBookBox,
   editBookUpdateButton,
   editBookCancelButton,
 } from "../../../sxStyles";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface IProps {
   visible: boolean;
@@ -35,7 +29,8 @@ const LoanBook: FC<IProps> = ({
   fetchBooks,
   fetchBorrows,
 }: IProps): JSX.Element => {
-    const LoanMessage = () => toast.success("Loaning succeeded");
+  const LoanMessage = () =>
+    toast.success("Loaning succeeded", { containerId: "ToastSuccess" });
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>

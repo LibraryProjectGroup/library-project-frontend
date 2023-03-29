@@ -21,7 +21,7 @@ const UsersGrid: FC = (): JSX.Element => {
 
   const [requestVisible, setRequestVisible] = useState(false);
   const [formVisible, setFormVisible] = useState(false);
-  
+
   const [open, setOpen] = useState(false);
   const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
     ok: false,

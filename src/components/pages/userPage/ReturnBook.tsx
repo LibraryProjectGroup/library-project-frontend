@@ -1,11 +1,11 @@
-import { FC } from "react";
+import React, { useState, FC, useContext, useEffect } from "react";
 import { Modal, Box, Button, Stack, Typography } from "@mui/material";
+import { TheContext } from "../../../TheContext";
 import {
   editBookBox,
   editBookUpdateButton,
   editBookCancelButton,
 } from "../../../sxStyles";
-import { fetchCreateBorrow } from "../../../fetchFunctions";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -14,24 +14,22 @@ interface IProps {
   setVisible: Function;
   confirmation: Object;
   setConfirmation: Function;
-  bookId: number;
-  fetchBooks: Function;
+  borrowedId: number;
+  fetchReturnBorrowed: Function;
   fetchBorrows: Function;
 }
 
-const ReserveBook: FC<IProps> = ({
+const ReturnBook: FC<IProps> = ({
   visible,
   setVisible,
   confirmation,
   setConfirmation,
-  bookId,
-  fetchBooks,
+  borrowedId,
+  fetchReturnBorrowed,
   fetchBorrows,
 }: IProps): JSX.Element => {
-  const RevervationMessage = () =>
-    toast.success("Reservation succeeded", { containerId: "ToastSuccess" });
-  const ErrorMessage = () =>
-    toast.error("Reservation failed", { containerId: "ToastAlert" });
+  const ReturnMessage = () => toast.success("Returning successful");
+  const context = useContext(TheContext);
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
@@ -44,7 +42,7 @@ const ReserveBook: FC<IProps> = ({
                 fontWeight: "light",
               }}
             >
-              Do you want to reserve this book?
+              Do you want to return this book?
             </Typography>
           </Stack>
           <Stack direction="row" spacing={2} justifyContent="center">
@@ -52,19 +50,13 @@ const ReserveBook: FC<IProps> = ({
               sx={editBookUpdateButton}
               variant="contained"
               onClick={async () => {
-                await fetchCreateBorrow(bookId).then((res) => {
-                  if (!res.ok) {
-                    ErrorMessage();
-                  } else {
-                    RevervationMessage();
-                  }
-                });
-                await fetchBooks();
-                await fetchBorrows();
+                await fetchReturnBorrowed(borrowedId);
+                await context?.fetchBorrows();
                 setVisible(false);
+                ReturnMessage();
               }}
             >
-              Reserve
+              Return
             </Button>
             <Button
               sx={editBookCancelButton}
@@ -80,4 +72,4 @@ const ReserveBook: FC<IProps> = ({
   );
 };
 
-export default ReserveBook;
+export default ReturnBook;

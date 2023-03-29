@@ -56,7 +56,7 @@ import {
   addBookAddButton as addButton,
   listBooksFavoriteButton as favButton,
 } from "../../../sxStyles";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import Borrow from "../../../interfaces/borrow.interface";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
@@ -67,7 +67,7 @@ import MenuItem from "@mui/material/MenuItem";
 import BookRequestForm from "./BookRequestForm";
 import { LOAN_DAYS, RESERVATION_DAYS, MS_IN_DAY } from "../../../constants";
 
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 const ListBooks: FC = (): JSX.Element => {
   const [page, setPage] = React.useState(0);
@@ -439,7 +439,7 @@ const ListBooks: FC = (): JSX.Element => {
               >
                 Delete book
               </Button>
-              
+
               <Button
                 sx={listBooksEditButton}
                 variant="contained"
@@ -458,9 +458,7 @@ const ListBooks: FC = (): JSX.Element => {
               {renderLoanButton(book)}
               {renderReserveButton(book)}
             </Stack>
-            
           </Stack>
-          
         </Paper>
       );
     }
@@ -567,7 +565,6 @@ const ListBooks: FC = (): JSX.Element => {
             confirmation={popUpConfirmation}
             setConfirmation={setPopUpConfirmationOpen}
             bookId={bookId}
-            fetchCreateBorrow={fetchCreateBorrow}
             fetchBooks={fetchBooks}
             fetchBorrows={fetchBorrows}
           />
@@ -631,7 +628,24 @@ const ListBooks: FC = (): JSX.Element => {
           draggable
           pauseOnHover
           theme="light"
+          enableMultiContainer
+          containerId={"ToastSuccess"}
         />
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          enableMultiContainer
+          containerId={"ToastAlert"}
+        />
+
         <Snackbar
           open={open === "expiring"}
           action={action}
