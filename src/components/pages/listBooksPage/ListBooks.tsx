@@ -349,6 +349,14 @@ const ListBooks: FC = (): JSX.Element => {
             }}
           >
             <Stack>
+              <img
+                alt="Image_not_found"
+                width={120}
+                height={160}
+                src={book.image}
+              />
+            </Stack>
+            <Stack>
               <Typography
                 sx={{
                   fontFamily: "Montserrat",
@@ -358,8 +366,6 @@ const ListBooks: FC = (): JSX.Element => {
               >
                 {book.title}
               </Typography>
-
-              <img alt="Image_not_found" width={120} src={book.image} />
 
               <Typography
                 sx={{
