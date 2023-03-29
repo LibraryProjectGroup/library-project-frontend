@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  efilibrary-frontend-staging:
+    container_name: efilibrary-frontend-staging
+    image: ${IMAGE_NAME}
+    stdin_open: true
+    tty: true
+    command: npm run start
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      PORT: "3000"
+      REACT_APP_BACKEND_URL: "http://backend-efilibrary-staging.jrdie.nl"
+    volumes:
+      - ./src:/app/src
+      - ./robot:/app/robot
+      - ./public:/app/public:ro
