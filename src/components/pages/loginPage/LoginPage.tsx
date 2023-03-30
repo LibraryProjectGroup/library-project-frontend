@@ -1,5 +1,5 @@
 import React, { useState, FC, useEffect, useContext, useCallback } from "react";
-import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
+import { Box, Typography, TextField, Button, Paper, Grid, IconButton, InputAdornment } from "@mui/material";
 import BACKEND_URL from "../../../backendUrl";
 import { useNavigate } from "react-router-dom";
 import {
@@ -13,11 +13,13 @@ import {
 } from "../../../sxStyles";
 import { setSession } from "../../../auth";
 import { TheContext } from "../../../TheContext";
+import { VisibilityOff, Visibility } from "@mui/icons-material";
 
 const LoginPage: FC = (): JSX.Element => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMesssage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const context = useContext(TheContext);
@@ -41,6 +43,12 @@ const LoginPage: FC = (): JSX.Element => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = ( event: React.MouseEvent<HTMLButtonElement> ) => {
+    event.preventDefault();
+  };
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -134,8 +142,22 @@ const LoginPage: FC = (): JSX.Element => {
                   <TextField
                     label="Password"
                     variant="outlined"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     margin="normal"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
                     onChange={(event) => {
                       setPassword(event.target.value);
                     }}
