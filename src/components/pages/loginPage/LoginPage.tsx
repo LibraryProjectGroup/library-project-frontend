@@ -1,5 +1,14 @@
 import React, { useState, FC, useEffect, useContext, useCallback } from "react";
-import { Box, Typography, TextField, Button, Paper, Grid, IconButton, InputAdornment } from "@mui/material";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Paper,
+  Grid,
+  IconButton,
+  InputAdornment,
+} from "@mui/material";
 import BACKEND_URL from "../../../backendUrl";
 import { useNavigate } from "react-router-dom";
 import {
@@ -46,7 +55,9 @@ const LoginPage: FC = (): JSX.Element => {
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleMouseDownPassword = ( event: React.MouseEvent<HTMLButtonElement> ) => {
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
   };
 
@@ -156,7 +167,7 @@ const LoginPage: FC = (): JSX.Element => {
                             {showPassword ? <VisibilityOff /> : <Visibility />}
                           </IconButton>
                         </InputAdornment>
-                      )
+                      ),
                     }}
                     onChange={(event) => {
                       setPassword(event.target.value);
