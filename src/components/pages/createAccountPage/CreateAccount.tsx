@@ -1,5 +1,14 @@
 import React, { useState, useEffect, useContext, FC } from "react";
-import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Paper,
+  Grid,
+  IconButton,
+  InputAdornment,
+} from "@mui/material";
 import BACKEND_URL from "../../../backendUrl";
 import { useNavigate } from "react-router-dom";
 import {
@@ -11,19 +20,21 @@ import {
 } from "../../../sxStyles";
 import { setSession } from "../../../auth";
 import { TheContext } from "../../../TheContext";
+import { VisibilityOff, Visibility } from "@mui/icons-material";
 
 const REQUIRED_PASSWORD_LENGTH = 8;
 
 const CreateAccount: FC = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState({
+  const [passwords, setPasswords] = useState({
     firstPassword: "",
     secondPassword: "",
   });
   const [validLength, setValidLength] = useState(false);
   const [match, setMatch] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const [dimensions, setDimensions] = React.useState({
     height: window.innerHeight,
@@ -33,23 +44,31 @@ const CreateAccount: FC = () => {
   const context = useContext(TheContext);
   const navigate = useNavigate();
 
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
+
   const inputChange: (event: React.ChangeEvent<HTMLInputElement>) => void = (
     event
   ) => {
     const { value, name } = event.target;
-    setPassword({
-      ...password,
+    setPasswords({
+      ...passwords,
       [name]: value,
     });
   };
 
   useEffect(() => {
     setValidLength(
-      password.firstPassword.length >= REQUIRED_PASSWORD_LENGTH ? true : false
+      passwords.firstPassword.length >= REQUIRED_PASSWORD_LENGTH ? true : false
     );
     setMatch(
-      !!password.firstPassword &&
-        password.firstPassword === password.secondPassword
+      !!passwords.firstPassword &&
+        passwords.firstPassword === passwords.secondPassword
     );
     const handleResize = () => {
       setDimensions({
@@ -63,7 +82,7 @@ const CreateAccount: FC = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [password]);
+  }, [passwords]);
 
   const handleCreateAccount = async (
     event: React.FormEvent<HTMLFormElement>
@@ -84,7 +103,7 @@ const CreateAccount: FC = () => {
         body: JSON.stringify({
           username: username,
           email: email,
-          password: password.firstPassword,
+          password: passwords.firstPassword,
         }),
       });
       let data = await response.json();
@@ -179,8 +198,22 @@ const CreateAccount: FC = () => {
                     name="firstPassword"
                     label="Password"
                     variant="outlined"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     margin="normal"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                     onChange={inputChange}
                   />
                   <TextField
@@ -189,6 +222,20 @@ const CreateAccount: FC = () => {
                     variant="outlined"
                     type="password"
                     margin="normal"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                     onChange={inputChange}
                   />
                   <Typography sx={{ color: "red" }}>{errorMessage}</Typography>
