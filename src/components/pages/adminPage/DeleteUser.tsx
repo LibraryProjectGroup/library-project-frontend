@@ -1,40 +1,34 @@
 import { useState, FC } from "react";
-import {
-  Modal,
-  Box,
-  Button,
-  TextField,
-  Stack,
-  Typography,
-} from "@mui/material";
-import {
-  editBookBox,
-  editBookUpdateButton,
-  editBookCancelButton,
-} from "../../../sxStyles";
+import { Modal, Box, Button, Stack, Typography } from "@mui/material";
+import { popupContainer, confirmButton, cancelButton } from "../../../sxStyles";
 import { fetchDeleteUser } from "../../../fetchFunctions";
 import { fetchAddBookRequest } from "../../../fetchFunctions";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface IProps {
   visible: boolean;
   setVisible: Function;
-  confirmation: Object;
-  setConfirmation: Function;
   userId: String;
-  deleteUser: Function;
+  fetchDeleteUser: Function;
+  loadUsersData: Function;
 }
 
 const DeleteUsers: FC<IProps> = ({
   visible,
   setVisible,
-  confirmation,
-  setConfirmation,
   userId,
-  deleteUser,
+  fetchDeleteUser,
+  loadUsersData,
 }: IProps): JSX.Element => {
+  const deletionMessage = () =>
+    toast.success("Deletion successful", { containerId: "ToastSuccess" });
+  const ErrorMessage = () =>
+    toast.error("Reservation failed", { containerId: "ToastAlert" });
+
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
-      <Box sx={editBookBox}>
+      <Box sx={popupContainer}>
         <Stack spacing={2}>
           <Stack direction="row" spacing={2} justifyContent="center">
             <Typography
@@ -48,18 +42,25 @@ const DeleteUsers: FC<IProps> = ({
           </Stack>
           <Stack direction="row" spacing={2} justifyContent="center">
             <Button
-              sx={editBookUpdateButton}
+              sx={confirmButton}
               variant="contained"
-              onClick={() => {
-                console.log(userId);
-                deleteUser(userId);
+              onClick={async () => {
+                await fetchDeleteUser(userId).then((res: { ok: any }) => {
+                  if (!res.ok) {
+                    ErrorMessage();
+                  } else {
+                    deletionMessage();
+                  }
+                });
+                //deleteUser(userId);
+                await loadUsersData();
                 setVisible(false);
               }}
             >
               Delete
             </Button>
             <Button
-              sx={editBookCancelButton}
+              sx={cancelButton}
               variant="contained"
               onClick={() => setVisible(false)}
             >

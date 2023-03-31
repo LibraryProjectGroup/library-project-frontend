@@ -9,11 +9,9 @@ import {
   MenuItem,
 } from "@mui/material";
 import User from "../../../interfaces/editUser.interface";
-import {
-  editUserBox,
-  editUserUpdateButton,
-  editUserCancelButton,
-} from "../../../sxStyles";
+import { popupContainer, confirmButton, cancelButton } from "../../../sxStyles";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface IProps {
   visible: boolean;
@@ -30,6 +28,8 @@ const EditUser: FC<IProps> = ({
   setOneUserData,
   updateUser,
 }: IProps): JSX.Element => {
+  const editingMessage = () =>
+    toast.success("Update successful", { containerId: "ToastSuccess" });
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -43,7 +43,7 @@ const EditUser: FC<IProps> = ({
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
-      <Box sx={editUserBox}>
+      <Box sx={popupContainer}>
         <Stack spacing={2}>
           <Typography
             sx={{
@@ -79,14 +79,17 @@ const EditUser: FC<IProps> = ({
 
           <Stack direction="row" spacing={2} justifyContent="center">
             <Button
-              sx={editUserUpdateButton}
+              sx={confirmButton}
               variant="contained"
-              onClick={() => updateUser(user)}
+              onClick={() => {
+                updateUser(user);
+                editingMessage();
+              }}
             >
               Update
             </Button>
             <Button
-              sx={editUserCancelButton}
+              sx={cancelButton}
               variant="contained"
               onClick={() => setVisible(false)}
             >

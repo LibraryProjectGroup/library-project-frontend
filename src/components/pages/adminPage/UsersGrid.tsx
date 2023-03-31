@@ -14,19 +14,18 @@ import UserForm from "./EditUsers";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import DeleteUser from "./DeleteUser";
+import ToastContainers from "../../../ToastContainers";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const UsersGrid: FC = (): JSX.Element => {
   const [usersData, setUsersData] = useState<User[]>([]);
   const [oneUserData, setOneUserData] = useState<EditUser | null>(null);
 
   const [requestVisible, setRequestVisible] = useState(false);
-  const [formVisible, setFormVisible] = useState(false);
+  const [deleteVisible, setDeleteVisible] = useState(false);
 
   const [open, setOpen] = useState(false);
-  const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
-    ok: false,
-    message: "",
-  });
   const [rowId, setRowId] = useState("");
 
   const handleClose = () => {
@@ -72,7 +71,7 @@ const UsersGrid: FC = (): JSX.Element => {
           sx={{ color: "red" }}
           onClick={() => {
             setRowId(params.row.id);
-            setFormVisible(true);
+            setDeleteVisible(true);
           }}
         >
           Delete
@@ -112,10 +111,10 @@ const UsersGrid: FC = (): JSX.Element => {
     setUsersData(usersTmp);
   };
 
-  const deleteUser = async (id: number) => {
+  /*const deleteUser = async (id: number) => {
     await fetchDeleteUser(id);
     await loadUsersData();
-  };
+  };*/
 
   const editUser = async (id: number) => {
     let userData = await fetchUserById(id);
@@ -135,12 +134,11 @@ const UsersGrid: FC = (): JSX.Element => {
   return (
     <>
       <DeleteUser
-        visible={formVisible}
-        setVisible={setFormVisible}
-        confirmation={popUpConfirmation}
-        setConfirmation={setPopUpConfirmationOpen}
+        visible={deleteVisible}
+        setVisible={setDeleteVisible}
         userId={rowId}
-        deleteUser={deleteUser}
+        fetchDeleteUser={fetchDeleteUser}
+        loadUsersData={loadUsersData}
       />
       <UserForm
         visible={requestVisible}
@@ -149,6 +147,7 @@ const UsersGrid: FC = (): JSX.Element => {
         user={oneUserData}
         updateUser={updateUser}
       />
+      <ToastContainers />
       <DataGrid
         columns={COLUMNS_USERS}
         rows={usersData}

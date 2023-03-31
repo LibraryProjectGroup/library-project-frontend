@@ -5,7 +5,6 @@ import {
   Button,
   Stack,
   Fab,
-  Tooltip,
   Box,
   Container,
 } from "@mui/material";
@@ -30,7 +29,7 @@ import Borrow from "../../../interfaces/borrow.interface";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { ToastContainer, toast } from "react-toastify";
+import ToastContainers from "../../../ToastContainers";
 
 const MyAccount: FC = (): JSX.Element => {
   const [books, setBooks] = useState<{ [key: number]: Book }>([]);
@@ -216,24 +215,11 @@ const MyAccount: FC = (): JSX.Element => {
       <ReturnBook
         visible={returnVisible}
         setVisible={setReturnVisible}
-        confirmation={popUpConfirmation}
-        setConfirmation={setPopUpConfirmationOpen}
         borrowedId={borrowedId}
         fetchReturnBorrowed={fetchReturnBorrowed}
         fetchBorrows={context?.fetchBorrows()}
       />
-      <ToastContainer
-        position="bottom-left"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      <ToastContainers />
       {/* Pop up element */}
       <Box sx={{ marginTop: 5, marginBottom: 5, position: "relative" }}>
         <Container

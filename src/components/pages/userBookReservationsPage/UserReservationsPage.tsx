@@ -12,9 +12,13 @@ import { listBooksDeleteButton, userPageBackButton } from "../../../sxStyles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import { Container } from "@mui/system";
+import CancelReservation from "./CancelReservation";
+import ToastContainers from "../../../ToastContainers";
 
 const UserReservations: FC = (): JSX.Element => {
   const [reservations, setReservations] = useState<ExtendedReservation[]>([]);
+  const [reservationId, setReservationId] = useState<number>(0);
+  const [cancelVisible, setCancelVisible] = useState(false);
   const context = useContext(TheContext);
   const navigate = useNavigate();
 
@@ -153,12 +157,8 @@ const UserReservations: FC = (): JSX.Element => {
               variant="contained"
               color="error"
               onClick={async () => {
-                if (window.confirm("Cancel this reservation?")) {
-                  const response = await fetchCancelBookReservation(
-                    reservation.id
-                  );
-                  if (response.ok) fetchReservations(context?.user?.id);
-                }
+                setReservationId(reservation.id);
+                setCancelVisible(true);
               }}
             >
               Cancel reservation
@@ -213,6 +213,14 @@ const UserReservations: FC = (): JSX.Element => {
           </Typography>
         </div>
       )}
+      <ToastContainers />
+      <CancelReservation
+        visible={cancelVisible}
+        setVisible={setCancelVisible}
+        reservationId={reservationId}
+        fetchCancelBookReservation={fetchCancelBookReservation}
+        fetchReservations={fetchReservations}
+      />
     </Box>
   );
 };

@@ -29,9 +29,7 @@ import { TheContext } from "../../../TheContext";
 import Book from "../../../interfaces/book.interface";
 import Book_reservation from "../../../interfaces/book_reservation.interface";
 import BookForm from "./BookForm";
-import DeleteBook from "./DeleteBook";
-import LoanBook from "./LoanBook";
-import ReserveBook from "./ReserveBook";
+import ButtonPopup from "./ButtonPopup";
 import UserListPopup from "./UserListPopup";
 import {
   fetchAllBooks,
@@ -48,6 +46,7 @@ import {
   fetchAllReservedBooks,
   fetchPagedBooks,
   fetchAllBooksCount,
+  fetchDeleteUser,
 } from "../../../fetchFunctions";
 import {
   listBooksDeleteButton,
@@ -56,7 +55,7 @@ import {
   addBookAddButton as addButton,
   listBooksFavoriteButton as favButton,
 } from "../../../sxStyles";
-import { ToastContainer, toast } from "react-toastify";
+import ToastContainers from "../../../ToastContainers";
 import Borrow from "../../../interfaces/borrow.interface";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
@@ -65,6 +64,7 @@ import Alert from "@mui/material/Alert";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import BookRequestForm from "./BookRequestForm";
+import { toast } from "react-toastify";
 import { LOAN_DAYS, RESERVATION_DAYS, MS_IN_DAY } from "../../../constants";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -474,7 +474,6 @@ const ListBooks: FC = (): JSX.Element => {
         message={popUpConfirmation.message}
         action={action_2}
       />
-      {/* Pop up element */}
       <Box sx={{ marginTop: 5, marginBottom: 5, width: "100%" }}>
         <Box
           sx={{
@@ -540,34 +539,23 @@ const ListBooks: FC = (): JSX.Element => {
             confirmation={popUpConfirmation}
             setConfirmation={setPopUpConfirmationOpen}
           />
-          <DeleteBook
-            visible={deleteVisible}
-            setVisible={setDeleteVisible}
-            confirmation={popUpConfirmation}
-            setConfirmation={setPopUpConfirmationOpen}
+          {/* Pop up element */}
+          <ButtonPopup
+            deleteVisible={deleteVisible}
+            setDeleteVisible={setDeleteVisible}
+            loanVisible={loanVisible}
+            setLoanVisible={setLoanVisible}
+            reserveVisible={reserveVisible}
+            setReserveVisible={setReserveVisible}
             bookId={bookId}
             fetchBooks={fetchBooks}
             fetchDeleteBook={fetchDeleteBook}
-          />
-          <LoanBook
-            visible={loanVisible}
-            setVisible={setLoanVisible}
-            confirmation={popUpConfirmation}
-            setConfirmation={setPopUpConfirmationOpen}
-            bookId={bookId}
             fetchCreateBorrow={fetchCreateBorrow}
-            fetchBooks={fetchBooks}
             fetchBorrows={fetchBorrows}
+            fetchReservations={fetchReservations}
+            fetchAddBookReservation={fetchAddBookReservation}
           />
-          <ReserveBook
-            visible={reserveVisible}
-            setVisible={setReserveVisible}
-            confirmation={popUpConfirmation}
-            setConfirmation={setPopUpConfirmationOpen}
-            bookId={bookId}
-            fetchBooks={fetchBooks}
-            fetchBorrows={fetchBorrows}
-          />
+
           <Grid
             sx={{
               textAlign: "center",
@@ -617,34 +605,7 @@ const ListBooks: FC = (): JSX.Element => {
           />
         </Grid>
 
-        <ToastContainer
-          position="bottom-left"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-          enableMultiContainer
-          containerId={"ToastSuccess"}
-        />
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-          enableMultiContainer
-          containerId={"ToastAlert"}
-        />
+        <ToastContainers />
 
         <Snackbar
           open={open === "expiring"}

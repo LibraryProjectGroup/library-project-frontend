@@ -1,19 +1,13 @@
-import React, { useState, FC, useContext, useEffect } from "react";
+import { FC, useContext } from "react";
 import { Modal, Box, Button, Stack, Typography } from "@mui/material";
 import { TheContext } from "../../../TheContext";
-import {
-  editBookBox,
-  editBookUpdateButton,
-  editBookCancelButton,
-} from "../../../sxStyles";
+import { popupContainer, confirmButton, cancelButton } from "../../../sxStyles";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface IProps {
   visible: boolean;
   setVisible: Function;
-  confirmation: Object;
-  setConfirmation: Function;
   borrowedId: number;
   fetchReturnBorrowed: Function;
   fetchBorrows: Function;
@@ -22,18 +16,19 @@ interface IProps {
 const ReturnBook: FC<IProps> = ({
   visible,
   setVisible,
-  confirmation,
-  setConfirmation,
   borrowedId,
   fetchReturnBorrowed,
   fetchBorrows,
 }: IProps): JSX.Element => {
-  const ReturnMessage = () => toast.success("Returning successful");
+  const ReturnMessage = () =>
+    toast.success("Returning successful", { containerId: "ToastSuccess" });
+  const ErrorMessage = () =>
+    toast.error("Reservation failed", { containerId: "ToastAlert" });
   const context = useContext(TheContext);
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
-      <Box sx={editBookBox}>
+      <Box sx={popupContainer}>
         <Stack spacing={2}>
           <Stack direction="row" spacing={2} justifyContent="center">
             <Typography
@@ -47,19 +42,26 @@ const ReturnBook: FC<IProps> = ({
           </Stack>
           <Stack direction="row" spacing={2} justifyContent="center">
             <Button
-              sx={editBookUpdateButton}
+              sx={confirmButton}
               variant="contained"
               onClick={async () => {
-                await fetchReturnBorrowed(borrowedId);
+                await fetchReturnBorrowed(borrowedId).then(
+                  (res: { ok: any }) => {
+                    if (!res.ok) {
+                      ErrorMessage();
+                    } else {
+                      ReturnMessage();
+                    }
+                  }
+                );
                 await context?.fetchBorrows();
                 setVisible(false);
-                ReturnMessage();
               }}
             >
               Return
             </Button>
             <Button
-              sx={editBookCancelButton}
+              sx={cancelButton}
               variant="contained"
               onClick={() => setVisible(false)}
             >

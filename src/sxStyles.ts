@@ -441,7 +441,7 @@ export const closePopup: SxProps = {
   border: "1px solid #cfcece",
 };
 
-export const CancelButton: SxProps = {
+export const cancelButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
@@ -454,7 +454,7 @@ export const CancelButton: SxProps = {
   //padding: 2,
 };
 
-export const ConfirmButton: SxProps = {
+export const confirmButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
@@ -467,7 +467,19 @@ export const ConfirmButton: SxProps = {
   //padding: 2,
 };
 
-export const BookBox: SxProps = {
+export const bookBox: SxProps = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  width: { xs: "15rem", md: "25rem" },
+  transform: "translate(-50%, -50%)",
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  padding: "2rem 2rem 1rem 2rem",
+};
+
+//Popup box Styling
+export const popupContainer: SxProps = {
   position: "absolute",
   top: "50%",
   left: "50%",
