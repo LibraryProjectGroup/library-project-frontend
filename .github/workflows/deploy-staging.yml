@@ -40,8 +40,8 @@ jobs:
           key: ${{ secrets.DEPLOYMENT_SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.DEPLOYMENT_SSH_PASSPHRASE }}
           port: ${{ secrets.DEPLOYMENT_SSH_PORT }}
-          source: "docker-compose-staging.yml"
-          target: "docker-compose-staging.yml"
+          source: "/docker-compose-staging.yml"
+          target: "scp-frontend-staging"
       - name: executing remote ssh commands
         uses: appleboy/ssh-action@v0.1.8
         with:
@@ -51,6 +51,6 @@ jobs:
           passphrase: ${{ secrets.DEPLOYMENT_SSH_PASSPHRASE }}
           port: ${{ secrets.DEPLOYMENT_SSH_PORT }}
           envs: IMAGE_NAME
-          script: docker compose -f docker-compose-staging.yml up -d
+          script: docker compose -f scp-frontend-staging/docker-compose-staging.yml up -d
 
 # docker stack deploy -c <(docker-compose -f docker-compose.yml config) game --with-registry-auth
