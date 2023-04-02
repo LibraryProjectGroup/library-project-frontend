@@ -51,6 +51,6 @@ jobs:
           passphrase: ${{ secrets.DEPLOYMENT_SSH_PASSPHRASE }}
           port: ${{ secrets.DEPLOYMENT_SSH_PORT }}
           envs: IMAGE_NAME
-          script: docker-compose -f docker-compose-staging.yml up -d
+          script: docker compose -f docker-compose-staging.yml up -d
 
 # docker stack deploy -c <(docker-compose -f docker-compose.yml config) game --with-registry-auth
