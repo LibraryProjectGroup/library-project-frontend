@@ -8,7 +8,7 @@ services:
     tty: true
     build:
       context: ./
-      dockerfile: Dockerfile
+      dockerfile: node.Dockerfile
     environment:
       PORT: "3000"
       REACT_APP_BACKEND_URL: "http://backend-efilibrary-staging.jrdie.nl"
