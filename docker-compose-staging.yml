@@ -6,7 +6,6 @@ services:
     image: ${IMAGE_NAME}
     stdin_open: true
     tty: true
-    command: npm run start
     build:
       context: ./
       dockerfile: Dockerfile
