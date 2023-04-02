@@ -16,3 +16,9 @@ services:
       - ./src:/app/src
       - ./robot:/app/robot
       - ./public:/app/public:ro
+    networks:
+      - efilibrary
+
+networks:
+  efilibrary:
+    external: true
