@@ -54,6 +54,7 @@ jobs:
           port: ${{ secrets.DEPLOYMENT_SSH_PORT }}
           envs: IMAGE_NAME,GHCR_TOKEN,GITHUB_USER
           script: |
+            printenv
             echo $GHCR_TOKEN | docker login ghcr.io -u $GITHUB_USER --password-stdin
             docker compose -f scp-frontend-staging/docker-compose-staging.yml up -d --no-build
 
