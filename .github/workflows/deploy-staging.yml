@@ -33,7 +33,7 @@ jobs:
       - name: Push image
         run: docker-compose -f docker-compose-staging.yml push
       - name: Copy docker-compose file
-        uses: appleboy/scp-action@0.1.3
+        uses: appleboy/scp-action@master
         env:
           host: ${{ secrets.DEPLOYMENT_SSH_HOST }}
           username: ${{ secrets.DEPLOYMENT_SSH_USERNAME }}
