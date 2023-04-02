@@ -34,7 +34,7 @@ jobs:
         run: docker-compose -f docker-compose-staging.yml push
       - name: Copy docker-compose file
         uses: appleboy/scp-action@master
-        env:
+        with:
           host: ${{ secrets.DEPLOYMENT_SSH_HOST }}
           username: ${{ secrets.DEPLOYMENT_SSH_USERNAME }}
           key: ${{ secrets.DEPLOYMENT_SSH_PRIVATE_KEY }}
@@ -44,7 +44,7 @@ jobs:
           target: "docker-compose-staging.yml"
       - name: executing remote ssh commands
         uses: appleboy/ssh-action@v0.1.8
-        env:
+        with:
           host: ${{ secrets.DEPLOYMENT_SSH_HOST }}
           username: ${{ secrets.DEPLOYMENT_SSH_USERNAME }}
           key: ${{ secrets.DEPLOYMENT_SSH_PRIVATE_KEY }}
