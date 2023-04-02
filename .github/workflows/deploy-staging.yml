@@ -40,7 +40,7 @@ jobs:
           key: ${{ secrets.DEPLOYMENT_SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.DEPLOYMENT_SSH_PASSPHRASE }}
           port: ${{ secrets.DEPLOYMENT_SSH_PORT }}
-          source: "/docker-compose-staging.yml"
+          source: "docker-compose-staging.yml"
           target: "scp-frontend-staging"
       - name: executing remote ssh commands
         uses: appleboy/ssh-action@v0.1.8
