@@ -11,7 +11,7 @@ services:
       dockerfile: node.Dockerfile
     environment:
       PORT: "3000"
-      REACT_APP_BACKEND_URL: "http://backend-efilibrary-staging.jrdie.nl"
+      REACT_APP_BACKEND_URL: "http://backend-staging.efilibrary.efilibrary.jrdie.nl"
     volumes:
       - ./src:/app/src
       - ./robot:/app/robot
