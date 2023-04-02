@@ -50,7 +50,9 @@ jobs:
           key: ${{ secrets.DEPLOYMENT_SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.DEPLOYMENT_SSH_PASSPHRASE }}
           port: ${{ secrets.DEPLOYMENT_SSH_PORT }}
-          envs: IMAGE_NAME
-          script: docker compose -f scp-frontend-staging/docker-compose-staging.yml up -d --no-build
+          envs: IMAGE_NAME,GITHUB_TOKEN,GITHUB_USER
+          script: |
+            echo $GITHUB_TOKEN | docker login ghcr.io -u $GITHUB_USER --password-stdin
+            docker compose -f scp-frontend-staging/docker-compose-staging.yml up -d --no-build
 
 # docker stack deploy -c <(docker-compose -f docker-compose.yml config) game --with-registry-auth
