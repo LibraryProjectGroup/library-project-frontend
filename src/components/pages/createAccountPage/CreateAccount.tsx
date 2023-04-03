@@ -34,7 +34,10 @@ const CreateAccount: FC = () => {
   const [validLength, setValidLength] = useState(false);
   const [match, setMatch] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState({
+    first: false,
+    second: false,
+  });
 
   const [dimensions, setDimensions] = React.useState({
     height: window.innerHeight,
@@ -44,7 +47,12 @@ const CreateAccount: FC = () => {
   const context = useContext(TheContext);
   const navigate = useNavigate();
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowPassword = (key: "first" | "second") => {
+    setShowPassword((showPassword) => ({
+      ...showPassword,
+      [key]: !showPassword[key],
+    }));
+  };
 
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -198,18 +206,22 @@ const CreateAccount: FC = () => {
                     name="firstPassword"
                     label="Password"
                     variant="outlined"
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword.first ? "text" : "password"}
                     margin="normal"
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
                           <IconButton
                             aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
+                            onClick={() => handleClickShowPassword("first")}
                             onMouseDown={handleMouseDownPassword}
                             edge="end"
                           >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                            {showPassword.first ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
                           </IconButton>
                         </InputAdornment>
                       ),
@@ -220,18 +232,22 @@ const CreateAccount: FC = () => {
                     name="secondPassword"
                     label="Confirm Password"
                     variant="outlined"
-                    type="password"
+                    type={showPassword.second ? "text" : "password"}
                     margin="normal"
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
                           <IconButton
                             aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
+                            onClick={() => handleClickShowPassword("second")}
                             onMouseDown={handleMouseDownPassword}
                             edge="end"
                           >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                            {showPassword.second ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
                           </IconButton>
                         </InputAdornment>
                       ),
