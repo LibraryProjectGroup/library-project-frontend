@@ -22,9 +22,9 @@ const DeleteUsers: FC<IProps> = ({
   loadUsersData,
 }: IProps): JSX.Element => {
   const deletionMessage = () =>
-    toast.success("Deletion successful", { containerId: "ToastSuccess" });
+    toast.success("User deleted successfully", { containerId: "ToastSuccess" });
   const ErrorMessage = () =>
-    toast.error("Reservation failed", { containerId: "ToastAlert" });
+    toast.error("Deletion failed", { containerId: "ToastAlert" });
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>

@@ -21,9 +21,11 @@ const ReturnBook: FC<IProps> = ({
   fetchBorrows,
 }: IProps): JSX.Element => {
   const ReturnMessage = () =>
-    toast.success("Returning successful", { containerId: "ToastSuccess" });
+    toast.success("Book returned successfully", {
+      containerId: "ToastSuccess",
+    });
   const ErrorMessage = () =>
-    toast.error("Reservation failed", { containerId: "ToastAlert" });
+    toast.error("Return failed", { containerId: "ToastAlert" });
   const context = useContext(TheContext);
 
   return (

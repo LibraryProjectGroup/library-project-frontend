@@ -36,13 +36,23 @@ const ButtonPopup: FC<IProps> = ({
   fetchAddBookReservation,
 }: IProps): JSX.Element => {
   const DeletionMessage = () =>
-    toast.success("Deletion successful", { containerId: "ToastSuccess" });
+    toast.success("Book deleted successfully", { containerId: "ToastSuccess" });
   const RevervationMessage = () =>
     toast.success("Reservation successful", { containerId: "ToastSuccess" });
   const LoanMessage = () =>
     toast.success("Loaning successful", { containerId: "ToastSuccess" });
-  const ErrorMessage = () =>
-    toast.error("Reservation failed", { containerId: "ToastAlert" });
+  const ErrorMessageDelete = () =>
+    toast.error("Deletion failed, Something went wrong", {
+      containerId: "ToastAlert",
+    });
+  const ErrorMessageReserve = () =>
+    toast.error("Reservation failed, Something went wrong", {
+      containerId: "ToastAlert",
+    });
+  const ErrorMessageLoan = () =>
+    toast.error("Loaning failed, Something went wrong", {
+      containerId: "ToastAlert",
+    });
 
   return (
     <>
@@ -64,10 +74,16 @@ const ButtonPopup: FC<IProps> = ({
                 sx={confirmButton}
                 variant="contained"
                 onClick={async () => {
-                  await fetchDeleteBook(bookId);
+                  await fetchDeleteBook(bookId).then((res: { ok: any }) => {
+                    console.log(bookId);
+                    if (!res.ok) {
+                      ErrorMessageDelete();
+                    } else {
+                      DeletionMessage();
+                    }
+                  });
                   await fetchBooks();
                   setDeleteVisible(false);
-                  DeletionMessage();
                 }}
               >
                 Delete
@@ -104,7 +120,7 @@ const ButtonPopup: FC<IProps> = ({
                   await fetchCreateBorrow(bookId).then((res: { ok: any }) => {
                     console.log(bookId);
                     if (!res.ok) {
-                      ErrorMessage();
+                      ErrorMessageLoan();
                     } else {
                       LoanMessage();
                     }
@@ -149,7 +165,7 @@ const ButtonPopup: FC<IProps> = ({
                     (res: { ok: any }) => {
                       console.log(bookId);
                       if (!res.ok) {
-                        ErrorMessage();
+                        ErrorMessageReserve();
                       } else {
                         RevervationMessage();
                       }

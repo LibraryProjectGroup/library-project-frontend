@@ -29,7 +29,7 @@ const EditUser: FC<IProps> = ({
   updateUser,
 }: IProps): JSX.Element => {
   const editingMessage = () =>
-    toast.success("Update successful", { containerId: "ToastSuccess" });
+    toast.success("User edited succesfully", { containerId: "ToastSuccess" });
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {

@@ -21,9 +21,9 @@ const CancelReservation: FC<IProps> = ({
   fetchReservations,
 }: IProps): JSX.Element => {
   const CancelMessage = () =>
-    toast.success("Cancellation successful", { containerId: "ToastSuccess" });
+    toast.success("Reservation Cancelled", { containerId: "ToastSuccess" });
   const ErrorMessage = () =>
-    toast.error("Reservation failed", { containerId: "ToastAlert" });
+    toast.error("Cancellation failed", { containerId: "ToastAlert" });
   const context = useContext(TheContext);
 
   return (
