@@ -29,25 +29,29 @@ const CameraPopup: FC<IProps> = ({
   });
 
   const scanner = () => {
-    function onScanSuccess(decodedText: string, decodedResult: any) {
-      // handle the scanned code
-      callApi(decodedText);
-      console.log(decodedText);
-      setVisible(false);
-      setConfirmation(true);
-    }
-
-    // error handling (fix this)
-    function onScanFailure(error: string) {}
-
     let html5QrcodeScanner = new Html5QrcodeScanner(
       "reader",
       { fps: 10, qrbox: { width: 200, height: 200 } },
       /* verbose= */ false
     );
 
+    function onScanSuccess(decodedText: string, decodedResult: any) {
+      // handle the scanned code
+      callApi(decodedText);
+      console.log(decodedText);
+      setVisible(false);
+      setConfirmation(true);
+      html5QrcodeScanner.clear();
+    }
+
+    // error handling (fix this)
+    function onScanFailure(error: string) {}
+
     html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-    // }
+
+    return () => {
+      html5QrcodeScanner.clear();
+    };
   };
 
   return (
