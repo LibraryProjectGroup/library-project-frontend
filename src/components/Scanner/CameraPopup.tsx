@@ -49,9 +49,9 @@ const CameraPopup: FC<IProps> = ({
 
     html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 
-    return () => {
+    /*return () => {
       html5QrcodeScanner.clear();
-    };
+    };*/
   };
 
   return (
