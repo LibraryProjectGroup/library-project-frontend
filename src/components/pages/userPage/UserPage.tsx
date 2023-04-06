@@ -87,6 +87,11 @@ const MyAccount: FC = (): JSX.Element => {
     </React.Fragment>
   );
 
+  const returnPopup = async (BookId: React.SetStateAction<number>) => {
+    setBorrowedId(BookId);
+    setReturnVisible(true);
+  };
+
   useEffect(() => {
     fetchBooks();
     context?.fetchBorrows();
@@ -188,8 +193,7 @@ const MyAccount: FC = (): JSX.Element => {
                 sx={userPageReturnButton}
                 variant="contained"
                 onClick={async () => {
-                  setBorrowedId(borrowed.id);
-                  setReturnVisible(true);
+                  returnPopup(borrowed.id);
                 }}
               >
                 Return

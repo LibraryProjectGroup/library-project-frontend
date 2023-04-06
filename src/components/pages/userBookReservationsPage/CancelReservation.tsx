@@ -26,6 +26,13 @@ const CancelReservation: FC<IProps> = ({
     toast.error("Cancellation failed", { containerId: "ToastAlert" });
   const context = useContext(TheContext);
 
+  const cancelReservation = async () => {
+    const response = await fetchCancelBookReservation(reservationId);
+    if (response.ok) fetchReservations(context?.user?.id);
+    setVisible(false);
+    CancelMessage();
+  };
+
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
       <Box sx={popupContainer}>
@@ -46,12 +53,7 @@ const CancelReservation: FC<IProps> = ({
               variant="contained"
               color="error"
               onClick={async () => {
-                const response = await fetchCancelBookReservation(
-                  reservationId
-                );
-                if (response.ok) fetchReservations(context?.user?.id);
-                setVisible(false);
-                CancelMessage();
+                cancelReservation();
               }}
             >
               Cancel reservation

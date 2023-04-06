@@ -1,4 +1,4 @@
-import { useState, FC, useContext, useEffect } from "react";
+import { useState, FC, useContext, useEffect, SetStateAction } from "react";
 import {
   fetchUserCurrentBookReservations,
   fetchCancelBookReservation,
@@ -44,6 +44,11 @@ const UserReservations: FC = (): JSX.Element => {
     } else {
       return { ok: false };
     }
+  };
+
+  const cancelReservation = async (ReservationId: SetStateAction<number>) => {
+    setReservationId(ReservationId);
+    setCancelVisible(true);
   };
 
   const renderReservationData = (
@@ -157,8 +162,7 @@ const UserReservations: FC = (): JSX.Element => {
               variant="contained"
               color="error"
               onClick={async () => {
-                setReservationId(reservation.id);
-                setCancelVisible(true);
+                cancelReservation(reservation.id);
               }}
             >
               Cancel reservation

@@ -26,6 +26,19 @@ const DeleteUsers: FC<IProps> = ({
   const ErrorMessage = () =>
     toast.error("Deletion failed", { containerId: "ToastAlert" });
 
+  const deleteUser = async () => {
+    await fetchDeleteUser(userId).then((res: { ok: any }) => {
+      if (!res.ok) {
+        ErrorMessage();
+      } else {
+        deletionMessage();
+      }
+    });
+    //deleteUser(userId);
+    await loadUsersData();
+    setVisible(false);
+  };
+
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
       <Box sx={popupContainer}>
@@ -45,16 +58,7 @@ const DeleteUsers: FC<IProps> = ({
               sx={confirmButton}
               variant="contained"
               onClick={async () => {
-                await fetchDeleteUser(userId).then((res: { ok: any }) => {
-                  if (!res.ok) {
-                    ErrorMessage();
-                  } else {
-                    deletionMessage();
-                  }
-                });
-                //deleteUser(userId);
-                await loadUsersData();
-                setVisible(false);
+                deleteUser();
               }}
             >
               Delete

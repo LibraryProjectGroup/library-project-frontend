@@ -77,26 +77,22 @@ export const addBookAddButton: SxProps = {
   fontSize: 15,
   marginLeft: 5,
   marginBottom: 2,
-  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
-  //padding: 2,
 };
 
 export const addBookCancelButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
-  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
-  //padding: 2,
 };
 
 // EditBook
@@ -116,26 +112,22 @@ export const editBookUpdateButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
-  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
-  //padding: 2,
 };
 
 export const editBookCancelButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
-  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
-  //padding: 2,
 };
 
 // ListBooks
@@ -154,14 +146,12 @@ export const listBooksDeleteButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
-  //width: "30%",
   whiteSpace: "nowrap",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
-  //padding: 1,
 };
 
 export const listBooksEditButton: SxProps = {
@@ -169,14 +159,12 @@ export const listBooksEditButton: SxProps = {
   fontWeight: "bold",
   fontSize: 15,
   marginTop: "1rem",
-  //width: "30%",
   whiteSpace: "nowrap",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
-  //padding: 1,
 };
 
 export const listBooksEntryAddButton: SxProps = {
@@ -199,14 +187,12 @@ export const listBooksLoanButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
-  //width: "30%",
   backgroundColor: "#FFD100",
   marginTop: "1rem",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
-  //padding: 1,
 };
 
 // UserPage
@@ -216,13 +202,11 @@ export const userPageReturnButton: SxProps = {
   fontWeight: "bold",
   fontSize: 15,
   marginTop: 5,
-  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
-  //padding: 1,
 };
 
 export const userPageBackButton: SxProps = {
@@ -311,14 +295,12 @@ export const adminDeleteButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
-  //width: "30%",
   backgroundColor: "red",
   marginTop: "1rem",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
-  //padding: 1,
 };
 
 // EditUser
@@ -340,26 +322,22 @@ export const editUserCancelButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
-  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
-  //padding: 2,
 };
 
 export const editUserUpdateButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
-  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
-  //padding: 2,
 };
 
 // EditBookList
@@ -380,26 +358,22 @@ export const editBookListUpdateButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
-  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
-  //padding: 2,
 };
 
 export const editBookListCancelButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
-  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
-  //padding: 2,
 };
 
 //Modal styles
@@ -445,26 +419,22 @@ export const cancelButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
-  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
-  //padding: 2,
 };
 
 export const confirmButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
-  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
-  //padding: 2,
 };
 
 export const bookBox: SxProps = {

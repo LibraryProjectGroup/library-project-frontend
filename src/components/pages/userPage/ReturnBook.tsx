@@ -28,6 +28,18 @@ const ReturnBook: FC<IProps> = ({
     toast.error("Return failed", { containerId: "ToastAlert" });
   const context = useContext(TheContext);
 
+  const returnBook = async () => {
+    await fetchReturnBorrowed(borrowedId).then((res: { ok: any }) => {
+      if (!res.ok) {
+        ErrorMessage();
+      } else {
+        ReturnMessage();
+      }
+    });
+    await context?.fetchBorrows();
+    setVisible(false);
+  };
+
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
       <Box sx={popupContainer}>
@@ -47,17 +59,7 @@ const ReturnBook: FC<IProps> = ({
               sx={confirmButton}
               variant="contained"
               onClick={async () => {
-                await fetchReturnBorrowed(borrowedId).then(
-                  (res: { ok: any }) => {
-                    if (!res.ok) {
-                      ErrorMessage();
-                    } else {
-                      ReturnMessage();
-                    }
-                  }
-                );
-                await context?.fetchBorrows();
-                setVisible(false);
+                returnBook();
               }}
             >
               Return

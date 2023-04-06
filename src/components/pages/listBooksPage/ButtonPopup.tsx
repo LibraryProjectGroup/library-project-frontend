@@ -54,6 +54,47 @@ const ButtonPopup: FC<IProps> = ({
       containerId: "ToastAlert",
     });
 
+  const deleteBook = async () => {
+    await fetchDeleteBook(bookId).then((res: { ok: any }) => {
+      console.log(bookId);
+      if (!res.ok) {
+        ErrorMessageDelete();
+      } else {
+        DeletionMessage();
+      }
+    });
+    await fetchBooks();
+    setDeleteVisible(false);
+  };
+
+  const loanBook = async () => {
+    await fetchCreateBorrow(bookId).then((res: { ok: any }) => {
+      console.log(bookId);
+      if (!res.ok) {
+        ErrorMessageLoan();
+      } else {
+        LoanMessage();
+      }
+    });
+    await fetchBooks();
+    await fetchBorrows();
+    setLoanVisible(false);
+  };
+
+  const reserveBook = async () => {
+    await fetchAddBookReservation(bookId).then((res: { ok: any }) => {
+      console.log(bookId);
+      if (!res.ok) {
+        ErrorMessageReserve();
+      } else {
+        RevervationMessage();
+      }
+    });
+    await fetchBooks();
+    await fetchReservations();
+    setReserveVisible(false);
+  };
+
   return (
     <>
       <Modal open={deleteVisible} onClose={() => setDeleteVisible(false)}>
@@ -74,16 +115,7 @@ const ButtonPopup: FC<IProps> = ({
                 sx={confirmButton}
                 variant="contained"
                 onClick={async () => {
-                  await fetchDeleteBook(bookId).then((res: { ok: any }) => {
-                    console.log(bookId);
-                    if (!res.ok) {
-                      ErrorMessageDelete();
-                    } else {
-                      DeletionMessage();
-                    }
-                  });
-                  await fetchBooks();
-                  setDeleteVisible(false);
+                  deleteBook();
                 }}
               >
                 Delete
@@ -117,17 +149,7 @@ const ButtonPopup: FC<IProps> = ({
                 sx={confirmButton}
                 variant="contained"
                 onClick={async () => {
-                  await fetchCreateBorrow(bookId).then((res: { ok: any }) => {
-                    console.log(bookId);
-                    if (!res.ok) {
-                      ErrorMessageLoan();
-                    } else {
-                      LoanMessage();
-                    }
-                  });
-                  await fetchBooks();
-                  await fetchBorrows();
-                  setLoanVisible(false);
+                  loanBook();
                 }}
               >
                 Loan
@@ -161,19 +183,7 @@ const ButtonPopup: FC<IProps> = ({
                 sx={confirmButton}
                 variant="contained"
                 onClick={async () => {
-                  await fetchAddBookReservation(bookId).then(
-                    (res: { ok: any }) => {
-                      console.log(bookId);
-                      if (!res.ok) {
-                        ErrorMessageReserve();
-                      } else {
-                        RevervationMessage();
-                      }
-                    }
-                  );
-                  await fetchBooks();
-                  await fetchReservations();
-                  setReserveVisible(false);
+                  reserveBook();
                 }}
               >
                 Reserve
