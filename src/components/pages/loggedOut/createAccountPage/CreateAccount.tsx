@@ -11,7 +11,7 @@ import {
 } from "../../../../sxStyles";
 import { setSession } from "../../../../auth";
 import { TheContext } from "../../../../TheContext";
-import PasswordToggle from "../passwordToggleButton/PasswordToggle";
+import PasswordToggle from "../PasswordToggle";
 
 const REQUIRED_PASSWORD_LENGTH = 8;
 

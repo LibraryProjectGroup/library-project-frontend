@@ -13,7 +13,7 @@ import {
 } from "../../../../sxStyles";
 import { setSession } from "../../../../auth";
 import { TheContext } from "../../../../TheContext";
-import PasswordToggle from "../passwordToggleButton/PasswordToggle";
+import PasswordToggle from "../PasswordToggle";
 
 const LoginPage: FC = (): JSX.Element => {
   const [email, setEmail] = useState("");
