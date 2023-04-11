@@ -1,14 +1,5 @@
 import React, { useState, useEffect, useContext, FC } from "react";
-import {
-  Box,
-  Typography,
-  TextField,
-  Button,
-  Paper,
-  Grid,
-  IconButton,
-  InputAdornment,
-} from "@mui/material";
+import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
 import BACKEND_URL from "../../../../backendUrl";
 import { useNavigate } from "react-router-dom";
 import {
@@ -20,7 +11,6 @@ import {
 } from "../../../../sxStyles";
 import { setSession } from "../../../../auth";
 import { TheContext } from "../../../../TheContext";
-import { VisibilityOff, Visibility } from "@mui/icons-material";
 import PasswordToggle from "../passwordToggleButton/PasswordToggle";
 
 const REQUIRED_PASSWORD_LENGTH = 8;
@@ -232,7 +222,7 @@ const CreateAccount: FC = () => {
                           onMouseDown={handleMouseDownPassword}
                           onClick={() => handleClickShowPassword("second")}
                           passwordVisible={showPassword.second}
-                        ></PasswordToggle>
+                        />
                       ),
                     }}
                     onChange={inputChange}
