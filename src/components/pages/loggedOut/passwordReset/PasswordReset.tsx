@@ -6,8 +6,8 @@ import {
   loginBox,
   AuthBoxTitle,
   loginPaper,
-} from "../../../sxStyles";
-import { fetchPasswordReset } from "../../../fetchFunctions";
+} from "../../../../sxStyles";
+import { fetchPasswordReset } from "../../../../fetchFunctions";
 
 const REQUIRED_PASSWORD_LENGTH = 8;
 

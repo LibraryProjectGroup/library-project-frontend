@@ -9,7 +9,7 @@ import {
   IconButton,
   InputAdornment,
 } from "@mui/material";
-import BACKEND_URL from "../../../backendUrl";
+import BACKEND_URL from "../../../../backendUrl";
 import { Route, useNavigate } from "react-router-dom";
 import {
   loginButton,
@@ -19,9 +19,9 @@ import {
   textButton,
   loginRegisterTitle,
   loginRegisterContent,
-} from "../../../sxStyles";
-import { setSession } from "../../../auth";
-import { TheContext } from "../../../TheContext";
+} from "../../../../sxStyles";
+import { setSession } from "../../../../auth";
+import { TheContext } from "../../../../TheContext";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 
 const LoginPage: FC = (): JSX.Element => {
