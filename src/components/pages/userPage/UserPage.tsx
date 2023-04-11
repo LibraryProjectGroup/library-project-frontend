@@ -156,7 +156,7 @@ const MyAccount: FC = (): JSX.Element => {
                   fontWeight: "light",
                 }}
               >
-                isbn: {book.isbn}
+                ISBN: {book.isbn}
               </Typography>
               <Typography
                 sx={{
