@@ -55,15 +55,6 @@ const PasswordReset: FC = (): JSX.Element => {
         return setErrorMessage(
           `Passwords has to be atleast ${REQUIRED_PASSWORD_LENGTH} characters long`
         );
-      if (
-        !/[A-ZÅÄÖ]/.test(password) ||
-        !/[a-zåäö]/.test(password) ||
-        !/\d/.test(password) ||
-        !/[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/.test(password)
-      )
-        return setErrorMessage(
-          "Password has to have atleast one uppercase character, lowercase character, number, and special character"
-        );
 
       if (secret)
         fetchPasswordReset(secret, password)
