@@ -88,18 +88,6 @@ export default function EditHomeOffice({
             value={homeOffice?.name}
             onChange={(e) => onChange(e)}
           />
-          <TextField
-            label="Longitude"
-            name="longitude"
-            value={homeOffice?.officeLocation?.longitude}
-            onChange={(e) => onChange(e)}
-          />
-          <TextField
-            label="Latitude"
-            name="latitude"
-            value={homeOffice?.officeLocation?.latitude}
-            onChange={(e) => onChange(e)}
-          />
 
           <Stack direction="row" spacing={2} justifyContent="center">
             <Button
