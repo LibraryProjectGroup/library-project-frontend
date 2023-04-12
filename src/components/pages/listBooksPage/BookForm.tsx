@@ -14,7 +14,6 @@ import {
   editBookCancelButton,
 } from "../../../sxStyles";
 import { fetchUpdateBook, fetchAddBook } from "../../../fetchFunctions";
-import CameraPopup from "../../Scanner/CameraPopup";
 
 interface IProps {
   visible: boolean;
@@ -193,19 +192,11 @@ const EditBook: FC<IProps> = ({
               sx={editBookCancelButton}
               variant="contained"
               onClick={() => {
-                setCameraVisible(true);
+                console.log("Scanner");
               }}
             >
               Scanner
             </Button>
-
-            <CameraPopup
-              visible={cameraVisible}
-              setVisible={setCameraVisible}
-              confirmation={popUpConfirmation}
-              setConfirmation={setPopUpConfirmationOpen}
-              callApi={fetchApi}
-            />
           </Stack>
         </Stack>
       </Box>
