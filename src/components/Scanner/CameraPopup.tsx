@@ -1,11 +1,12 @@
-import { useState, FC } from "react";
+import { useState, FC, useEffect } from "react";
 import { Modal, Box, Button } from "@mui/material";
 
 import Book from "../../interfaces/book.interface";
+import BookForm from "../pages/listBooksPage/BookForm";
 
 import { editBookBox } from "../../sxStyles";
-import { Html5QrcodeScanner } from "html5-qrcode";
-import BookForm from "../pages/listBooksPage/BookForm";
+import { Html5QrcodeScanner, Html5Qrcode } from "html5-qrcode";
+const qrcodeRegionId = "html5qr-code-full-region";
 
 interface IProps {
   visible: boolean;
@@ -28,9 +29,21 @@ const CameraPopup: FC<IProps> = ({
     message: "",
   });
 
+  //let html5QrCode = new Html5Qrcode(qrcodeRegionId);
+
+  useEffect(() => {
+    if (visible === true) {
+      setTimeout(function () {
+        scanner();
+      }, 1);
+    } else {
+      return;
+    }
+  }, [visible]);
+
   const scanner = () => {
     let html5QrcodeScanner = new Html5QrcodeScanner(
-      "reader",
+      qrcodeRegionId,
       { fps: 10, qrbox: { width: 200, height: 200 } },
       /* verbose= */ false
     );
@@ -48,17 +61,12 @@ const CameraPopup: FC<IProps> = ({
     function onScanFailure(error: string) {}
 
     html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-
-    /*return () => {
-      html5QrcodeScanner.clear();
-    };*/
   };
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
       <Box sx={editBookBox}>
-        <Button onClick={scanner}>Open camera scanner</Button>
-        <div id="reader"></div>
+        <div id={qrcodeRegionId}></div>
       </Box>
     </Modal>
   );
