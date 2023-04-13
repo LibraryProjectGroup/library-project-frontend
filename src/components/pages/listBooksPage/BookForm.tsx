@@ -84,7 +84,6 @@ const EditBook: FC<IProps> = ({
   };
 
   const fetchApi = (isbn: string) => {
-    console.log(isbn + " Scanner Test");
     fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn)
       .then((response) => response.json())
       .then((result) => {

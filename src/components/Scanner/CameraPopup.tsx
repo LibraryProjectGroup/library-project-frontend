@@ -51,7 +51,6 @@ const CameraPopup: FC<IProps> = ({
     function onScanSuccess(decodedText: string, decodedResult: any) {
       // handle the scanned code
       callApi(decodedText);
-      console.log(decodedText);
       setVisible(false);
       setConfirmation(true);
       html5QrcodeScanner.clear();
