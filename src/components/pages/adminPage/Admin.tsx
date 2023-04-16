@@ -14,6 +14,7 @@ import LoansGrid from "./LoansGrid";
 import ExpiredGrid from "./ExpiredGrid";
 import RequestsGrid from "./RequestsGrid";
 import ReservationsGrid from "./ReservationsGrid";
+import HomeOfficeGrid from "./HomeOfficeGrid";
 
 const Admin: FC = (): JSX.Element => {
   const [currentTab, setCurrentTab] = useState<number>(0);
@@ -81,6 +82,7 @@ const Admin: FC = (): JSX.Element => {
           <Tab label="Expired loans" sx={adminPageTab} />
           <Tab label="Book requests" sx={adminPageTab} />
           <Tab label="Book reservations" sx={adminPageTab} />
+          <Tab label="Home offices" sx={adminPageTab} />
         </Tabs>
 
         <TabPanel index={0} currentTab={currentTab}>
@@ -100,6 +102,9 @@ const Admin: FC = (): JSX.Element => {
         </TabPanel>
         <TabPanel index={5} currentTab={currentTab}>
           <ReservationsGrid />
+        </TabPanel>
+        <TabPanel index={6} currentTab={currentTab}>
+          <HomeOfficeGrid />
         </TabPanel>
       </Box>
     </Box>
