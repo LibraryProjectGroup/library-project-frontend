@@ -107,30 +107,35 @@ const EditBook: FC<IProps> = ({
           <TextField
             label="Author"
             name="author"
+            required
             value={book.author}
             onChange={(e) => onChange(e)}
           />
           <TextField
             label="Title"
             name="title"
+            required
             value={book.title}
             onChange={(e) => onChange(e)}
           />
           <TextField
             label="Topic"
             name="topic"
+            required
             value={book.topic}
             onChange={(e) => onChange(e)}
           />
           <TextField
             label="ISBN"
             name="isbn"
+            required
             value={book.isbn}
             onChange={(e) => onChange(e)}
           />
           <TextField
             label="Year"
             name="year"
+            required
             value={book.year}
             onChange={(e) => onChange(e)}
           />
@@ -138,6 +143,7 @@ const EditBook: FC<IProps> = ({
             select
             label="Office"
             name="homeOfficeId"
+            required
             value={book.homeOfficeId}
             onChange={(e) => onChange(e)}
           >
