@@ -14,7 +14,7 @@ import {
   editBookCancelButton,
 } from "../../../sxStyles";
 import { fetchUpdateBook, fetchAddBook } from "../../../fetchFunctions";
-import CameraPopup from "../../Scanner/CameraPopup";
+import AddScanner from "../../scanner/AddScanner";
 
 interface IProps {
   visible: boolean;
@@ -198,7 +198,7 @@ const EditBook: FC<IProps> = ({
               Scanner
             </Button>
 
-            <CameraPopup
+            <AddScanner
               visible={cameraVisible}
               setVisible={setCameraVisible}
               confirmation={popUpConfirmation}

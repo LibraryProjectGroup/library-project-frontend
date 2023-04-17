@@ -1,12 +1,11 @@
-import { useState, FC, useEffect } from "react";
+import { useState, FC } from "react";
 import { Modal, Box, Button } from "@mui/material";
 
 import Book from "../../interfaces/book.interface";
-import BookForm from "../pages/listBooksPage/BookForm";
 
 import { editBookBox } from "../../sxStyles";
-import { Html5QrcodeScanner, Html5Qrcode } from "html5-qrcode";
-const qrcodeRegionId = "html5qr-code-full-region";
+import { Html5QrcodeScanner } from "html5-qrcode";
+import BookForm from "../pages/listBooksPage/BookForm";
 
 interface IProps {
   visible: boolean;
@@ -16,7 +15,7 @@ interface IProps {
   callApi: (isbn: string) => void;
 }
 
-const CameraPopup: FC<IProps> = ({
+const LoanScanner: FC<IProps> = ({
   visible,
   setVisible,
   confirmation,
@@ -29,21 +28,9 @@ const CameraPopup: FC<IProps> = ({
     message: "",
   });
 
-  //let html5QrCode = new Html5Qrcode(qrcodeRegionId);
-
-  useEffect(() => {
-    if (visible === true) {
-      setTimeout(function () {
-        scanner();
-      }, 1);
-    } else {
-      return;
-    }
-  }, [visible]);
-
   const scanner = () => {
     let html5QrcodeScanner = new Html5QrcodeScanner(
-      qrcodeRegionId,
+      "reader",
       { fps: 10, qrbox: { width: 200, height: 200 } },
       /* verbose= */ false
     );
@@ -51,6 +38,7 @@ const CameraPopup: FC<IProps> = ({
     function onScanSuccess(decodedText: string, decodedResult: any) {
       // handle the scanned code
       callApi(decodedText);
+      console.log(decodedText);
       setVisible(false);
       setConfirmation(true);
       html5QrcodeScanner.clear();
@@ -60,15 +48,20 @@ const CameraPopup: FC<IProps> = ({
     function onScanFailure(error: string) {}
 
     html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+    /*return () => {
+      html5QrcodeScanner.clear();
+    };*/
   };
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
       <Box sx={editBookBox}>
-        <div id={qrcodeRegionId}></div>
+        <Button onClick={scanner}>Open camera scanner</Button>
+        <div id="reader"></div>
       </Box>
     </Modal>
   );
 };
 
-export default CameraPopup;
+export default LoanScanner;
