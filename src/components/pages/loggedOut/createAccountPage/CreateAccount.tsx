@@ -1,15 +1,6 @@
 import React, { useState, useEffect, useContext, FC } from "react";
-import {
-  Box,
-  Typography,
-  TextField,
-  Button,
-  Paper,
-  Grid,
-  IconButton,
-  InputAdornment,
-} from "@mui/material";
-import BACKEND_URL from "../../../backendUrl";
+import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
+import BACKEND_URL from "../../../../backendUrl";
 import { useNavigate } from "react-router-dom";
 import {
   loginButton,
@@ -17,10 +8,10 @@ import {
   loginRegisterTitle,
   loginRegisterContent,
   AuthBoxTitle,
-} from "../../../sxStyles";
-import { setSession } from "../../../auth";
-import { TheContext } from "../../../TheContext";
-import { VisibilityOff, Visibility } from "@mui/icons-material";
+} from "../../../../sxStyles";
+import { setSession } from "../../../../auth";
+import { TheContext } from "../../../../TheContext";
+import PasswordToggle from "../PasswordToggle";
 
 const REQUIRED_PASSWORD_LENGTH = 8;
 
@@ -210,20 +201,11 @@ const CreateAccount: FC = () => {
                     margin="normal"
                     InputProps={{
                       endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={() => handleClickShowPassword("first")}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                          >
-                            {showPassword.first ? (
-                              <VisibilityOff />
-                            ) : (
-                              <Visibility />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
+                        <PasswordToggle
+                          onMouseDown={handleMouseDownPassword}
+                          onClick={() => handleClickShowPassword("first")}
+                          passwordVisible={showPassword.first}
+                        ></PasswordToggle>
                       ),
                     }}
                     onChange={inputChange}
@@ -236,20 +218,11 @@ const CreateAccount: FC = () => {
                     margin="normal"
                     InputProps={{
                       endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={() => handleClickShowPassword("second")}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                          >
-                            {showPassword.second ? (
-                              <VisibilityOff />
-                            ) : (
-                              <Visibility />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
+                        <PasswordToggle
+                          onMouseDown={handleMouseDownPassword}
+                          onClick={() => handleClickShowPassword("second")}
+                          passwordVisible={showPassword.second}
+                        />
                       ),
                     }}
                     onChange={inputChange}
