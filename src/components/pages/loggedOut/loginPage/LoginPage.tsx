@@ -1,6 +1,6 @@
 import React, { useState, FC, useEffect, useContext, useCallback } from "react";
 import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
-import BACKEND_URL from "../../../backendUrl";
+import BACKEND_URL from "../../../../backendUrl";
 import { Route, useNavigate } from "react-router-dom";
 import {
   loginButton,
@@ -10,14 +10,16 @@ import {
   textButton,
   loginRegisterTitle,
   loginRegisterContent,
-} from "../../../sxStyles";
-import { setSession } from "../../../auth";
-import { TheContext } from "../../../TheContext";
+} from "../../../../sxStyles";
+import { setSession } from "../../../../auth";
+import { TheContext } from "../../../../TheContext";
+import PasswordToggle from "../PasswordToggle";
 
 const LoginPage: FC = (): JSX.Element => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMesssage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const context = useContext(TheContext);
@@ -54,6 +56,14 @@ const LoginPage: FC = (): JSX.Element => {
     // update user data when you logIn and logOut
     context?.setIsLogin(true);
   }, [context, navigate]);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -108,14 +118,9 @@ const LoginPage: FC = (): JSX.Element => {
                   EfiLibrary
                 </Typography>
                 <Typography sx={loginRegisterContent}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
+                  Welcome to EfiLibrary - the digital extension of our physical
+                  book collection. Borrow books, make reservations, create lists
+                  of favorites and immerse yourself in the world of knowledge.
                 </Typography>
               </Box>
             </Box>
@@ -147,8 +152,17 @@ const LoginPage: FC = (): JSX.Element => {
                   <TextField
                     label="Password"
                     variant="outlined"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     margin="normal"
+                    InputProps={{
+                      endAdornment: (
+                        <PasswordToggle
+                          onMouseDown={handleMouseDownPassword}
+                          onClick={() => handleClickShowPassword()}
+                          passwordVisible={showPassword}
+                        />
+                      ),
+                    }}
                     onChange={(event) => {
                       setPassword(event.target.value);
                     }}

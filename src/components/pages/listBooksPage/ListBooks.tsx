@@ -63,6 +63,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import BookRequestForm from "./BookRequestForm";
 import { LOAN_DAYS, RESERVATION_DAYS, MS_IN_DAY } from "../../../constants";
+import CountrySpan from "../../CountrySpan";
+import OfficeSpan from "../../OfficeSpan";
 
 const ListBooks: FC = (): JSX.Element => {
   const [page, setPage] = React.useState(0);
@@ -408,7 +410,11 @@ const ListBooks: FC = (): JSX.Element => {
                   fontWeight: "light",
                 }}
               >
-                Location: {book.location}
+                Office:{" "}
+                <OfficeSpan
+                  countryCode={book.homeOfficeCountry}
+                  officeName={book.homeOfficeName}
+                />
               </Typography>
               {bookInCurrentBorrows(book) && (
                 <Typography
@@ -559,7 +565,9 @@ const ListBooks: FC = (): JSX.Element => {
                     year: new Date().getFullYear(),
                     topic: "",
                     isbn: "",
-                    location: "",
+                    homeOfficeId: -1,
+                    homeOfficeCountry: "XXX",
+                    homeOfficeName: "",
                     deleted: false,
                   });
                   setFormVisible(true);

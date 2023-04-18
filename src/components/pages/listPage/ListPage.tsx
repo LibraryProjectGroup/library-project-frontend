@@ -10,7 +10,7 @@ import {
   Container,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { FC, useEffect, useState, useContext } from "react";
+import React, { FC, useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   fetchListInfo,
@@ -20,6 +20,7 @@ import {
 import Book from "../../../interfaces/book.interface";
 import { listBooksDeleteButton, userPageBackButton } from "../../../sxStyles";
 import { TheContext } from "../../../TheContext";
+import OfficeSpan from "../../OfficeSpan";
 
 const ListPage: FC = (): JSX.Element => {
   const [userId, setUserId] = useState<number | null>(null);
@@ -183,7 +184,11 @@ const ListPage: FC = (): JSX.Element => {
                       fontWeight: "light",
                     }}
                   >
-                    Location: {book.location}
+                    Office:{" "}
+                    <OfficeSpan
+                      countryCode={book.homeOfficeCountry}
+                      officeName={book.homeOfficeName}
+                    />
                   </Typography>
                 </Stack>
 

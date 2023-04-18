@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { useEffect, useState, FC } from "react";
+=======
+import { useState, FC, useEffect } from "react";
+>>>>>>> origin/development
 import {
   Modal,
   Box,
@@ -6,6 +10,7 @@ import {
   Typography,
   TextField,
   Stack,
+  MenuItem,
 } from "@mui/material";
 import Book from "../../../interfaces/book.interface";
 import {
@@ -13,8 +18,19 @@ import {
   editBookUpdateButton,
   editBookCancelButton,
 } from "../../../sxStyles";
+<<<<<<< HEAD
 import { fetchUpdateBook, fetchAddBook } from "../../../fetchFunctions";
 import AddScanner from "../../scanner/AddScanner";
+=======
+import {
+  fetchUpdateBook,
+  fetchAddBook,
+  fetchAllHomeOffices,
+} from "../../../fetchFunctions";
+import { HomeOffice } from "../../../interfaces/HomeOffice";
+import CountrySpan from "../../CountrySpan";
+import OfficeSpan from "../../OfficeSpan";
+>>>>>>> origin/development
 
 interface IProps {
   visible: boolean;
@@ -37,6 +53,7 @@ const EditBook: FC<IProps> = ({
   editing,
   updateBooks,
 }: IProps): JSX.Element => {
+<<<<<<< HEAD
   const apikey = "&key=AIzaSyDQIsAIinLXi7UWR_dO_oRBWJtkAcZHwiE";
   const [lastIsbn, setLastIsbn] = useState("");
   const [cameraVisible, setCameraVisible] = useState(false);
@@ -44,6 +61,16 @@ const EditBook: FC<IProps> = ({
     ok: false,
     message: "",
   });
+=======
+  const [offices, setOffices] = useState<HomeOffice[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      setOffices(await fetchAllHomeOffices());
+    })();
+  }, []);
+
+>>>>>>> origin/development
   const updateBook = async (newBook: Book) => {
     const response = await fetchUpdateBook(newBook);
     if (response.ok) {
@@ -164,11 +191,23 @@ const EditBook: FC<IProps> = ({
             onChange={(e) => onChange(e)}
           />
           <TextField
-            label="Location"
-            name="location"
-            value={book.location}
+            select
+            label="Office"
+            name="homeOfficeId"
+            value={book.homeOfficeId}
             onChange={(e) => onChange(e)}
-          />
+          >
+            {
+              // @ts-ignore
+              offices.map(({ id, name, countryCode }) => {
+                return (
+                  <MenuItem value={id}>
+                    <OfficeSpan countryCode={countryCode} officeName={name} />
+                  </MenuItem>
+                );
+              })
+            }
+          </TextField>
           <Stack direction="row" spacing={2} justifyContent="center">
             <Button
               sx={editBookUpdateButton}

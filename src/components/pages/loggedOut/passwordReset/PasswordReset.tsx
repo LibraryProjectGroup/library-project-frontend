@@ -6,8 +6,8 @@ import {
   loginBox,
   AuthBoxTitle,
   loginPaper,
-} from "../../../sxStyles";
-import { fetchPasswordReset } from "../../../fetchFunctions";
+} from "../../../../sxStyles";
+import { fetchPasswordReset } from "../../../../fetchFunctions";
 
 const REQUIRED_PASSWORD_LENGTH = 8;
 
@@ -54,15 +54,6 @@ const PasswordReset: FC = (): JSX.Element => {
       if (password.length < REQUIRED_PASSWORD_LENGTH)
         return setErrorMessage(
           `Passwords has to be atleast ${REQUIRED_PASSWORD_LENGTH} characters long`
-        );
-      if (
-        !/[A-ZÅÄÖ]/.test(password) ||
-        !/[a-zåäö]/.test(password) ||
-        !/\d/.test(password) ||
-        !/[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/.test(password)
-      )
-        return setErrorMessage(
-          "Password has to have atleast one uppercase character, lowercase character, number, and special character"
         );
 
       if (secret)

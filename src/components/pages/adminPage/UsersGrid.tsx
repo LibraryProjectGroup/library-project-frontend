@@ -9,12 +9,23 @@ import {
   fetchUserById,
   fetchAdminUpdateUserData,
   fetchPasswordResetSecret,
+  fetchAllHomeOffices,
 } from "../../../fetchFunctions";
 import UserForm from "./EditUsers";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
+import { HomeOffice } from "../../../interfaces/HomeOffice";
+import OfficeSpan from "../../OfficeSpan";
 
 const UsersGrid: FC = (): JSX.Element => {
+  const [offices, setOffices] = useState<HomeOffice[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      setOffices(await fetchAllHomeOffices());
+    })();
+  }, []);
+
   const [usersData, setUsersData] = useState<User[]>([]);
   const [oneUserData, setOneUserData] = useState<EditUser | null>(null);
   const [formVisible, setFormVisible] = useState(false);
@@ -38,6 +49,25 @@ const UsersGrid: FC = (): JSX.Element => {
       flex: 1,
       valueFormatter(params) {
         return params.value === 0 ? "false" : "true";
+      },
+    },
+    {
+      field: "office",
+      headerName: "Office",
+      flex: 3,
+      renderCell: (params) => {
+        const homeOffice = (offices ?? []).find(
+          (office) => office.id === params.row.homeOfficeId
+        );
+        if (!homeOffice) {
+          return <span>Unknown</span>;
+        }
+        return (
+          <OfficeSpan
+            countryCode={homeOffice.countryCode}
+            officeName={homeOffice.name}
+          />
+        );
       },
     },
     {

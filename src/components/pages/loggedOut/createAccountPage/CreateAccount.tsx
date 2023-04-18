@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, FC } from "react";
 import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
-import BACKEND_URL from "../../../backendUrl";
+import BACKEND_URL from "../../../../backendUrl";
 import { useNavigate } from "react-router-dom";
 import {
   loginButton,
@@ -8,26 +8,27 @@ import {
   loginRegisterTitle,
   loginRegisterContent,
   AuthBoxTitle,
-} from "../../../sxStyles";
-import { setSession } from "../../../auth";
-import { TheContext } from "../../../TheContext";
+} from "../../../../sxStyles";
+import { setSession } from "../../../../auth";
+import { TheContext } from "../../../../TheContext";
+import PasswordToggle from "../PasswordToggle";
 
 const REQUIRED_PASSWORD_LENGTH = 8;
 
 const CreateAccount: FC = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState({
+  const [passwords, setPasswords] = useState({
     firstPassword: "",
     secondPassword: "",
   });
   const [validLength, setValidLength] = useState(false);
-  const [hasNumber, setHasNumber] = useState(false);
-  const [upperCase, setUpperCase] = useState(false);
-  const [lowerCase, setLowerCase] = useState(false);
-  const [specialChar, setSpecialChar] = useState(false);
   const [match, setMatch] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState({
+    first: false,
+    second: false,
+  });
 
   const [dimensions, setDimensions] = React.useState({
     height: window.innerHeight,
@@ -37,33 +38,36 @@ const CreateAccount: FC = () => {
   const context = useContext(TheContext);
   const navigate = useNavigate();
 
+  const handleClickShowPassword = (key: "first" | "second") => {
+    setShowPassword((showPassword) => ({
+      ...showPassword,
+      [key]: !showPassword[key],
+    }));
+  };
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
+
   const inputChange: (event: React.ChangeEvent<HTMLInputElement>) => void = (
     event
   ) => {
     const { value, name } = event.target;
-    setPassword({
-      ...password,
+    setPasswords({
+      ...passwords,
       [name]: value,
     });
   };
 
   useEffect(() => {
     setValidLength(
-      password.firstPassword.length >= REQUIRED_PASSWORD_LENGTH ? true : false
+      passwords.firstPassword.length >= REQUIRED_PASSWORD_LENGTH ? true : false
     );
-    setUpperCase(
-      password.firstPassword.toLowerCase() !== password.firstPassword
-    );
-    setLowerCase(
-      password.firstPassword.toUpperCase() !== password.firstPassword
-    );
-    setHasNumber(/\d/.test(password.firstPassword));
     setMatch(
-      !!password.firstPassword &&
-        password.firstPassword === password.secondPassword
-    );
-    setSpecialChar(
-      /[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/.test(password.firstPassword)
+      !!passwords.firstPassword &&
+        passwords.firstPassword === passwords.secondPassword
     );
     const handleResize = () => {
       setDimensions({
@@ -77,7 +81,7 @@ const CreateAccount: FC = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [password]);
+  }, [passwords]);
 
   const handleCreateAccount = async (
     event: React.FormEvent<HTMLFormElement>
@@ -87,10 +91,6 @@ const CreateAccount: FC = () => {
     if (!validLength)
       return setErrorMessage(
         `Passwords has to be atleast ${REQUIRED_PASSWORD_LENGTH} characters long`
-      );
-    if (!upperCase || !lowerCase || !hasNumber || !specialChar)
-      return setErrorMessage(
-        "Password has to have atleast one uppercase character, lowercase character, number, and special character"
       );
 
     try {
@@ -102,7 +102,7 @@ const CreateAccount: FC = () => {
         body: JSON.stringify({
           username: username,
           email: email,
-          password: password.firstPassword,
+          password: passwords.firstPassword,
         }),
       });
       let data = await response.json();
@@ -143,8 +143,7 @@ const CreateAccount: FC = () => {
                 </Typography>
                 <Typography sx={loginRegisterContent}>
                   Important! To create a valid password you will need at least 8
-                  characters with at least one uppercase, lowercase, number and
-                  special character.
+                  characters.
                 </Typography>
               </Box>
             </Box>
@@ -198,16 +197,34 @@ const CreateAccount: FC = () => {
                     name="firstPassword"
                     label="Password"
                     variant="outlined"
-                    type="password"
+                    type={showPassword.first ? "text" : "password"}
                     margin="normal"
+                    InputProps={{
+                      endAdornment: (
+                        <PasswordToggle
+                          onMouseDown={handleMouseDownPassword}
+                          onClick={() => handleClickShowPassword("first")}
+                          passwordVisible={showPassword.first}
+                        ></PasswordToggle>
+                      ),
+                    }}
                     onChange={inputChange}
                   />
                   <TextField
                     name="secondPassword"
                     label="Confirm Password"
                     variant="outlined"
-                    type="password"
+                    type={showPassword.second ? "text" : "password"}
                     margin="normal"
+                    InputProps={{
+                      endAdornment: (
+                        <PasswordToggle
+                          onMouseDown={handleMouseDownPassword}
+                          onClick={() => handleClickShowPassword("second")}
+                          passwordVisible={showPassword.second}
+                        />
+                      ),
+                    }}
                     onChange={inputChange}
                   />
                   <Typography sx={{ color: "red" }}>{errorMessage}</Typography>

@@ -166,71 +166,7 @@ User signs up with a 2 character password
 User will see alert that the password is too short
     Wait Until Element Is Visible    xpath://*[contains(text(), 'Passwords has to be atleast 8 characters long')]
 
-User signs up with password without uppercase character
-    Wait Until Element Is Visible    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
-    Input Text
-    ...    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
-    ...    dummyemail@example.doesnotexist
-    ...    clear=True
-    Wait Until Element Is Visible    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input
-    Input Text    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input    Testikaveri    clear=True
-    Wait Until Element Is Visible    xpath://input[@name='firstPassword']
-    Input Password    xpath://input[@name='firstPassword']    kahdeksan8?    clear=True
-    Wait Until Element Is Visible    xpath://input[@name='secondPassword']
-    Input Password    xpath://input[@name='secondPassword']    kahdeksan8?    clear=True
-    Wait Until Element Is Enabled    xpath://button[normalize-space()='SIGN UP']
-    Click Button    xpath://button[normalize-space()='SIGN UP']
-
-User will see alert that password is insufficient
-    Wait Until Element Is Visible
-    ...    xpath://*[contains(text(), 'Password has to have atleast one uppercase character, lowercase character, number, and special character')]
-
-User signs up with password without lowercase character
-    Wait Until Element Is Visible    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
-    Input Text
-    ...    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
-    ...    dummyemail@example.doesnotexist
-    ...    clear=True
-    Wait Until Element Is Visible    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input
-    Input Text    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input    Testikaveri    clear=True
-    Wait Until Element Is Visible    xpath://input[@name='firstPassword']
-    Input Password    xpath://input[@name='firstPassword']    KAHDEKSAN8?    clear=True
-    Wait Until Element Is Visible    xpath://input[@name='secondPassword']
-    Input Password    xpath://input[@name='secondPassword']    KAHDEKSAN8?    clear=True
-    Wait Until Element Is Enabled    xpath://button[normalize-space()='SIGN UP']
-    Click Button    xpath://button[normalize-space()='SIGN UP']
-
-User signs up with password without number
-    Wait Until Element Is Visible    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
-    Input Text
-    ...    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
-    ...    dummyemail@example.doesnotexist
-    ...    clear=True
-    Wait Until Element Is Visible    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input
-    Input Text    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input    Testikaveri    clear=True
-    Wait Until Element Is Visible    xpath://input[@name='firstPassword']
-    Input Password    xpath://input[@name='firstPassword']    Kahdeksan?    clear=True
-    Wait Until Element Is Visible    xpath://input[@name='secondPassword']
-    Input Password    xpath://input[@name='secondPassword']    Kahdeksan?    clear=True
-    Wait Until Element Is Enabled    xpath://button[normalize-space()='SIGN UP']
-    Click Button    xpath://button[normalize-space()='SIGN UP']
-
-User signs up with password without special character
-    Wait Until Element Is Visible    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
-    Input Text
-    ...    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
-    ...    dummyemail@example.doesnotexist
-    ...    clear=True
-    Wait Until Element Is Visible    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input
-    Input Text    xpath://label[contains(text(), 'Username')]//ancestor::div[1]//input    Testikaveri    clear=True
-    Wait Until Element Is Visible    xpath://input[@name='firstPassword']
-    Input Password    xpath://input[@name='firstPassword']    Kahdeksan8    clear=True
-    Wait Until Element Is Visible    xpath://input[@name='secondPassword']
-    Input Password    xpath://input[@name='secondPassword']    Kahdeksan8    clear=True
-    Wait Until Element Is Enabled    xpath://button[normalize-space()='SIGN UP']
-    Click Button    xpath://button[normalize-space()='SIGN UP']
-
- User signs up with existing username and password
+User signs up with existing username and password
     Wait Until Element Is Visible    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
     Input Text
     ...    xpath://label[contains(text(), 'Email')]//ancestor::div[1]//input
