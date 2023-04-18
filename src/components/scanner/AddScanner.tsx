@@ -5,7 +5,6 @@ import { editBookBox } from "../../sxStyles";
 import { Html5QrcodeScanner } from "html5-qrcode";
 import BookForm from "../pages/listBooksPage/BookForm";
 
-
 const qrcodeRegionId = "html5qr-code-full-region";
 
 interface IProps {
@@ -40,8 +39,6 @@ const AddScanner: FC<IProps> = ({
   }, [visible]);
 
   const scanner = () => {
-
-  
     let html5QrcodeScanner = new Html5QrcodeScanner(
       qrcodeRegionId,
       { fps: 10, qrbox: { width: 200, height: 200 } },
@@ -54,7 +51,6 @@ const AddScanner: FC<IProps> = ({
       setVisible(false);
       setConfirmation(true);
       html5QrcodeScanner.clear();
-      
     }
 
     // error handling
@@ -62,10 +58,7 @@ const AddScanner: FC<IProps> = ({
       console.log("error");
     }
 
-
-
     html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-
   };
 
   return (
