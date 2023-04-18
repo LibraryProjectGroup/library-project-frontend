@@ -22,6 +22,7 @@ import {
 import { HomeOffice } from "../../../interfaces/HomeOffice";
 import CountrySpan from "../../CountrySpan";
 import OfficeSpan from "../../OfficeSpan";
+import AddScanner from "../../scanner/AddScanner";
 
 interface IProps {
   visible: boolean;
@@ -45,6 +46,13 @@ const EditBook: FC<IProps> = ({
   updateBooks,
 }: IProps): JSX.Element => {
   const [offices, setOffices] = useState<HomeOffice[]>([]);
+  const apikey = "&key=AIzaSyDQIsAIinLXi7UWR_dO_oRBWJtkAcZHwiE";
+  const [lastIsbn, setLastIsbn] = useState("");
+  const [cameraVisible, setCameraVisible] = useState(false);
+  const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
+    ok: false,
+    message: "",
+  });
 
   useEffect(() => {
     (async () => {
@@ -66,6 +74,32 @@ const EditBook: FC<IProps> = ({
       setVisible(false);
       updateBooks();
     }
+  };
+
+  const fetchApi = (isbn: string) => {
+    fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn)
+      .then((response) => response.json())
+      .then((result) => {
+        const x = result.items[0].volumeInfo.publishedDate;
+        if (result.items[0].volumeInfo.imageLinks !== undefined) {
+          setBook({
+            isbn: isbn,
+            author: result.items[0].volumeInfo.authors[0],
+            image: result.items[0].volumeInfo.imageLinks.thumbnail,
+            title: result.items[0].volumeInfo.title,
+            year: x[0] + x[1] + x[2] + x[3],
+          });
+        } else {
+          setBook({
+            isbn: isbn,
+            author: result.items[0].volumeInfo.authors[0],
+            image: "https://images.isbndb.com/covers/91/26/9789513119126.jpg",
+            title: result.items[0].volumeInfo.title,
+            year: x[0] + x[1] + x[2] + x[3],
+          });
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   const onChange = (
@@ -90,6 +124,13 @@ const EditBook: FC<IProps> = ({
           message: "Book has been added",
         });
   };
+
+  if (book.isbn != "" && book.isbn != lastIsbn) {
+    setLastIsbn(book.isbn);
+    fetchApi(book.isbn);
+  } else if (book.isbn == "" && lastIsbn != "") {
+    setLastIsbn("");
+  }
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
@@ -170,6 +211,22 @@ const EditBook: FC<IProps> = ({
             >
               Cancel
             </Button>
+            <Button
+              sx={editBookCancelButton}
+              variant="contained"
+              onClick={() => {
+                setCameraVisible(true);
+              }}
+            >
+              Scanner
+            </Button>
+            <AddScanner
+              visible={cameraVisible}
+              setVisible={setCameraVisible}
+              confirmation={popUpConfirmation}
+              setConfirmation={setPopUpConfirmationOpen}
+              callApi={fetchApi}
+            />
           </Stack>
         </Stack>
       </Box>
