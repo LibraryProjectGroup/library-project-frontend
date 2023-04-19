@@ -9,6 +9,7 @@ import {
   fetchUserById,
   fetchAdminUpdateUserData,
   fetchPasswordResetSecret,
+  fetchAllHomeOffices,
 } from "../../../fetchFunctions";
 import UserForm from "./EditUsers";
 import Alert from "@mui/material/Alert";
@@ -17,8 +18,18 @@ import DeleteUser from "./DeleteUser";
 import ToastContainers from "../../../ToastContainers";
 
 import "react-toastify/dist/ReactToastify.css";
+import { HomeOffice } from "../../../interfaces/HomeOffice";
+import OfficeSpan from "../../OfficeSpan";
 
 const UsersGrid: FC = (): JSX.Element => {
+  const [offices, setOffices] = useState<HomeOffice[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      setOffices(await fetchAllHomeOffices());
+    })();
+  }, []);
+
   const [usersData, setUsersData] = useState<User[]>([]);
   const [oneUserData, setOneUserData] = useState<EditUser | null>(null);
 
@@ -43,6 +54,25 @@ const UsersGrid: FC = (): JSX.Element => {
       minWidth: 110,
       valueFormatter(params) {
         return params.value === 0 ? "false" : "true";
+      },
+    },
+    {
+      field: "office",
+      headerName: "Office",
+      flex: 3,
+      renderCell: (params) => {
+        const homeOffice = (offices ?? []).find(
+          (office) => office.id === params.row.homeOfficeId
+        );
+        if (!homeOffice) {
+          return <span>Unknown</span>;
+        }
+        return (
+          <OfficeSpan
+            countryCode={homeOffice.countryCode}
+            officeName={homeOffice.name}
+          />
+        );
       },
     },
     {

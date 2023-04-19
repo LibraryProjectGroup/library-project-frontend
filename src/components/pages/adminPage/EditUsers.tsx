@@ -1,4 +1,4 @@
-import { useState, FC } from "react";
+import { useState, FC, useEffect } from "react";
 import {
   Modal,
   Box,
@@ -12,6 +12,14 @@ import User from "../../../interfaces/editUser.interface";
 import { popupContainer, confirmButton, cancelButton } from "../../../sxStyles";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  editUserBox,
+  editUserUpdateButton,
+  editUserCancelButton,
+} from "../../../sxStyles";
+import { HomeOffice } from "../../../interfaces/HomeOffice";
+import { fetchAllHomeOffices } from "../../../fetchFunctions";
+import OfficeSpan from "../../OfficeSpan";
 
 interface IProps {
   visible: boolean;
@@ -30,6 +38,14 @@ const EditUser: FC<IProps> = ({
 }: IProps): JSX.Element => {
   const editingMessage = () =>
     toast.success("User edited succesfully", { containerId: "ToastSuccess" });
+  const [offices, setOffices] = useState<HomeOffice[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      setOffices(await fetchAllHomeOffices());
+    })();
+  }, []);
+
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -76,7 +92,24 @@ const EditUser: FC<IProps> = ({
             value={user?.email}
             onChange={(e) => onChange(e)}
           />
-
+          <TextField
+            select
+            label="Office"
+            name="homeOfficeId"
+            value={user?.homeOfficeId}
+            onChange={(e) => onChange(e)}
+          >
+            {
+              // @ts-ignore
+              offices.map(({ id, name, countryCode }) => {
+                return (
+                  <MenuItem value={id}>
+                    <OfficeSpan countryCode={countryCode} officeName={name} />
+                  </MenuItem>
+                );
+              })
+            }
+          </TextField>
           <Stack direction="row" spacing={2} justifyContent="center">
             <Button
               sx={confirmButton}

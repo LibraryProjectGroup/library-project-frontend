@@ -1,8 +1,8 @@
 import React, { FC, useContext } from "react";
 import ListBooks from "./components/pages/listBooksPage/ListBooks";
-import LoginPage from "./components/pages/loginPage/LoginPage";
-import CreateAccount from "./components/pages/createAccountPage/CreateAccount";
-import PasswordReset from "./components/pages/passwordReset/PasswordReset";
+import LoginPage from "./components/pages/loggedOut/loginPage/LoginPage";
+import CreateAccount from "./components/pages/loggedOut/createAccountPage/CreateAccount";
+import PasswordReset from "./components/pages/loggedOut/passwordReset/PasswordReset";
 import MyAccount from "./components/pages/userPage/UserPage";
 import Admin from "./components/pages/adminPage/Admin";
 import UnauthorizedPage from "./components/pages/errorPages/UnauthorizedPage";

@@ -6,8 +6,10 @@ interface Book {
   year: number;
   topic: string;
   isbn: string;
-  location: string;
   deleted: boolean;
+  homeOfficeId: number;
+  homeOfficeName: string;
+  homeOfficeCountry: string;
 }
 
 export default Book;

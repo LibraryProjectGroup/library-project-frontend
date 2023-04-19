@@ -30,6 +30,7 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import ToastContainers from "../../../ToastContainers";
+import OfficeSpan from "../../OfficeSpan";
 
 const MyAccount: FC = (): JSX.Element => {
   const [books, setBooks] = useState<{ [key: number]: Book }>([]);
@@ -172,7 +173,11 @@ const MyAccount: FC = (): JSX.Element => {
                   fontWeight: "light",
                 }}
               >
-                Location: {book.location}
+                Office:{" "}
+                <OfficeSpan
+                  countryCode={book.homeOfficeCountry}
+                  officeName={book.homeOfficeName}
+                />
               </Typography>
             </Stack>
             <Stack>

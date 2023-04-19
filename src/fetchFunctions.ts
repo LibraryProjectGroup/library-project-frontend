@@ -6,9 +6,7 @@ import Borrow from "./interfaces/borrow.interface";
 import Book_list from "./interfaces/book_list.interface";
 import Book_list_entry from "./interfaces/book_list_entry.interface";
 import BACKEND_URL from "./backendUrl";
-import Book_request, {
-  Book_request_status,
-} from "./interfaces/book_request.interface";
+import { HomeOffice } from "./interfaces/HomeOffice";
 
 interface OKStatus {
   ok: boolean;
@@ -101,7 +99,7 @@ export const fetchAdminUpdateUserData = async (
   editUser: EditUser
 ): Promise<OKStatus> => {
   return await authFetch(
-    `/user/admin?id=${editUser?.id}&username=${editUser?.username}&email=${editUser?.email}&administrator=${editUser?.administrator}`,
+    `/user/admin?id=${editUser?.id}&username=${editUser?.username}&email=${editUser?.email}&administrator=${editUser?.administrator}&homeOfficeId=${editUser?.homeOfficeId}`,
     {
       method: "PUT",
       headers: {
@@ -433,3 +431,38 @@ export const fetchPasswordReset = async (secret: string, password?: string) => {
     body: JSON.stringify({ secret, password }),
   });
 };
+
+export async function fetchAllHomeOffices(): Promise<HomeOffice[]> {
+  return await authFetch(`/office/all`);
+}
+
+export async function fetchDeleteHomeOffice(
+  homeOfficeId: number
+): Promise<OKStatus> {
+  return await authFetch(`/office/${encodeURIComponent(homeOfficeId)}`, {
+    method: "DELETE",
+    headers: {
+      "content-type": "application/json",
+    },
+  });
+}
+
+export async function fetchHomeOfficeById(
+  homeOfficeId: number
+): Promise<HomeOffice> {
+  return await authFetch(`/office/${encodeURIComponent(homeOfficeId)}`);
+}
+
+export async function fetchAdminUpdateHomeOfficeData(
+  homeOffice: HomeOffice
+): Promise<OKStatus> {
+  // Do not include the id in the body
+  const bodyData = (({ id, ...data }) => data)(homeOffice);
+  return await authFetch(`/office/${encodeURIComponent(homeOffice.id)}`, {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(bodyData),
+  });
+}
