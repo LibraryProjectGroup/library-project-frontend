@@ -3,8 +3,6 @@ name: Deploy frontend to staging
 on:
   push:
     branches: ["development"]
-  pull_request:
-    branches: ["development"]
 
 env:
   REGISTRY: ghcr.io
