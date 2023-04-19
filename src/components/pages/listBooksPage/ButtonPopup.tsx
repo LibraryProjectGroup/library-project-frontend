@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Modal, Box, Button, Stack, Typography } from "@mui/material";
 import { popupContainer, confirmButton, cancelButton } from "../../../sxStyles";
 import { toast } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
 
 interface IProps {

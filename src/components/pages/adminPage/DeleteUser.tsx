@@ -1,9 +1,8 @@
-import { useState, FC } from "react";
+import { FC } from "react";
 import { Modal, Box, Button, Stack, Typography } from "@mui/material";
 import { popupContainer, confirmButton, cancelButton } from "../../../sxStyles";
-import { fetchDeleteUser } from "../../../fetchFunctions";
-import { fetchAddBookRequest } from "../../../fetchFunctions";
 import { toast } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
 
 interface IProps {

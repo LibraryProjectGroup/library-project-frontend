@@ -11,15 +11,11 @@ import {
 import User from "../../../interfaces/editUser.interface";
 import { popupContainer, confirmButton, cancelButton } from "../../../sxStyles";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import {
-  editUserBox,
-  editUserUpdateButton,
-  editUserCancelButton,
-} from "../../../sxStyles";
 import { HomeOffice } from "../../../interfaces/HomeOffice";
 import { fetchAllHomeOffices } from "../../../fetchFunctions";
 import OfficeSpan from "../../OfficeSpan";
+
+import "react-toastify/dist/ReactToastify.css";
 
 interface IProps {
   visible: boolean;

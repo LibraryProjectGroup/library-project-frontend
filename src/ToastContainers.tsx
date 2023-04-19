@@ -14,7 +14,7 @@ const ToastContainers: FC = (): JSX.Element => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="dark"
+        theme="light"
         enableMultiContainer
         containerId={"ToastSuccess"}
       />
@@ -28,7 +28,7 @@ const ToastContainers: FC = (): JSX.Element => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="dark"
+        theme="light"
         enableMultiContainer
         containerId={"ToastAlert"}
       />
