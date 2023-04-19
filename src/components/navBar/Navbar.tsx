@@ -261,18 +261,19 @@ const NavBar: FC = (): JSX.Element => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem>
+              <MenuItem
+                onClick={() => {
+                  endSession();
+                  navigate("/login");
+                  // update user data when you logIn and logOut
+                  context?.setIsLogin(false);
+                }}
+              >
                 <Typography
                   sx={{
                     marginRight: 1,
                   }}
                   textAlign="center"
-                  onClick={() => {
-                    endSession();
-                    navigate("/login");
-                    // update user data when you logIn and logOut
-                    context?.setIsLogin(false);
-                  }}
                 >
                   Log out
                 </Typography>
