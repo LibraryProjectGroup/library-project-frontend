@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { useEffect, useState, FC } from "react";
-=======
 import { useState, FC, useEffect } from "react";
->>>>>>> origin/development
 import {
   Modal,
   Box,
@@ -18,10 +14,7 @@ import {
   editBookUpdateButton,
   editBookCancelButton,
 } from "../../../sxStyles";
-<<<<<<< HEAD
-import { fetchUpdateBook, fetchAddBook } from "../../../fetchFunctions";
 import AddScanner from "../../scanner/AddScanner";
-=======
 import {
   fetchUpdateBook,
   fetchAddBook,
@@ -30,7 +23,6 @@ import {
 import { HomeOffice } from "../../../interfaces/HomeOffice";
 import CountrySpan from "../../CountrySpan";
 import OfficeSpan from "../../OfficeSpan";
->>>>>>> origin/development
 
 interface IProps {
   visible: boolean;
@@ -53,7 +45,6 @@ const EditBook: FC<IProps> = ({
   editing,
   updateBooks,
 }: IProps): JSX.Element => {
-<<<<<<< HEAD
   const apikey = "&key=AIzaSyDQIsAIinLXi7UWR_dO_oRBWJtkAcZHwiE";
   const [lastIsbn, setLastIsbn] = useState("");
   const [cameraVisible, setCameraVisible] = useState(false);
@@ -61,7 +52,6 @@ const EditBook: FC<IProps> = ({
     ok: false,
     message: "",
   });
-=======
   const [offices, setOffices] = useState<HomeOffice[]>([]);
 
   useEffect(() => {
@@ -70,7 +60,6 @@ const EditBook: FC<IProps> = ({
     })();
   }, []);
 
->>>>>>> origin/development
   const updateBook = async (newBook: Book) => {
     const response = await fetchUpdateBook(newBook);
     if (response.ok) {
