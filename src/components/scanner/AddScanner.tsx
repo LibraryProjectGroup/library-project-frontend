@@ -32,13 +32,14 @@ const AddScanner: FC<IProps> = ({
   //let html5QrCode = new Html5Qrcode(qrcodeRegionId);
 
   useEffect(() => {
-    if (visible === true) {
-      setTimeout(function () {
-        scanner();
-      }, 1);
-    } else {
+    if (!visible) {
       return;
     }
+    
+    const timeoutId = setTimeout(() => {
+      scanner();
+    }, 1);
+    return () => clearTimeout(timeoutId);
   }, [visible]);
 
   const scanner = () => {
@@ -57,7 +58,10 @@ const AddScanner: FC<IProps> = ({
     }
 
     // error handling (fix this)
-    function onScanFailure(error: string) {}
+    function onScanFailure(error: string) {
+      
+
+    }
 
     html5QrcodeScanner.render(onScanSuccess, onScanFailure);
   };
