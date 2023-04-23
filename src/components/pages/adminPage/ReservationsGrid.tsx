@@ -20,14 +20,15 @@ const ReservationsGrid: FC = (): JSX.Element => {
   >([]);
 
   const COLUMNS_RESERVATIONS: GridColDef[] = [
-    { field: "id", headerName: "Reservation ID", flex: 1 },
-    { field: "username", headerName: "Username", flex: 2 },
-    { field: "title", headerName: "Book title", flex: 3 },
-    { field: "bookId", headerName: "Book id", flex: 1 },
+    { field: "id", headerName: "Reservation ID", flex: 1, minWidth: 120 },
+    { field: "username", headerName: "Username", flex: 2, minWidth: 140 },
+    { field: "title", headerName: "Book title", flex: 3, minWidth: 200 },
+    { field: "bookId", headerName: "Book id", flex: 1, minWidth: 80 },
     {
       field: "reservationDatetime",
       headerName: "Reservation time",
       flex: 2,
+      minWidth: 180,
       valueFormatter(params) {
         return new Date(params.value).toLocaleString("fi", {
           year: "numeric",
@@ -43,6 +44,7 @@ const ReservationsGrid: FC = (): JSX.Element => {
       field: "loaned",
       headerName: "Loaned",
       flex: 1,
+      minWidth: 80,
       renderCell(params) {
         return params.value ? (
           <div style={{ color: "green" }}>true</div>
@@ -55,6 +57,7 @@ const ReservationsGrid: FC = (): JSX.Element => {
       field: "canceled",
       headerName: "Canceled",
       flex: 1,
+      minWidth: 80,
       renderCell(params) {
         return params.value ? (
           <div style={{ color: "green" }}>true</div>
@@ -68,6 +71,7 @@ const ReservationsGrid: FC = (): JSX.Element => {
       type: "actions",
       headerName: "Cancel res.",
       flex: 1,
+      minWidth: 140,
       renderCell: (params) =>
         params.row.canceled ? null : (
           <div>

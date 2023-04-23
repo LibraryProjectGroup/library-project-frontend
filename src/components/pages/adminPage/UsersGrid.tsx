@@ -1,6 +1,6 @@
 import { useState, useEffect, FC, Fragment } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Button, Modal } from "@mui/material";
+import { Button } from "@mui/material";
 import User from "../../../interfaces/user.interface";
 import EditUser from "../../../interfaces/editUser.interface";
 import {
@@ -14,6 +14,10 @@ import {
 import UserForm from "./EditUsers";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
+import DeleteUser from "./DeleteUser";
+import ToastContainers from "../../../ToastContainers";
+
+import "react-toastify/dist/ReactToastify.css";
 import { HomeOffice } from "../../../interfaces/HomeOffice";
 import OfficeSpan from "../../OfficeSpan";
 
@@ -28,25 +32,26 @@ const UsersGrid: FC = (): JSX.Element => {
 
   const [usersData, setUsersData] = useState<User[]>([]);
   const [oneUserData, setOneUserData] = useState<EditUser | null>(null);
-  const [formVisible, setFormVisible] = useState(false);
+
+  const [requestVisible, setRequestVisible] = useState(false);
+  const [deleteVisible, setDeleteVisible] = useState(false);
+
   const [open, setOpen] = useState(false);
-  const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
-    ok: false,
-    message: "",
-  });
+  const [rowId, setRowId] = useState("");
 
   const handleClose = () => {
     setOpen(false);
   };
 
   const COLUMNS_USERS: GridColDef[] = [
-    { field: "id", headerName: "ID", flex: 1 },
-    { field: "username", headerName: "Username", flex: 2 },
-    { field: "email", headerName: "Email", flex: 2 },
+    { field: "id", headerName: "ID", flex: 1, minWidth: 70 },
+    { field: "username", headerName: "Username", flex: 2, minWidth: 160 },
+    { field: "email", headerName: "Email", flex: 2, minWidth: 230 },
     {
       field: "administrator",
       headerName: "Administrator",
-      flex: 1,
+      flex: 1.5,
+      minWidth: 110,
       valueFormatter(params) {
         return params.value === 0 ? "false" : "true";
       },
@@ -74,6 +79,7 @@ const UsersGrid: FC = (): JSX.Element => {
       field: "edit",
       headerName: "Edit user",
       flex: 1.5,
+      minWidth: 80,
       renderCell: (params) => (
         <Button
           sx={{ color: "blue" }}
@@ -89,26 +95,13 @@ const UsersGrid: FC = (): JSX.Element => {
       field: "delete",
       headerName: "Delete user",
       flex: 1.5,
+      minWidth: 100,
       renderCell: (params) => (
         <Button
           sx={{ color: "red" }}
-          onClick={async () => {
-            if (window.confirm("Do you want to delete this user?")) {
-              let message = "Deletion succeeded";
-              await fetchDeleteUser(params.row.id)
-                .then((res) => {
-                  if (!res.ok) {
-                    message = "Deletion failed";
-                  }
-                })
-                .then(() =>
-                  setPopUpConfirmationOpen({
-                    ok: true,
-                    message: message,
-                  })
-                );
-              await loadUsersData();
-            }
+          onClick={() => {
+            setRowId(params.row.id);
+            setDeleteVisible(true);
           }}
         >
           Delete
@@ -118,7 +111,8 @@ const UsersGrid: FC = (): JSX.Element => {
     {
       field: "password reset",
       headerName: "Link to reset password",
-      flex: 1.5,
+      flex: 2,
+      minWidth: 170,
       renderCell: (params) => (
         <Button
           sx={{ color: "red" }}
@@ -147,35 +141,43 @@ const UsersGrid: FC = (): JSX.Element => {
     setUsersData(usersTmp);
   };
 
-  const deleteUser = async (id: number) => {
+  /*const deleteUser = async (id: number) => {
     await fetchDeleteUser(id);
     await loadUsersData();
-  };
+  };*/
 
   const editUser = async (id: number) => {
     let userData = await fetchUserById(id);
     userData.administrator = userData.administrator === 1 ? "true" : "false";
-    setFormVisible(true);
+    setRequestVisible(true);
     setOneUserData(userData);
   };
 
   const updateUser = async (editedUser: EditUser) => {
     const ok = await fetchAdminUpdateUserData(editedUser);
     if (ok?.ok) {
-      setFormVisible(false);
+      setRequestVisible(false);
       await loadUsersData();
     }
   };
 
   return (
     <>
+      <DeleteUser
+        visible={deleteVisible}
+        setVisible={setDeleteVisible}
+        userId={rowId}
+        fetchDeleteUser={fetchDeleteUser}
+        loadUsersData={loadUsersData}
+      />
       <UserForm
-        visible={formVisible}
-        setVisible={setFormVisible}
+        visible={requestVisible}
+        setVisible={setRequestVisible}
         setOneUserData={setOneUserData}
         user={oneUserData}
         updateUser={updateUser}
       />
+      <ToastContainers />
       <DataGrid
         columns={COLUMNS_USERS}
         rows={usersData}
