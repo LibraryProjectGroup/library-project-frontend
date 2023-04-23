@@ -33,7 +33,7 @@ const AddScanner: FC<IProps> = ({
     if (!visible) {
       return;
     }
-    
+
     const timeoutId = setTimeout(() => {
       scanner();
     }, 1);
@@ -55,10 +55,9 @@ const AddScanner: FC<IProps> = ({
       html5QrcodeScanner.clear();
     }
 
-    // error handling 
+    // error handling
     function onScanFailure(error: string) {
-      console.log("Error scanning: " + error)
-
+      console.log("Error scanning: " + error);
     }
 
     html5QrcodeScanner.render(onScanSuccess, onScanFailure);
