@@ -16,3 +16,4 @@ docker.env
 
 # Python "robot" tests
 /robot/results/
+.DS_Store
