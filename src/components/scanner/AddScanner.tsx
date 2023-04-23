@@ -29,8 +29,6 @@ const AddScanner: FC<IProps> = ({
     message: "",
   });
 
-  //let html5QrCode = new Html5Qrcode(qrcodeRegionId);
-
   useEffect(() => {
     if (!visible) {
       return;
@@ -57,9 +55,9 @@ const AddScanner: FC<IProps> = ({
       html5QrcodeScanner.clear();
     }
 
-    // error handling (fix this)
+    // error handling 
     function onScanFailure(error: string) {
-      
+      console.log("Error scanning: " + error)
 
     }
 
