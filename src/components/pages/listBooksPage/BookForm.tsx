@@ -46,7 +46,6 @@ const EditBook: FC<IProps> = ({
   updateBooks,
 }: IProps): JSX.Element => {
   const [offices, setOffices] = useState<HomeOffice[]>([]);
-  const apikey = "&key=AIzaSyDQIsAIinLXi7UWR_dO_oRBWJtkAcZHwiE";
   const [lastIsbn, setLastIsbn] = useState("");
   const [cameraVisible, setCameraVisible] = useState(false);
   const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
@@ -77,17 +76,20 @@ const EditBook: FC<IProps> = ({
   };
 
   const fetchApi = (isbn: string) => {
-    fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn)
+    fetch(
+      "https://www.googleapis.com/books/v1/volumes?q=isbn:" +
+        encodeURIComponent(isbn)
+    )
       .then((response) => response.json())
       .then((result) => {
-        const x = result.items[0].volumeInfo.publishedDate;
+        const date = result.items[0].volumeInfo.publishedDate;
         if (result.items[0].volumeInfo.imageLinks !== undefined) {
           setBook({
             isbn: isbn,
             author: result.items[0].volumeInfo.authors[0],
             image: result.items[0].volumeInfo.imageLinks.thumbnail,
             title: result.items[0].volumeInfo.title,
-            year: x[0] + x[1] + x[2] + x[3],
+            year: date[0] + date[1] + date[2] + date[3],
           });
         } else {
           setBook({
@@ -95,7 +97,7 @@ const EditBook: FC<IProps> = ({
             author: result.items[0].volumeInfo.authors[0],
             image: "https://images.isbndb.com/covers/91/26/9789513119126.jpg",
             title: result.items[0].volumeInfo.title,
-            year: x[0] + x[1] + x[2] + x[3],
+            year: date[0] + date[1] + date[2] + date[3],
           });
         }
       })
