@@ -16,4 +16,7 @@ docker.env
 
 # Python "robot" tests
 /robot/results/
+
+
+# OS-Generated files
 .DS_Store
