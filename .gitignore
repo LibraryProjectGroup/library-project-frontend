@@ -19,4 +19,4 @@ docker.env
 
 
 # OS-Generated files
-.DS_Store
+**/.DS_Store
