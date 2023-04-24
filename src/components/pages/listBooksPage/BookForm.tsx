@@ -83,20 +83,21 @@ const EditBook: FC<IProps> = ({
       .then((response) => response.json())
       .then((result) => {
         const date = result.items[0].volumeInfo.publishedDate;
-        if (result.items[0].volumeInfo.imageLinks !== undefined) {
+        const bookData = result.items[0];
+        if (bookData.volumeInfo.imageLinks) {
           setBook({
             isbn: isbn,
-            author: result.items[0].volumeInfo.authors[0],
-            image: result.items[0].volumeInfo.imageLinks.thumbnail,
-            title: result.items[0].volumeInfo.title,
+            author: bookData.volumeInfo.authors[0],
+            image: bookData.volumeInfo.imageLinks.thumbnail,
+            title: bookData.volumeInfo.title,
             year: date[0] + date[1] + date[2] + date[3],
           });
         } else {
           setBook({
             isbn: isbn,
-            author: result.items[0].volumeInfo.authors[0],
+            author: bookData.volumeInfo.authors[0],
             image: "https://images.isbndb.com/covers/91/26/9789513119126.jpg",
-            title: result.items[0].volumeInfo.title,
+            title: bookData.volumeInfo.title,
             year: date[0] + date[1] + date[2] + date[3],
           });
         }
