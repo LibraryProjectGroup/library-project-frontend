@@ -115,6 +115,14 @@ const MyAccount: FC = (): JSX.Element => {
           }}
         >
           <Stack direction="row" justifyContent="space-between">
+          <Stack>
+              <img
+                alt="Image_not_found"
+                width={120}
+                height={160}
+                src={book.image}
+              />
+            </Stack>
             <Stack>
               <Typography
                 sx={{
@@ -123,15 +131,6 @@ const MyAccount: FC = (): JSX.Element => {
                 }}
               >
                 {book.title}
-              </Typography>
-
-              <Typography
-                sx={{
-                  fontFamily: "Montserrat",
-                  fontWeight: "light",
-                }}
-              >
-                {book.image}
               </Typography>
 
               <Typography

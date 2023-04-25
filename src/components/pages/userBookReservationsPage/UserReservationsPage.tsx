@@ -13,7 +13,13 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import { Container } from "@mui/system";
 
-const UserReservations: FC = (): JSX.Element => {
+interface IProps {
+  extendreservation: ExtendedReservation | null;
+}
+
+const UserReservations: FC<IProps> = ({
+  extendreservation,
+}: IProps): JSX.Element => {
   const [reservations, setReservations] = useState<ExtendedReservation[]>([]);
   const context = useContext(TheContext);
   const navigate = useNavigate();
@@ -67,6 +73,15 @@ const UserReservations: FC = (): JSX.Element => {
             width: "100%",
           }}
         >
+        <Stack>
+          <img
+            alt="Image_not_found"
+            width={120}
+            height={160}
+            src={reservation.image}
+          />
+          </Stack>
+
           <Stack>
             <Typography
               sx={{

@@ -82,7 +82,7 @@ function App() {
             element={
               <ProtectedRoute>
                 <NavBar />
-                <UserReservations />
+                <UserReservations extendreservation={null}/>
               </ProtectedRoute>
             }
           />
