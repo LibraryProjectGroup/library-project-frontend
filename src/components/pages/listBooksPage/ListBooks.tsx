@@ -330,12 +330,7 @@ const ListBooks: FC = (): JSX.Element => {
             }}
           >
             <Stack>
-              <img
-                alt="Book cover"
-                width={120}
-                height={160}
-                src={book.image}
-              />
+              <img alt="Book cover" width={120} height={160} src={book.image} />
             </Stack>
 
             <Stack>

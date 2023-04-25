@@ -52,7 +52,6 @@ const EditBook: FC<IProps> = ({
     })();
   }, []);
 
-  const apikey = "&key=AIzaSyDQIsAIinLXi7UWR_dO_oRBWJtkAcZHwiE";
   const [lastIsbn, setLastIsbn] = useState("");
   const [cameraVisible, setCameraVisible] = useState(false);
   const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
