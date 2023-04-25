@@ -5,7 +5,6 @@ import {
   Button,
   Stack,
   Fab,
-  Tooltip,
   Box,
   Container,
 } from "@mui/material";
@@ -24,20 +23,25 @@ import {
   userPageBackButton,
   userPageMyListsButton,
 } from "../../../sxStyles";
+import ReturnBook from "./ReturnBook";
 import { endSession } from "../../../auth";
 import Borrow from "../../../interfaces/borrow.interface";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import ToastContainers from "../../../ToastContainers";
+import OfficeSpan from "../../OfficeSpan";
 
 const MyAccount: FC = (): JSX.Element => {
   const [books, setBooks] = useState<{ [key: number]: Book }>([]);
+  const [borrowedId, setBorrowedId] = useState<number>(0);
 
   const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
     ok: false,
     message: "",
   });
 
+  const [returnVisible, setReturnVisible] = useState(false);
   const context = useContext(TheContext);
   const navigate = useNavigate();
 
@@ -83,6 +87,11 @@ const MyAccount: FC = (): JSX.Element => {
       </IconButton>
     </React.Fragment>
   );
+
+  const returnPopup = async (BookId: React.SetStateAction<number>) => {
+    setBorrowedId(BookId);
+    setReturnVisible(true);
+  };
 
   useEffect(() => {
     fetchBooks();
@@ -165,7 +174,7 @@ const MyAccount: FC = (): JSX.Element => {
                   fontWeight: "light",
                 }}
               >
-                isbn: {book.isbn}
+                ISBN: {book.isbn}
               </Typography>
               <Typography
                 sx={{
@@ -173,7 +182,11 @@ const MyAccount: FC = (): JSX.Element => {
                   fontWeight: "light",
                 }}
               >
-                Location: {book.location}
+                Office:{" "}
+                <OfficeSpan
+                  countryCode={book.homeOfficeCountry}
+                  officeName={book.homeOfficeName}
+                />
               </Typography>
             </Stack>
             <Stack>
@@ -194,22 +207,7 @@ const MyAccount: FC = (): JSX.Element => {
                 sx={userPageReturnButton}
                 variant="contained"
                 onClick={async () => {
-                  if (window.confirm("Do you want to RETURN this book?")) {
-                    let message = "Returning succeeded";
-                    await fetchReturnBorrowed(borrowed.id)
-                      .then((res) => {
-                        if (!res.ok) {
-                          message = "Returning failed";
-                        }
-                      })
-                      .then(() =>
-                        setPopUpConfirmationOpen({
-                          ok: true,
-                          message: message,
-                        })
-                      );
-                    await context?.fetchBorrows();
-                  }
+                  returnPopup(borrowed.id);
                 }}
               >
                 Return
@@ -232,6 +230,14 @@ const MyAccount: FC = (): JSX.Element => {
         message={popUpConfirmation.message}
         action={action}
       />
+      <ReturnBook
+        visible={returnVisible}
+        setVisible={setReturnVisible}
+        borrowedId={borrowedId}
+        fetchReturnBorrowed={fetchReturnBorrowed}
+        fetchBorrows={context?.fetchBorrows()}
+      />
+      <ToastContainers />
       {/* Pop up element */}
       <Box sx={{ marginTop: 5, marginBottom: 5, position: "relative" }}>
         <Container

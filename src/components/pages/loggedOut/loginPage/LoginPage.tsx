@@ -1,15 +1,6 @@
 import React, { useState, FC, useEffect, useContext, useCallback } from "react";
-import {
-  Box,
-  Typography,
-  TextField,
-  Button,
-  Paper,
-  Grid,
-  IconButton,
-  InputAdornment,
-} from "@mui/material";
-import BACKEND_URL from "../../../backendUrl";
+import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
+import BACKEND_URL from "../../../../backendUrl";
 import { Route, useNavigate } from "react-router-dom";
 import {
   loginButton,
@@ -19,10 +10,10 @@ import {
   textButton,
   loginRegisterTitle,
   loginRegisterContent,
-} from "../../../sxStyles";
-import { setSession } from "../../../auth";
-import { TheContext } from "../../../TheContext";
-import { VisibilityOff, Visibility } from "@mui/icons-material";
+} from "../../../../sxStyles";
+import { setSession } from "../../../../auth";
+import { TheContext } from "../../../../TheContext";
+import PasswordToggle from "../PasswordToggle";
 
 const LoginPage: FC = (): JSX.Element => {
   const [email, setEmail] = useState("");
@@ -165,16 +156,11 @@ const LoginPage: FC = (): JSX.Element => {
                     margin="normal"
                     InputProps={{
                       endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
+                        <PasswordToggle
+                          onMouseDown={handleMouseDownPassword}
+                          onClick={() => handleClickShowPassword()}
+                          passwordVisible={showPassword}
+                        />
                       ),
                     }}
                     onChange={(event) => {

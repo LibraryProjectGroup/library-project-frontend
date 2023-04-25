@@ -1,4 +1,4 @@
-import { useEffect, useState, FC } from "react";
+import { useState, FC, useEffect } from "react";
 import {
   Modal,
   Box,
@@ -6,6 +6,7 @@ import {
   Typography,
   TextField,
   Stack,
+  MenuItem,
 } from "@mui/material";
 import Book from "../../../interfaces/book.interface";
 import {
@@ -13,7 +14,14 @@ import {
   editBookUpdateButton,
   editBookCancelButton,
 } from "../../../sxStyles";
-import { fetchUpdateBook, fetchAddBook } from "../../../fetchFunctions";
+import {
+  fetchUpdateBook,
+  fetchAddBook,
+  fetchAllHomeOffices,
+} from "../../../fetchFunctions";
+import { HomeOffice } from "../../../interfaces/HomeOffice";
+import CountrySpan from "../../CountrySpan";
+import OfficeSpan from "../../OfficeSpan";
 
 interface IProps {
   visible: boolean;
@@ -36,6 +44,14 @@ const EditBook: FC<IProps> = ({
   editing,
   updateBooks,
 }: IProps): JSX.Element => {
+  const [offices, setOffices] = useState<HomeOffice[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      setOffices(await fetchAllHomeOffices());
+    })();
+  }, []);
+
   const apikey = "&key=AIzaSyDQIsAIinLXi7UWR_dO_oRBWJtkAcZHwiE";
   const [lastIsbn, setLastIsbn] = useState("");
   const [cameraVisible, setCameraVisible] = useState(false);
@@ -200,6 +216,97 @@ const EditBook: FC<IProps> = ({
           </Stack>
         </Stack>
       </Box>
+    <Modal open={visible} onClose={() => setVisible(false)}>
+      <form
+        onSubmit={() => {
+          editing ? updateBook(book) : addBook(book);
+          handleOpen();
+        }}
+      >
+        <Box sx={editBookBox}>
+          <Stack spacing={2}>
+            <Typography
+              sx={{
+                fontFamily: "Montserrat",
+                fontWeight: "bold",
+              }}
+              variant="h4"
+            >
+              {editing ? `Edit ${book.title}` : "Add book"}
+            </Typography>
+            <TextField
+              label="Author"
+              name="author"
+              required
+              value={book.author}
+              onChange={(e) => onChange(e)}
+            />
+            <TextField
+              label="Title"
+              name="title"
+              required
+              value={book.title}
+              onChange={(e) => onChange(e)}
+            />
+            <TextField
+              label="Topic"
+              name="topic"
+              required
+              value={book.topic}
+              onChange={(e) => onChange(e)}
+            />
+            <TextField
+              label="ISBN"
+              name="isbn"
+              required
+              value={book.isbn}
+              onChange={(e) => onChange(e)}
+            />
+            <TextField
+              label="Year"
+              name="year"
+              required
+              value={book.year}
+              onChange={(e) => onChange(e)}
+            />
+            <TextField
+              select
+              label="Office"
+              name="homeOfficeId"
+              required
+              value={book.homeOfficeId}
+              onChange={(e) => onChange(e)}
+            >
+              {
+                // @ts-ignore
+                offices.map(({ id, name, countryCode }) => {
+                  return (
+                    <MenuItem value={id}>
+                      <OfficeSpan countryCode={countryCode} officeName={name} />
+                    </MenuItem>
+                  );
+                })
+              }
+            </TextField>
+            <Stack direction="row" spacing={2} justifyContent="center">
+              <Button
+                sx={editBookUpdateButton}
+                variant="contained"
+                type="submit"
+              >
+                {editing ? "Update" : "Add"}
+              </Button>
+              <Button
+                sx={editBookCancelButton}
+                variant="contained"
+                onClick={() => setVisible(false)}
+              >
+                Cancel
+              </Button>
+            </Stack>
+          </Stack>
+        </Box>
+      </form>
     </Modal>
   );
 };
