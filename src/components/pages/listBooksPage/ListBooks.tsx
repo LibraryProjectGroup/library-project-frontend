@@ -331,7 +331,7 @@ const ListBooks: FC = (): JSX.Element => {
           >
             <Stack>
               <img
-                alt="https://images.isbndb.com/covers/91/26/9789513119126.jpg"
+                alt="Book cover"
                 width={120}
                 height={160}
                 src={book.image}
