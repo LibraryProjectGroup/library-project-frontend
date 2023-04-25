@@ -127,7 +127,7 @@ const ListPage: FC = (): JSX.Element => {
               >
                 <Stack>
                   <img
-                    alt="Image_not_found"
+                    alt="Book cover"
                     width={120}
                     height={160}
                     src={book.image}
