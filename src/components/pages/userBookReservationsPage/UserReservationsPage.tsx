@@ -84,7 +84,7 @@ const UserReservations: FC<IProps> = ({
         >
           <Stack>
             <img
-              alt="Image_not_found"
+              alt="Book cover"
               width={120}
               height={160}
               src={reservation.image}
