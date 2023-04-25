@@ -73,13 +73,13 @@ const UserReservations: FC<IProps> = ({
             width: "100%",
           }}
         >
-        <Stack>
-          <img
-            alt="Image_not_found"
-            width={120}
-            height={160}
-            src={reservation.image}
-          />
+          <Stack>
+            <img
+              alt="Image_not_found"
+              width={120}
+              height={160}
+              src={reservation.image}
+            />
           </Stack>
 
           <Stack>

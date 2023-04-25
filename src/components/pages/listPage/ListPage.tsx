@@ -124,14 +124,14 @@ const ListPage: FC = (): JSX.Element => {
                   width: "100%",
                 }}
               >
-              <Stack>
-                <img
-                  alt="Image_not_found"
-                  width={120}
-                  height={160}
-                  src={book.image}
-              />
-              </Stack>
+                <Stack>
+                  <img
+                    alt="Image_not_found"
+                    width={120}
+                    height={160}
+                    src={book.image}
+                  />
+                </Stack>
                 <Stack>
                   <Typography
                     sx={{
@@ -177,7 +177,7 @@ const ListPage: FC = (): JSX.Element => {
                   >
                     isbn: {book.isbn}
                   </Typography>
-                  
+
                   <Typography
                     sx={{
                       fontFamily: "Merriweather",

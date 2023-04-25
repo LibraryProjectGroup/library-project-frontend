@@ -115,7 +115,7 @@ const MyAccount: FC = (): JSX.Element => {
           }}
         >
           <Stack direction="row" justifyContent="space-between">
-          <Stack>
+            <Stack>
               <img
                 alt="Image_not_found"
                 width={120}
