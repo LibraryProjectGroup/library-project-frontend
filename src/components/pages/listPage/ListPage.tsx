@@ -126,6 +126,14 @@ const ListPage: FC = (): JSX.Element => {
                 }}
               >
                 <Stack>
+                  <img
+                    alt="Book cover"
+                    width={120}
+                    height={160}
+                    src={book.image}
+                  />
+                </Stack>
+                <Stack>
                   <Typography
                     sx={{
                       fontFamily: "Montserrat",
@@ -134,6 +142,7 @@ const ListPage: FC = (): JSX.Element => {
                   >
                     {book.title}
                   </Typography>
+
                   <Typography
                     sx={{
                       fontFamily: "Merriweather",
@@ -160,6 +169,7 @@ const ListPage: FC = (): JSX.Element => {
                   >
                     Topic: {book.topic}
                   </Typography>
+
                   <Typography
                     sx={{
                       fontFamily: "Merriweather",
@@ -168,6 +178,7 @@ const ListPage: FC = (): JSX.Element => {
                   >
                     ISBN: {book.isbn}
                   </Typography>
+
                   <Typography
                     sx={{
                       fontFamily: "Merriweather",
