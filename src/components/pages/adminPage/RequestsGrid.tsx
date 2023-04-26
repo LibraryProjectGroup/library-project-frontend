@@ -25,16 +25,15 @@ const RequestsGrid: FC = (): JSX.Element => {
   const [requestsData, setRequestsData] = useState<Book_request[]>([]);
 
   const COLUMNS_REQUESTS: GridColDef[] = [
-    { field: "id", headerName: "Request ID", flex: 1, minWidth: 100 },
-    { field: "userId", headerName: "User ID", flex: 1, minWidth: 100 },
-    { field: "isbn", headerName: "ISBN", flex: 2, minWidth: 160 },
-    { field: "title", headerName: "Title", flex: 3, minWidth: 80 },
-    { field: "reason", headerName: "Reason", flex: 3, minWidth: 80 },
+    { field: "id", headerName: "Request ID", flex: 1 },
+    { field: "userId", headerName: "User ID", flex: 1 },
+    { field: "isbn", headerName: "ISBN", flex: 2 },
+    { field: "title", headerName: "Title", flex: 3 },
+    { field: "reason", headerName: "Reason", flex: 3 },
     {
       field: "status",
       headerName: "Status",
       flex: 2,
-      minWidth: 100,
       valueFormatter(params: any) {
         switch (params.value) {
           case 0:
@@ -51,8 +50,6 @@ const RequestsGrid: FC = (): JSX.Element => {
     {
       field: "approve",
       headerName: "Approve",
-      flex: 1,
-      minWidth: 80,
       renderCell: (params) => (
         <IconButton
           title="Approve"
@@ -68,8 +65,6 @@ const RequestsGrid: FC = (): JSX.Element => {
     {
       field: "deny",
       headerName: "Deny",
-      flex: 1,
-      minWidth: 80,
       renderCell: (params) => (
         <IconButton
           title="Deny"

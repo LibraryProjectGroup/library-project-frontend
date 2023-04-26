@@ -94,22 +94,26 @@ export const addBookAddButton: SxProps = {
   fontSize: 15,
   marginLeft: 5,
   marginBottom: 2,
+  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
+  //padding: 2,
 };
 
 export const addBookCancelButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
+  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
+  //padding: 2,
 };
 
 // EditBook
@@ -129,22 +133,26 @@ export const editBookUpdateButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
+  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
+  //padding: 2,
 };
 
 export const editBookCancelButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
+  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
+  //padding: 2,
 };
 
 // ListBooks
@@ -163,12 +171,14 @@ export const listBooksDeleteButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
+  //width: "30%",
   whiteSpace: "nowrap",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
+  //padding: 1,
 };
 
 export const listBooksEditButton: SxProps = {
@@ -176,12 +186,14 @@ export const listBooksEditButton: SxProps = {
   fontWeight: "bold",
   fontSize: 15,
   marginTop: "1rem",
+  //width: "30%",
   whiteSpace: "nowrap",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
+  //padding: 1,
 };
 
 export const listBooksEntryAddButton: SxProps = {
@@ -204,12 +216,14 @@ export const listBooksLoanButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
+  //width: "30%",
   backgroundColor: "#FFD100",
   marginTop: "1rem",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
+  //padding: 1,
 };
 
 // UserPage
@@ -219,11 +233,13 @@ export const userPageReturnButton: SxProps = {
   fontWeight: "bold",
   fontSize: 15,
   marginTop: 5,
+  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
+  //padding: 1,
 };
 
 export const userPageBackButton: SxProps = {
@@ -312,12 +328,14 @@ export const adminDeleteButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
+  //width: "30%",
   backgroundColor: "red",
   marginTop: "1rem",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
+  //padding: 1,
 };
 
 // EditUser
@@ -339,22 +357,26 @@ export const editUserCancelButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
+  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
+  //padding: 2,
 };
 
 export const editUserUpdateButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
+  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
+  //padding: 2,
 };
 
 // EditBookList
@@ -375,104 +397,24 @@ export const editBookListUpdateButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
+  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
+  //padding: 2,
 };
 
 export const editBookListCancelButton: SxProps = {
   fontFamily: "Montserrat",
   fontWeight: "bold",
   fontSize: 15,
+  //width: "30%",
   backgroundColor: "#FFD100",
   color: "black",
   "&:hover": {
     backgroundColor: "#FFB500",
   },
-};
-
-//Modal styles
-export const modalPopup: SxProps = {
-  fontSize: 12,
-};
-
-export const headerPopup: SxProps = {
-  width: "100%",
-  borderBottom: "1px solid gray",
-  fontSize: 18,
-  textAlign: "center",
-  padding: 5,
-};
-
-export const contentPopup: SxProps = {
-  width: "100%",
-  padding: "10px 5px",
-};
-
-export const actionsPopup: SxProps = {
-  width: "100%",
-  padding: "10px 5px",
-  margin: "auto",
-  textAlign: "center",
-};
-
-export const closePopup: SxProps = {
-  cursor: "pointer",
-  position: "absolute",
-  display: "block",
-  padding: "2px 5px",
-  lineHeight: 20,
-  right: -10,
-  top: -10,
-  fontSize: 24,
-  background: "#ffffff",
-  borderRadius: 18,
-  border: "1px solid #cfcece",
-};
-
-export const cancelButton: SxProps = {
-  fontFamily: "Montserrat",
-  fontWeight: "bold",
-  fontSize: 15,
-  backgroundColor: "#FFD100",
-  color: "black",
-  "&:hover": {
-    backgroundColor: "#FFB500",
-  },
-};
-
-export const confirmButton: SxProps = {
-  fontFamily: "Montserrat",
-  fontWeight: "bold",
-  fontSize: 15,
-  backgroundColor: "#FFD100",
-  color: "black",
-  "&:hover": {
-    backgroundColor: "#FFB500",
-  },
-};
-
-export const bookBox: SxProps = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  width: { xs: "15rem", md: "25rem" },
-  transform: "translate(-50%, -50%)",
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  padding: "2rem 2rem 1rem 2rem",
-};
-
-//Popup box Styling
-export const popupContainer: SxProps = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  width: { xs: "15rem", md: "25rem" },
-  transform: "translate(-50%, -50%)",
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  padding: "2rem 2rem 1rem 2rem",
+  //padding: 2,
 };

@@ -5,6 +5,7 @@ import {
   Button,
   Stack,
   Fab,
+  Tooltip,
   Box,
   Container,
 } from "@mui/material";
@@ -23,25 +24,20 @@ import {
   userPageBackButton,
   userPageMyListsButton,
 } from "../../../sxStyles";
-import ReturnBook from "./ReturnBook";
 import { endSession } from "../../../auth";
 import Borrow from "../../../interfaces/borrow.interface";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import ToastContainers from "../../../ToastContainers";
-import OfficeSpan from "../../OfficeSpan";
 
 const MyAccount: FC = (): JSX.Element => {
   const [books, setBooks] = useState<{ [key: number]: Book }>([]);
-  const [borrowedId, setBorrowedId] = useState<number>(0);
 
   const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
     ok: false,
     message: "",
   });
 
-  const [returnVisible, setReturnVisible] = useState(false);
   const context = useContext(TheContext);
   const navigate = useNavigate();
 
@@ -88,11 +84,6 @@ const MyAccount: FC = (): JSX.Element => {
     </React.Fragment>
   );
 
-  const returnPopup = async (BookId: React.SetStateAction<number>) => {
-    setBorrowedId(BookId);
-    setReturnVisible(true);
-  };
-
   useEffect(() => {
     fetchBooks();
     context?.fetchBorrows();
@@ -125,9 +116,6 @@ const MyAccount: FC = (): JSX.Element => {
         >
           <Stack direction="row" justifyContent="space-between">
             <Stack>
-              <img alt="Book cover" width={120} height={160} src={book.image} />
-            </Stack>
-            <Stack>
               <Typography
                 sx={{
                   fontFamily: "Montserrat",
@@ -136,7 +124,6 @@ const MyAccount: FC = (): JSX.Element => {
               >
                 {book.title}
               </Typography>
-
               <Typography
                 sx={{
                   fontFamily: "Merriweather",
@@ -169,7 +156,7 @@ const MyAccount: FC = (): JSX.Element => {
                   fontWeight: "light",
                 }}
               >
-                ISBN: {book.isbn}
+                isbn: {book.isbn}
               </Typography>
               <Typography
                 sx={{
@@ -177,11 +164,7 @@ const MyAccount: FC = (): JSX.Element => {
                   fontWeight: "light",
                 }}
               >
-                Office:{" "}
-                <OfficeSpan
-                  countryCode={book.homeOfficeCountry}
-                  officeName={book.homeOfficeName}
-                />
+                Location: {book.location}
               </Typography>
             </Stack>
             <Stack>
@@ -202,7 +185,22 @@ const MyAccount: FC = (): JSX.Element => {
                 sx={userPageReturnButton}
                 variant="contained"
                 onClick={async () => {
-                  returnPopup(borrowed.id);
+                  if (window.confirm("Do you want to RETURN this book?")) {
+                    let message = "Returning succeeded";
+                    await fetchReturnBorrowed(borrowed.id)
+                      .then((res) => {
+                        if (!res.ok) {
+                          message = "Returning failed";
+                        }
+                      })
+                      .then(() =>
+                        setPopUpConfirmationOpen({
+                          ok: true,
+                          message: message,
+                        })
+                      );
+                    await context?.fetchBorrows();
+                  }
                 }}
               >
                 Return
@@ -225,14 +223,6 @@ const MyAccount: FC = (): JSX.Element => {
         message={popUpConfirmation.message}
         action={action}
       />
-      <ReturnBook
-        visible={returnVisible}
-        setVisible={setReturnVisible}
-        borrowedId={borrowedId}
-        fetchReturnBorrowed={fetchReturnBorrowed}
-        fetchBorrows={context?.fetchBorrows()}
-      />
-      <ToastContainers />
       {/* Pop up element */}
       <Box sx={{ marginTop: 5, marginBottom: 5, position: "relative" }}>
         <Container

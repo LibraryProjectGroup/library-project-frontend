@@ -1,4 +1,4 @@
-import { useState, FC, useContext, useEffect, SetStateAction } from "react";
+import { useState, FC, useContext, useEffect } from "react";
 import {
   fetchUserCurrentBookReservations,
   fetchCancelBookReservation,
@@ -12,19 +12,9 @@ import { listBooksDeleteButton, userPageBackButton } from "../../../sxStyles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import { Container } from "@mui/system";
-import CancelReservation from "./CancelReservation";
-import ToastContainers from "../../../ToastContainers";
 
-interface IProps {
-  extendreservation: ExtendedReservation | null;
-}
-
-const UserReservations: FC<IProps> = ({
-  extendreservation,
-}: IProps): JSX.Element => {
+const UserReservations: FC = (): JSX.Element => {
   const [reservations, setReservations] = useState<ExtendedReservation[]>([]);
-  const [reservationId, setReservationId] = useState<number>(0);
-  const [cancelVisible, setCancelVisible] = useState(false);
   const context = useContext(TheContext);
   const navigate = useNavigate();
 
@@ -52,11 +42,6 @@ const UserReservations: FC<IProps> = ({
     }
   };
 
-  const cancelReservation = async (ReservationId: SetStateAction<number>) => {
-    setReservationId(ReservationId);
-    setCancelVisible(true);
-  };
-
   const renderReservationData = (
     reservation: ExtendedReservation,
     index: number
@@ -82,15 +67,6 @@ const UserReservations: FC<IProps> = ({
             width: "100%",
           }}
         >
-          <Stack>
-            <img
-              alt="Book cover"
-              width={120}
-              height={160}
-              src={reservation.image}
-            />
-          </Stack>
-
           <Stack>
             <Typography
               sx={{
@@ -177,7 +153,12 @@ const UserReservations: FC<IProps> = ({
               variant="contained"
               color="error"
               onClick={async () => {
-                cancelReservation(reservation.id);
+                if (window.confirm("Cancel this reservation?")) {
+                  const response = await fetchCancelBookReservation(
+                    reservation.id
+                  );
+                  if (response.ok) fetchReservations(context?.user?.id);
+                }
               }}
             >
               Cancel reservation
@@ -232,14 +213,6 @@ const UserReservations: FC<IProps> = ({
           </Typography>
         </div>
       )}
-      <ToastContainers />
-      <CancelReservation
-        visible={cancelVisible}
-        setVisible={setCancelVisible}
-        reservationId={reservationId}
-        fetchCancelBookReservation={fetchCancelBookReservation}
-        fetchReservations={fetchReservations}
-      />
     </Box>
   );
 };

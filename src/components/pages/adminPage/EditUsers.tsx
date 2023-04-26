@@ -1,4 +1,4 @@
-import { useState, FC, useEffect } from "react";
+import { useState, FC } from "react";
 import {
   Modal,
   Box,
@@ -9,13 +9,11 @@ import {
   MenuItem,
 } from "@mui/material";
 import User from "../../../interfaces/editUser.interface";
-import { popupContainer, confirmButton, cancelButton } from "../../../sxStyles";
-import { toast } from "react-toastify";
-import { HomeOffice } from "../../../interfaces/HomeOffice";
-import { fetchAllHomeOffices } from "../../../fetchFunctions";
-import OfficeSpan from "../../OfficeSpan";
-
-import "react-toastify/dist/ReactToastify.css";
+import {
+  editUserBox,
+  editUserUpdateButton,
+  editUserCancelButton,
+} from "../../../sxStyles";
 
 interface IProps {
   visible: boolean;
@@ -32,16 +30,6 @@ const EditUser: FC<IProps> = ({
   setOneUserData,
   updateUser,
 }: IProps): JSX.Element => {
-  const editingMessage = () =>
-    toast.success("User edited succesfully", { containerId: "ToastSuccess" });
-  const [offices, setOffices] = useState<HomeOffice[]>([]);
-
-  useEffect(() => {
-    (async () => {
-      setOffices(await fetchAllHomeOffices());
-    })();
-  }, []);
-
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -55,7 +43,7 @@ const EditUser: FC<IProps> = ({
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
-      <Box sx={popupContainer}>
+      <Box sx={editUserBox}>
         <Stack spacing={2}>
           <Typography
             sx={{
@@ -88,37 +76,17 @@ const EditUser: FC<IProps> = ({
             value={user?.email}
             onChange={(e) => onChange(e)}
           />
-          <TextField
-            select
-            label="Office"
-            name="homeOfficeId"
-            value={user?.homeOfficeId}
-            onChange={(e) => onChange(e)}
-          >
-            {
-              // @ts-ignore
-              offices.map(({ id, name, countryCode }) => {
-                return (
-                  <MenuItem value={id}>
-                    <OfficeSpan countryCode={countryCode} officeName={name} />
-                  </MenuItem>
-                );
-              })
-            }
-          </TextField>
+
           <Stack direction="row" spacing={2} justifyContent="center">
             <Button
-              sx={confirmButton}
+              sx={editUserUpdateButton}
               variant="contained"
-              onClick={() => {
-                updateUser(user);
-                editingMessage();
-              }}
+              onClick={() => updateUser(user)}
             >
               Update
             </Button>
             <Button
-              sx={cancelButton}
+              sx={editUserCancelButton}
               variant="contained"
               onClick={() => setVisible(false)}
             >

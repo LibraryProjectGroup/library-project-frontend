@@ -2,8 +2,6 @@ import { useState, useEffect, FC } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Book from "../../../interfaces/book.interface";
 import { fetchAllBooks } from "../../../fetchFunctions";
-import CountrySpan from "../../CountrySpan";
-import OfficeSpan from "../../OfficeSpan";
 
 const BooksGrid: FC = (): JSX.Element => {
   const [booksData, setBooksData] = useState<Book[]>([]);
@@ -11,24 +9,10 @@ const BooksGrid: FC = (): JSX.Element => {
   const COLUMNS_BOOKS: GridColDef[] = [
     { field: "id", headerName: "ID", flex: 1 },
     { field: "title", headerName: "Title", flex: 5 },
-    { field: "image", headerName: "Image", flex: 5 },
     { field: "author", headerName: "Author", flex: 4 },
     { field: "year", headerName: "Year", flex: 4 },
     { field: "topic", headerName: "Topic", flex: 4 },
-    {
-      field: "office",
-      headerName: "Office",
-      flex: 3,
-      renderCell: (params) => {
-        const { homeOfficeCountry, homeOfficeName } = params.row;
-        return (
-          <OfficeSpan
-            countryCode={homeOfficeCountry}
-            officeName={homeOfficeName}
-          />
-        );
-      },
-    },
+    { field: "location", headerName: "Location", flex: 3 },
     { field: "isbn", headerName: "ISBN", flex: 3 },
   ];
 

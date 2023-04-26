@@ -62,7 +62,6 @@ User adds ${title} book to catalog
     Execute Javascript    window.scrollTo(0, 800)
     Click Button    xpath://*[@aria-label='add']
     Wait Until Element Is Visible    (//h4[normalize-space()='Add book'])[1]
-    Input Text    xpath://input[@name='image']    https://images.isbndb.com/covers/91/26/9789513119126.jpg
     Input Text    xpath://input[@name='author']    Firstname Lastname
     Input Text    xpath://input[@name='title']    ${title}
     Input Text    xpath://input[@name='topic']    Java

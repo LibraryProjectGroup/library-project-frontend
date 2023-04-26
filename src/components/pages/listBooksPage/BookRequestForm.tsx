@@ -59,7 +59,7 @@ const RequestBook: FC<IProps> = ({
             Request a Book
           </Typography>
           <TextField
-            label="ISBN"
+            label="Isbn"
             name="isbn"
             onChange={(e) => setIsbn(e.target.value)}
           />

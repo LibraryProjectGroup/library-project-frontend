@@ -1,4 +1,4 @@
-import { useState, FC, useEffect } from "react";
+import { useState, FC } from "react";
 import {
   Modal,
   Box,
@@ -6,7 +6,6 @@ import {
   Typography,
   TextField,
   Stack,
-  MenuItem,
 } from "@mui/material";
 import Book from "../../../interfaces/book.interface";
 import {
@@ -14,15 +13,7 @@ import {
   editBookUpdateButton,
   editBookCancelButton,
 } from "../../../sxStyles";
-import {
-  fetchUpdateBook,
-  fetchAddBook,
-  fetchAllHomeOffices,
-} from "../../../fetchFunctions";
-import { HomeOffice } from "../../../interfaces/HomeOffice";
-import CountrySpan from "../../CountrySpan";
-import OfficeSpan from "../../OfficeSpan";
-import AddScanner from "../../scanner/AddScanner";
+import { fetchUpdateBook, fetchAddBook } from "../../../fetchFunctions";
 
 interface IProps {
   visible: boolean;
@@ -45,20 +36,6 @@ const EditBook: FC<IProps> = ({
   editing,
   updateBooks,
 }: IProps): JSX.Element => {
-  const [offices, setOffices] = useState<HomeOffice[]>([]);
-  const [lastIsbn, setLastIsbn] = useState("");
-  const [cameraVisible, setCameraVisible] = useState(false);
-  const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
-    ok: false,
-    message: "",
-  });
-
-  useEffect(() => {
-    (async () => {
-      setOffices(await fetchAllHomeOffices());
-    })();
-  }, []);
-
   const updateBook = async (newBook: Book) => {
     const response = await fetchUpdateBook(newBook);
     if (response.ok) {
@@ -73,38 +50,6 @@ const EditBook: FC<IProps> = ({
       setVisible(false);
       updateBooks();
     }
-  };
-
-  const fetchApi = (isbn: string) => {
-    fetch(
-      "https://www.googleapis.com/books/v1/volumes?q=isbn:" +
-        encodeURIComponent(isbn)
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        const date = result.items[0].volumeInfo.publishedDate;
-        const bookData = result.items[0];
-        if (bookData.volumeInfo.imageLinks) {
-          setBook({
-            ...book,
-            isbn: isbn,
-            author: bookData.volumeInfo.authors[0],
-            image: bookData.volumeInfo.imageLinks.thumbnail,
-            title: bookData.volumeInfo.title,
-            year: date[0] + date[1] + date[2] + date[3],
-          });
-        } else {
-          setBook({
-            ...book,
-            isbn: isbn,
-            author: bookData.volumeInfo.authors[0],
-            image: "https://images.isbndb.com/covers/91/26/9789513119126.jpg",
-            title: bookData.volumeInfo.title,
-            year: date[0] + date[1] + date[2] + date[3],
-          });
-        }
-      })
-      .catch((err) => console.log(err));
   };
 
   const onChange = (
@@ -129,13 +74,6 @@ const EditBook: FC<IProps> = ({
           message: "Book has been added",
         });
   };
-
-  if (book.isbn != "" && book.isbn != lastIsbn) {
-    setLastIsbn(book.isbn);
-    fetchApi(book.isbn);
-  } else if (book.isbn == "" && lastIsbn != "") {
-    setLastIsbn("");
-  }
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
@@ -181,23 +119,11 @@ const EditBook: FC<IProps> = ({
             onChange={(e) => onChange(e)}
           />
           <TextField
-            select
-            label="Office"
-            name="homeOfficeId"
-            value={book.homeOfficeId}
+            label="Location"
+            name="location"
+            value={book.location}
             onChange={(e) => onChange(e)}
-          >
-            {
-              // @ts-ignore
-              offices.map(({ id, name, countryCode }) => {
-                return (
-                  <MenuItem value={id}>
-                    <OfficeSpan countryCode={countryCode} officeName={name} />
-                  </MenuItem>
-                );
-              })
-            }
-          </TextField>
+          />
           <Stack direction="row" spacing={2} justifyContent="center">
             <Button
               sx={editBookUpdateButton}
@@ -216,22 +142,6 @@ const EditBook: FC<IProps> = ({
             >
               Cancel
             </Button>
-            <Button
-              sx={editBookCancelButton}
-              variant="contained"
-              onClick={() => {
-                setCameraVisible(true);
-              }}
-            >
-              Scanner
-            </Button>
-            <AddScanner
-              visible={cameraVisible}
-              setVisible={setCameraVisible}
-              confirmation={popUpConfirmation}
-              setConfirmation={setPopUpConfirmationOpen}
-              callApi={fetchApi}
-            />
           </Stack>
         </Stack>
       </Box>

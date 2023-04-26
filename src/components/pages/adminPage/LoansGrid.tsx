@@ -8,13 +8,12 @@ const LoansGrid: FC = (): JSX.Element => {
   const [loansData, setLoansData] = useState<Loan[]>([]);
 
   const COLUMNS_LOANS: GridColDef[] = [
-    { field: "username", headerName: "Username", flex: 2, minWidth: 120 },
-    { field: "title", headerName: "Book title", flex: 3, minWidth: 250 },
+    { field: "username", headerName: "Username", flex: 2 },
+    { field: "title", headerName: "Book title", flex: 3 },
     {
       field: "borrowDate",
       headerName: "Borrowed",
       flex: 2,
-      minWidth: 100,
       valueFormatter(params) {
         return new Date(params.value).toLocaleString("fi", {
           year: "numeric",
@@ -27,7 +26,6 @@ const LoansGrid: FC = (): JSX.Element => {
       field: "dueDate",
       headerName: "Due",
       flex: 2,
-      minWidth: 100,
       renderCell(params) {
         const dueDate = new Date(params.value).toLocaleString("fi", {
           year: "numeric",
@@ -41,7 +39,7 @@ const LoansGrid: FC = (): JSX.Element => {
         );
       },
     },
-    { field: "id", headerName: "Book ID", flex: 1, minWidth: 80 },
+    { field: "id", headerName: "Book ID", flex: 1 },
   ];
 
   useEffect(() => {

@@ -10,7 +10,7 @@ import {
   Container,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import React, { FC, useEffect, useState, useContext } from "react";
+import { FC, useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   fetchListInfo,
@@ -20,7 +20,6 @@ import {
 import Book from "../../../interfaces/book.interface";
 import { listBooksDeleteButton, userPageBackButton } from "../../../sxStyles";
 import { TheContext } from "../../../TheContext";
-import OfficeSpan from "../../OfficeSpan";
 
 const ListPage: FC = (): JSX.Element => {
   const [userId, setUserId] = useState<number | null>(null);
@@ -126,14 +125,6 @@ const ListPage: FC = (): JSX.Element => {
                 }}
               >
                 <Stack>
-                  <img
-                    alt="Book cover"
-                    width={120}
-                    height={160}
-                    src={book.image}
-                  />
-                </Stack>
-                <Stack>
                   <Typography
                     sx={{
                       fontFamily: "Montserrat",
@@ -142,7 +133,6 @@ const ListPage: FC = (): JSX.Element => {
                   >
                     {book.title}
                   </Typography>
-
                   <Typography
                     sx={{
                       fontFamily: "Merriweather",
@@ -169,27 +159,21 @@ const ListPage: FC = (): JSX.Element => {
                   >
                     Topic: {book.topic}
                   </Typography>
-
                   <Typography
                     sx={{
                       fontFamily: "Merriweather",
                       fontWeight: "light",
                     }}
                   >
-                    ISBN: {book.isbn}
+                    isbn: {book.isbn}
                   </Typography>
-
                   <Typography
                     sx={{
                       fontFamily: "Merriweather",
                       fontWeight: "light",
                     }}
                   >
-                    Office:{" "}
-                    <OfficeSpan
-                      countryCode={book.homeOfficeCountry}
-                      officeName={book.homeOfficeName}
-                    />
+                    Location: {book.location}
                   </Typography>
                 </Stack>
 

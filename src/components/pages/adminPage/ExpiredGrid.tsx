@@ -7,14 +7,13 @@ const ExpiredGrid: FC = (): JSX.Element => {
   const [expiredData, setExpiredData] = useState<DetailedExpiredBorrow[]>([]);
 
   const COLUMNS_EXPIRED: GridColDef[] = [
-    { field: "id", headerName: "ID", flex: 2, minWidth: 70 },
-    { field: "username", headerName: "Username", flex: 2, minWidth: 100 },
-    { field: "title", headerName: "Book title", flex: 3, minWidth: 250 },
+    { field: "id", headerName: "ID", flex: 2 },
+    { field: "username", headerName: "Username", flex: 2 },
+    { field: "title", headerName: "Book title", flex: 3 },
     {
       field: "dueDate",
       headerName: "Due",
       flex: 2,
-      minWidth: 100,
       valueFormatter(params) {
         return new Date(params.value).toLocaleString("fi", {
           year: "numeric",
@@ -23,8 +22,8 @@ const ExpiredGrid: FC = (): JSX.Element => {
         });
       },
     },
-    { field: "userId", headerName: "User ID", flex: 2, minWidth: 80 },
-    { field: "bookId", headerName: "Book ID", flex: 2, minWidth: 80 },
+    { field: "userId", headerName: "User ID", flex: 2 },
+    { field: "bookId", headerName: "Book ID", flex: 2 },
   ];
 
   useEffect(() => {
