@@ -86,6 +86,7 @@ const EditBook: FC<IProps> = ({
         const bookData = result.items[0];
         if (bookData.volumeInfo.imageLinks) {
           setBook({
+            ...book,
             isbn: isbn,
             author: bookData.volumeInfo.authors[0],
             image: bookData.volumeInfo.imageLinks.thumbnail,
@@ -94,6 +95,7 @@ const EditBook: FC<IProps> = ({
           });
         } else {
           setBook({
+            ...book,
             isbn: isbn,
             author: bookData.volumeInfo.authors[0],
             image: "https://images.isbndb.com/covers/91/26/9789513119126.jpg",
