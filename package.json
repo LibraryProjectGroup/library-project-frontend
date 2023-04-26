@@ -45,6 +45,7 @@
     "@mui/icons-material": "5.11.0",
     "@mui/material": "5.11.6",
     "@mui/x-data-grid": "5.17.20",
+    "html5-qrcode": "^2.3.8",
     "iso-3166-1-codes": "^1.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
