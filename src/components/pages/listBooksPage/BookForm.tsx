@@ -137,102 +137,111 @@ const EditBook: FC<IProps> = ({
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
-      <Box sx={editBookBox}>
-        <Stack spacing={2}>
-          <Typography
-            sx={{
-              fontFamily: "Montserrat",
-              fontWeight: "bold",
-            }}
-            variant="h4"
-          >
-            {editing ? `Edit ${book.title}` : "Add book"}
-          </Typography>
-          <TextField
-            label="Author"
-            name="author"
-            value={book.author}
-            onChange={(e) => onChange(e)}
-          />
-          <TextField
-            label="Title"
-            name="title"
-            value={book.title}
-            onChange={(e) => onChange(e)}
-          />
-          <TextField
-            label="Topic"
-            name="topic"
-            value={book.topic}
-            onChange={(e) => onChange(e)}
-          />
-          <TextField
-            label="ISBN"
-            name="isbn"
-            value={book.isbn}
-            onChange={(e) => onChange(e)}
-          />
-          <TextField
-            label="Year"
-            name="year"
-            value={book.year}
-            onChange={(e) => onChange(e)}
-          />
-          <TextField
-            select
-            label="Office"
-            name="homeOfficeId"
-            value={book.homeOfficeId}
-            onChange={(e) => onChange(e)}
-          >
-            {
-              // @ts-ignore
-              offices.map(({ id, name, countryCode }) => {
-                return (
-                  <MenuItem value={id}>
-                    <OfficeSpan countryCode={countryCode} officeName={name} />
-                  </MenuItem>
-                );
-              })
-            }
-          </TextField>
-          <Stack direction="row" spacing={2} justifyContent="center">
-            <Button
-              sx={editBookUpdateButton}
-              variant="contained"
-              onClick={() => {
-                editing ? updateBook(book) : addBook(book);
-                handleOpen();
+      <form
+        onSubmit={() => {
+          editing ? updateBook(book) : addBook(book);
+          handleOpen();
+        }}
+      >
+        <Box sx={editBookBox}>
+          <Stack spacing={2}>
+            <Typography
+              sx={{
+                fontFamily: "Montserrat",
+                fontWeight: "bold",
               }}
+              variant="h4"
             >
-              {editing ? "Update" : "Add"}
-            </Button>
-            <Button
-              sx={editBookCancelButton}
-              variant="contained"
-              onClick={() => setVisible(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              sx={editBookCancelButton}
-              variant="contained"
-              onClick={() => {
-                setCameraVisible(true);
-              }}
-            >
-              Scanner
-            </Button>
-            <AddScanner
-              visible={cameraVisible}
-              setVisible={setCameraVisible}
-              confirmation={popUpConfirmation}
-              setConfirmation={setPopUpConfirmationOpen}
-              callApi={fetchApi}
+              {editing ? `Edit ${book.title}` : "Add book"}
+            </Typography>
+            <TextField
+              label="Author"
+              name="author"
+              required
+              value={book.author}
+              onChange={(e) => onChange(e)}
             />
+            <TextField
+              label="Title"
+              name="title"
+              required
+              value={book.title}
+              onChange={(e) => onChange(e)}
+            />
+            <TextField
+              label="Topic"
+              name="topic"
+              required
+              value={book.topic}
+              onChange={(e) => onChange(e)}
+            />
+            <TextField
+              label="ISBN"
+              name="isbn"
+              required
+              value={book.isbn}
+              onChange={(e) => onChange(e)}
+            />
+            <TextField
+              label="Year"
+              name="year"
+              required
+              value={book.year}
+              onChange={(e) => onChange(e)}
+            />
+            <TextField
+              select
+              label="Office"
+              name="homeOfficeId"
+              value={book.homeOfficeId}
+              onChange={(e) => onChange(e)}
+            >
+              {
+                // @ts-ignore
+                offices.map(({ id, name, countryCode }) => {
+                  return (
+                    <MenuItem value={id}>
+                      <OfficeSpan countryCode={countryCode} officeName={name} />
+                    </MenuItem>
+                  );
+                })
+              }
+            </TextField>
+            <Stack direction="row" spacing={2} justifyContent="center">
+              <Button
+                sx={editBookUpdateButton}
+                variant="contained"
+                type="submit"
+              >
+                {editing ? "Update" : "Add"}
+              </Button>
+              <Button
+                sx={editBookCancelButton}
+                variant="contained"
+                onClick={() => setVisible(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                sx={editBookCancelButton}
+                variant="contained"
+                onClick={() => {
+                  setCameraVisible(true);
+                }}
+              >
+                Scanner
+              </Button>
+              <AddScanner
+                visible={cameraVisible}
+                setVisible={setCameraVisible}
+                confirmation={popUpConfirmation}
+                setConfirmation={setPopUpConfirmationOpen}
+                callApi={fetchApi}
+              />
+            </Stack>
           </Stack>
-        </Stack>
-      </Box>
+        </Box>
+      </form>
     </Modal>
   );
 };
