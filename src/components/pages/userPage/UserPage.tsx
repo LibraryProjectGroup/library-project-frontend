@@ -125,6 +125,9 @@ const MyAccount: FC = (): JSX.Element => {
         >
           <Stack direction="row" justifyContent="space-between">
             <Stack>
+              <img alt="Book cover" width={120} height={160} src={book.image} />
+            </Stack>
+            <Stack>
               <Typography
                 sx={{
                   fontFamily: "Montserrat",
@@ -133,6 +136,7 @@ const MyAccount: FC = (): JSX.Element => {
               >
                 {book.title}
               </Typography>
+
               <Typography
                 sx={{
                   fontFamily: "Merriweather",

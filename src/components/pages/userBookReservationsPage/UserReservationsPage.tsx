@@ -15,7 +15,13 @@ import { Container } from "@mui/system";
 import CancelReservation from "./CancelReservation";
 import ToastContainers from "../../../ToastContainers";
 
-const UserReservations: FC = (): JSX.Element => {
+interface IProps {
+  extendreservation: ExtendedReservation | null;
+}
+
+const UserReservations: FC<IProps> = ({
+  extendreservation,
+}: IProps): JSX.Element => {
   const [reservations, setReservations] = useState<ExtendedReservation[]>([]);
   const [reservationId, setReservationId] = useState<number>(0);
   const [cancelVisible, setCancelVisible] = useState(false);
@@ -76,6 +82,15 @@ const UserReservations: FC = (): JSX.Element => {
             width: "100%",
           }}
         >
+          <Stack>
+            <img
+              alt="Book cover"
+              width={120}
+              height={160}
+              src={reservation.image}
+            />
+          </Stack>
+
           <Stack>
             <Typography
               sx={{

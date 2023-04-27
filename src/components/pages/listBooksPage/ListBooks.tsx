@@ -330,19 +330,25 @@ const ListBooks: FC = (): JSX.Element => {
             }}
           >
             <Stack>
+              <img alt="Book cover" width={120} height={160} src={book.image} />
+            </Stack>
+
+            <Stack>
               <Typography
                 sx={{
                   fontFamily: "Montserrat",
                   fontWeight: "bold",
-                  marginBottom: 2,
+                  marginBottom: 1,
                 }}
               >
                 {book.title}
               </Typography>
+
               <Typography
                 sx={{
                   fontFamily: "Merriweather",
                   fontWeight: "light",
+                  marginTop: 1,
                 }}
               >
                 Author: {book.author}
@@ -515,6 +521,7 @@ const ListBooks: FC = (): JSX.Element => {
                   setFormBook({
                     id: -1, // This wont get used
                     title: "",
+                    image: "",
                     author: "",
                     year: new Date().getFullYear(),
                     topic: "",

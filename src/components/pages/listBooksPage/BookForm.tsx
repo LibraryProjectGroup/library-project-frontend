@@ -22,6 +22,7 @@ import {
 import { HomeOffice } from "../../../interfaces/HomeOffice";
 import CountrySpan from "../../CountrySpan";
 import OfficeSpan from "../../OfficeSpan";
+import AddScanner from "../../scanner/AddScanner";
 
 interface IProps {
   visible: boolean;
@@ -45,6 +46,12 @@ const EditBook: FC<IProps> = ({
   updateBooks,
 }: IProps): JSX.Element => {
   const [offices, setOffices] = useState<HomeOffice[]>([]);
+  const [lastIsbn, setLastIsbn] = useState("");
+  const [cameraVisible, setCameraVisible] = useState(false);
+  const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
+    ok: false,
+    message: "",
+  });
 
   useEffect(() => {
     (async () => {
@@ -66,6 +73,38 @@ const EditBook: FC<IProps> = ({
       setVisible(false);
       updateBooks();
     }
+  };
+
+  const fetchApi = (isbn: string) => {
+    fetch(
+      "https://www.googleapis.com/books/v1/volumes?q=isbn:" +
+        encodeURIComponent(isbn)
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        const date = result.items[0].volumeInfo.publishedDate;
+        const bookData = result.items[0];
+        if (bookData.volumeInfo.imageLinks) {
+          setBook({
+            ...book,
+            isbn: isbn,
+            author: bookData.volumeInfo.authors[0],
+            image: bookData.volumeInfo.imageLinks.thumbnail,
+            title: bookData.volumeInfo.title,
+            year: date[0] + date[1] + date[2] + date[3],
+          });
+        } else {
+          setBook({
+            ...book,
+            isbn: isbn,
+            author: bookData.volumeInfo.authors[0],
+            image: "https://images.isbndb.com/covers/91/26/9789513119126.jpg",
+            title: bookData.volumeInfo.title,
+            year: date[0] + date[1] + date[2] + date[3],
+          });
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   const onChange = (
@@ -91,98 +130,111 @@ const EditBook: FC<IProps> = ({
         });
   };
 
+  if (book.isbn != "" && book.isbn != lastIsbn) {
+    setLastIsbn(book.isbn);
+    fetchApi(book.isbn);
+  } else if (book.isbn == "" && lastIsbn != "") {
+    setLastIsbn("");
+  }
+
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
-      <form
-        onSubmit={() => {
-          editing ? updateBook(book) : addBook(book);
-          handleOpen();
-        }}
-      >
-        <Box sx={editBookBox}>
-          <Stack spacing={2}>
-            <Typography
-              sx={{
-                fontFamily: "Montserrat",
-                fontWeight: "bold",
+      <Box sx={editBookBox}>
+        <Stack spacing={2}>
+          <Typography
+            sx={{
+              fontFamily: "Montserrat",
+              fontWeight: "bold",
+            }}
+            variant="h4"
+          >
+            {editing ? `Edit ${book.title}` : "Add book"}
+          </Typography>
+          <TextField
+            label="Author"
+            name="author"
+            value={book.author}
+            onChange={(e) => onChange(e)}
+          />
+          <TextField
+            label="Title"
+            name="title"
+            value={book.title}
+            onChange={(e) => onChange(e)}
+          />
+          <TextField
+            label="Topic"
+            name="topic"
+            value={book.topic}
+            onChange={(e) => onChange(e)}
+          />
+          <TextField
+            label="ISBN"
+            name="isbn"
+            value={book.isbn}
+            onChange={(e) => onChange(e)}
+          />
+          <TextField
+            label="Year"
+            name="year"
+            value={book.year}
+            onChange={(e) => onChange(e)}
+          />
+          <TextField
+            select
+            label="Office"
+            name="homeOfficeId"
+            value={book.homeOfficeId}
+            onChange={(e) => onChange(e)}
+          >
+            {
+              // @ts-ignore
+              offices.map(({ id, name, countryCode }) => {
+                return (
+                  <MenuItem value={id}>
+                    <OfficeSpan countryCode={countryCode} officeName={name} />
+                  </MenuItem>
+                );
+              })
+            }
+          </TextField>
+          <Stack direction="row" spacing={2} justifyContent="center">
+            <Button
+              sx={editBookUpdateButton}
+              variant="contained"
+              onClick={() => {
+                editing ? updateBook(book) : addBook(book);
+                handleOpen();
               }}
-              variant="h4"
             >
-              {editing ? `Edit ${book.title}` : "Add book"}
-            </Typography>
-            <TextField
-              label="Author"
-              name="author"
-              required
-              value={book.author}
-              onChange={(e) => onChange(e)}
-            />
-            <TextField
-              label="Title"
-              name="title"
-              required
-              value={book.title}
-              onChange={(e) => onChange(e)}
-            />
-            <TextField
-              label="Topic"
-              name="topic"
-              required
-              value={book.topic}
-              onChange={(e) => onChange(e)}
-            />
-            <TextField
-              label="ISBN"
-              name="isbn"
-              required
-              value={book.isbn}
-              onChange={(e) => onChange(e)}
-            />
-            <TextField
-              label="Year"
-              name="year"
-              required
-              value={book.year}
-              onChange={(e) => onChange(e)}
-            />
-            <TextField
-              select
-              label="Office"
-              name="homeOfficeId"
-              required
-              value={book.homeOfficeId}
-              onChange={(e) => onChange(e)}
+              {editing ? "Update" : "Add"}
+            </Button>
+            <Button
+              sx={editBookCancelButton}
+              variant="contained"
+              onClick={() => setVisible(false)}
             >
-              {
-                // @ts-ignore
-                offices.map(({ id, name, countryCode }) => {
-                  return (
-                    <MenuItem value={id}>
-                      <OfficeSpan countryCode={countryCode} officeName={name} />
-                    </MenuItem>
-                  );
-                })
-              }
-            </TextField>
-            <Stack direction="row" spacing={2} justifyContent="center">
-              <Button
-                sx={editBookUpdateButton}
-                variant="contained"
-                type="submit"
-              >
-                {editing ? "Update" : "Add"}
-              </Button>
-              <Button
-                sx={editBookCancelButton}
-                variant="contained"
-                onClick={() => setVisible(false)}
-              >
-                Cancel
-              </Button>
-            </Stack>
+              Cancel
+            </Button>
+            <Button
+              sx={editBookCancelButton}
+              variant="contained"
+              onClick={() => {
+                setCameraVisible(true);
+              }}
+            >
+              Scanner
+            </Button>
+            <AddScanner
+              visible={cameraVisible}
+              setVisible={setCameraVisible}
+              confirmation={popUpConfirmation}
+              setConfirmation={setPopUpConfirmationOpen}
+              callApi={fetchApi}
+            />
           </Stack>
-        </Box>
-      </form>
+        </Stack>
+      </Box>
     </Modal>
   );
 };
