@@ -1,11 +1,8 @@
-import { useState, FC, useEffect } from "react";
-import { Modal, Box, Button } from "@mui/material";
-
-import Book from "../../interfaces/book.interface";
-import BookForm from "../pages/listBooksPage/BookForm";
+import { FC, useEffect, useCallback } from "react";
+import { Modal, Box } from "@mui/material";
 
 import { editBookBox } from "../../sxStyles";
-import { Html5QrcodeScanner, Html5Qrcode } from "html5-qrcode";
+import { Html5QrcodeScanner } from "html5-qrcode";
 const qrcodeRegionId = "html5qr-code-full-region";
 
 interface IProps {
@@ -23,24 +20,8 @@ const AddScanner: FC<IProps> = ({
   setConfirmation,
   callApi,
 }: IProps): JSX.Element => {
-  const [formVisible, setFormVisible] = useState(false);
-  const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
-    ok: false,
-    message: "",
-  });
 
-  useEffect(() => {
-    if (!visible) {
-      return;
-    }
-
-    const timeoutId = setTimeout(() => {
-      scanner();
-    }, 1);
-    return () => clearTimeout(timeoutId);
-  }, [visible]);
-
-  const scanner = () => {
+  const scanner = useCallback(() => {
     let html5QrcodeScanner = new Html5QrcodeScanner(
       qrcodeRegionId,
       { fps: 10, qrbox: { width: 200, height: 200 } },
@@ -61,7 +42,19 @@ const AddScanner: FC<IProps> = ({
     }
 
     html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-  };
+  }, [callApi, setConfirmation, setVisible]);
+
+  useEffect(() => {
+    if (!visible) {
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      scanner();
+    }, 1);
+    
+    return () => clearTimeout(timeoutId);
+  }, [visible, scanner]);
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
