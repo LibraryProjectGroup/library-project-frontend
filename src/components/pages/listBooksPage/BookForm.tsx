@@ -98,7 +98,7 @@ const EditBook: FC<IProps> = ({
             ...book,
             isbn: isbn,
             author: bookData.volumeInfo.authors[0],
-            image: "https://images.isbndb.com/covers/91/26/9789513119126.jpg",
+            image: null,
             title: bookData.volumeInfo.title,
             year: date[0] + date[1] + date[2] + date[3],
           });
