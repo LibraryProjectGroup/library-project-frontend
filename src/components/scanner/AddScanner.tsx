@@ -20,7 +20,6 @@ const AddScanner: FC<IProps> = ({
   setConfirmation,
   callApi,
 }: IProps): JSX.Element => {
-
   const scanner = useCallback(() => {
     let html5QrcodeScanner = new Html5QrcodeScanner(
       qrcodeRegionId,
@@ -52,7 +51,7 @@ const AddScanner: FC<IProps> = ({
     const timeoutId = setTimeout(() => {
       scanner();
     }, 1);
-    
+
     return () => clearTimeout(timeoutId);
   }, [visible, scanner]);
 
