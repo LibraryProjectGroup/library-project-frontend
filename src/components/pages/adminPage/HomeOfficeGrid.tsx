@@ -54,12 +54,12 @@ export default function HomeOfficeGrid(): JSX.Element {
   }
 
   const COLUMNS_USERS: GridColDef[] = [
-    { field: "id", headerName: "ID", flex: 1 },
-    { field: "name", headerName: "Office Name", flex: 2 },
+    { field: "id", headerName: "ID", flex: 1, minWidth: 70 },
+    { field: "name", headerName: "Office Name", flex: 2, minWidth: 160 },
     {
       field: "countryCode",
       headerName: "Country",
-      flex: 2,
+      flex: 2, minWidth: 240,
       renderCell: (params) => {
         const countryCode = params.row.countryCode;
         return <CountrySpan countryCode={countryCode} includeFlag={true} />;
@@ -68,7 +68,7 @@ export default function HomeOfficeGrid(): JSX.Element {
     {
       field: "edit",
       headerName: "Edit Office",
-      flex: 1.5,
+      flex: 2, minWidth: 100,
       renderCell: (params) => (
         <Button
           sx={{ color: "blue" }}
@@ -83,7 +83,7 @@ export default function HomeOfficeGrid(): JSX.Element {
     {
       field: "delete",
       headerName: "Delete Office",
-      flex: 1.5,
+      flex: 2, minWidth: 100,
       renderCell: (params) => (
         <Button
           sx={{ color: "red" }}

@@ -321,6 +321,7 @@ const ListBooks: FC = (): JSX.Element => {
         <Paper
           elevation={10}
           sx={{ padding: "2rem", width: { xs: "90%", md: "60%" } }}
+          key={book.id}
         >
           <Stack
             sx={{

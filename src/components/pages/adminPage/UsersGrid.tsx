@@ -60,6 +60,7 @@ const UsersGrid: FC = (): JSX.Element => {
       field: "office",
       headerName: "Office",
       flex: 3,
+      minWidth: 120,
       renderCell: (params) => {
         const homeOffice = (offices ?? []).find(
           (office) => office.id === params.row.homeOfficeId

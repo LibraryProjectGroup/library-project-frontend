@@ -23,6 +23,9 @@ import { HomeOffice } from "../../../interfaces/HomeOffice";
 import CountrySpan from "../../CountrySpan";
 import OfficeSpan from "../../OfficeSpan";
 import AddScanner from "../../scanner/AddScanner";
+import { toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 interface IProps {
   visible: boolean;
@@ -53,6 +56,14 @@ const EditBook: FC<IProps> = ({
     message: "",
   });
 
+  const ErrorMessageDelete = () =>
+    toast.error("Adding book failed, Something went wrong", {
+      containerId: "ToastAlert",
+  });
+
+  const SuccessMessage = () =>
+    toast.success("Book request has been submitted", { containerId: "ToastSuccess" });
+
   useEffect(() => {
     (async () => {
       setOffices(await fetchAllHomeOffices());
@@ -68,11 +79,15 @@ const EditBook: FC<IProps> = ({
   };
 
   const addBook = async (newBook: Book) => {
-    const response = await fetchAddBook(newBook);
-    if (response.ok) {
-      setVisible(false);
-      updateBooks();
-    }
+    await fetchAddBook(newBook).then((res: { ok: any }) => {
+      if (!res.ok) {
+        ErrorMessageDelete();
+      } else {
+        SuccessMessage();
+        setVisible(false);
+        updateBooks();
+      }
+    });
   };
 
   const fetchApi = (isbn: string) => {
@@ -142,7 +157,7 @@ const EditBook: FC<IProps> = ({
       <form
         onSubmit={() => {
           editing ? updateBook(book) : addBook(book);
-          handleOpen();
+          //handleOpen();
         }}
       >
         <Box sx={editBookBox}>
