@@ -13,13 +13,9 @@ User can create booklist
     When User presses my lists button
     Then User creates new booklist
 User can add a book to booklist and view booklist
-    Given User presses back button
-    And User presses back button
-    When User adds book to booklists
-    And User navigates to user page with sleep
-    Then User presses my lists button
+    Given User adds book to booklists
+    And User presses my lists button
     And User views booklists
-    And User presses back button
 
 User can edit booklists name
     Given User navigates to user page
@@ -35,9 +31,7 @@ User can delete booklist
 
 *** Keywords ***
 User presses my lists button
-    ${path}=    Execute Javascript    return window.location.pathname
-    Should Be Equal As Strings    ${path}    /user
-    Click Element    xpath://p[normalize-space()='MY LISTS']
+    Click Element    xpath://*[@id="root"]/header/div/div/div[2]/button[4]
     ${path}=    Execute Javascript    return window.location.pathname
     Should Be Equal As Strings    ${path}    /booklists
 
@@ -52,6 +46,9 @@ User creates new booklist
 
 
 User adds book to booklists
+    Execute Javascript    location.href='/list-books'
+    ${path}=    Execute Javascript    return window.location.pathname
+    Should Be Equal As Strings    ${path}    /list-books
     Wait Until Element Is Visible    xpath://button[@type='button'][normalize-space()='+ add'][1]
     Click Button    xpath:(//button[@type='button'][normalize-space()='+ add'])[1]
     Wait Until Element Is Visible    xpath://button[normalize-space()='Add']
