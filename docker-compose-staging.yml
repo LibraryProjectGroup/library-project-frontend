@@ -8,12 +8,12 @@ services:
     tty: true
     build:
       args:
-        REACT_APP_BACKEND_URL: "http://backend-staging.efilibrary.jrdie.nl"
+        REACT_APP_BACKEND_URL: "http://backend-staging-efilibrary.jrdie.nl"
       context: ./
       dockerfile: node.Dockerfile
     environment:
       PORT: "3000"
-      REACT_APP_BACKEND_URL: "http://backend-staging.efilibrary.jrdie.nl"
+      REACT_APP_BACKEND_URL: "http://backend-staging-efilibrary.jrdie.nl"
     volumes:
       - ./src:/app/src
       - ./robot:/app/robot
