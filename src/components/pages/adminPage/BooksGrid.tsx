@@ -18,7 +18,8 @@ const BooksGrid: FC = (): JSX.Element => {
     {
       field: "office",
       headerName: "Office",
-      flex: 3, minWidth: 120,
+      flex: 3,
+      minWidth: 120,
       renderCell: (params) => {
         const { homeOfficeCountry, homeOfficeName } = params.row;
         return (
@@ -29,7 +30,7 @@ const BooksGrid: FC = (): JSX.Element => {
         );
       },
     },
-    { field: "isbn", headerName: "ISBN", flex: 3, minWidth: 150, },
+    { field: "isbn", headerName: "ISBN", flex: 3, minWidth: 150 },
   ];
 
   useEffect(() => {

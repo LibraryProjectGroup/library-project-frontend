@@ -34,23 +34,28 @@ const RequestBook: FC<IProps> = ({
   const [title, setTitle] = useState<string>("");
   const [reason, setReason] = useState<string>("");
 
-  const ErrorMessageDelete = () =>
-    toast.error("Adding book failed, Something went wrong", {
-      containerId: "ToastAlert",
-  });
-
   const SuccessMessage = () =>
-    toast.success("Book request has been submitted", { containerId: "ToastSuccess" });
+    toast.success("Book request has been submitted", {
+      containerId: "ToastSuccess",
+    });
+
+  const ErrorMessage = () =>
+    toast.error("Book request failed, Something went wrong", {
+      containerId: "ToastAlert",
+    });
 
   const requestBook = async () => {
-    await fetchAddBookRequest(isbn, title, reason).then((res: { ok: any }) => {
-      if (!res.ok) {
-        ErrorMessageDelete();
-      } else {
-        SuccessMessage();
-        setVisible(false);
-      }
-    });
+    await fetchAddBookRequest(isbn, title, reason)
+      .then((res: { ok: boolean }) => {
+        if (res.ok) {
+          SuccessMessage();
+          setVisible(false);
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .catch(function () {
+        ErrorMessage();
+      });
   };
 
   const handleOpen = () => {

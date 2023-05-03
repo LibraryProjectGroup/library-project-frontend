@@ -56,13 +56,15 @@ const EditBook: FC<IProps> = ({
     message: "",
   });
 
-  const ErrorMessageDelete = () =>
+  const SuccessMessage = () =>
+    toast.success("Book request has been submitted", {
+      containerId: "ToastSuccess",
+    });
+
+  const ErrorMessage = () =>
     toast.error("Adding book failed, Something went wrong", {
       containerId: "ToastAlert",
-  });
-
-  const SuccessMessage = () =>
-    toast.success("Book request has been submitted", { containerId: "ToastSuccess" });
+    });
 
   useEffect(() => {
     (async () => {
@@ -79,15 +81,17 @@ const EditBook: FC<IProps> = ({
   };
 
   const addBook = async (newBook: Book) => {
-    await fetchAddBook(newBook).then((res: { ok: any }) => {
-      if (!res.ok) {
-        ErrorMessageDelete();
-      } else {
-        SuccessMessage();
-        setVisible(false);
-        updateBooks();
-      }
-    });
+    await fetchAddBook(newBook)
+      .then((res: { ok: any }) => {
+        if (res.ok) {
+          SuccessMessage();
+          setVisible(false);
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .catch(function () {
+        ErrorMessage();
+      });
   };
 
   const fetchApi = (isbn: string) => {
