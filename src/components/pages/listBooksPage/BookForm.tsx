@@ -56,15 +56,21 @@ const EditBook: FC<IProps> = ({
     message: "",
   });
 
+  const ErrorMessageDelete = () =>
+    toast.error(
+      "Adding book failed. Try filling all of the fields or reload the page",
+      {
+        containerId: "ToastAlert",
+      }
+    );
+
   const SuccessMessage = () =>
-    toast.success("Book request has been submitted", {
+    toast.success("Book was added successfully", {
       containerId: "ToastSuccess",
     });
 
-  const ErrorMessage = () =>
-    toast.error("Adding book failed, Something went wrong", {
-      containerId: "ToastAlert",
-    });
+  const EditingMessage = () =>
+    toast.success("Book edited succesfully", { containerId: "ToastSuccess" });
 
   useEffect(() => {
     (async () => {
@@ -72,26 +78,32 @@ const EditBook: FC<IProps> = ({
     })();
   }, []);
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // prevent the default form submission behavior
+    if (book !== null) {
+      editing ? updateBook(book) : addBook(book);
+    }
+  };
+
   const updateBook = async (newBook: Book) => {
     const response = await fetchUpdateBook(newBook);
     if (response.ok) {
+      EditingMessage();
       setVisible(false);
       updateBooks();
     }
   };
 
   const addBook = async (newBook: Book) => {
-    await fetchAddBook(newBook)
-      .then((res: { ok: any }) => {
-        if (res.ok) {
-          SuccessMessage();
-          setVisible(false);
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .catch(function () {
-        ErrorMessage();
-      });
+    await fetchAddBook(newBook).then((res: { ok: any }) => {
+      if (!res.ok) {
+        ErrorMessageDelete();
+      } else {
+        SuccessMessage();
+        setVisible(false);
+        updateBooks();
+      }
+    });
   };
 
   const fetchApi = (isbn: string) => {
@@ -137,18 +149,6 @@ const EditBook: FC<IProps> = ({
 
   if (book == null) return <></>;
 
-  const handleOpen = () => {
-    editing
-      ? setConfirmation({
-          ok: true,
-          message: "Book has been edited",
-        })
-      : setConfirmation({
-          ok: true,
-          message: "Book has been added",
-        });
-  };
-
   if (book.isbn != "" && book.isbn != lastIsbn) {
     setLastIsbn(book.isbn);
     fetchApi(book.isbn);
@@ -158,12 +158,7 @@ const EditBook: FC<IProps> = ({
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
-      <form
-        onSubmit={() => {
-          editing ? updateBook(book) : addBook(book);
-          //handleOpen();
-        }}
-      >
+      <form onSubmit={handleSubmit}>
         <Box sx={editBookBox}>
           <Stack spacing={2}>
             <Typography
@@ -213,6 +208,7 @@ const EditBook: FC<IProps> = ({
             <TextField
               select
               label="Office"
+              defaultValue=""
               name="homeOfficeId"
               value={book.homeOfficeId}
               onChange={(e) => onChange(e)}
@@ -221,7 +217,7 @@ const EditBook: FC<IProps> = ({
                 // @ts-ignore
                 offices.map(({ id, name, countryCode }) => {
                   return (
-                    <MenuItem value={id}>
+                    <MenuItem key={id} value={id}>
                       <OfficeSpan countryCode={countryCode} officeName={name} />
                     </MenuItem>
                   );
