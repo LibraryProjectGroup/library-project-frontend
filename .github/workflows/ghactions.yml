@@ -7,10 +7,10 @@ on:
     branches: ["development"]
 
 env:
-  TESTUSERNAME: ${{ secrets.REACT_APP_TEST_USERNAME }}
-  TESTPASSWORD: ${{ secrets.REACT_APP_TEST_PASSWORD }}
-  TESTUSERNAME2: ${{ secrets.REACT_APP_TEST_USERNAME2 }}
-  TESTPASSWORD2: ${{ secrets.REACT_APP_TEST_PASSWORD2 }}
+  TESTUSERNAME: ${{ secrets.USERNAME }}
+  TESTPASSWORD: ${{ secrets.PASSWORD }}
+  TESTUSERNAME2: ${{ secrets.USERNAME2 }}
+  TESTPASSWORD2: ${{ secrets.PASSWORD2 }}
 
 jobs:
   build:
@@ -31,7 +31,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Install chrome web driver
-        uses: nanasess/setup-chromedriver@v1
+        uses: nanasess/setup-chromedriver@v2
       - run: |
           export DISPLAY=:99
           chromedriver --url-base=/wd/hub &
