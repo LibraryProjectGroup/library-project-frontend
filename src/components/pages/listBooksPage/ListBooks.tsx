@@ -208,7 +208,6 @@ const ListBooks: FC = (): JSX.Element => {
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
-    console.log(books);
   };
 
   const handleChangeRowsPerPage = (
@@ -330,7 +329,23 @@ const ListBooks: FC = (): JSX.Element => {
             }}
           >
             <Stack>
-              <img alt="Book cover" width={120} height={160} src={book.image} />
+              {book.image ? (
+                <img
+                  alt="Book cover"
+                  width={120}
+                  height={160}
+                  src={book.image}
+                />
+              ) : (
+                <img
+                  alt="Book cover not available"
+                  width={120}
+                  height={160}
+                  src={
+                    "https://images.isbndb.com/covers/91/26/9789513119126.jpg"
+                  }
+                />
+              )}
             </Stack>
 
             <Stack>
