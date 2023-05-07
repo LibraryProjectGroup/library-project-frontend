@@ -9,16 +9,17 @@ const BooksGrid: FC = (): JSX.Element => {
   const [booksData, setBooksData] = useState<Book[]>([]);
 
   const COLUMNS_BOOKS: GridColDef[] = [
-    { field: "id", headerName: "ID", flex: 1 },
-    { field: "title", headerName: "Title", flex: 5 },
-    { field: "image", headerName: "Image", flex: 5 },
-    { field: "author", headerName: "Author", flex: 4 },
-    { field: "year", headerName: "Year", flex: 4 },
-    { field: "topic", headerName: "Topic", flex: 4 },
+    { field: "id", headerName: "ID", flex: 1, minWidth: 70 },
+    { field: "title", headerName: "Title", flex: 5, minWidth: 250 },
+    { field: "image", headerName: "Image", flex: 5, minWidth: 120 },
+    { field: "author", headerName: "Author", flex: 4, minWidth: 140 },
+    { field: "year", headerName: "Year", flex: 4, minWidth: 70 },
+    { field: "topic", headerName: "Topic", flex: 4, minWidth: 70 },
     {
       field: "office",
       headerName: "Office",
       flex: 3,
+      minWidth: 120,
       renderCell: (params) => {
         const { homeOfficeCountry, homeOfficeName } = params.row;
         return (
@@ -29,7 +30,7 @@ const BooksGrid: FC = (): JSX.Element => {
         );
       },
     },
-    { field: "isbn", headerName: "ISBN", flex: 3 },
+    { field: "isbn", headerName: "ISBN", flex: 3, minWidth: 150 },
   ];
 
   useEffect(() => {

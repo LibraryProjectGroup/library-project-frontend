@@ -13,6 +13,9 @@ import {
   editBookCancelButton,
 } from "../../../sxStyles";
 import { fetchAddBookRequest } from "../../../fetchFunctions";
+import { toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 interface IProps {
   visible: boolean;
@@ -31,11 +34,28 @@ const RequestBook: FC<IProps> = ({
   const [title, setTitle] = useState<string>("");
   const [reason, setReason] = useState<string>("");
 
+  const SuccessMessage = () =>
+    toast.success("Book request has been submitted", {
+      containerId: "ToastSuccess",
+    });
+
+  const ErrorMessage = () =>
+    toast.error("Book request failed, Something went wrong", {
+      containerId: "ToastAlert",
+    });
+
   const requestBook = async () => {
-    const response = await fetchAddBookRequest(isbn, title, reason);
-    if (response.ok) {
-      setVisible(false);
-    }
+    await fetchAddBookRequest(isbn, title, reason)
+      .then((res: { ok: boolean }) => {
+        if (res.ok) {
+          SuccessMessage();
+          setVisible(false);
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .catch(function () {
+        ErrorMessage();
+      });
   };
 
   const handleOpen = () => {
@@ -79,7 +99,6 @@ const RequestBook: FC<IProps> = ({
               variant="contained"
               onClick={() => {
                 requestBook();
-                handleOpen();
               }}
             >
               Add
