@@ -83,6 +83,10 @@ See detailed documentation about Robot testing in [AboutRobotTests.md documentat
 
 # Deployment
 
+# Future developments
+
+You can see our previous [backlog](https://github.com/orgs/LibraryProjectGroup/projects/3/views/8) for tasks that we were planning on doing, but didn't have the time to do.
+
 <!-- CREDITS -->
 
 # Credits
