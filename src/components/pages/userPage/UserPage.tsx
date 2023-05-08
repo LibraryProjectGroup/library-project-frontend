@@ -10,21 +10,11 @@ import {
 } from "@mui/material";
 import { TheContext } from "../../../TheContext";
 import { useNavigate } from "react-router-dom";
-import {
-  fetchCurrentBorrows,
-  fetchReturnBorrowed,
-  fetchAllBooks,
-} from "../../../fetchFunctions";
+import { fetchReturnBorrowed, fetchAllBooks } from "../../../fetchFunctions";
 import Book from "../../../interfaces/book.interface";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import LogoutIcon from "@mui/icons-material/Logout";
-import {
-  userPageReturnButton,
-  userPageBackButton,
-  userPageMyListsButton,
-} from "../../../sxStyles";
+import { userPageReturnButton, userPageBackButton } from "../../../sxStyles";
 import ReturnBook from "./ReturnBook";
-import { endSession } from "../../../auth";
 import Borrow from "../../../interfaces/borrow.interface";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
@@ -96,13 +86,14 @@ const MyAccount: FC = (): JSX.Element => {
   useEffect(() => {
     fetchBooks();
     context?.fetchBorrows();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [context]);
 
   const renderBorrowedBooks = () => {
     let renderedBooks = [];
     const borrowsData = context?.borrows;
-    if (borrowsData === undefined) return;
+    if (borrowsData?.length === 0 || !borrowsData) {
+      return <NoLoansMessage />;
+    }
     for (const borrowed of borrowsData) {
       const book = books[borrowed.book];
       const currentDate = new Date();
@@ -259,6 +250,27 @@ const MyAccount: FC = (): JSX.Element => {
         {renderBorrowedBooks()}
       </Box>
     </>
+  );
+};
+
+const NoLoansMessage: FC = () => {
+  return (
+    <div
+      style={{
+        width: "100%",
+        textAlign: "center",
+      }}
+    >
+      <Typography
+        sx={{
+          fontFamily: "Merriweather",
+          fontWeight: "light",
+          fontSize: 25,
+        }}
+      >
+        You have no current loans
+      </Typography>
+    </div>
   );
 };
 
