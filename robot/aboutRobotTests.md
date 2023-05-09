@@ -186,7 +186,7 @@ GitHub actions currently runs only the **unit tests**, and if all the tests are 
 
 Tests have been mostly updated to the new UI and they run locally. Docker tests and consecutively the github action test workflow fails. Here are some of the findings that migth help the next implementation.
 
-- Try on changing the `User logins successfull` test located in the `keywords.resource` file if you change the variables `TESTUSERNAME` and `TESTPASSWORD` for their actual value test will start passing. We think that the issue with the github workflow for the test might be related to this.
+- Try changing the `User logins successfully` test located in the `keywords.resource` file. If you change the variables `TESTUSERNAME` and `TESTPASSWORD` to their actual value, the test will start passing. We think that the issue with the github workflow for the test might be related to this.
 
 - When running the test locally Selenium library please make sure that test are valid for the operating system you are running them on. If you go to '14_editUsed.robot' some of the test use `CRTL+A` in their tests which won't work on macOS so in those cases change `CTRL` for `COMMAND`.
 
