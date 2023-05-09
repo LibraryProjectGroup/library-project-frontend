@@ -181,3 +181,13 @@ Terminal command: `npm run robottests` :arrow_right: tests should start running 
 > `[Updated 26.10.2022]:` Right now Robot Tests are NOT a part of GitHub Actions workflow. They will be added there when we have finished refining the tests to match current application structure and addressed authorization issues.
 
 GitHub actions currently runs only the **unit tests**, and if all the tests are passing, current version of frontend's development branch will be deployed to GitHub pages. Therefore it is important to fix all failing tests before accepting any pull requests to be merged into development; if the workflow fails, the application will not be deployed.
+
+## State of testing (spring 2023)
+
+Tests have been mosttly updated to the new UI and they run locally. Docker tests and consecuently github action test workflow fails. Here are some of the findings that migth help the next implementation.
+
+- Try on changing the `User logins successfull` test located in the `keywords.resource` file if you change the variables `TESTUSERNAME` and `TESTPASSWORD` for their actual value test will start passing. We think that the issue with the github workflow for the test might be related to this.
+
+- When running the test locally Selenium library please make sure that test are valid for the operating system you are running them on. If you go to '14_editUsed.robot' some of the test use `CRTL+A` in their tests which won't work on macOS so in those cases change `CTRL` for `COMMAND`.
+
+- A recommedation from the spring 2023 implementation. Consider developing the tests a need that every developer must take before or right after modifying the content in the repository in that way tests will be constatly updated.

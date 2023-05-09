@@ -33,9 +33,9 @@ Admin can see list of users
 Admin can edit user information
     Click Button    xpath://*[contains(text(), 'testattavatyyppi')]//ancestor::div[2]//button[contains(text(), 'Edit')]
     Wait Until Element Is Visible    xpath://h4[normalize-space()='Edit user']
-    Press Keys  xpath://input[@name='username']     COMMAND+A    DELETE
+    Press Keys  xpath://input[@name='username']     CTRL+A    DELETE
     Input Text    xpath://input[@name='username']    mestattavatyyppi
-    Press Keys    xpath://input[@name='email']    COMMAND+A    DELETE
+    Press Keys    xpath://input[@name='email']    CTRL+A    DELETE
     Input Text    xpath://input[@name='email']    suku.suku@doesnotexist.com
     Click Element    xpath:/html/body/div[4]/div[3]/div/div[4]/div
     Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
@@ -46,9 +46,9 @@ Admin can edit user information
 Admin reverts changes
     Click Button    xpath://*[contains(text(), 'mestattavatyyppi')]//ancestor::div[2]//button[contains(text(), 'Edit')]
     Wait Until Element Is Visible    xpath://h4[normalize-space()='Edit user']
-    Press Keys    xpath://input[@name='username']    COMMAND+A    DELETE
+    Press Keys    xpath://input[@name='username']    CTRL+A    DELETE
     Input Text    xpath://input[@name='username']    testattavatyyppi
-    Press Keys    xpath://input[@name='email']    COMMAND+A    DELETE
+    Press Keys    xpath://input[@name='email']    CTRL+A    DELETE
     Input Text    xpath://input[@name='email']    ${TESTUSERNAME2}
     Click Element    xpath:/html/body/div[4]/div[3]/div/div[4]/div
     Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
