@@ -7,10 +7,10 @@ on:
     branches: ["development"]
 
 env:
-  TESTUSERNAME: ${{ secrets.USERNAME }}
-  TESTPASSWORD: ${{ secrets.PASSWORD }}
-  TESTUSERNAME2: ${{ secrets.USERNAME2 }}
-  TESTPASSWORD2: ${{ secrets.PASSWORD2 }}
+  TESTUSERNAME: ${{ secrets.REACT_APP_TEST_USERNAME }}
+  TESTPASSWORD: ${{ secrets.REACT_APP_TEST_PASSWORD }}
+  TESTUSERNAME2: ${{ secrets.REACT_APP_TEST_USERNAME2 }}
+  TESTPASSWORD2: ${{ secrets.REACT_APP_TEST_PASSWORD2 }}
 
 jobs:
   build:
@@ -31,7 +31,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Install chrome web driver
-        uses: nanasess/setup-chromedriver@v2
+        uses: nanasess/setup-chromedriver@v1
       - run: |
           export DISPLAY=:99
           chromedriver --url-base=/wd/hub &
@@ -42,4 +42,4 @@ jobs:
           npm test &&
           npm start & 
           npx wait-on http://localhost:3000 &&
-          robot --variable TESTUSERNAME:$TESTUSERNAME --variable TESTPASSWORD:$TESTPASSWORD --variable TESTUSERNAME2:${TESTUSERNAME2} --variable TESTPASSWORD2:${TESTPASSWORD2} --removekeywords  NAME:*logins* --outputdir robot/results robot/tests
+          robot --variable TESTUSERNAME:${TESTUSERNAME} --variable TESTPASSWORD:${TESTPASSWORD} --variable TESTUSERNAME2:${TESTUSERNAME2} --variable TESTPASSWORD2:${TESTPASSWORD2} --removekeywords  NAME:*logins* --outputdir robot/results robot/tests
