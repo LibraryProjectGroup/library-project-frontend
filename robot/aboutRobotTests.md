@@ -188,6 +188,6 @@ Tests have been mostly updated to the new UI and they run locally. Docker tests 
 
 - Try changing the `User logins successfully` test located in the `keywords.resource` file. If you change the variables `TESTUSERNAME` and `TESTPASSWORD` to their actual value, the test will start passing. We think that the issue with the github workflow for the test might be related to this.
 
-- When running the test locally Selenium library please make sure that test are valid for the operating system you are running them on. If you go to '14_editUsed.robot' some of the test use `CRTL+A` in their tests which won't work on macOS so in those cases change `CTRL` for `COMMAND`.
+- When running the tests locally using Selenium library please make sure that the tests are valid for the operating system you are running them on. If you go to '14_editUsed.robot' some of the tests use `CRTL+A` in their tests which won't work on macOS, so in those cases change `CTRL` for `COMMAND`.
 
 - A recommedation from the spring 2023 implementation. Consider developing the tests a need that every developer must take before or right after modifying the content in the repository in that way tests will be constatly updated.
