@@ -170,7 +170,7 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
         }}
         onClick={handleClick}
       >
-        + Add to a list
+        + Add to list
       </Button>
       <Popover
         id={id}
