@@ -184,7 +184,7 @@ GitHub actions currently runs only the **unit tests**, and if all the tests are 
 
 ## State of testing (spring 2023)
 
-Tests have been mosttly updated to the new UI and they run locally. Docker tests and consecuently github action test workflow fails. Here are some of the findings that migth help the next implementation.
+Tests have been mostly updated to the new UI and they run locally. Docker tests and consecutively the github action test workflow fails. Here are some of the findings that migth help the next implementation.
 
 - Try on changing the `User logins successfull` test located in the `keywords.resource` file if you change the variables `TESTUSERNAME` and `TESTPASSWORD` for their actual value test will start passing. We think that the issue with the github workflow for the test might be related to this.
 
