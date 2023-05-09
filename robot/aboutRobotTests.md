@@ -190,4 +190,4 @@ Tests have been mostly updated to the new UI and they run locally. Docker tests 
 
 - When running the tests locally using Selenium library please make sure that the tests are valid for the operating system you are running them on. If you go to '14_editUsed.robot' some of the tests use `CRTL+A` in their tests which won't work on macOS, so in those cases change `CTRL` for `COMMAND`.
 
-- A recommedation from the spring 2023 implementation. Consider developing the tests a need that every developer must take before or right after modifying the content in the repository in that way tests will be constatly updated.
+- A recommedation from the spring 2023 implementation. Consider developing the app so that whenever a developer modifies the code or adds new features, the same developer would also update the tests so that they're always up to date.
