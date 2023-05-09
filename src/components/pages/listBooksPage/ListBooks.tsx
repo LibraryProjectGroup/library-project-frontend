@@ -73,7 +73,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const ListBooks: FC = (): JSX.Element => {
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(25);
 
   const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
   const [currentReservations, setCurrentReservations] = useState<

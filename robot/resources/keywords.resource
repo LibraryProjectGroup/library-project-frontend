@@ -62,12 +62,14 @@ User adds ${title} book to catalog
     Execute Javascript    window.scrollTo(0, 800)
     Click Button    xpath://*[@aria-label='add']
     Wait Until Element Is Visible    (//h4[normalize-space()='Add book'])[1]
-    Input Text    xpath://input[@name='image']    https://images.isbndb.com/covers/91/26/9789513119126.jpg
     Input Text    xpath://input[@name='author']    Firstname Lastname
     Input Text    xpath://input[@name='title']    ${title}
     Input Text    xpath://input[@name='topic']    Java
     Input Text    xpath://input[@name='isbn']    123-456
-    Input Text    xpath://input[@name='location']    Helsinki
+    Mouse over  xpath:/html/body/div[4]/form/div/div/div[6]/div
+    Click Element   xpath:/html/body/div[4]/form/div/div/div[6]/div
+    Mouse over    xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
+    Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
     Click Button    xpath=(//button[normalize-space()='Add'])[1]
 
 User can find the ${title} book from the page
@@ -87,7 +89,8 @@ User deletes book from catalog with title ${title}
     Wait Until Element Is Enabled
     ...    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Delete book')]
     Click Button    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Delete book')]
-    Alert Should Be Present    Do you want to DELETE this book?    ACCEPT
+    Wait Until Element Is Visible    xpath://*[contains(text(), 'Do you want to delete this book?')]
+    Click Button    xpath:/html/body/div[4]/div[3]/div/div[2]/button[1]
     Wait Until Element Is Not Visible    xpath://*[contains(text(), '${title}')]
 
 User navigates to user page
@@ -103,8 +106,8 @@ User tries to loan a book with title ${title}
     Wait Until Element Is Visible
     ...    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'LOAN')]
     Click Button    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'LOAN')]
-    Alert Should Be Present    Do you want to LOAN this book?    ACCEPT
-    Wait Until Element Is Visible    xpath://*[contains(text(), 'Loaning succeeded')]
+    Wait Until Element Is Visible    xpath://*[contains(text(), 'Do you want to loan this book?')]
+    Click Button    xpath:/html/body/div[4]/div[3]/div/div[2]/button[1]
 
 User who has not signed up tries to log in
     Wait Until Element Is Visible    xpath://input[contains(@id, ':r1:')]
@@ -230,7 +233,8 @@ User returns a book with title ${title}
     Wait Until Element Is Visible
     ...    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Return')]
     Click Element    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Return')]
-    Alert Should Be Present    Do you want to RETURN this book?    ACCEPT
+    Wait Until Element Is Visible    xpath://*[contains(text(), 'Do you want to return this book?')]
+    Click Button    xpath:/html/body/div[4]/div[3]/div/div[2]/button[1]
     Wait Until Element Is Not Visible
     ...    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Return')]
 

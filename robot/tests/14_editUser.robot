@@ -33,10 +33,12 @@ Admin can see list of users
 Admin can edit user information
     Click Button    xpath://*[contains(text(), 'testattavatyyppi')]//ancestor::div[2]//button[contains(text(), 'Edit')]
     Wait Until Element Is Visible    xpath://h4[normalize-space()='Edit user']
-    Press Keys    xpath://input[@name='username']    CTRL+A    DELETE
+    Press Keys  xpath://input[@name='username']     CTRL+A    DELETE
     Input Text    xpath://input[@name='username']    mestattavatyyppi
     Press Keys    xpath://input[@name='email']    CTRL+A    DELETE
     Input Text    xpath://input[@name='email']    suku.suku@doesnotexist.com
+    Click Element    xpath:/html/body/div[4]/div[3]/div/div[4]/div
+    Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
     Click Button    xpath://button[normalize-space()='Update']
     Wait Until Element Is Visible    xpath://div[contains(text(), 'mestattavatyyppi')]
     Wait Until Element Is Visible    xpath://div[contains(text(), 'suku.suku@doesnotexist.com')]
@@ -48,6 +50,8 @@ Admin reverts changes
     Input Text    xpath://input[@name='username']    testattavatyyppi
     Press Keys    xpath://input[@name='email']    CTRL+A    DELETE
     Input Text    xpath://input[@name='email']    ${TESTUSERNAME2}
+    Click Element    xpath:/html/body/div[4]/div[3]/div/div[4]/div
+    Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
     Click Button    xpath://button[normalize-space()='Update']
     Wait Until Element Is Not Visible    xpath://div[contains(text(), 'mestattavatyyppi')]
     Wait Until Element Is Not Visible    xpath://div[contains(text(), 'suku.suku@doesnotexist.com')]
@@ -55,8 +59,10 @@ Admin reverts changes
 Admin can upgrade user to admin
     Click Button    xpath://*[contains(text(), 'testattavatyyppi')]//ancestor::div[2]//button[contains(text(), 'Edit')]
     Wait Until Element Is Visible    xpath://h4[normalize-space()='Edit user']
-    Click Element    xpath://input[@name='administrator']//ancestor::div[1]//div[@role='button']
-    Click Element    xpath://li[normalize-space()='True']
+    Click Element    xpath:/html/body/div[4]/div[3]/div/div[1]/div
+    Click Element    xpath://*[@id="menu-administrator"]/div[3]/ul/li[1]
+    Click Element    xpath:/html/body/div[4]/div[3]/div/div[4]/div
+    Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
     Sleep    1s
     Click Button    xpath://button[normalize-space()='Update']
     Wait Until Element Is Visible
@@ -72,8 +78,10 @@ User can see that they are admin
 User downgrades themself
     Click Button    xpath://*[contains(text(), 'testattavatyyppi')]//ancestor::div[2]//button[contains(text(), 'Edit')]
     Wait Until Element Is Visible    xpath://h4[normalize-space()='Edit user']
-    Click Element    xpath://input[@name='administrator']//ancestor::div[1]//div[@role='button']
-    Click Element    xpath://li[normalize-space()='False']
+    Click Element    xpath:/html/body/div[4]/div[3]/div/div[1]/div
+    Click Element    xpath://*[@id="menu-administrator"]/div[3]/ul/li[2]
+    Click Element    xpath:/html/body/div[4]/div[3]/div/div[4]/div
+    Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
     Sleep    1s
     Click Button    xpath://button[normalize-space()='Update']
     Wait Until Element Is Visible
