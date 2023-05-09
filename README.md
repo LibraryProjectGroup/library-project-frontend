@@ -9,8 +9,6 @@
 
 EfiLibrary is a project between the students of Business Information Technology Degree Programme in Haaga-Helia University of Applied Sciences, and Eficode Oy, a Finnish company specializing in enhancing software development, whose products are related to automation and devops consulting, as well as accessibility and user studies.
 
-EfiLibrary is a project between the students of Business Information Technology Degree Programme in Haaga-Helia University of Applied Sciences, and Eficode Oy, a Finnish company specializing in enhancing software development, whose products are related to automation and devops consulting, as well as accessibility and user studies.
-
 The EfiLibrary project was created and built from the ground up and in its entirety by the students of Haaga-Helia UAS for the use of Eficode Oy.
 
 This digital library project is the transformation of the many physical copies of books owned by Eficode and scattered in different Eficode offices located in 10 different countries around the world, into one digital library in which the various users will be able to learn-from, teach-with, and enjoy sharing knowledge easily and efficiently.
@@ -49,6 +47,8 @@ The frontend’s user interface is divided into pages that are routed through re
 
 # Running the Program Locally
 
+> Make sure that the `REACT_APP_BACKEND_URL` in the frontend `.env ` matches the port in the backend `.env`. Or if you're using docker-compose, the port in the docker-compose file.
+
 <!-- INSTALLATION -->
 
 ## How to Install
@@ -83,15 +83,23 @@ See detailed documentation about Robot testing in [AboutRobotTests.md documentat
 
 # Deployment
 
+# Future developments
+
+You can see our previous [backlog](https://github.com/orgs/LibraryProjectGroup/projects/3/views/8) for tasks that we were planning on doing, but didn't have the time to do.
+
 <!-- CREDITS -->
 
 # Credits
 
 Attribution in alphabetical order:
 
+- Sebastian Bergman
+- Jordie Biemold
 - Michael Brown
 - Raúl Fernández Poolan
+- Markku Känkänen
 - Eeli Killström
+- Amaru Korpimäki
 - Jong Lau
 - Jasmin Lumme
 - Anja Miscevic
@@ -100,9 +108,12 @@ Attribution in alphabetical order:
 - Axel Riska
 - Aleksi Saarinen
 - Markus Sibakov
+- Julia Söderlund
 - Elisa Tuovila
 - Veeti Vainikka
+- Riku Vartiainen
 - Tia Venäläinen
+- Palmitos254
 
 <!-- LICENSE -->
 
