@@ -4,6 +4,8 @@
 
 _You can choose your preferred environment for robot testing. We recommend using **Docker** or **DevContainers** to avoid heavy multi-step installations on your local computer._
 
+> `Reminder:` You need to have the backend running for the robot tests to pass. Same with the github actions, the backend url should lead to a working backend.
+
 <details>
 <summary>🐳 Testing with Docker</summary>
 
