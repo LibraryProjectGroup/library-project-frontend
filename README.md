@@ -89,6 +89,8 @@ See detailed documentation about Robot testing in [AboutRobotTests.md documentat
 
 You can see our previous [backlog](https://github.com/orgs/LibraryProjectGroup/projects/3/views/8) for tasks that we were planning on doing, but didn't have the time to do.
 
+If you want to be made the owner of this organization (or if you feel like asking questions) you can contact Julia Söderlund trough school email.
+
 <!-- CREDITS -->
 
 # Credits
