@@ -117,6 +117,8 @@ Attribution in alphabetical order:
 - Veeti Vainikka
 - Riku Vartiainen
 - Tia Venäläinen
+- Dmitry Sinyavskiy
+- Ivan Kolesov
 - Palmitos254
 
 <!-- LICENSE -->
