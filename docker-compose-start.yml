@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  efilibrary-frontend-local:
+    container_name: efilibrary-frontend-local
+    image: efilibrary-frontend-local
+    stdin_open: true
+    tty: true
+    command: npm run start
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    env_file:
+      - docker.env
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public:ro
+    ports:
+      - "3000:3000"
