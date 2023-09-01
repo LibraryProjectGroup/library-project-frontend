@@ -11,7 +11,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     env_file:
-      - docker.env
+      - .env
     volumes:
       - ./src:/app/src
       - ./public:/app/public:ro

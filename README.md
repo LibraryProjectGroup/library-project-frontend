@@ -60,7 +60,7 @@ To run the frontend with docker-compose, you need to create a docker.env file in
 Now run the command (windows users make sure you have docker desktop running):
 
 ```
-docker-compose -f docker-compose-test.yml up -d
+docker-compose -f docker-compose-start.yml up -d
 ```
 
 Now with both backend and frontend running, open the app at http://localhost:3000/
