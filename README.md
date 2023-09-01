@@ -51,6 +51,20 @@ The frontend’s user interface is divided into pages that are routed through re
 
 > Make sure that the `REACT_APP_BACKEND_URL` in the frontend `.env ` matches the port in the backend `.env`. Or if you're using docker-compose, the port in the docker-compose file.
 
+## Using docker-compose
+
+To run the frontend with docker-compose, you need to create a docker.env file in the root of the frontend project. In this file you need to add the exact same content as in the existing .env file. So copy and paste that in the docker.env file.
+
+> Make sure the backend is running before next steps.
+
+Now run the command (windows users make sure you have docker desktop running):
+
+```
+docker-compose -f docker-compose-test.yml up -d
+```
+
+Now with both backend and frontend running, open the app at http://localhost:3000/
+
 <!-- INSTALLATION -->
 
 ## How to Install
