@@ -107,7 +107,7 @@ const CreateAccount: FC = () => {
       });
       let data = await response.json();
       if (data.ok) {
-        console.log("Registration succesful")
+        console.log("Registration succesful");
         navigate("/login");
       } else {
         setErrorMessage(data.message ? data.message : "internal error");
