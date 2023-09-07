@@ -20,11 +20,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import AddCommentIcon from "@mui/icons-material/AddComment";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
-import FirstPageIcon from "@mui/icons-material/FirstPage";
 import { TheContext } from "../../../TheContext";
 import Book from "../../../interfaces/book.interface";
 import Book_reservation from "../../../interfaces/book_reservation.interface";
@@ -32,21 +27,15 @@ import BookForm from "./BookForm";
 import ButtonPopup from "./ButtonPopup";
 import UserListPopup from "./UserListPopup";
 import {
-  fetchAllBooks,
   fetchDeleteBook,
   fetchAllCurrentBorrows,
   fetchCreateBorrow,
   fetchCurrentBorrows,
   fetchAddBookReservation,
-  fetchAllBookReservations,
   fetchActiveAndLoanableReservations,
   fetchCurrentBookReservations,
-  fetchCancelBookReservation,
-  fetchLoanBookReservation,
-  fetchAllReservedBooks,
   fetchPagedBooks,
   fetchAllBooksCount,
-  fetchDeleteUser,
 } from "../../../fetchFunctions";
 import {
   listBooksDeleteButton,
@@ -61,12 +50,8 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Alert from "@mui/material/Alert";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
 import BookRequestForm from "./BookRequestForm";
-import { toast } from "react-toastify";
-import { LOAN_DAYS, RESERVATION_DAYS, MS_IN_DAY } from "../../../constants";
-import CountrySpan from "../../CountrySpan";
+import { RESERVATION_DAYS, MS_IN_DAY } from "../../../constants";
 import OfficeSpan from "../../OfficeSpan";
 
 import "react-toastify/dist/ReactToastify.css";

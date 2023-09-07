@@ -1,18 +1,12 @@
-import { useState, useEffect, FC } from "react";
-import {
-  DataGrid,
-  DataGridProps,
-  GridCellEditCommitParams,
-  GridCellParams,
-  GridColDef,
-} from "@mui/x-data-grid";
-import { Button, IconButton } from "@mui/material";
-import ExtendedReservation from "../../../interfaces/extendedReservation.interface";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import { IconButton } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { FC, useEffect, useState } from "react";
 import {
   fetchAllExtendedBookReservations,
   fetchCancelBookReservation,
 } from "../../../fetchFunctions";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import ExtendedReservation from "../../../interfaces/extendedReservation.interface";
 
 const ReservationsGrid: FC = (): JSX.Element => {
   const [reservationsData, setReservationsData] = useState<

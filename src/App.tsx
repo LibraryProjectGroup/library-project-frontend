@@ -1,4 +1,4 @@
-import React, { FC, useContext } from "react";
+import { FC, useContext } from "react";
 import ListBooks from "./components/pages/listBooksPage/ListBooks";
 import LoginPage from "./components/pages/loggedOut/loginPage/LoginPage";
 import CreateAccount from "./components/pages/loggedOut/createAccountPage/CreateAccount";
@@ -13,14 +13,11 @@ import {
   Route,
   BrowserRouter,
   Navigate,
-  useNavigate,
 } from "react-router-dom";
-import { endSession, isAuthenticated } from "./auth";
+import { isAuthenticated } from "./auth";
 import UserBooklists from "./components/pages/userBooklistsPage/UserBooklistsPage";
 import UserReservations from "./components/pages/userBookReservationsPage/UserReservationsPage";
-import { AppBar, Fab, Tooltip, Typography } from "@mui/material";
 import ListPage from "./components/pages/listPage/ListPage";
-import { userPageBackButton } from "./sxStyles";
 import NavBar from "./components/navBar/Navbar";
 
 function App() {

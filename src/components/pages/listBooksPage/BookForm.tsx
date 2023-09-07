@@ -20,7 +20,6 @@ import {
   fetchAllHomeOffices,
 } from "../../../fetchFunctions";
 import { HomeOffice } from "../../../interfaces/HomeOffice";
-import CountrySpan from "../../CountrySpan";
 import OfficeSpan from "../../OfficeSpan";
 import AddScanner from "../../scanner/AddScanner";
 import { toast } from "react-toastify";

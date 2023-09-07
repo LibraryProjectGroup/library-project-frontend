@@ -1,8 +1,7 @@
-import { useState, useEffect, FC } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Button } from "@mui/material";
-import Loan from "../../../interfaces/loan.interface";
+import { FC, useEffect, useState } from "react";
 import { fetchAllCurrentLoans } from "../../../fetchFunctions";
+import Loan from "../../../interfaces/loan.interface";
 
 const LoansGrid: FC = (): JSX.Element => {
   const [loansData, setLoansData] = useState<Loan[]>([]);
