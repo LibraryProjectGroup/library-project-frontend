@@ -12,7 +12,7 @@
     "eject": "react-scripts eject",
     "dockertests": "robot --variable TESTUSERNAME:${TESTUSERNAME} --variable TESTPASSWORD:${TESTPASSWORD} --variable TESTUSERNAME2:${TESTUSERNAME2} --variable TESTPASSWORD2:${TESTPASSWORD2} --removekeywords  NAME:*logins* --outputdir robot/results robot/tests",
     "startserverandtest": "react-scripts start & wait-on http://localhost:3000 && npm run dockertests",
-    "fmt": "prettier --write .",
+    "fmt": "prettier --write \"src/**/*.{css,js,ts,tsx,json}\"",
     "fmt:check": "prettier --check ."
   },
   "eslintConfig": {
