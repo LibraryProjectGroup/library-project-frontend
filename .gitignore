@@ -16,3 +16,5 @@ docker.env
 
 # Python "robot" tests
 /robot/results/
+
+__pycache__
