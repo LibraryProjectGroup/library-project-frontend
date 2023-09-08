@@ -9,9 +9,17 @@ ${TESTUSERNAME}     defaultusername    # Just to initialize the variable
 ${TESTPASSWORD}     doesnotexist    # Just to initialize the variable
 ${TESTUSERNAME2}    defaultusername    # Just to initialize variable
 ${TESTPASSWORD2}    doesnotexist    # Just to initialize the variable
+${OPERATINGSYSTEMCOMMAND}   placeholder
 
 
 *** Keywords ***
+Log env Variables
+    Log to console  ${TESTUSERNAME}
+    Log to console  ${TESTUSERNAME2}
+    Log to console  ${TESTPASSWORD}
+    Log to console  ${TESTPASSWORD2}
+    Log to console  ${OPERATINGSYSTEMCOMMAND}
+
 Login for testing
     Run Keyword    User has home page open in browser
     Run Keyword    User logins successfully
