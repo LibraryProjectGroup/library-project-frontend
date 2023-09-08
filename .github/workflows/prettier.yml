@@ -8,20 +8,24 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
       - uses: actions/setup-node@v3
         with:
           node-version: "16"
           cache: "npm"
+          
       - run: npm ci
 
-      # Detect changed files
-      - name: Get list of changed files
+      # Detect all changed files since the last push
+      - name: Get list of changed files since last push
         id: get_changed_files
         run: |
-          FILES=$(git diff --name-only HEAD~1..HEAD)
+          FILES=$(git diff --name-only $(git rev-parse origin/${{ github.base_ref }})..${{ github.sha }})
           echo "::set-output name=files::$FILES"
 
-      # Check formatting on changed files only using your npm script
+      # Check formatting on those files using your npm script
       - name: Check Formatting on Changed Files
         id: check_fmt
         run: |
@@ -30,12 +34,12 @@ jobs:
             echo "::set-output name=unformatted::true"
           fi
 
-      # If unformatted files are detected in the changed files, format them using your npm script
+      # If unformatted files are detected, format them using your npm script
       - name: Format changed files
         if: steps.check_fmt.outputs.unformatted == 'true'
         run: npm run fmt -- ${{ steps.get_changed_files.outputs.files }}
 
-      # Commit changes if any formatting changes were made to the changed files
+      # Commit changes if any formatting changes were made
       - name: Commit changes
         if: steps.check_fmt.outputs.unformatted == 'true'
         uses: stefanzweifel/git-auto-commit-action@v4
