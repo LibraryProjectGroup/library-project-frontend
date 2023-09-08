@@ -7,20 +7,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: "16"
           cache: "npm"
-
       - run: npm ci
 
-      # Prettify code with prettier and only changed files
-      - name: Prettify code
-        uses: creyD/prettier_action@v4.3
+      # Detect changed files
+      - name: Get list of changed files
+        id: get_changed_files
+        run: |
+          FILES=$(git diff --name-only HEAD~1..HEAD)
+          echo "::set-output name=files::$FILES"
+
+      # Check formatting on changed files only using your npm script
+      - name: Check Formatting on Changed Files
+        id: check_fmt
+        run: |
+          OUTPUT=$(npm run fmt:check -- ${{ steps.get_changed_files.outputs.files }}) || true
+          if [[ "$OUTPUT" == *"Code style issues found"* ]]; then
+            echo "::set-output name=unformatted::true"
+          fi
+
+      # If unformatted files are detected in the changed files, format them using your npm script
+      - name: Format changed files
+        if: steps.check_fmt.outputs.unformatted == 'true'
+        run: npm run fmt -- ${{ steps.get_changed_files.outputs.files }}
+
+      # Commit changes if any formatting changes were made to the changed files
+      - name: Commit changes
+        if: steps.check_fmt.outputs.unformatted == 'true'
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          prettier_options: --write **/*.{js,md,ts,tsx,css,html,json}
-          only_changed: True
+          commit_message: Apply formatting changes
