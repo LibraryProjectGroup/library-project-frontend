@@ -56,8 +56,8 @@ The frontend’s user interface is divided into pages that are routed through re
 To run the frontend with docker-compose, you need to create a docker.env file in the root of the frontend project. In this file you need to add the exact same content as in the existing .env file. So copy and paste that in the docker.env file.
 
 > Make sure the backend is running before next steps.
-You can check if the backend is running here: http://localhost:3002/health
-It should say: "ok: true"
+> You can check if the backend is running here: http://localhost:3002/health
+> It should say: "ok: true"
 
 Now run the command (windows users make sure you have docker desktop running):
 

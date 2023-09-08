@@ -162,7 +162,7 @@ The content of this secret file is described in the project's Discord, on `#secr
 
 To use Python script properly (in robot folder)
 
-Run command `pip install python-dotenv` 
+Run command `pip install python-dotenv`
 
 You can run robot tests with `npm run startserverandtest` command in your terminal.
 
