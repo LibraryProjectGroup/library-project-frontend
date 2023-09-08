@@ -10,9 +10,6 @@ jobs:
           node-version: "16"
           cache: "npm"
       - run: npm ci
-      - name: Check formatting
-        run: npm run fmt:check
-
       # Run the Prettier format command
       - name: Format code
         run: npm run fmt
