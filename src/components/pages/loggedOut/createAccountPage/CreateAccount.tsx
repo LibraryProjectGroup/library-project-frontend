@@ -67,7 +67,7 @@ const CreateAccount: FC = () => {
     );
     setMatch(
       !!passwords.firstPassword &&
-      passwords.firstPassword === passwords.secondPassword
+        passwords.firstPassword === passwords.secondPassword
     );
     const handleResize = () => {
       setDimensions({
