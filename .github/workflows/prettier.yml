@@ -7,19 +7,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: "16"
           cache: "npm"
+
       - run: npm ci
 
-      # Run the Prettier format command
-      - name: Format code
-        run: npm run fmt
-
-      # Commit and push changes if any formatting changes were made
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
+      # Prettify code with prettier and only changed files
+      - name: Prettify code
+        uses: creyD/prettier_action@v4.3
         with:
-          commit_message: Apply formatting changes by Prettier
+          prettier_options: --write **/*.{js,md,ts,tsx,css,html,json}
+          only_changed: True
