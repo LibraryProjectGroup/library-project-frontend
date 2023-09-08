@@ -1,23 +1,24 @@
 name: Formatting with prettier
-
 on: push
-
 jobs:
   prettier:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          # Make sure the actual branch is checked out when running on pull requests
-          # ref: ${{ github.head_ref }}
-          # This is important to fetch the changes to the previous commit
-          fetch-depth: 0
+          node-version: "16"
+          cache: "npm"
+      - run: npm ci
+      - name: Check formatting
+        run: npm run fmt:check
 
-      - name: Prettify code
-        uses: creyD/prettier_action@v4.3
+      # Run the Prettier format command
+      - name: Format code
+        run: npm run fmt
+
+      # Commit and push changes if any formatting changes were made
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          # This part is also where you can pass other options, for example:
-          prettier_options: --write **/*.{js,ts,tsx,json,css,html}
-          only_changed: True
+          commit_message: Apply formatting changes by Prettier
