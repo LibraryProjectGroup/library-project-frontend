@@ -7,41 +7,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
+          # Make sure the actual branch is checked out when running on pull requests
+          # ref: ${{ github.head_ref }}
+          # This is important to fetch the changes to the previous commit
           fetch-depth: 0
-      
-      - uses: actions/setup-node@v3
+
+      - name: Prettify code
+        uses: creyD/prettier_action@v4.3
         with:
-          node-version: "16"
-          cache: "npm"
-          
-      - run: npm ci
-
-      # Detect all changed files since the last push
-      - name: Get list of changed files since last push
-        id: get_changed_files
-        run: |
-          FILES=$(git diff --name-only $(git rev-parse origin/${{ github.base_ref }})..${{ github.sha }})
-          echo "::set-output name=files::$FILES"
-
-      # Check formatting on those files using your npm script
-      - name: Check Formatting on Changed Files
-        id: check_fmt
-        run: |
-          OUTPUT=$(npm run fmt:check -- ${{ steps.get_changed_files.outputs.files }}) || true
-          if [[ "$OUTPUT" == *"Code style issues found"* ]]; then
-            echo "::set-output name=unformatted::true"
-          fi
-
-      # If unformatted files are detected, format them using your npm script
-      - name: Format changed files
-        if: steps.check_fmt.outputs.unformatted == 'true'
-        run: npm run fmt -- ${{ steps.get_changed_files.outputs.files }}
-
-      # Commit changes if any formatting changes were made
-      - name: Commit changes
-        if: steps.check_fmt.outputs.unformatted == 'true'
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Apply formatting changes
+          # This part is also where you can pass other options, for example:
+          prettier_options: --write **/*.{js,ts,tsx,json,css,html}
+          only_changed: True
