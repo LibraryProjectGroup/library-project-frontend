@@ -30,10 +30,10 @@ import { gridColumnGroupsLookupSelector } from "@mui/x-data-grid";
 import { fontSize } from "@mui/system";
 
 const NavBar: FC = (): JSX.Element => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+       const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+          const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
 
