@@ -97,6 +97,12 @@ You will also need the [backend](https://github.com/LibraryProjectGroup/library-
 
 See detailed documentation about Robot testing in [AboutRobotTests.md documentation file](robot/aboutRobotTests.md).
 
+<!-- WORKFLOWS -->
+
+# Workflows
+
+            The Prettier workflow now formats with prettier when pushes are made.
+
 <!-- DEPLOYMENT -->
 
 # Deployment
