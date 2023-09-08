@@ -31,10 +31,10 @@ import { fontSize } from "@mui/system";
 
 const NavBar: FC = (): JSX.Element => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null,
+    null
   );
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null,
+    null
   );
 
   const context = useContext(TheContext);
