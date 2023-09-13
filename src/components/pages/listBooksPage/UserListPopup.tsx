@@ -7,25 +7,17 @@ import {
   Typography,
   List,
   ListItem,
-  TextField,
-  FormGroup,
-  FormControlLabel,
   Stack,
 } from "@mui/material";
 import {
   listBooksFavoriteButton as favButton,
   userPageMyListsButton,
-  listBooksEditButton,
   listBooksEntryAddButton,
 } from "../../../sxStyles";
 import Book from "../../../interfaces/book.interface";
 import Book_list from "../../../interfaces/book_list.interface";
 import Book_list_entry from "../../../interfaces/book_list_entry.interface";
-import {
-  fetchUserBooklists,
-  fetchAddEntry,
-  fetchUpdateBooklist,
-} from "../../../fetchFunctions";
+import { fetchUserBooklists, fetchAddEntry } from "../../../fetchFunctions";
 import { useNavigate } from "react-router-dom";
 
 const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {

@@ -1,21 +1,20 @@
-import { useState, FC, useEffect } from "react";
 import {
-  Modal,
   Box,
   Button,
-  Typography,
-  TextField,
-  Stack,
   MenuItem,
+  Modal,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
-import User from "../../../interfaces/editUser.interface";
-import { popupContainer, confirmButton, cancelButton } from "../../../sxStyles";
+import { FC, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { HomeOffice } from "../../../interfaces/HomeOffice";
-import { fetchAllHomeOffices } from "../../../fetchFunctions";
-import OfficeSpan from "../../OfficeSpan";
-
 import "react-toastify/dist/ReactToastify.css";
+import { fetchAllHomeOffices } from "../../../fetchFunctions";
+import User from "../../../interfaces/editUser.interface";
+import { HomeOffice } from "../../../interfaces/HomeOffice";
+import { cancelButton, confirmButton, popupContainer } from "../../../sxStyles";
+import OfficeSpan from "../../OfficeSpan";
 
 interface IProps {
   visible: boolean;

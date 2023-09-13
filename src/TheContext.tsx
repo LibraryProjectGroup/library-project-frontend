@@ -1,6 +1,4 @@
-import { log } from "console";
 import { createContext, useState, FC, ReactNode, useEffect } from "react";
-import { isJsxClosingElement } from "typescript";
 import { isAuthenticated, authFetch } from "./auth";
 import { fetchCurrentBorrows } from "./fetchFunctions";
 import Borrow from "./interfaces/borrow.interface";

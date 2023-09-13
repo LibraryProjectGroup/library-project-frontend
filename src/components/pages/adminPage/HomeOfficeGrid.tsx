@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Button } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { useEffect, useState } from "react";
 import {
   fetchAdminUpdateHomeOfficeData,
   fetchAllHomeOffices,
@@ -8,8 +8,8 @@ import {
   fetchHomeOfficeById,
 } from "../../../fetchFunctions";
 import { HomeOffice } from "../../../interfaces/HomeOffice";
-import EditHomeOffice from "./EditHomeOffice";
 import CountrySpan from "../../CountrySpan";
+import EditHomeOffice from "./EditHomeOffice";
 
 export default function HomeOfficeGrid(): JSX.Element {
   const [homeOffices, setHomeOffices] = useState<HomeOffice[]>([]);

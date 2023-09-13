@@ -1,4 +1,4 @@
-import React, {
+import {
   useState,
   FC,
   useEffect,
@@ -17,14 +17,8 @@ import {
   Tooltip,
   TablePagination,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import AddCommentIcon from "@mui/icons-material/AddComment";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
-import FirstPageIcon from "@mui/icons-material/FirstPage";
 import { TheContext } from "../../../TheContext";
 import Book from "../../../interfaces/book.interface";
 import Book_reservation from "../../../interfaces/book_reservation.interface";
@@ -32,28 +26,20 @@ import BookForm from "./BookForm";
 import ButtonPopup from "./ButtonPopup";
 import UserListPopup from "./UserListPopup";
 import {
-  fetchAllBooks,
   fetchDeleteBook,
   fetchAllCurrentBorrows,
   fetchCreateBorrow,
   fetchCurrentBorrows,
   fetchAddBookReservation,
-  fetchAllBookReservations,
   fetchActiveAndLoanableReservations,
   fetchCurrentBookReservations,
-  fetchCancelBookReservation,
-  fetchLoanBookReservation,
-  fetchAllReservedBooks,
   fetchPagedBooks,
-  fetchAllBooksCount,
-  fetchDeleteUser,
 } from "../../../fetchFunctions";
 import {
   listBooksDeleteButton,
   listBooksEditButton,
   listBooksLoanButton,
   addBookAddButton as addButton,
-  listBooksFavoriteButton as favButton,
 } from "../../../sxStyles";
 import ToastContainers from "../../../ToastContainers";
 import Borrow from "../../../interfaces/borrow.interface";
@@ -61,19 +47,15 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Alert from "@mui/material/Alert";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
 import BookRequestForm from "./BookRequestForm";
-import { toast } from "react-toastify";
-import { LOAN_DAYS, RESERVATION_DAYS, MS_IN_DAY } from "../../../constants";
-import CountrySpan from "../../CountrySpan";
+import { RESERVATION_DAYS, MS_IN_DAY } from "../../../constants";
 import OfficeSpan from "../../OfficeSpan";
 
 import "react-toastify/dist/ReactToastify.css";
 
 const ListBooks: FC = (): JSX.Element => {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(25);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
 
   const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
   const [currentReservations, setCurrentReservations] = useState<
@@ -83,10 +65,9 @@ const ListBooks: FC = (): JSX.Element => {
   const [books, setBooks] = useState<Book[]>([]);
   const [activeAndLoanableReservations, setActiveAndLoanableReservations] =
     useState<any[]>([]);
-  const [bookPage, setBookPage] = useState(1);
-  const [bookPageSize, setBookPageSize] = useState(books.length);
-  const [bookCount, setBookCount] = useState<number>(0);
-  const [bookId, setBookId] = useState<number>(0);
+  const bookPage = 1;
+  const bookPageSize = books.length;
+  const [bookId, setBookId] = useState(0);
 
   const [requestVisible, setRequestVisible] = useState(false);
   const [formVisible, setFormVisible] = useState(false);
@@ -106,16 +87,10 @@ const ListBooks: FC = (): JSX.Element => {
   >("none");
 
   const context = useContext(TheContext);
-  const navigate = useNavigate();
 
   const fetchBooks = useCallback(async () => {
     setBooks(await fetchPagedBooks(bookPage, bookPageSize));
-    fetchBookCount();
   }, [bookPage, bookPageSize]);
-
-  const fetchBookCount = async () => {
-    setBookCount(await fetchAllBooksCount());
-  };
 
   const fetchBorrows = async () =>
     setCurrentBorrows(await fetchAllCurrentBorrows());
@@ -132,9 +107,6 @@ const ListBooks: FC = (): JSX.Element => {
     setActiveAndLoanableReservations(
       await fetchActiveAndLoanableReservations()
     );
-  };
-  const handlePageButton = (forward: boolean) => {
-    setBookPage(bookPage + (forward ? 1 : -1));
   };
 
   const bookInCurrentBorrows = (book: Book) => {
@@ -231,7 +203,7 @@ const ListBooks: FC = (): JSX.Element => {
   };
 
   const action_2 = (
-    <React.Fragment>
+    <>
       {/*! Undo functional for the future? */}
       {/* <Button
         color="secondary"
@@ -248,7 +220,7 @@ const ListBooks: FC = (): JSX.Element => {
       >
         <CloseIcon fontSize="small" />
       </IconButton>
-    </React.Fragment>
+    </>
   );
 
   useEffect(() => {
