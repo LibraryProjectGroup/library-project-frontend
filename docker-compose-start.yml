@@ -1,12 +1,12 @@
 version: "3.8"
 
 services:
-  docker-robot:
-    container_name: docker-robot
-    image: docker-robot
+  efilibrary-frontend-local:
+    container_name: efilibrary-frontend-local
+    image: efilibrary-frontend-local
     stdin_open: true
     tty: true
-    command: npm run startserverandtest
+    command: npm run start
     build:
       context: ./
       dockerfile: Dockerfile
@@ -14,7 +14,6 @@ services:
       - .env
     volumes:
       - ./src:/app/src
-      - ./robot:/app/robot
       - ./public:/app/public:ro
     ports:
       - "3000:3000"

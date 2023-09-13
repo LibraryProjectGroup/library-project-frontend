@@ -67,7 +67,7 @@ const CreateAccount: FC = () => {
     );
     setMatch(
       !!passwords.firstPassword &&
-        passwords.firstPassword === passwords.secondPassword
+      passwords.firstPassword === passwords.secondPassword
     );
     const handleResize = () => {
       setDimensions({
@@ -107,9 +107,8 @@ const CreateAccount: FC = () => {
       });
       let data = await response.json();
       if (data.ok) {
-        setSession(data.secret);
-        context?.setIsLogin(true);
-        navigate("/list-books");
+        console.log("Registration succesful");
+        navigate("/login");
       } else {
         setErrorMessage(data.message ? data.message : "internal error");
       }
