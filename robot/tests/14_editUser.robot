@@ -31,7 +31,7 @@ User can check that they are admin
 Admin can see list of users
     Given Admin navigates to admin page
     When Tab with text Users is pressed
-    Then Row that contains text testattavatyyppi is visible
+    Then Row that contains text ${TESTUSERNAME2} is visible
 
 Admin can edit user information
     Click Button    xpath://*[contains(text(), '${TESTUSERNAME2}')]//ancestor::div[2]//button[contains(text(), 'Edit')]
@@ -42,6 +42,7 @@ Admin can edit user information
     Input Text    xpath://input[@name='email']    suku.suku@doesnotexist.com
     Click Element    xpath:/html/body/div[4]/div[3]/div/div[4]/div
     Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
+    Sleep   1s
     Click Button    xpath://button[normalize-space()='Update']
     Wait Until Element Is Visible    xpath://div[contains(text(), 'mestattavatyyppi')]
     Wait Until Element Is Visible    xpath://div[contains(text(), 'suku.suku@doesnotexist.com')]
@@ -49,12 +50,13 @@ Admin can edit user information
 Admin reverts changes
     Click Button    xpath://*[contains(text(), 'mestattavatyyppi')]//ancestor::div[2]//button[contains(text(), 'Edit')]
     Wait Until Element Is Visible    xpath://h4[normalize-space()='Edit user']
-    Press Keys    xpath://input[@name='username']    ${OPERATINGSYSTEMCOMMAND}    DELETE
+    Press Keys  xpath://input[@name='username']     ${OPERATINGSYSTEMCOMMAND}    DELETE
     Input Text    xpath://input[@name='username']    ${TESTUSERNAME2}
     Press Keys    xpath://input[@name='email']    ${OPERATINGSYSTEMCOMMAND}    DELETE
     Input Text    xpath://input[@name='email']    ${TESTUSERNAME2}
     Click Element    xpath:/html/body/div[4]/div[3]/div/div[4]/div
     Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
+    Sleep   1s
     Click Button    xpath://button[normalize-space()='Update']
     Wait Until Element Is Not Visible    xpath://div[contains(text(), 'mestattavatyyppi')]
     Wait Until Element Is Not Visible    xpath://div[contains(text(), 'suku.suku@doesnotexist.com')]
@@ -64,6 +66,7 @@ Admin can upgrade user to admin
     Wait Until Element Is Visible    xpath://h4[normalize-space()='Edit user']
     Click Element    xpath:/html/body/div[4]/div[3]/div/div[1]/div
     Click Element    xpath://*[@id="menu-administrator"]/div[3]/ul/li[1]
+    Sleep   1s
     Click Element    xpath:/html/body/div[4]/div[3]/div/div[4]/div
     Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
     Sleep    1s
@@ -83,6 +86,7 @@ User downgrades themself
     Wait Until Element Is Visible    xpath://h4[normalize-space()='Edit user']
     Click Element    xpath:/html/body/div[4]/div[3]/div/div[1]/div
     Click Element    xpath://*[@id="menu-administrator"]/div[3]/ul/li[2]
+    Sleep   1s
     Click Element    xpath:/html/body/div[4]/div[3]/div/div[4]/div
     Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
     Sleep    1s
