@@ -1,5 +1,4 @@
 // @ts-ignore
-import * as countries from "iso-3166-1-codes";
 import { PropsWithChildren } from "react";
 import CountrySpan from "./CountrySpan";
 

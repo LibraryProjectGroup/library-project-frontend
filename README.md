@@ -97,6 +97,14 @@ You will also need the [backend](https://github.com/LibraryProjectGroup/library-
 
 See detailed documentation about Robot testing in [AboutRobotTests.md documentation file](robot/aboutRobotTests.md).
 
+<!-- WORKFLOWS -->
+
+# Workflows
+
+## The Prettier workflow
+
+The Prettier workflow ensures consistent code styling throughout the repository. Upon every push, the workflow automatically checks and formats the code using Prettier and stefanzweifel/git-auto-commit-action@v4 (https://github.com/stefanzweifel/git-auto-commit-action/tree/v4/).
+
 <!-- DEPLOYMENT -->
 
 # Deployment

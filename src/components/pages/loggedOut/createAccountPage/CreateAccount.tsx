@@ -9,7 +9,6 @@ import {
   loginRegisterContent,
   AuthBoxTitle,
 } from "../../../../sxStyles";
-import { setSession } from "../../../../auth";
 import { TheContext } from "../../../../TheContext";
 import PasswordToggle from "../PasswordToggle";
 

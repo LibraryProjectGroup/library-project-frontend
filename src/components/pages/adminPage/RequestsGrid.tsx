@@ -1,16 +1,8 @@
-import { useState, useEffect, FC } from "react";
-import * as React from "react";
-import {
-  DataGrid,
-  DataGridProps,
-  GridCellEditCommitParams,
-  GridCellParams,
-  GridColDef,
-  GridRenderCellParams,
-  MuiEvent,
-} from "@mui/x-data-grid";
-import { Button, IconButton } from "@mui/material";
-import Loan from "../../../interfaces/loan.interface";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
+import { IconButton } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { FC, useEffect, useState } from "react";
 import {
   fetchAllBookRequests,
   fetchUpdateBookRequest,
@@ -18,8 +10,6 @@ import {
 import Book_request, {
   Book_request_status,
 } from "../../../interfaces/book_request.interface";
-import CheckIcon from "@mui/icons-material/Check";
-import ClearIcon from "@mui/icons-material/Clear";
 
 const RequestsGrid: FC = (): JSX.Element => {
   const [requestsData, setRequestsData] = useState<Book_request[]>([]);

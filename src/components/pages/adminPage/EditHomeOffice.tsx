@@ -1,22 +1,21 @@
-import { useState, FC, ChangeEvent } from "react";
 import {
-  Modal,
   Box,
   Button,
-  Typography,
-  TextField,
-  Stack,
   MenuItem,
+  Modal,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
-import User from "../../../interfaces/editUser.interface";
-import {
-  editUserBox,
-  editUserUpdateButton,
-  editUserCancelButton,
-} from "../../../sxStyles";
-import { HomeOffice } from "../../../interfaces/HomeOffice";
 // @ts-ignore
 import * as countries from "iso-3166-1-codes";
+import { ChangeEvent } from "react";
+import { HomeOffice } from "../../../interfaces/HomeOffice";
+import {
+  editUserBox,
+  editUserCancelButton,
+  editUserUpdateButton,
+} from "../../../sxStyles";
 import CountrySpan from "../../CountrySpan";
 
 type Props = {
