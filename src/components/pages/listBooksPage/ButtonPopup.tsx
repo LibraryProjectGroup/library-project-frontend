@@ -1,7 +1,8 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { Modal, Box, Button, Stack, Typography } from "@mui/material";
 import { popupContainer, confirmButton, cancelButton } from "../../../sxStyles";
 import { toast } from "react-toastify";
+import { TheContext } from "../../../TheContext";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -54,6 +55,7 @@ const ButtonPopup: FC<IProps> = ({
     toast.error("Loaning failed, Something went wrong", {
       containerId: "ToastAlert",
     });
+  const context = useContext(TheContext);
 
   const deleteBook = async () => {
     await fetchDeleteBook(bookId).then((res: { ok: any }) => {
@@ -78,6 +80,7 @@ const ButtonPopup: FC<IProps> = ({
       }
     });
     await fetchBooks();
+    await context?.fetchBorrows();
     await fetchBorrows();
     setLoanVisible(false);
   };
