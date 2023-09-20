@@ -3,7 +3,6 @@ import { Paper, Typography, Stack, Button } from "@mui/material";
 import Borrow from "../../../interfaces/borrow.interface";
 import Book from "../../../interfaces/book.interface";
 import Book_reservation from "../../../interfaces/book_reservation.interface";
-import { TheContext } from "../../../TheContext";
 import OfficeSpan from "../../OfficeSpan";
 import { MS_IN_DAY, RESERVATION_DAYS } from '../../../constants';
 import { listBooksDeleteButton, listBooksEditButton } from '../../../sxStyles';
@@ -13,7 +12,7 @@ interface BookCardProps {
     book: Book;
     currentBorrows: Borrow[];
     currentReservations: Book_reservation[];
-    context: any; // You can replace 'any' with the actual type of your context
+    context: any;
     renderLoanButton: (book: Book) => JSX.Element | null;
     renderReserveButton: (book: Book) => JSX.Element | null;
     bookInCurrentBorrows: (book: Book) => boolean;
