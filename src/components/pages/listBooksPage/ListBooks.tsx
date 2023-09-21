@@ -6,11 +6,7 @@ import {
   Fragment,
   useCallback,
 } from "react";
-import {
-  Button,
-  Stack,
-  Box,
-} from "@mui/material";
+import { Button, Stack, Box } from "@mui/material";
 import { TheContext } from "../../../TheContext";
 import Book from "../../../interfaces/book.interface";
 import Book_reservation from "../../../interfaces/book_reservation.interface";
@@ -32,12 +28,11 @@ import Borrow from "../../../interfaces/borrow.interface";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import BookCard from './BookCard';
-import PaginationControls from './PaginationControls';
-import NotificationSnackbars from './NotificationSnackbars';
-import FloatingActionButtons from './FloatingActionButtons';
-import BookRequestForm from './BookRequestForm';
-
+import BookCard from "./BookCard";
+import PaginationControls from "./PaginationControls";
+import NotificationSnackbars from "./NotificationSnackbars";
+import FloatingActionButtons from "./FloatingActionButtons";
+import BookRequestForm from "./BookRequestForm";
 
 const ListBooks: FC = (): JSX.Element => {
   const [page, setPage] = useState(0);
@@ -225,144 +220,152 @@ const ListBooks: FC = (): JSX.Element => {
   }, [bookPage, fetchBooks]);
 
   const renderLoanButton = (book: Book) => {
-    if (!activeAndLoanableReservations.map((obj) => obj.bookId).includes(book.id)) {
-        return (
-            <Button
-                sx={listBooksLoanButton}
-                variant="contained"
-                disabled={bookInCurrentBorrows(book)}
-                onClick={async () => {
-                    setBookId(book.id);
-                    setLoanVisible(true);
-                }}
-            >
-                LOAN
-            </Button>
-        );
+    if (
+      !activeAndLoanableReservations.map((obj) => obj.bookId).includes(book.id)
+    ) {
+      return (
+        <Button
+          sx={listBooksLoanButton}
+          variant="contained"
+          disabled={bookInCurrentBorrows(book)}
+          onClick={async () => {
+            setBookId(book.id);
+            setLoanVisible(true);
+          }}
+        >
+          LOAN
+        </Button>
+      );
     } else {
-        return null;
+      return null;
     }
-};
+  };
 
-const renderReserveButton = (book: Book) => {
-    if (!userLoaningBook(book) &&
-        !activeAndLoanableReservations.map((obj) => obj.bookId).includes(book.id) &&
-        bookInCurrentBorrows(book)) {
-        return (
-            <Button
-                sx={listBooksLoanButton}
-                variant="contained"
-                disabled={bookInCurrentReservations(book)}
-                onClick={async () => {
-                    setBookId(book.id);
-                    setReserveVisible(true);
-                }}
-            >
-                RESERVE
-            </Button>
-        );
+  const renderReserveButton = (book: Book) => {
+    if (
+      !userLoaningBook(book) &&
+      !activeAndLoanableReservations
+        .map((obj) => obj.bookId)
+        .includes(book.id) &&
+      bookInCurrentBorrows(book)
+    ) {
+      return (
+        <Button
+          sx={listBooksLoanButton}
+          variant="contained"
+          disabled={bookInCurrentReservations(book)}
+          onClick={async () => {
+            setBookId(book.id);
+            setReserveVisible(true);
+          }}
+        >
+          RESERVE
+        </Button>
+      );
     } else {
-        return null;
+      return null;
     }
-};
+  };
 
   return (
     <>
-        <Snackbar
-            open={popUpConfirmation.ok}
-            autoHideDuration={4000}
-            onClose={handleClosePopUpConfirmation}
-            message={popUpConfirmation.message}
-            action={action_2}
-        />
-        <Box sx={{ marginTop: 5, marginBottom: 5, width: "100%" }}>
-            <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" } }}>
-                <FloatingActionButtons
-                    setRequestVisible={setRequestVisible}
-                    setFormEditing={setFormEditing}
-                    setFormBook={setFormBook}
-                    setFormVisible={setFormVisible}
-                />
-                <BookForm
-                    visible={formVisible}
-                    setVisible={setFormVisible}
-                    confirmation={popUpConfirmation}
-                    setConfirmation={setPopUpConfirmationOpen}
-                    book={formBook}
-                    setBook={setFormBook}
-                    editing={formEditing}
-                    updateBooks={fetchBooks}
-                />
-                <BookRequestForm
-                    visible={requestVisible}
-                    setVisible={setRequestVisible}
-                    confirmation={popUpConfirmation}
-                    setConfirmation={setPopUpConfirmationOpen}
-                />
-                {/* Pop up element */}
-                <ButtonPopup
-                    deleteVisible={deleteVisible}
-                    setDeleteVisible={setDeleteVisible}
-                    loanVisible={loanVisible}
-                    setLoanVisible={setLoanVisible}
-                    reserveVisible={reserveVisible}
-                    setReserveVisible={setReserveVisible}
-                    bookId={bookId}
-                    fetchBooks={fetchBooks}
-                    fetchDeleteBook={fetchDeleteBook}
-                    fetchCreateBorrow={fetchCreateBorrow}
-                    fetchBorrows={fetchBorrows}
-                    fetchReservations={fetchReservations}
-                    fetchAddBookReservation={fetchAddBookReservation}
-                />
-                <PaginationControls
-                    booksLength={books.length}
-                    page={page}
-                    rowsPerPage={rowsPerPage}
-                    handleChangePage={handleChangePage}
-                    handleChangeRowsPerPage={handleChangeRowsPerPage}
-                />
-            </Box>
-            <Stack spacing={3} sx={{ margin: "2rem", display: "flex", alignItems: "center" }}>
-                {books
-                    ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((book) => (
-                        <BookCard
-                            book={book}
-                            currentBorrows={currentBorrows}
-                            currentReservations={currentReservations}
-                            context={context}
-                            renderLoanButton={renderLoanButton}
-                            renderReserveButton={renderReserveButton}
-                            bookInCurrentBorrows={bookInCurrentBorrows}
-                            activeAndLoanableReservations={activeAndLoanableReservations}
-                            handleDelete={(selectedBook) => {
-                              setBookId(selectedBook.id);
-                              setDeleteVisible(true);
-                            }}
-                            handleEdit={(selectedBook) => {
-                              setFormEditing(true);
-                              setFormBook(selectedBook);
-                              setFormVisible(true);
-                            }}
-                        />
-                    ))}
-            </Stack>
-            <PaginationControls
-                booksLength={books.length}
-                page={page}
-                rowsPerPage={rowsPerPage}
-                handleChangePage={handleChangePage}
-                handleChangeRowsPerPage={handleChangeRowsPerPage}
-            />
-            <ToastContainers />
-            <NotificationSnackbars
-                open={open}
-                handleClose={handleClose}
-            />
+      <Snackbar
+        open={popUpConfirmation.ok}
+        autoHideDuration={4000}
+        onClose={handleClosePopUpConfirmation}
+        message={popUpConfirmation.message}
+        action={action_2}
+      />
+      <Box sx={{ marginTop: 5, marginBottom: 5, width: "100%" }}>
+        <Box
+          sx={{ display: "flex", flexDirection: { xs: "column", md: "row" } }}
+        >
+          <FloatingActionButtons
+            setRequestVisible={setRequestVisible}
+            setFormEditing={setFormEditing}
+            setFormBook={setFormBook}
+            setFormVisible={setFormVisible}
+          />
+          <BookForm
+            visible={formVisible}
+            setVisible={setFormVisible}
+            confirmation={popUpConfirmation}
+            setConfirmation={setPopUpConfirmationOpen}
+            book={formBook}
+            setBook={setFormBook}
+            editing={formEditing}
+            updateBooks={fetchBooks}
+          />
+          <BookRequestForm
+            visible={requestVisible}
+            setVisible={setRequestVisible}
+            confirmation={popUpConfirmation}
+            setConfirmation={setPopUpConfirmationOpen}
+          />
+          {/* Pop up element */}
+          <ButtonPopup
+            deleteVisible={deleteVisible}
+            setDeleteVisible={setDeleteVisible}
+            loanVisible={loanVisible}
+            setLoanVisible={setLoanVisible}
+            reserveVisible={reserveVisible}
+            setReserveVisible={setReserveVisible}
+            bookId={bookId}
+            fetchBooks={fetchBooks}
+            fetchDeleteBook={fetchDeleteBook}
+            fetchCreateBorrow={fetchCreateBorrow}
+            fetchBorrows={fetchBorrows}
+            fetchReservations={fetchReservations}
+            fetchAddBookReservation={fetchAddBookReservation}
+          />
+          <PaginationControls
+            booksLength={books.length}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            handleChangePage={handleChangePage}
+            handleChangeRowsPerPage={handleChangeRowsPerPage}
+          />
         </Box>
+        <Stack
+          spacing={3}
+          sx={{ margin: "2rem", display: "flex", alignItems: "center" }}
+        >
+          {books
+            ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((book) => (
+              <BookCard
+                book={book}
+                currentBorrows={currentBorrows}
+                currentReservations={currentReservations}
+                context={context}
+                renderLoanButton={renderLoanButton}
+                renderReserveButton={renderReserveButton}
+                bookInCurrentBorrows={bookInCurrentBorrows}
+                activeAndLoanableReservations={activeAndLoanableReservations}
+                handleDelete={(selectedBook) => {
+                  setBookId(selectedBook.id);
+                  setDeleteVisible(true);
+                }}
+                handleEdit={(selectedBook) => {
+                  setFormEditing(true);
+                  setFormBook(selectedBook);
+                  setFormVisible(true);
+                }}
+              />
+            ))}
+        </Stack>
+        <PaginationControls
+          booksLength={books.length}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
+        />
+        <ToastContainers />
+        <NotificationSnackbars open={open} handleClose={handleClose} />
+      </Box>
     </>
-);
+  );
 };
 
 export default ListBooks;
