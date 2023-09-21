@@ -1,5 +1,5 @@
-import { useState, useEffect, FC } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { FC, useEffect, useState } from "react";
 import { fetchExpiredLoans } from "../../../fetchFunctions";
 import DetailedExpiredBorrow from "../../../interfaces/detailedExpiredBorrow.interface";
 

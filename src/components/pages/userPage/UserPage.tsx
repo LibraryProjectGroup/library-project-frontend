@@ -15,7 +15,6 @@ import Book from "../../../interfaces/book.interface";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { userPageReturnButton, userPageBackButton } from "../../../sxStyles";
 import ReturnBook from "./ReturnBook";
-import Borrow from "../../../interfaces/borrow.interface";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";

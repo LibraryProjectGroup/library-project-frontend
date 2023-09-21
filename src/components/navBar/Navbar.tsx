@@ -1,33 +1,30 @@
-import * as React from "react";
+import LogoutIcon from "@mui/icons-material/Logout";
+import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
-  Box,
-  Fab,
-  Toolbar,
-  IconButton,
-  Typography,
-  Menu,
-  Container,
   Avatar,
+  Box,
   Button,
-  Tooltip,
+  Container,
+  Fab,
+  IconButton,
+  Menu,
   MenuItem,
+  Toolbar,
+  Tooltip,
+  Typography,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import * as React from "react";
 import { FC, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { endSession } from "../../auth";
 import {
-  userLogOutButton,
+  navbarMenuItemHamburger,
   navbarPagesHamburger,
   navbarPagesLarge,
-  navbarMenuItemHamburger,
+  userLogOutButton,
 } from "../../sxStyles";
 import { TheContext } from "../../TheContext";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { log } from "console";
-import { gridColumnGroupsLookupSelector } from "@mui/x-data-grid";
-import { fontSize } from "@mui/system";
 
 const NavBar: FC = (): JSX.Element => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(

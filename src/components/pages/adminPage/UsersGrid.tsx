@@ -1,4 +1,4 @@
-import { useState, useEffect, FC, Fragment } from "react";
+import { useState, useEffect, FC } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Button } from "@mui/material";
 import User from "../../../interfaces/user.interface";
