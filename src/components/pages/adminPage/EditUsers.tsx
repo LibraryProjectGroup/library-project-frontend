@@ -31,9 +31,8 @@ const EditUser: FC<IProps> = ({
   setOneUserData,
   updateUser,
 }: IProps): JSX.Element => {
-  const editingMessage = () =>
-    toast.success("User edited succesfully", { containerId: "ToastSuccess" });
   const [offices, setOffices] = useState<HomeOffice[]>([]);
+  const [isDataChanged, setIsDataChanged] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -48,6 +47,13 @@ const EditUser: FC<IProps> = ({
       ...user,
       [event.target.name]: event.target.value,
     });
+    setIsDataChanged(true);
+  };
+
+  const editingMessage = () => {
+    if (isDataChanged) {
+      toast.success("User edited succesfully", { containerId: "ToastSuccess" });
+    }
   };
 
   if (user == null) return <></>;
@@ -112,6 +118,7 @@ const EditUser: FC<IProps> = ({
               onClick={() => {
                 updateUser(user);
                 editingMessage();
+                setIsDataChanged(false);
               }}
             >
               Update
