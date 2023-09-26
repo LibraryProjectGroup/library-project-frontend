@@ -11,7 +11,7 @@ Suite Teardown      Close all browsers
 Admin can see list of users
     Given Admin navigates to admin page
     When Tab with text Users is pressed
-    Then Row that contains text testattavatyyppi is visible
+    Then Row that contains text ${TESTUSERNAME2} is visible
 
 Admin can see list of books
     Given Admin navigates to admin page

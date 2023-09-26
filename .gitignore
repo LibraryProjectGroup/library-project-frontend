@@ -1,7 +1,9 @@
 # JetBrains
 /*.iml
 
+
 # Environment variables
+.env
 .env.local
 .env.development.local
 .env.test.local
@@ -16,3 +18,5 @@ docker.env
 
 # Python "robot" tests
 /robot/results/
+
+__pycache__
