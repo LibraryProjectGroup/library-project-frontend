@@ -29,8 +29,8 @@ function App() {
   };
 
   const AdminRoute: FC<any> = (props) => {
-        const context = useContext(TheContext);
-            return context?.user?.administrator ? props.children : <UnauthorizedPage />;
+          const context = useContext(TheContext);
+              return context?.user?.administrator ? props.children : <UnauthorizedPage />;
   };
 
   return (
