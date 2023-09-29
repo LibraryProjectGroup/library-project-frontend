@@ -87,13 +87,13 @@ const EditBook: FC<IProps> = ({
   };
 
   const updateBook = async (newBook: Book) => {
-    await fetchUpdateBook(newBook).then((res: { ok: any; book?: Book}) => { 
-    if (res.ok) {
-      EditingMessage();
-      setVisible(false);
-      updateEditedBook(res.book)
-    }
-    })
+    await fetchUpdateBook(newBook).then((res: { ok: any; book?: Book }) => {
+      if (res.ok) {
+        EditingMessage();
+        setVisible(false);
+        updateEditedBook(res.book);
+      }
+    });
   };
 
   //
