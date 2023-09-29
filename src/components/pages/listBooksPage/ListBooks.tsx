@@ -124,25 +124,25 @@ const ListBooks: FC = (): JSX.Element => {
   };
 
   const updateBook = (book: Book) => {
-    console.log('updating')
-    const index = books.map(e => e.id).indexOf(book.id)
-    books.splice(index, 1, book)
-  }
+    console.log("updating");
+    const index = books.map((e) => e.id).indexOf(book.id);
+    books.splice(index, 1, book);
+  };
 
   /** Update 'books' state and show correct books on page based on pagination */
   const setFreshBooks = (books: Book[]) => {
-    console.log(books)
+    console.log(books);
     setBookPageSize(books.length);
     const paginationCutoff = page * rowsPerPage;
-    console.log('cutoff', paginationCutoff)
+    console.log("cutoff", paginationCutoff);
     const pageLength = books.length - paginationCutoff;
-    console.log('pageLength', pageLength)
+    console.log("pageLength", pageLength);
     const filteredBooks = books.slice(
       paginationCutoff,
       pageLength > paginationCutoff ? paginationCutoff + rowsPerPage : undefined
     );
-    console.log('books', filteredBooks)
-    console.log('pageSize', bookPageSize)
+    console.log("books", filteredBooks);
+    console.log("pageSize", bookPageSize);
     setBooks(filteredBooks);
   };
 
