@@ -131,18 +131,13 @@ const ListBooks: FC = (): JSX.Element => {
 
   /** Update 'books' state and show correct books on page based on pagination */
   const setFreshBooks = (books: Book[]) => {
-    console.log(books)
     setBookPageSize(books.length);
     const paginationCutoff = page * rowsPerPage;
-    console.log('cutoff', paginationCutoff)
     const pageLength = books.length - paginationCutoff;
-    console.log('pageLength', pageLength)
     const filteredBooks = books.slice(
       paginationCutoff,
       pageLength > paginationCutoff ? paginationCutoff + rowsPerPage : undefined
     );
-    console.log('books', filteredBooks)
-    console.log('pageSize', bookPageSize)
     setBooks(filteredBooks);
   };
 

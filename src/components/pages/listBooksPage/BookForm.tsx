@@ -91,8 +91,6 @@ const EditBook: FC<IProps> = ({
     if (res.ok) {
       EditingMessage();
       setVisible(false);
-      //updateBooks(res.books);
-      console.log(res.book)
       updateEditedBook(res.book)
     }
     })
