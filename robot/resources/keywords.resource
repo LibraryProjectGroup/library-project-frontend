@@ -80,8 +80,7 @@ User adds ${title} book to catalog
     Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
     Sleep   1s
     Click Button    xpath:/html/body/div[4]/form/div/div/div[7]/button[1]
-    Sleep   1s
-    Execute Javascript  location.reload()
+
 
 User can find the ${title} book from the page
     Wait Until Page Contains Element    xpath://*[contains(text(), '${title}')]

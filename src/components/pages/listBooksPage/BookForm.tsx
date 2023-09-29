@@ -35,6 +35,7 @@ interface IProps {
   setBook: Function;
   editing: boolean;
   updateBooks: Function;
+  updateEditedBook: Function;
 }
 
 const EditBook: FC<IProps> = ({
@@ -46,6 +47,7 @@ const EditBook: FC<IProps> = ({
   setBook,
   editing,
   updateBooks,
+  updateEditedBook,
 }: IProps): JSX.Element => {
   const [offices, setOffices] = useState<HomeOffice[]>([]);
   const [lastIsbn, setLastIsbn] = useState("");
@@ -85,22 +87,26 @@ const EditBook: FC<IProps> = ({
   };
 
   const updateBook = async (newBook: Book) => {
-    const response = await fetchUpdateBook(newBook);
-    if (response.ok) {
+    await fetchUpdateBook(newBook).then((res: { ok: any; book?: Book}) => { 
+    if (res.ok) {
       EditingMessage();
       setVisible(false);
-      updateBooks();
+      //updateBooks(res.books);
+      console.log(res.book)
+      updateEditedBook(res.book)
     }
+    })
   };
 
+  //
   const addBook = async (newBook: Book) => {
-    await fetchAddBook(newBook).then((res: { ok: any }) => {
+    await fetchAddBook(newBook).then((res: { ok: any; books?: Book[] }) => {
       if (!res.ok) {
         ErrorMessageDelete();
       } else {
         SuccessMessage();
         setVisible(false);
-        updateBooks();
+        updateBooks(res.books);
       }
     });
   };
