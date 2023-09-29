@@ -63,9 +63,22 @@
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
     "gh-pages": "5.0.0",
-    "prettier": "2.8.3",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "prettier": "^2.8.3",
     "start-server-and-test": "1.15.3",
     "typescript": "4.9.4",
     "wait-on": "7.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css,scss,json,md}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
