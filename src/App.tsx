@@ -25,12 +25,12 @@ import NavBar from "./components/navBar/Navbar";
 
 function App() {
   const ProtectedRoute: FC<any> = (props) => {
-        return isAuthenticated() ? props.children : <Navigate to="/login" />;
+          return isAuthenticated() ? props.children : <Navigate to="/login" />;
   };
 
   const AdminRoute: FC<any> = (props) => {
         const context = useContext(TheContext);
-          return context?.user?.administrator ? props.children : <UnauthorizedPage />;
+            return context?.user?.administrator ? props.children : <UnauthorizedPage />;
   };
 
   return (
