@@ -45,17 +45,17 @@ const RequestBook: FC<IProps> = ({
     });
 
   const requestBook = async () => {
-    await fetchAddBookRequest(isbn, title, reason)
-      .then((res: { ok: boolean }) => {
-        if (res.ok) {
-          SuccessMessage();
-          setVisible(false);
-        }
+    try {
+      const res = await fetchAddBookRequest(isbn, title, reason);
+      if (res.ok) {
+        SuccessMessage();
+        setVisible(false);
+      } else {
         throw new Error("Network response was not ok.");
-      })
-      .catch(function () {
-        ErrorMessage();
-      });
+      }
+    } catch (error) {
+      ErrorMessage();
+    }
   };
 
   const handleOpen = () => {
