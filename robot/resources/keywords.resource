@@ -9,9 +9,17 @@ ${TESTUSERNAME}     defaultusername    # Just to initialize the variable
 ${TESTPASSWORD}     doesnotexist    # Just to initialize the variable
 ${TESTUSERNAME2}    defaultusername    # Just to initialize variable
 ${TESTPASSWORD2}    doesnotexist    # Just to initialize the variable
+${OPERATINGSYSTEMCOMMAND}   placeholder
 
 
 *** Keywords ***
+Log env Variables
+    Log to console  ${TESTUSERNAME}
+    Log to console  ${TESTUSERNAME2}
+    Log to console  ${TESTPASSWORD}
+    Log to console  ${TESTPASSWORD2}
+    Log to console  ${OPERATINGSYSTEMCOMMAND}
+
 Login for testing
     Run Keyword    User has home page open in browser
     Run Keyword    User logins successfully
@@ -70,7 +78,10 @@ User adds ${title} book to catalog
     Click Element   xpath:/html/body/div[4]/form/div/div/div[6]/div
     Mouse over    xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
     Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
-    Click Button    xpath=(//button[normalize-space()='Add'])[1]
+    Sleep   1s
+    Click Button    xpath:/html/body/div[4]/form/div/div/div[7]/button[1]
+    Sleep   1s
+    Execute Javascript  location.reload()
 
 User can find the ${title} book from the page
     Wait Until Page Contains Element    xpath://*[contains(text(), '${title}')]
