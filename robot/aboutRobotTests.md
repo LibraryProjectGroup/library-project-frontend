@@ -48,12 +48,10 @@ docker compose up
 <p align="center">:wavy_dash: :small_orange_diamond: :small_orange_diamond: :small_orange_diamond: :large_orange_diamond: :eight_pointed_black_star: :large_orange_diamond: :small_orange_diamond: :small_orange_diamond: :small_orange_diamond: :wavy_dash:</p>
 </details>
 
-
-
 <details>
 <summary>💻 Testing on your local computer</summary>
 
-_Please note that these instructions are only applicable to Windows 10. For other OS steps are same but might vary a bit (for example configuring PATH)
+\_Please note that these instructions are only applicable to Windows 10. For other OS steps are same but might vary a bit (for example configuring PATH)
 
 #### Table of Contents
 
@@ -115,6 +113,7 @@ Find 'Path' under System variables > 'Edit' > (Add folders if necessary) > 'OK' 
 ```
 
 ### Comprehensive guide (For other OS than windows)
+
 https://gist.github.com/nex3/c395b2f8fd4b02068be37c961301caa7
 
 ## :robot: Install Robot Framework
