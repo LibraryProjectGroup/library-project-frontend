@@ -6,7 +6,7 @@ import {
   fetchAllHomeOffices,
   fetchDeleteHomeOffice,
   fetchHomeOfficeById,
-  fetchAdminAddHomeOffice
+  fetchAdminAddHomeOffice,
 } from "../../../fetchFunctions";
 import { HomeOffice } from "../../../interfaces/HomeOffice";
 import CountrySpan from "../../CountrySpan";
@@ -61,15 +61,14 @@ export default function HomeOfficeGrid(): JSX.Element {
   }
 
   const addHomeOffice = async (newHomeOffice: HomeOffice) => {
-    await fetchAdminAddHomeOffice(newHomeOffice).then((res: {ok: any}) => {
+    await fetchAdminAddHomeOffice(newHomeOffice).then((res: { ok: any }) => {
       if (!res.ok) {
-        console.log("error creating office")
+        console.log("error creating office");
       } else {
         setFormVisible(false);
-        
       }
-    })
-  }
+    });
+  };
 
   const COLUMNS_USERS: GridColDef[] = [
     { field: "id", headerName: "ID", flex: 1, minWidth: 70 },
