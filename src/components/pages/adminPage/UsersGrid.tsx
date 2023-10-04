@@ -150,6 +150,9 @@ const UsersGrid: FC = (): JSX.Element => {
   const editUser = async (id: number) => {
     let userData = await fetchUserById(id);
     userData.administrator = userData.administrator === 1 ? "true" : "false";
+    if (userData.homeOfficeId === null) {
+      userData.homeOfficeId = 0;
+    }
     setRequestVisible(true);
     setOneUserData(userData);
   };
