@@ -124,9 +124,10 @@ const ListBooks: FC = (): JSX.Element => {
   };
 
   const updateBook = (book: Book) => {
-    console.log("updating");
-    const index = books.map((e) => e.id).indexOf(book.id);
-    books.splice(index, 1, book);
+    const index = books.findIndex(item => item.id === book.id)
+    const list = books
+    list.splice(index, 1, book);
+    setBooks(list)
   };
 
   /** Update 'books' state and show correct books on page based on pagination */
