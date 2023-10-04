@@ -6,20 +6,27 @@ import {
   fetchAllHomeOffices,
   fetchDeleteHomeOffice,
   fetchHomeOfficeById,
+  fetchAdminAddHomeOffice
 } from "../../../fetchFunctions";
 import { HomeOffice } from "../../../interfaces/HomeOffice";
 import CountrySpan from "../../CountrySpan";
-import EditHomeOffice from "./EditHomeOffice";
+import EditHomeOffice from "./HomeOfficeForm";
 
 export default function HomeOfficeGrid(): JSX.Element {
   const [homeOffices, setHomeOffices] = useState<HomeOffice[]>([]);
   const [homeOfficeBeingEdited, setHomeOfficeBeingEdited] =
     useState<HomeOffice | null>(null);
-  const [editFormVisible, setEditFormVisible] = useState(false);
+  const [formVisible, setFormVisible] = useState(false);
   const [open, setOpen] = useState(false);
+  const [formEditing, setFormEditing] = useState(false);
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const setFormOffice = (office: HomeOffice) => {
+    setHomeOfficeBeingEdited(office);
+    setFormVisible(true);
   };
 
   function loadHomeOfficeData() {
@@ -39,7 +46,7 @@ export default function HomeOfficeGrid(): JSX.Element {
 
   function editHomeOffice(homeOfficeId: number) {
     fetchHomeOfficeById(homeOfficeId).then((homeOfficeData) => {
-      setEditFormVisible(true);
+      setFormVisible(true);
       setHomeOfficeBeingEdited(homeOfficeData);
     });
   }
@@ -47,10 +54,21 @@ export default function HomeOfficeGrid(): JSX.Element {
   function updateHomeOffice(editedOffice: HomeOffice) {
     fetchAdminUpdateHomeOfficeData(editedOffice).then((ok) => {
       if (ok?.ok) {
-        setEditFormVisible(false);
+        setFormVisible(false);
         return loadHomeOfficeData();
       }
     });
+  }
+
+  const addHomeOffice = async (newHomeOffice: HomeOffice) => {
+    await fetchAdminAddHomeOffice(newHomeOffice).then((res: {ok: any}) => {
+      if (!res.ok) {
+        console.log("error creating office")
+      } else {
+        setFormVisible(false);
+        
+      }
+    })
   }
 
   const COLUMNS_USERS: GridColDef[] = [
@@ -75,6 +93,7 @@ export default function HomeOfficeGrid(): JSX.Element {
         <Button
           sx={{ color: "blue" }}
           onClick={() => {
+            setFormEditing(true);
             editHomeOffice(params.row.id);
           }}
         >
@@ -104,12 +123,28 @@ export default function HomeOfficeGrid(): JSX.Element {
   return (
     <>
       <EditHomeOffice
-        visible={editFormVisible}
-        setVisible={setEditFormVisible}
-        setEditingHomeOfficeData={setHomeOfficeBeingEdited}
+        visible={formVisible}
+        setVisible={setFormVisible}
+        setHomeOfficeData={setHomeOfficeBeingEdited}
         homeOffice={homeOfficeBeingEdited}
         updateHomeOffice={updateHomeOffice}
+        addHomeOffice={addHomeOffice}
+        editing={formEditing}
       />
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          setFormEditing(false);
+          setFormOffice({
+            id: -1,
+            countryCode: "XXX",
+            name: "",
+          });
+        }}
+      >
+        Create New Office
+      </Button>
       <DataGrid
         columns={COLUMNS_USERS}
         rows={homeOffices}
