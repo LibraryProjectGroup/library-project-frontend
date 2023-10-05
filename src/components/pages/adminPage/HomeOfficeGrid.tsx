@@ -132,7 +132,7 @@ export default function HomeOfficeGrid(): JSX.Element {
         addHomeOffice={addHomeOffice}
         editing={formEditing}
       />
-      <Stack style={{alignItems: 'center'}}>
+      <Stack style={{ alignItems: "center" }}>
         <Button
           variant="contained"
           sx={adminAddOfficeButton}
