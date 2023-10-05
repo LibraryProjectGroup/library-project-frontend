@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import {
@@ -6,11 +6,12 @@ import {
   fetchAllHomeOffices,
   fetchDeleteHomeOffice,
   fetchHomeOfficeById,
-  fetchAdminAddHomeOffice
+  fetchAdminAddHomeOffice,
 } from "../../../fetchFunctions";
 import { HomeOffice } from "../../../interfaces/HomeOffice";
 import CountrySpan from "../../CountrySpan";
 import EditHomeOffice from "./HomeOfficeForm";
+import { adminAddOfficeButton } from "../../../sxStyles";
 
 export default function HomeOfficeGrid(): JSX.Element {
   const [homeOffices, setHomeOffices] = useState<HomeOffice[]>([]);
@@ -61,15 +62,15 @@ export default function HomeOfficeGrid(): JSX.Element {
   }
 
   const addHomeOffice = async (newHomeOffice: HomeOffice) => {
-    await fetchAdminAddHomeOffice(newHomeOffice).then((res: {ok: any}) => {
+    await fetchAdminAddHomeOffice(newHomeOffice).then((res: { ok: any }) => {
       if (!res.ok) {
-        console.log("error creating office")
+        console.log("error creating office");
       } else {
         setFormVisible(false);
-        
+        return loadHomeOfficeData();
       }
-    })
-  }
+    });
+  };
 
   const COLUMNS_USERS: GridColDef[] = [
     { field: "id", headerName: "ID", flex: 1, minWidth: 70 },
@@ -131,20 +132,22 @@ export default function HomeOfficeGrid(): JSX.Element {
         addHomeOffice={addHomeOffice}
         editing={formEditing}
       />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          setFormEditing(false);
-          setFormOffice({
-            id: -1,
-            countryCode: "XXX",
-            name: "",
-          });
-        }}
-      >
-        Create New Office
-      </Button>
+      <Stack style={{alignItems: 'center'}}>
+        <Button
+          variant="contained"
+          sx={adminAddOfficeButton}
+          onClick={() => {
+            setFormEditing(false);
+            setFormOffice({
+              id: -1,
+              countryCode: "XXX",
+              name: "",
+            });
+          }}
+        >
+          Create New Office
+        </Button>
+      </Stack>
       <DataGrid
         columns={COLUMNS_USERS}
         rows={homeOffices}

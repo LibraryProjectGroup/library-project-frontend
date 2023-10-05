@@ -320,6 +320,17 @@ export const adminDeleteButton: SxProps = {
   },
 };
 
+export const adminAddOfficeButton: SxProps = {
+  fontWeight: "bold",
+  fontSize: 15,
+  marginBottom: 2,
+  backgroundColor: "#FFD100",
+  color: "black",
+  "&:hover": {
+    backgroundColor: "#FFB500",
+  },
+  width: 200
+}
 // EditUser
 
 export const editUserBox: SxProps = {
