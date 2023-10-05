@@ -329,8 +329,8 @@ export const adminAddOfficeButton: SxProps = {
   "&:hover": {
     backgroundColor: "#FFB500",
   },
-  width: 200
-}
+  width: 200,
+};
 // EditUser
 
 export const editUserBox: SxProps = {
