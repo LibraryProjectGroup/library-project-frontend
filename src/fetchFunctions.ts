@@ -466,3 +466,15 @@ export async function fetchAdminUpdateHomeOfficeData(
     body: JSON.stringify(bodyData),
   });
 }
+
+export async function fetchAdminAddHomeOffice(
+  homeOffice: HomeOffice
+): Promise<OKStatus> {
+  return await authFetch("/office", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(homeOffice),
+  });
+}
