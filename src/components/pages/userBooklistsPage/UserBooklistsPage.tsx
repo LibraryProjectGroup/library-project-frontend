@@ -5,8 +5,6 @@ import {
   Button,
   Stack,
   Fab,
-  Card,
-  CardActionArea,
   Box,
   Tooltip,
   Container,
@@ -29,9 +27,7 @@ import {
   addBookAddButton as addButton,
   listBooksFavoriteButton as favButton,
 } from "../../../sxStyles";
-import { fetchBooklist } from "../../../fetchFunctions";
 import EditBookListName from "./EditBookListName";
-import { arrayBuffer } from "stream/consumers";
 
 const UserBooklists: FC = (): JSX.Element => {
   const [booklists, setBooklists] = useState<Book_list[]>([]);
@@ -203,7 +199,7 @@ const UserBooklists: FC = (): JSX.Element => {
           aria-label="back"
           sx={booklistsPageBackAndAddButtons}
           onClick={() => {
-            navigate("/list-books");
+            navigate(-1);
           }}
         >
           <ArrowBackIcon />

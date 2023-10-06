@@ -18,13 +18,11 @@ import {
   fetchUpdateBook,
   fetchAddBook,
   fetchAllHomeOffices,
-} from '../../../fetchFunctions'
-import { HomeOffice } from '../../../interfaces/HomeOffice'
-import CountrySpan from '../../CountrySpan'
-import OfficeSpan from '../../OfficeSpan'
-import AddScanner from '../../scanner/AddScanner'
-import { toast } from 'react-toastify'
-
+} from "../../../fetchFunctions";
+import { HomeOffice } from "../../../interfaces/HomeOffice";
+import OfficeSpan from "../../OfficeSpan";
+import AddScanner from "../../scanner/AddScanner";
+import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 
 interface IProps {

@@ -1,21 +1,20 @@
-import { useState, FC, useEffect } from "react";
 import {
-  Modal,
   Box,
   Button,
-  Typography,
-  TextField,
-  Stack,
   MenuItem,
+  Modal,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
-import User from "../../../interfaces/editUser.interface";
-import { popupContainer, confirmButton, cancelButton } from "../../../sxStyles";
+import { FC, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { HomeOffice } from "../../../interfaces/HomeOffice";
-import { fetchAllHomeOffices } from "../../../fetchFunctions";
-import OfficeSpan from "../../OfficeSpan";
-
 import "react-toastify/dist/ReactToastify.css";
+import { fetchAllHomeOffices } from "../../../fetchFunctions";
+import User from "../../../interfaces/editUser.interface";
+import { HomeOffice } from "../../../interfaces/HomeOffice";
+import { cancelButton, confirmButton, popupContainer } from "../../../sxStyles";
+import OfficeSpan from "../../OfficeSpan";
 
 interface IProps {
   visible: boolean;
@@ -32,9 +31,8 @@ const EditUser: FC<IProps> = ({
   setOneUserData,
   updateUser,
 }: IProps): JSX.Element => {
-  const editingMessage = () =>
-    toast.success("User edited succesfully", { containerId: "ToastSuccess" });
   const [offices, setOffices] = useState<HomeOffice[]>([]);
+  const [isDataChanged, setIsDataChanged] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -49,6 +47,13 @@ const EditUser: FC<IProps> = ({
       ...user,
       [event.target.name]: event.target.value,
     });
+    setIsDataChanged(true);
+  };
+
+  const editingMessage = () => {
+    if (isDataChanged) {
+      toast.success("User edited succesfully", { containerId: "ToastSuccess" });
+    }
   };
 
   if (user == null) return <></>;
@@ -113,6 +118,7 @@ const EditUser: FC<IProps> = ({
               onClick={() => {
                 updateUser(user);
                 editingMessage();
+                setIsDataChanged(false);
               }}
             >
               Update

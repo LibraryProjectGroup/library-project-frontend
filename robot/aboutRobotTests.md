@@ -149,10 +149,10 @@ Find 'Path' under System variables > 'Edit' > (Add folders if necessary) > 'OK' 
 The tests are using headless Chrome by default, so you have to install a driver for the tests to access your Chrome browser. You also need to have Chrome in your local machine beforehand.
 
 - Check your Chrome version from your Chrome browser settings
-- Download `.zip` of WebDriver [here](https://chromedriver.chromium.org/downloads) based on your Chrome's version number
-- Unzip `chromedriver.exe` to your Python's `Scripts` folder (so that it is automatically in 'Path')
+- Download `.zip` of chromedriver (binary) [here](https://googlechromelabs.github.io/chrome-for-testing/#stable) based on your Chrome's version number
+- Unzip `chromedriver.exe` and add file directory to 'PATH' (GUIDE for linux: https://linuxize.com/post/how-to-add-directory-to-path-in-linux/)
 
-## :page_facing_up: Create your local secret file
+## :page_facing_up: Create your local secret file [*DEPRECATED*]
 
 Create a file named `library-project-secrets.py`. The location of the file should be **one folder up** from the project's root folder, so that it's in the same folder where the `library-project-frontend` folder is. Because the secret file is now _above_ our repository, there is no risk of accidentally committing it to GitHub.
 
@@ -160,7 +160,11 @@ The content of this secret file is described in the project's Discord, on `#secr
 
 ## :tada: You should now be able to run the robot tests locally!
 
-You can run robot tests with `npm run robottests` command in your terminal. Make sure you have the local server running on port 3000 before executing the command.
+To use Python script properly (in robot folder)
+
+Run command `pip install python-dotenv`
+
+You can run robot tests with `npm run startserverandtest` command in your terminal.
 
 > **NOTE:** Please do not use custom `robot ...` commands (if you are not 100% sure of what flags to include in them) so that no log or report files will be accidentally committed & no secrets will be leaked. We have altered the npm scripts in [package.json](/package.json) to have a custom command to run robot tests, include secret credentials, hide secrets from log files and output logs to `robot/results` folder.
 

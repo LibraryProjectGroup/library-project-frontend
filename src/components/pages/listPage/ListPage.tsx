@@ -10,7 +10,7 @@ import {
   Container,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import React, { FC, useEffect, useState, useContext } from "react";
+import { FC, useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   fetchListInfo,

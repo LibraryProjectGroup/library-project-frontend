@@ -1,4 +1,4 @@
-import React, {
+import {
   useState,
   FC,
   useEffect,
@@ -6,74 +6,37 @@ import React, {
   Fragment,
   useCallback,
 } from "react";
-import {
-  Paper,
-  Typography,
-  Button,
-  Stack,
-  Box,
-  Fab,
-  Grid,
-  Tooltip,
-  TablePagination,
-} from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import AddIcon from "@mui/icons-material/Add";
-import AddCommentIcon from "@mui/icons-material/AddComment";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
-import FirstPageIcon from "@mui/icons-material/FirstPage";
+import { Button, Stack, Box } from "@mui/material";
 import { TheContext } from "../../../TheContext";
 import Book from "../../../interfaces/book.interface";
 import Book_reservation from "../../../interfaces/book_reservation.interface";
 import BookForm from "./BookForm";
 import ButtonPopup from "./ButtonPopup";
-import UserListPopup from "./UserListPopup";
 import {
-  fetchAllBooks,
   fetchDeleteBook,
   fetchAllCurrentBorrows,
   fetchCreateBorrow,
   fetchCurrentBorrows,
   fetchAddBookReservation,
-  fetchAllBookReservations,
   fetchActiveAndLoanableReservations,
   fetchCurrentBookReservations,
-  fetchCancelBookReservation,
-  fetchLoanBookReservation,
-  fetchAllReservedBooks,
   fetchPagedBooks,
-  fetchAllBooksCount,
-  fetchDeleteUser,
 } from "../../../fetchFunctions";
-import {
-  listBooksDeleteButton,
-  listBooksEditButton,
-  listBooksLoanButton,
-  addBookAddButton as addButton,
-  listBooksFavoriteButton as favButton,
-} from "../../../sxStyles";
+import { listBooksLoanButton } from "../../../sxStyles";
 import ToastContainers from "../../../ToastContainers";
 import Borrow from "../../../interfaces/borrow.interface";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import Alert from "@mui/material/Alert";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
+import BookCard from "./BookCard";
+import PaginationControls from "./PaginationControls";
+import NotificationSnackbars from "./NotificationSnackbars";
+import FloatingActionButtons from "./FloatingActionButtons";
 import BookRequestForm from "./BookRequestForm";
-import { toast } from "react-toastify";
-import { LOAN_DAYS, RESERVATION_DAYS, MS_IN_DAY } from "../../../constants";
-import CountrySpan from "../../CountrySpan";
-import OfficeSpan from "../../OfficeSpan";
-
-import "react-toastify/dist/ReactToastify.css";
 
 const ListBooks: FC = (): JSX.Element => {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(25);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
 
   const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
   const [currentReservations, setCurrentReservations] = useState<
@@ -83,10 +46,9 @@ const ListBooks: FC = (): JSX.Element => {
   const [books, setBooks] = useState<Book[]>([]);
   const [activeAndLoanableReservations, setActiveAndLoanableReservations] =
     useState<any[]>([]);
-  const [bookPage, setBookPage] = useState(1);
-  const [bookPageSize, setBookPageSize] = useState(books.length);
-  const [bookCount, setBookCount] = useState<number>(0);
-  const [bookId, setBookId] = useState<number>(0);
+  const bookPage = 1;
+  const bookPageSize = books.length;
+  const [bookId, setBookId] = useState(0);
 
   const [requestVisible, setRequestVisible] = useState(false);
   const [formVisible, setFormVisible] = useState(false);
@@ -106,16 +68,10 @@ const ListBooks: FC = (): JSX.Element => {
   >("none");
 
   const context = useContext(TheContext);
-  const navigate = useNavigate();
 
   const fetchBooks = useCallback(async () => {
     setBooks(await fetchPagedBooks(bookPage, bookPageSize));
-    fetchBookCount();
   }, [bookPage, bookPageSize]);
-
-  const fetchBookCount = async () => {
-    setBookCount(await fetchAllBooksCount());
-  };
 
   const fetchBorrows = async () =>
     setCurrentBorrows(await fetchAllCurrentBorrows());
@@ -132,9 +88,6 @@ const ListBooks: FC = (): JSX.Element => {
     setActiveAndLoanableReservations(
       await fetchActiveAndLoanableReservations()
     );
-  };
-  const handlePageButton = (forward: boolean) => {
-    setBookPage(bookPage + (forward ? 1 : -1));
   };
 
   const bookInCurrentBorrows = (book: Book) => {
@@ -193,6 +146,17 @@ const ListBooks: FC = (): JSX.Element => {
     setOpen("none");
   };
 
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   const action = (
     <Fragment>
       <IconButton
@@ -205,17 +169,6 @@ const ListBooks: FC = (): JSX.Element => {
       </IconButton>
     </Fragment>
   );
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
 
   const handleClosePopUpConfirmation = (
     event: React.SyntheticEvent | Event,
@@ -231,7 +184,7 @@ const ListBooks: FC = (): JSX.Element => {
   };
 
   const action_2 = (
-    <React.Fragment>
+    <>
       {/*! Undo functional for the future? */}
       {/* <Button
         color="secondary"
@@ -248,7 +201,7 @@ const ListBooks: FC = (): JSX.Element => {
       >
         <CloseIcon fontSize="small" />
       </IconButton>
-    </React.Fragment>
+    </>
   );
 
   useEffect(() => {
@@ -314,187 +267,8 @@ const ListBooks: FC = (): JSX.Element => {
     }
   };
 
-  const renderBookData = (book: Book) => {
-    if (!book.deleted) {
-      return (
-        <Paper
-          elevation={10}
-          sx={{ padding: "2rem", width: { xs: "90%", md: "60%" } }}
-          key={book.id}
-        >
-          <Stack
-            sx={{
-              display: "flex",
-              flexDirection: { xs: "column", md: "row" },
-              justifyContent: { md: "space-between" },
-            }}
-          >
-            <Stack>
-              {book.image ? (
-                <img
-                  alt="Book cover"
-                  width={120}
-                  height={160}
-                  src={book.image}
-                />
-              ) : (
-                <img
-                  alt="Book cover not available"
-                  width={120}
-                  height={160}
-                  src={
-                    "https://images.isbndb.com/covers/91/26/9789513119126.jpg"
-                  }
-                />
-              )}
-            </Stack>
-
-            <Stack>
-              <Typography
-                sx={{
-                  fontFamily: "Montserrat",
-                  fontWeight: "bold",
-                  marginBottom: 1,
-                }}
-              >
-                {book.title}
-              </Typography>
-
-              <Typography
-                sx={{
-                  fontFamily: "Merriweather",
-                  fontWeight: "light",
-                  marginTop: 1,
-                }}
-              >
-                Author: {book.author}
-              </Typography>
-
-              <Typography
-                sx={{
-                  fontFamily: "Merriweather",
-                  fontWeight: "light",
-                }}
-              >
-                Year: {book.year}
-              </Typography>
-
-              <Typography
-                sx={{
-                  fontFamily: "Merriweather",
-                  fontWeight: "light",
-                }}
-              >
-                Topic: {book.topic}
-              </Typography>
-              <Typography
-                sx={{
-                  fontFamily: "Merriweather",
-                  fontWeight: "light",
-                }}
-              >
-                ISBN: {book.isbn}
-              </Typography>
-              <Typography
-                sx={{
-                  fontFamily: "Merriweather",
-                  fontWeight: "light",
-                }}
-              >
-                Office:{" "}
-                <OfficeSpan
-                  countryCode={book.homeOfficeCountry}
-                  officeName={book.homeOfficeName}
-                />
-              </Typography>
-              {bookInCurrentBorrows(book) && (
-                <Typography
-                  sx={{
-                    fontFamily: "Merriweather",
-                    fontWeight: "light",
-                  }}
-                >
-                  {`Loan due: ${currentBorrows
-                    .filter((borrow) => borrow.book === book.id)
-                    .map((borrow) =>
-                      new Date(borrow.dueDate).toLocaleString("fi", {
-                        year: "numeric",
-                        month: "numeric",
-                        day: "numeric",
-                      })
-                    )}.`}
-                </Typography>
-              )}
-              {activeAndLoanableReservations
-                .map((obj) => obj.bookId)
-                .includes(book.id) && (
-                <Typography
-                  sx={{
-                    fontFamily: "Merriweather",
-                    fontWeight: "light",
-                    color: "orange",
-                  }}
-                >
-                  {`Reservation due: ${currentReservations
-                    .filter((obj) => obj.bookId === book.id)
-                    .map((obj) =>
-                      new Date(
-                        new Date(obj.reservationDatetime).getTime() +
-                          RESERVATION_DAYS * MS_IN_DAY
-                      ).toLocaleString("fi", {
-                        year: "numeric",
-                        month: "numeric",
-                        day: "numeric",
-                      })
-                    )}.`}
-                </Typography>
-              )}
-            </Stack>
-            <Stack>
-              <UserListPopup book={book} />
-              <Button
-                sx={listBooksDeleteButton}
-                variant="contained"
-                disabled={
-                  book.library_user !== context?.user?.id &&
-                  !context?.user?.administrator
-                }
-                color="error"
-                onClick={async () => {
-                  setBookId(book.id);
-                  setDeleteVisible(true);
-                }}
-              >
-                Delete book
-              </Button>
-
-              <Button
-                sx={listBooksEditButton}
-                variant="contained"
-                disabled={
-                  book.library_user !== context?.user?.id &&
-                  !context?.user?.administrator
-                }
-                onClick={() => {
-                  setFormEditing(true);
-                  setFormBook(book);
-                  setFormVisible(true);
-                }}
-              >
-                Edit book
-              </Button>
-              {renderLoanButton(book)}
-              {renderReserveButton(book)}
-            </Stack>
-          </Stack>
-        </Paper>
-      );
-    }
-  };
-
   return (
     <>
-      {/* Pop up element */}
       <Snackbar
         open={popUpConfirmation.ok}
         autoHideDuration={4000}
@@ -504,56 +278,14 @@ const ListBooks: FC = (): JSX.Element => {
       />
       <Box sx={{ marginTop: 5, marginBottom: 5, width: "100%" }}>
         <Box
-          sx={{
-            display: "flex",
-            flexDirection: { xs: "column", md: "row" },
-          }}
+          sx={{ display: "flex", flexDirection: { xs: "column", md: "row" } }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: { xs: "row", md: "column" },
-              justifyContent: { xs: "center", md: "flex-start" },
-              alignItems: "center",
-            }}
-          >
-            <Tooltip title="Request a book">
-              <Fab
-                aria-label="request"
-                sx={addButton}
-                onClick={() => {
-                  setRequestVisible(true);
-                }}
-              >
-                <AddCommentIcon />
-              </Fab>
-            </Tooltip>
-            <Tooltip title="Add new book">
-              <Fab
-                aria-label="add"
-                sx={addButton}
-                onClick={() => {
-                  setFormEditing(false);
-                  setFormBook({
-                    id: -1, // This wont get used
-                    title: "",
-                    image: "",
-                    author: "",
-                    year: new Date().getFullYear(),
-                    topic: "",
-                    isbn: "",
-                    homeOfficeId: -1,
-                    homeOfficeCountry: "XXX",
-                    homeOfficeName: "",
-                    deleted: false,
-                  });
-                  setFormVisible(true);
-                }}
-              >
-                <AddIcon />
-              </Fab>
-            </Tooltip>
-          </Box>
+          <FloatingActionButtons
+            setRequestVisible={setRequestVisible}
+            setFormEditing={setFormEditing}
+            setFormBook={setFormBook}
+            setFormVisible={setFormVisible}
+          />
           <BookForm
             visible={formVisible}
             setVisible={setFormVisible}
@@ -586,26 +318,13 @@ const ListBooks: FC = (): JSX.Element => {
             fetchReservations={fetchReservations}
             fetchAddBookReservation={fetchAddBookReservation}
           />
-
-          <Grid
-            sx={{
-              textAlign: "center",
-              display: "flex",
-              width: "100%",
-              justifyContent: "center",
-            }}
-          >
-            <TablePagination
-              component="div"
-              count={books.length}
-              rowsPerPageOptions={[5, 10, 25]}
-              page={page}
-              onPageChange={handleChangePage}
-              rowsPerPage={rowsPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              labelRowsPerPage="Books per page:"
-            />
-          </Grid>
+          <PaginationControls
+            booksLength={books.length}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            handleChangePage={handleChangePage}
+            handleChangeRowsPerPage={handleChangeRowsPerPage}
+          />
         </Box>
         <Stack
           spacing={3}
@@ -613,53 +332,37 @@ const ListBooks: FC = (): JSX.Element => {
         >
           {books
             ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((book) => renderBookData(book))}
+            .map((book) => (
+              <BookCard
+                book={book}
+                currentBorrows={currentBorrows}
+                currentReservations={currentReservations}
+                context={context}
+                renderLoanButton={renderLoanButton}
+                renderReserveButton={renderReserveButton}
+                bookInCurrentBorrows={bookInCurrentBorrows}
+                activeAndLoanableReservations={activeAndLoanableReservations}
+                handleDelete={(selectedBook) => {
+                  setBookId(selectedBook.id);
+                  setDeleteVisible(true);
+                }}
+                handleEdit={(selectedBook) => {
+                  setFormEditing(true);
+                  setFormBook(selectedBook);
+                  setFormVisible(true);
+                }}
+              />
+            ))}
         </Stack>
-
-        <Grid
-          sx={{
-            textAlign: "center",
-            display: "flex",
-            width: "100%",
-            justifyContent: "center",
-          }}
-        >
-          <TablePagination
-            component="div"
-            count={books.length}
-            rowsPerPageOptions={[5, 10, 25]}
-            page={page}
-            onPageChange={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            labelRowsPerPage="Books per page:"
-          />
-        </Grid>
-
+        <PaginationControls
+          booksLength={books.length}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
+        />
         <ToastContainers />
-
-        <Snackbar
-          open={open === "expiring"}
-          action={action}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        >
-          <Alert
-            onClose={handleClose}
-            severity="warning"
-            sx={{ width: "100%" }}
-            variant="filled"
-          >
-            You have expiring loan(s)
-          </Alert>
-        </Snackbar>
-        <Snackbar
-          open={open === "expired"}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        >
-          <Alert severity="error" sx={{ width: "100%" }} variant="filled">
-            YOU HAVE EXPIRED LOAN(S)
-          </Alert>
-        </Snackbar>
+        <NotificationSnackbars open={open} handleClose={handleClose} />
       </Box>
     </>
   );

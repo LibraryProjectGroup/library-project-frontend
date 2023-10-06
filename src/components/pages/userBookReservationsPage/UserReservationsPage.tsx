@@ -204,7 +204,7 @@ const UserReservations: FC<IProps> = ({
           aria-label="back"
           sx={userPageBackButton}
           onClick={() => {
-            navigate("/list-books");
+            navigate(-1);
           }}
         >
           <ArrowBackIcon />
