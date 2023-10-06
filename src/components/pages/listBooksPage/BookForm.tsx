@@ -26,14 +26,15 @@ import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 
 interface IProps {
-  visible: boolean
-  setVisible: Function
-  confirmation: Object
-  setConfirmation: Function
-  book: Book | null
-  setBook: Function
-  editing: boolean
-  updateBooks: Function
+  visible: boolean;
+  setVisible: Function;
+  confirmation: Object;
+  setConfirmation: Function;
+  book: Book | null;
+  setBook: Function;
+  editing: boolean;
+  updateBooks: Function;
+  updateEditedBook: Function;
 }
 
 const EditBook: FC<IProps> = ({
@@ -45,6 +46,7 @@ const EditBook: FC<IProps> = ({
   setBook,
   editing,
   updateBooks,
+  updateEditedBook,
 }: IProps): JSX.Element => {
   const [offices, setOffices] = useState<HomeOffice[]>([])
   const [lastIsbn, setLastIsbn] = useState('')
@@ -84,22 +86,24 @@ const EditBook: FC<IProps> = ({
   }
 
   const updateBook = async (newBook: Book) => {
-    const response = await fetchUpdateBook(newBook)
-    if (response.ok) {
-      EditingMessage()
-      setVisible(false)
-      updateBooks()
-    }
-  }
+    await fetchUpdateBook(newBook).then((res: { ok: any; book?: Book }) => {
+      if (res.ok) {
+        EditingMessage();
+        setVisible(false);
+        updateEditedBook(res.book);
+      }
+    });
+  };
 
+  //
   const addBook = async (newBook: Book) => {
-    await fetchAddBook(newBook).then((res: { ok: any }) => {
+    await fetchAddBook(newBook).then((res: { ok: any; books?: Book[] }) => {
       if (!res.ok) {
         ErrorMessageDelete()
       } else {
-        SuccessMessage()
-        setVisible(false)
-        updateBooks()
+        SuccessMessage();
+        setVisible(false);
+        updateBooks(res.books);
       }
     })
   }

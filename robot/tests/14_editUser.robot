@@ -68,8 +68,9 @@ Admin can upgrade user to admin
     Click Element    xpath://*[@id="menu-administrator"]/div[3]/ul/li[1]
     Sleep   1s
     Click Element    xpath:/html/body/div[4]/div[3]/div/div[4]/div
+    Sleep   1s
     Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
-    Sleep    1s
+    Sleep   1s
     Click Button    xpath://button[normalize-space()='Update']
     Wait Until Element Is Visible
     ...    xpath://div[contains(text(), '${TESTUSERNAME2}')]//ancestor::div[2]//div[contains(text(), 'true')]
