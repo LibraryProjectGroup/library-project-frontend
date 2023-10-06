@@ -13,7 +13,7 @@ async function authFetch(
     Authorization: `Bearer ${window.localStorage.getItem(SESSION_SECRET_KEY)}`,
   };
   if (!BACKEND_URL) {
-    throw new Error("No backend URL");
+        throw new Error("No backend URL");
   }
   let res = await fetch(`${BACKEND_URL}${path}`, options);
   if (res.status == 401) {

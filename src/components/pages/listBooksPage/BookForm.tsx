@@ -1,4 +1,4 @@
-import { useState, FC, useEffect } from "react";
+import { useState, FC, useEffect } from 'react'
 import {
   Modal,
   Box,
@@ -7,13 +7,13 @@ import {
   TextField,
   Stack,
   MenuItem,
-} from "@mui/material";
-import Book from "../../../interfaces/book.interface";
+} from '@mui/material'
+import Book from '../../../interfaces/book.interface'
 import {
   editBookBox,
   editBookUpdateButton,
   editBookCancelButton,
-} from "../../../sxStyles";
+} from '../../../sxStyles'
 import {
   fetchUpdateBook,
   fetchAddBook,
@@ -23,8 +23,7 @@ import { HomeOffice } from "../../../interfaces/HomeOffice";
 import OfficeSpan from "../../OfficeSpan";
 import AddScanner from "../../scanner/AddScanner";
 import { toast } from "react-toastify";
-
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css'
 
 interface IProps {
   visible: boolean;
@@ -49,42 +48,42 @@ const EditBook: FC<IProps> = ({
   updateBooks,
   updateEditedBook,
 }: IProps): JSX.Element => {
-  const [offices, setOffices] = useState<HomeOffice[]>([]);
-  const [lastIsbn, setLastIsbn] = useState("");
-  const [cameraVisible, setCameraVisible] = useState(false);
+  const [offices, setOffices] = useState<HomeOffice[]>([])
+  const [lastIsbn, setLastIsbn] = useState('')
+  const [cameraVisible, setCameraVisible] = useState(false)
   const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
     ok: false,
-    message: "",
-  });
+    message: '',
+  })
 
   const ErrorMessageDelete = () =>
     toast.error(
-      "Adding book failed. Try filling all of the fields or reload the page",
+      'Adding book failed. Try filling all of the fields or reload the page',
       {
-        containerId: "ToastAlert",
+        containerId: 'ToastAlert',
       }
-    );
+    )
 
   const SuccessMessage = () =>
-    toast.success("Book was added successfully", {
-      containerId: "ToastSuccess",
-    });
+    toast.success('Book was added successfully', {
+      containerId: 'ToastSuccess',
+    })
 
   const EditingMessage = () =>
-    toast.success("Book edited succesfully", { containerId: "ToastSuccess" });
+    toast.success('Book edited succesfully', { containerId: 'ToastSuccess' })
 
   useEffect(() => {
-    (async () => {
-      setOffices(await fetchAllHomeOffices());
-    })();
-  }, []);
+    ;(async () => {
+      setOffices(await fetchAllHomeOffices())
+    })()
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // prevent the default form submission behavior
+    e.preventDefault() // prevent the default form submission behavior
     if (book !== null) {
-      editing ? updateBook(book) : addBook(book);
+      editing ? updateBook(book) : addBook(book)
     }
-  };
+  }
 
   const updateBook = async (newBook: Book) => {
     await fetchUpdateBook(newBook).then((res: { ok: any; book?: Book }) => {
@@ -100,24 +99,24 @@ const EditBook: FC<IProps> = ({
   const addBook = async (newBook: Book) => {
     await fetchAddBook(newBook).then((res: { ok: any; books?: Book[] }) => {
       if (!res.ok) {
-        ErrorMessageDelete();
+        ErrorMessageDelete()
       } else {
         SuccessMessage();
         setVisible(false);
         updateBooks(res.books);
       }
-    });
-  };
+    })
+  }
 
   const fetchApi = (isbn: string) => {
     fetch(
-      "https://www.googleapis.com/books/v1/volumes?q=isbn:" +
+      'https://www.googleapis.com/books/v1/volumes?q=isbn:' +
         encodeURIComponent(isbn)
     )
       .then((response) => response.json())
       .then((result) => {
-        const date = result.items[0].volumeInfo.publishedDate;
-        const bookData = result.items[0];
+        const date = result.items[0].volumeInfo.publishedDate
+        const bookData = result.items[0]
         if (bookData.volumeInfo.imageLinks) {
           setBook({
             ...book,
@@ -126,7 +125,7 @@ const EditBook: FC<IProps> = ({
             image: bookData.volumeInfo.imageLinks.thumbnail,
             title: bookData.volumeInfo.title,
             year: date[0] + date[1] + date[2] + date[3],
-          });
+          })
         } else {
           setBook({
             ...book,
@@ -135,11 +134,11 @@ const EditBook: FC<IProps> = ({
             image: null,
             title: bookData.volumeInfo.title,
             year: date[0] + date[1] + date[2] + date[3],
-          });
+          })
         }
       })
-      .catch((err) => console.log(err));
-  };
+      .catch((err) => console.log(err))
+  }
 
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -147,16 +146,16 @@ const EditBook: FC<IProps> = ({
     setBook({
       ...book,
       [event.target.name]: event.target.value,
-    });
-  };
+    })
+  }
 
-  if (book == null) return <></>;
+  if (book == null) return <></>
 
-  if (book.isbn != "" && book.isbn != lastIsbn) {
-    setLastIsbn(book.isbn);
-    fetchApi(book.isbn);
-  } else if (book.isbn == "" && lastIsbn != "") {
-    setLastIsbn("");
+  if (book.isbn != '' && book.isbn != lastIsbn) {
+    setLastIsbn(book.isbn)
+    fetchApi(book.isbn)
+  } else if (book.isbn == '' && lastIsbn != '') {
+    setLastIsbn('')
   }
 
   return (
@@ -166,12 +165,12 @@ const EditBook: FC<IProps> = ({
           <Stack spacing={2}>
             <Typography
               sx={{
-                fontFamily: "Montserrat",
-                fontWeight: "bold",
+                fontFamily: 'Montserrat',
+                fontWeight: 'bold',
               }}
               variant="h4"
             >
-              {editing ? `Edit ${book.title}` : "Add book"}
+              {editing ? `Edit ${book.title}` : 'Add book'}
             </Typography>
             <TextField
               label="Author"
@@ -223,7 +222,7 @@ const EditBook: FC<IProps> = ({
                     <MenuItem key={id} value={id}>
                       <OfficeSpan countryCode={countryCode} officeName={name} />
                     </MenuItem>
-                  );
+                  )
                 })
               }
             </TextField>
@@ -233,7 +232,7 @@ const EditBook: FC<IProps> = ({
                 variant="contained"
                 type="submit"
               >
-                {editing ? "Update" : "Add"}
+                {editing ? 'Update' : 'Add'}
               </Button>
               <Button
                 sx={editBookCancelButton}
@@ -246,7 +245,7 @@ const EditBook: FC<IProps> = ({
                 sx={editBookCancelButton}
                 variant="contained"
                 onClick={() => {
-                  setCameraVisible(true);
+                  setCameraVisible(true)
                 }}
               >
                 Scanner
@@ -263,7 +262,7 @@ const EditBook: FC<IProps> = ({
         </Box>
       </form>
     </Modal>
-  );
-};
+  )
+}
 
-export default EditBook;
+export default EditBook
