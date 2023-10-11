@@ -85,7 +85,7 @@ const MyAccount: FC = (): JSX.Element => {
   useEffect(() => {
     fetchBooks();
     context?.fetchBorrows();
-  }, [context]);
+  }, []);
 
   const renderBorrowedBooks = () => {
     let renderedBooks = [];
@@ -220,7 +220,6 @@ const MyAccount: FC = (): JSX.Element => {
         setVisible={setReturnVisible}
         borrowedId={borrowedId}
         fetchReturnBorrowed={fetchReturnBorrowed}
-        fetchBorrows={context?.fetchBorrows()}
       />
       <ToastContainers />
       {/* Pop up element */}

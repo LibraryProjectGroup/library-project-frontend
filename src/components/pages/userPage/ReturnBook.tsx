@@ -10,7 +10,6 @@ interface IProps {
   setVisible: Function;
   borrowedId: number;
   fetchReturnBorrowed: Function;
-  fetchBorrows: Function;
 }
 
 const ReturnBook: FC<IProps> = ({
@@ -18,7 +17,6 @@ const ReturnBook: FC<IProps> = ({
   setVisible,
   borrowedId,
   fetchReturnBorrowed,
-  fetchBorrows,
 }: IProps): JSX.Element => {
   const ReturnMessage = () =>
     toast.success("Book returned successfully", {
