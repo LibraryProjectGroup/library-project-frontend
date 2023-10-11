@@ -6,7 +6,7 @@ import {
   Fragment,
   useCallback,
 } from "react";
-import { Button, Stack, Box } from "@mui/material";
+import { Button, Stack, Box, Grid, Fab } from "@mui/material";
 import { TheContext } from "../../../TheContext";
 import Book from "../../../interfaces/book.interface";
 import Book_reservation from "../../../interfaces/book_reservation.interface";
@@ -33,10 +33,13 @@ import PaginationControls from "./PaginationControls";
 import NotificationSnackbars from "./NotificationSnackbars";
 import FloatingActionButtons from "./FloatingActionButtons";
 import BookRequestForm from "./BookRequestForm";
+import { addBookAddButton } from "../../../sxStyles";
+import { GridView, List } from "@mui/icons-material";
 
 const ListBooks: FC = (): JSX.Element => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
+  const [view, setView] = useState<"list" | "grid">("list");
 
   const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
   const [currentReservations, setCurrentReservations] = useState<
@@ -155,6 +158,10 @@ const ListBooks: FC = (): JSX.Element => {
   ) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  const toggleView = () => {
+    setView((prev) => (prev === "list" ? "grid" : "list"));
   };
 
   const action = (
@@ -286,6 +293,9 @@ const ListBooks: FC = (): JSX.Element => {
             setFormBook={setFormBook}
             setFormVisible={setFormVisible}
           />
+          <Fab sx={addBookAddButton} onClick={toggleView}>
+            {view === "list" ? <GridView /> : <List />}
+          </Fab>
           <BookForm
             visible={formVisible}
             setVisible={setFormVisible}
@@ -326,34 +336,73 @@ const ListBooks: FC = (): JSX.Element => {
             handleChangeRowsPerPage={handleChangeRowsPerPage}
           />
         </Box>
-        <Stack
-          spacing={3}
-          sx={{ margin: "2rem", display: "flex", alignItems: "center" }}
-        >
-          {books
-            ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((book) => (
-              <BookCard
-                book={book}
-                currentBorrows={currentBorrows}
-                currentReservations={currentReservations}
-                context={context}
-                renderLoanButton={renderLoanButton}
-                renderReserveButton={renderReserveButton}
-                bookInCurrentBorrows={bookInCurrentBorrows}
-                activeAndLoanableReservations={activeAndLoanableReservations}
-                handleDelete={(selectedBook) => {
-                  setBookId(selectedBook.id);
-                  setDeleteVisible(true);
-                }}
-                handleEdit={(selectedBook) => {
-                  setFormEditing(true);
-                  setFormBook(selectedBook);
-                  setFormVisible(true);
-                }}
-              />
-            ))}
-        </Stack>
+
+        {view === "grid" ? (
+          <Grid
+            container
+            spacing={2}
+            sx={{ margin: "1rem", display: "flex", alignItems: "center" }}
+          >
+            {books
+              ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((book) => (
+                <Grid item xs={12} sm={4}>
+                  <BookCard
+                    book={book}
+                    currentBorrows={currentBorrows}
+                    currentReservations={currentReservations}
+                    context={context}
+                    renderLoanButton={renderLoanButton}
+                    renderReserveButton={renderReserveButton}
+                    bookInCurrentBorrows={bookInCurrentBorrows}
+                    activeAndLoanableReservations={
+                      activeAndLoanableReservations
+                    }
+                    handleDelete={(selectedBook) => {
+                      setBookId(selectedBook.id);
+                      setDeleteVisible(true);
+                    }}
+                    handleEdit={(selectedBook) => {
+                      setFormEditing(true);
+                      setFormBook(selectedBook);
+                      setFormVisible(true);
+                    }}
+                    viewType="grid"
+                  />
+                </Grid>
+              ))}
+          </Grid>
+        ) : (
+          <Stack
+            spacing={3}
+            sx={{ margin: "2rem", display: "flex", alignItems: "center" }}
+          >
+            {books
+              ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((book) => (
+                <BookCard
+                  book={book}
+                  currentBorrows={currentBorrows}
+                  currentReservations={currentReservations}
+                  context={context}
+                  renderLoanButton={renderLoanButton}
+                  renderReserveButton={renderReserveButton}
+                  bookInCurrentBorrows={bookInCurrentBorrows}
+                  activeAndLoanableReservations={activeAndLoanableReservations}
+                  handleDelete={(selectedBook) => {
+                    setBookId(selectedBook.id);
+                    setDeleteVisible(true);
+                  }}
+                  handleEdit={(selectedBook) => {
+                    setFormEditing(true);
+                    setFormBook(selectedBook);
+                    setFormVisible(true);
+                  }}
+                  viewType="list"
+                />
+              ))}
+          </Stack>
+        )}
         <PaginationControls
           booksLength={books.length}
           page={page}
