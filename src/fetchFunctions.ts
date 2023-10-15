@@ -5,6 +5,7 @@ import EditUser from './interfaces/editUser.interface'
 import Borrow from './interfaces/borrow.interface'
 import Book_list from './interfaces/book_list.interface'
 import Book_list_entry from './interfaces/book_list_entry.interface'
+import Book_review from './interfaces/book_review.interface'
 import BACKEND_URL from './backendUrl'
 import { HomeOffice } from './interfaces/HomeOffice'
 
@@ -477,4 +478,67 @@ export async function fetchAdminAddHomeOffice(
     },
     body: JSON.stringify(homeOffice),
   });
+}
+
+export async function fetchAllReviews() {
+    const response = await fetch(`/review/all`);
+    const data = await response.json();
+    return data as Book_review[];
+}
+
+export async function fetchReviewsByBookId(bookId: number) {
+    const response = await fetch(`/review/book`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ bookId }),
+    });
+    const data = await response.json();
+    return data as Book_review[];
+}
+
+export async function fetchAverageReview(bookId: number) {
+    const response = await fetch(`/review/average`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ bookId }),
+    });
+    const data = await response.json();
+    return data.averageRating as number | null;
+}
+
+export async function fetchDeleteReview(reviewId: number) {
+    const response = await fetch(`/review/`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ reviewId }),
+    });
+    return true;
+}
+
+export async function fetchAddReview(bookId: number, comment: string, rating: number) {
+    const response = await fetch(`/review/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ bookId, comment, rating }),
+    });
+    return true;
+}
+
+export async function fetchUpdateReview(reviewId: number, comment: string, rating: number) {
+    const response = await fetch(`/review/`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ reviewId, comment, rating }),
+    });
+    return true;
 }
