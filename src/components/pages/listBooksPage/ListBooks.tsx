@@ -352,8 +352,9 @@ const ListBooks: FC = (): JSX.Element => {
         >
           {books
             ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((book) => (
+            .map((book, index) => (
               <BookCard
+                key={index}
                 book={book}
                 currentBorrows={currentBorrows}
                 currentReservations={currentReservations}
