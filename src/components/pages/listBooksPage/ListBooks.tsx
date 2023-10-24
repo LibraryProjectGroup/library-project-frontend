@@ -321,7 +321,8 @@ const ListBooks: FC = (): JSX.Element => {
             book={formBook}
             setBook={setFormBook}
             editing={formEditing}
-            updateBooks={fetchBooks}
+            updateBooks={setFreshBooks}
+            updateEditedBook={updateBook}
           />
           <BookRequestForm
             visible={requestVisible}
@@ -357,12 +358,17 @@ const ListBooks: FC = (): JSX.Element => {
           <Grid
             container
             spacing={2}
-            sx={{ margin: '1rem', display: 'flex', alignItems: 'center' }}
+            sx={{
+              margin: '1rem',
+              display: 'flex',
+              alignItems: 'center',
+              width: '95%',
+            }}
           >
             {books
               ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((book) => (
-                <Grid item xs={6} sm={6} md={3}>
+              .map((book, index) => (
+                <Grid item xs={6} sm={6} md={3} key={index}>
                   <BookCard
                     book={book}
                     currentBorrows={currentBorrows}
@@ -395,8 +401,9 @@ const ListBooks: FC = (): JSX.Element => {
           >
             {books
               ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((book) => (
+              .map((book, index) => (
                 <BookCard
+                  key={index}
                   book={book}
                   currentBorrows={currentBorrows}
                   currentReservations={currentReservations}

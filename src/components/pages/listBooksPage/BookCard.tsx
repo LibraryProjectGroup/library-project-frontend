@@ -46,6 +46,7 @@ const BookCard: React.FC<BookCardProps> = ({
               display: 'flex',
               flexDirection: 'column',
               width: 'auto',
+              height: 650,
             }
       }
       key={book.id}
