@@ -23,6 +23,7 @@ import { HomeOffice } from '../../../interfaces/HomeOffice'
 import OfficeSpan from '../../OfficeSpan'
 import AddScanner from '../../scanner/AddScanner'
 import { toast } from 'react-toastify'
+
 import 'react-toastify/dist/ReactToastify.css'
 
 interface IProps {
@@ -35,6 +36,7 @@ interface IProps {
   editing: boolean
   updateBooks: Function
   updateEditedBook: Function
+
 }
 
 const EditBook: FC<IProps> = ({
@@ -46,7 +48,6 @@ const EditBook: FC<IProps> = ({
   setBook,
   editing,
   updateBooks,
-  updateEditedBook,
 }: IProps): JSX.Element => {
   const [offices, setOffices] = useState<HomeOffice[]>([])
   const [lastIsbn, setLastIsbn] = useState('')
@@ -95,9 +96,8 @@ const EditBook: FC<IProps> = ({
     })
   }
 
-  //
   const addBook = async (newBook: Book) => {
-    await fetchAddBook(newBook).then((res: { ok: any; books?: Book[] }) => {
+    await fetchAddBook(newBook).then((res: { ok: any }) => {
       if (!res.ok) {
         ErrorMessageDelete()
       } else {

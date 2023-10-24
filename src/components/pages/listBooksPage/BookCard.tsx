@@ -19,6 +19,7 @@ interface BookCardProps {
   handleDelete: (book: Book) => void
   handleEdit: (book: Book) => void
   activeAndLoanableReservations: any
+  viewType: string
 }
 
 const BookCard: React.FC<BookCardProps> = ({
@@ -32,18 +33,31 @@ const BookCard: React.FC<BookCardProps> = ({
   handleDelete,
   handleEdit,
   activeAndLoanableReservations,
+  viewType,
 }) => {
   return (
     <Paper
       elevation={10}
-      sx={{ padding: '2rem', width: { xs: '90%', md: '60%' } }}
+      sx={
+        viewType === 'list'
+          ? { padding: '2rem', width: { xs: '90%', md: '60%' } }
+          : {
+              padding: '1rem',
+              display: 'flex',
+              flexDirection: 'column',
+              width: 'auto',
+            }
+      }
       key={book.id}
     >
       <Stack
         sx={{
+          flex: 1,
           display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
+          flexDirection:
+            viewType === 'list' ? { xs: 'column', md: 'row' } : 'column',
           justifyContent: { md: 'space-between' },
+          padding: '1rem',
         }}
       >
         <Stack>

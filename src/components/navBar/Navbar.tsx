@@ -15,6 +15,7 @@ import {
   Typography,
 } from '@mui/material'
 import * as React from 'react'
+
 import { FC, useContext, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { endSession } from '../../auth'
@@ -72,6 +73,7 @@ const NavBar: FC = (): JSX.Element => {
       ])
     }
   }, [context?.user?.administrator])
+
 
   return (
     <AppBar

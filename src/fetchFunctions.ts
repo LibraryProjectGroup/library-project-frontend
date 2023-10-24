@@ -479,3 +479,49 @@ export async function fetchAdminAddHomeOffice(
     body: JSON.stringify(homeOffice),
   })
 }
+
+// book favorite
+
+export async function fetchAddFavorite(bookId: number): Promise<OKStatus> {
+  return await authFetch('/favorite', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({ bookId }),
+  })
+}
+
+export async function fetchDeleteFavorite(bookId: number): Promise<OKStatus> {
+  return await authFetch('/favorite', {
+    method: 'DELETE',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({ bookId }),
+  })
+}
+
+export async function fetchisBookFavoritedByUser(
+  bookId: number
+): Promise<{ isFavorited: boolean }> {
+  return await authFetch('/favorite/check', {
+    method: 'GET',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({ bookId }),
+  })
+}
+
+export async function fetchFavoriteCountForBook(
+  bookId: number
+): Promise<{ count: number }> {
+  return await authFetch('/favorite/count', {
+    method: 'GET',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({ bookId }),
+  })
+}
