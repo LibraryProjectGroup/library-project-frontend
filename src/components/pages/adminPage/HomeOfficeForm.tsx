@@ -6,27 +6,27 @@ import {
   Stack,
   TextField,
   Typography,
-} from "@mui/material";
+} from '@mui/material'
 // @ts-ignore
-import * as countries from "iso-3166-1-codes";
-import React, { ChangeEvent } from "react";
-import { HomeOffice } from "../../../interfaces/HomeOffice";
+import * as countries from 'iso-3166-1-codes'
+import React, { ChangeEvent } from 'react'
+import { HomeOffice } from '../../../interfaces/HomeOffice'
 import {
   editUserBox,
   editUserCancelButton,
   editUserUpdateButton,
-} from "../../../sxStyles";
-import CountrySpan from "../../CountrySpan";
+} from '../../../sxStyles'
+import CountrySpan from '../../CountrySpan'
 
 type Props = {
-  visible: boolean;
-  setVisible: Function;
-  homeOffice: HomeOffice | null;
-  setHomeOfficeData: Function;
-  updateHomeOffice: Function;
-  addHomeOffice: Function;
-  editing: boolean;
-};
+  visible: boolean
+  setVisible: Function
+  homeOffice: HomeOffice | null
+  setHomeOfficeData: Function
+  updateHomeOffice: Function
+  addHomeOffice: Function
+  editing: boolean
+}
 
 export default function EditHomeOffice({
   visible,
@@ -43,22 +43,22 @@ export default function EditHomeOffice({
     setHomeOfficeData({
       ...homeOffice,
       [event.target.name]: event.target.value,
-    });
+    })
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
     if (homeOffice !== null) {
-      editing ? updateHomeOffice(homeOffice) : addHomeOffice(homeOffice);
+      editing ? updateHomeOffice(homeOffice) : addHomeOffice(homeOffice)
     }
-  };
+  }
 
   function hide() {
-    setVisible(false);
+    setVisible(false)
   }
 
   if (homeOffice == null) {
-    return null;
+    return null
   }
 
   return (
@@ -68,12 +68,12 @@ export default function EditHomeOffice({
           <Stack spacing={2}>
             <Typography
               sx={{
-                fontFamily: "Montserrat",
-                fontWeight: "bold",
+                fontFamily: 'Montserrat',
+                fontWeight: 'bold',
               }}
               variant="h4"
             >
-              {editing ? "Edit Office" : "Add Office"}
+              {editing ? 'Edit Office' : 'Add Office'}
             </Typography>
             <TextField
               select
@@ -89,7 +89,7 @@ export default function EditHomeOffice({
                     <MenuItem value={alpha3}>
                       <CountrySpan countryCode={alpha3} includeFlag={true} />
                     </MenuItem>
-                  );
+                  )
                 })
               }
             </TextField>
@@ -106,7 +106,7 @@ export default function EditHomeOffice({
                 variant="contained"
                 type="submit"
               >
-                {editing ? "Update" : "Add"}
+                {editing ? 'Update' : 'Add'}
               </Button>
               <Button
                 sx={editUserCancelButton}
@@ -120,5 +120,5 @@ export default function EditHomeOffice({
         </Box>
       </form>
     </Modal>
-  );
+  )
 }

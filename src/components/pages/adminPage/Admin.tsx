@@ -1,53 +1,53 @@
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Box, Fab, Tab, Tabs, Tooltip } from "@mui/material";
-import { Container } from "@mui/system";
-import React, { FC, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import { Box, Fab, Tab, Tabs, Tooltip } from '@mui/material'
+import { Container } from '@mui/system'
+import React, { FC, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   adminPageTab,
   adminPageTabs,
   userPageBackButton,
-} from "../../../sxStyles";
-import BooksGrid from "./BooksGrid";
-import ExpiredGrid from "./ExpiredGrid";
-import HomeOfficeGrid from "./HomeOfficeGrid";
-import LoansGrid from "./LoansGrid";
-import RequestsGrid from "./RequestsGrid";
-import ReservationsGrid from "./ReservationsGrid";
-import UsersGrid from "./UsersGrid";
+} from '../../../sxStyles'
+import BooksGrid from './BooksGrid'
+import ExpiredGrid from './ExpiredGrid'
+import HomeOfficeGrid from './HomeOfficeGrid'
+import LoansGrid from './LoansGrid'
+import RequestsGrid from './RequestsGrid'
+import ReservationsGrid from './ReservationsGrid'
+import UsersGrid from './UsersGrid'
 
 const Admin: FC = (): JSX.Element => {
-  const [currentTab, setCurrentTab] = useState<number>(0);
-  const navigate = useNavigate();
+  const [currentTab, setCurrentTab] = useState<number>(0)
+  const navigate = useNavigate()
 
   const TabPanel = (props: any) => {
-    const { children, currentTab, index, ...other } = props;
+    const { children, currentTab, index, ...other } = props
     return (
       <Box>{currentTab === index && <Box sx={{ p: 3 }}>{children}</Box>}</Box>
-    );
-  };
+    )
+  }
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setCurrentTab(newValue);
-  };
+    setCurrentTab(newValue)
+  }
   return (
     <Box
       sx={{
-        height: "100vh",
-        width: "100%",
+        height: '100vh',
+        width: '100%',
         marginTop: 5,
         marginBottom: 5,
-        position: "relative",
+        position: 'relative',
       }}
     >
       <Container
         sx={{
-          position: { sm: "none", md: "absolute" },
-          display: "flex",
-          flexDirection: { sm: "row", md: "column" },
-          gap: { xs: "2rem", md: "unset" },
-          justifyContent: "center",
-          alignItems: "flex-start",
+          position: { sm: 'none', md: 'absolute' },
+          display: 'flex',
+          flexDirection: { sm: 'row', md: 'column' },
+          gap: { xs: '2rem', md: 'unset' },
+          justifyContent: 'center',
+          alignItems: 'flex-start',
         }}
       >
         <Tooltip title="Back">
@@ -55,7 +55,7 @@ const Admin: FC = (): JSX.Element => {
             aria-label="back"
             sx={userPageBackButton}
             onClick={() => {
-              navigate("/list-books");
+              navigate('/list-books')
             }}
           >
             <ArrowBackIcon />
@@ -64,8 +64,8 @@ const Admin: FC = (): JSX.Element => {
       </Container>
       <Box
         sx={{
-          width: { sm: "90%", md: "75%" },
-          margin: "auto",
+          width: { sm: '90%', md: '75%' },
+          margin: 'auto',
         }}
       >
         <Tabs
@@ -108,7 +108,7 @@ const Admin: FC = (): JSX.Element => {
         </TabPanel>
       </Box>
     </Box>
-  );
-};
+  )
+}
 
-export default Admin;
+export default Admin

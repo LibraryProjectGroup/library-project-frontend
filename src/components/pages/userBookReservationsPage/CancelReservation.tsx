@@ -1,16 +1,16 @@
-import { FC, useContext } from "react";
-import { Modal, Box, Button, Stack, Typography } from "@mui/material";
-import { TheContext } from "../../../TheContext";
-import { popupContainer, confirmButton, cancelButton } from "../../../sxStyles";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { FC, useContext } from 'react'
+import { Modal, Box, Button, Stack, Typography } from '@mui/material'
+import { TheContext } from '../../../TheContext'
+import { popupContainer, confirmButton, cancelButton } from '../../../sxStyles'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface IProps {
-  visible: boolean;
-  setVisible: Function;
-  reservationId: number;
-  fetchCancelBookReservation: Function;
-  fetchReservations: Function;
+  visible: boolean
+  setVisible: Function
+  reservationId: number
+  fetchCancelBookReservation: Function
+  fetchReservations: Function
 }
 
 const CancelReservation: FC<IProps> = ({
@@ -21,17 +21,17 @@ const CancelReservation: FC<IProps> = ({
   fetchReservations,
 }: IProps): JSX.Element => {
   const CancelMessage = () =>
-    toast.success("Reservation Cancelled", { containerId: "ToastSuccess" });
+    toast.success('Reservation Cancelled', { containerId: 'ToastSuccess' })
   const ErrorMessage = () =>
-    toast.error("Cancellation failed", { containerId: "ToastAlert" });
-  const context = useContext(TheContext);
+    toast.error('Cancellation failed', { containerId: 'ToastAlert' })
+  const context = useContext(TheContext)
 
   const cancelReservation = async () => {
-    const response = await fetchCancelBookReservation(reservationId);
-    if (response.ok) fetchReservations(context?.user?.id);
-    setVisible(false);
-    CancelMessage();
-  };
+    const response = await fetchCancelBookReservation(reservationId)
+    if (response.ok) fetchReservations(context?.user?.id)
+    setVisible(false)
+    CancelMessage()
+  }
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
@@ -40,8 +40,8 @@ const CancelReservation: FC<IProps> = ({
           <Stack direction="row" spacing={2} justifyContent="center">
             <Typography
               sx={{
-                fontFamily: "Merriweather",
-                fontWeight: "light",
+                fontFamily: 'Merriweather',
+                fontWeight: 'light',
               }}
             >
               Do you want to cancel your reservation?
@@ -53,7 +53,7 @@ const CancelReservation: FC<IProps> = ({
               variant="contained"
               color="error"
               onClick={async () => {
-                cancelReservation();
+                cancelReservation()
               }}
             >
               Cancel reservation
@@ -69,7 +69,7 @@ const CancelReservation: FC<IProps> = ({
         </Stack>
       </Box>
     </Modal>
-  );
-};
+  )
+}
 
-export default CancelReservation;
+export default CancelReservation
