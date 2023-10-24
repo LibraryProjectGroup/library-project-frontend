@@ -2,7 +2,7 @@ name: Deploy frontend to staging
 
 on:
   push:
-    branches: ["development"]
+    branches: ['development']
 
 env:
   REGISTRY: ghcr.io
@@ -35,8 +35,8 @@ jobs:
           key: ${{ secrets.DEPLOYMENT_SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.DEPLOYMENT_SSH_PASSPHRASE }}
           port: ${{ secrets.DEPLOYMENT_SSH_PORT }}
-          source: "docker-compose-staging.yml,Dockerfile"
-          target: "scp-frontend-staging"
+          source: 'docker-compose-staging.yml,Dockerfile'
+          target: 'scp-frontend-staging'
       - name: executing remote ssh commands
         uses: appleboy/ssh-action@v0.1.8
         env:

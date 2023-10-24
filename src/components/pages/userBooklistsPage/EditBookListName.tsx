@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC } from 'react'
 import {
   Modal,
   Box,
@@ -7,21 +7,21 @@ import {
   TextField,
   Stack,
   MenuItem,
-} from "@mui/material";
+} from '@mui/material'
 // import User from "../../../interfaces/editUser.interface";
 import {
   editBookListBox,
   editBookListUpdateButton,
   editBookListCancelButton,
-} from "../../../sxStyles";
-import Book_list from "../../../interfaces/book_list.interface";
+} from '../../../sxStyles'
+import Book_list from '../../../interfaces/book_list.interface'
 
 interface IProps {
-  visible: boolean;
-  setVisible: Function;
-  oneBookListDataToEditName: Book_list | null;
-  setOneBookListDataToEditName: Function;
-  updateBookListName: Function;
+  visible: boolean
+  setVisible: Function
+  oneBookListDataToEditName: Book_list | null
+  setOneBookListDataToEditName: Function
+  updateBookListName: Function
   // user: User | null;
   // setOneUserData: Function;
   // updateUser: Function;
@@ -43,10 +43,10 @@ IProps): JSX.Element => {
     setOneBookListDataToEditName({
       ...oneBookListDataToEditName,
       [event.target.name]: event.target.value,
-    });
-  };
+    })
+  }
 
-  if (oneBookListDataToEditName == null) return <></>;
+  if (oneBookListDataToEditName == null) return <></>
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
@@ -54,8 +54,8 @@ IProps): JSX.Element => {
         <Stack spacing={2}>
           <Typography
             sx={{
-              fontFamily: "Montserrat",
-              fontWeight: "bold",
+              fontFamily: 'Montserrat',
+              fontWeight: 'bold',
             }}
             variant="h4"
           >
@@ -87,7 +87,7 @@ IProps): JSX.Element => {
         </Stack>
       </Box>
     </Modal>
-  );
-};
+  )
+}
 
-export default EditBookListName;
+export default EditBookListName

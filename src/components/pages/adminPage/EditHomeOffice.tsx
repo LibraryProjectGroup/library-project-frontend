@@ -6,25 +6,25 @@ import {
   Stack,
   TextField,
   Typography,
-} from "@mui/material";
+} from '@mui/material'
 // @ts-ignore
-import * as countries from "iso-3166-1-codes";
-import { ChangeEvent } from "react";
-import { HomeOffice } from "../../../interfaces/HomeOffice";
+import * as countries from 'iso-3166-1-codes'
+import { ChangeEvent } from 'react'
+import { HomeOffice } from '../../../interfaces/HomeOffice'
 import {
   editUserBox,
   editUserCancelButton,
   editUserUpdateButton,
-} from "../../../sxStyles";
-import CountrySpan from "../../CountrySpan";
+} from '../../../sxStyles'
+import CountrySpan from '../../CountrySpan'
 
 type Props = {
-  visible: boolean;
-  setVisible: Function;
-  homeOffice: HomeOffice | null;
-  setEditingHomeOfficeData: Function;
-  updateHomeOffice: Function;
-};
+  visible: boolean
+  setVisible: Function
+  homeOffice: HomeOffice | null
+  setEditingHomeOfficeData: Function
+  updateHomeOffice: Function
+}
 
 export default function EditHomeOffice({
   visible,
@@ -39,15 +39,15 @@ export default function EditHomeOffice({
     setEditingHomeOfficeData({
       ...homeOffice,
       [event.target.name]: event.target.value,
-    });
+    })
   }
 
   function hide() {
-    setVisible(false);
+    setVisible(false)
   }
 
   if (homeOffice == null) {
-    return null;
+    return null
   }
 
   return (
@@ -56,8 +56,8 @@ export default function EditHomeOffice({
         <Stack spacing={2}>
           <Typography
             sx={{
-              fontFamily: "Montserrat",
-              fontWeight: "bold",
+              fontFamily: 'Montserrat',
+              fontWeight: 'bold',
             }}
             variant="h4"
           >
@@ -77,7 +77,7 @@ export default function EditHomeOffice({
                   <MenuItem value={alpha3}>
                     <CountrySpan countryCode={alpha3} includeFlag={true} />
                   </MenuItem>
-                );
+                )
               })
             }
           </TextField>
@@ -107,5 +107,5 @@ export default function EditHomeOffice({
         </Stack>
       </Box>
     </Modal>
-  );
+  )
 }

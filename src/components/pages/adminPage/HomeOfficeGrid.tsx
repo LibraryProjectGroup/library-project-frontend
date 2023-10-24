@@ -1,81 +1,81 @@
-import { Button } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
+import { Button } from '@mui/material'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { useEffect, useState } from 'react'
 import {
   fetchAdminUpdateHomeOfficeData,
   fetchAllHomeOffices,
   fetchDeleteHomeOffice,
   fetchHomeOfficeById,
-} from "../../../fetchFunctions";
-import { HomeOffice } from "../../../interfaces/HomeOffice";
-import CountrySpan from "../../CountrySpan";
-import EditHomeOffice from "./EditHomeOffice";
+} from '../../../fetchFunctions'
+import { HomeOffice } from '../../../interfaces/HomeOffice'
+import CountrySpan from '../../CountrySpan'
+import EditHomeOffice from './EditHomeOffice'
 
 export default function HomeOfficeGrid(): JSX.Element {
-  const [homeOffices, setHomeOffices] = useState<HomeOffice[]>([]);
+  const [homeOffices, setHomeOffices] = useState<HomeOffice[]>([])
   const [homeOfficeBeingEdited, setHomeOfficeBeingEdited] =
-    useState<HomeOffice | null>(null);
-  const [editFormVisible, setEditFormVisible] = useState(false);
-  const [open, setOpen] = useState(false);
+    useState<HomeOffice | null>(null)
+  const [editFormVisible, setEditFormVisible] = useState(false)
+  const [open, setOpen] = useState(false)
 
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   function loadHomeOfficeData() {
-    (async () => {
-      setHomeOffices(await fetchAllHomeOffices());
-    })();
+    ;(async () => {
+      setHomeOffices(await fetchAllHomeOffices())
+    })()
   }
 
   // On the initial page render, fetch all home offices
   useEffect(() => {
-    loadHomeOfficeData();
-  }, []);
+    loadHomeOfficeData()
+  }, [])
 
   function deleteHomeOffice(homeOfficeId: number) {
-    fetchDeleteHomeOffice(homeOfficeId).then(() => loadHomeOfficeData());
+    fetchDeleteHomeOffice(homeOfficeId).then(() => loadHomeOfficeData())
   }
 
   function editHomeOffice(homeOfficeId: number) {
     fetchHomeOfficeById(homeOfficeId).then((homeOfficeData) => {
-      setEditFormVisible(true);
-      setHomeOfficeBeingEdited(homeOfficeData);
-    });
+      setEditFormVisible(true)
+      setHomeOfficeBeingEdited(homeOfficeData)
+    })
   }
 
   function updateHomeOffice(editedOffice: HomeOffice) {
     fetchAdminUpdateHomeOfficeData(editedOffice).then((ok) => {
       if (ok?.ok) {
-        setEditFormVisible(false);
-        return loadHomeOfficeData();
+        setEditFormVisible(false)
+        return loadHomeOfficeData()
       }
-    });
+    })
   }
 
   const COLUMNS_USERS: GridColDef[] = [
-    { field: "id", headerName: "ID", flex: 1, minWidth: 70 },
-    { field: "name", headerName: "Office Name", flex: 2, minWidth: 160 },
+    { field: 'id', headerName: 'ID', flex: 1, minWidth: 70 },
+    { field: 'name', headerName: 'Office Name', flex: 2, minWidth: 160 },
     {
-      field: "countryCode",
-      headerName: "Country",
+      field: 'countryCode',
+      headerName: 'Country',
       flex: 2,
       minWidth: 240,
       renderCell: (params) => {
-        const countryCode = params.row.countryCode;
-        return <CountrySpan countryCode={countryCode} includeFlag={true} />;
+        const countryCode = params.row.countryCode
+        return <CountrySpan countryCode={countryCode} includeFlag={true} />
       },
     },
     {
-      field: "edit",
-      headerName: "Edit Office",
+      field: 'edit',
+      headerName: 'Edit Office',
       flex: 2,
       minWidth: 100,
       renderCell: (params) => (
         <Button
-          sx={{ color: "blue" }}
+          sx={{ color: 'blue' }}
           onClick={() => {
-            editHomeOffice(params.row.id);
+            editHomeOffice(params.row.id)
           }}
         >
           Edit
@@ -83,23 +83,23 @@ export default function HomeOfficeGrid(): JSX.Element {
       ),
     },
     {
-      field: "delete",
-      headerName: "Delete Office",
+      field: 'delete',
+      headerName: 'Delete Office',
       flex: 2,
       minWidth: 100,
       renderCell: (params) => (
         <Button
-          sx={{ color: "red" }}
+          sx={{ color: 'red' }}
           onClick={() => {
-            deleteHomeOffice(params.row.id);
-            loadHomeOfficeData();
+            deleteHomeOffice(params.row.id)
+            loadHomeOfficeData()
           }}
         >
           Delete
         </Button>
       ),
     },
-  ];
+  ]
 
   return (
     <>
@@ -113,8 +113,8 @@ export default function HomeOfficeGrid(): JSX.Element {
       <DataGrid
         columns={COLUMNS_USERS}
         rows={homeOffices}
-        sx={{ width: "100%", height: 1000, backgroundColor: "white" }}
+        sx={{ width: '100%', height: 1000, backgroundColor: 'white' }}
       ></DataGrid>
     </>
-  );
+  )
 }

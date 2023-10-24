@@ -1,25 +1,25 @@
-import React from "react";
-import { Paper, Typography, Stack, Button } from "@mui/material";
-import Borrow from "../../../interfaces/borrow.interface";
-import Book from "../../../interfaces/book.interface";
-import Book_reservation from "../../../interfaces/book_reservation.interface";
-import OfficeSpan from "../../OfficeSpan";
-import { MS_IN_DAY, RESERVATION_DAYS } from "../../../constants";
-import { listBooksDeleteButton, listBooksEditButton } from "../../../sxStyles";
-import UserListPopup from "./UserListPopup";
+import React from 'react'
+import { Paper, Typography, Stack, Button } from '@mui/material'
+import Borrow from '../../../interfaces/borrow.interface'
+import Book from '../../../interfaces/book.interface'
+import Book_reservation from '../../../interfaces/book_reservation.interface'
+import OfficeSpan from '../../OfficeSpan'
+import { MS_IN_DAY, RESERVATION_DAYS } from '../../../constants'
+import { listBooksDeleteButton, listBooksEditButton } from '../../../sxStyles'
+import UserListPopup from './UserListPopup'
 
 interface BookCardProps {
-  book: Book;
-  currentBorrows: Borrow[];
-  currentReservations: Book_reservation[];
-  context: any;
-  renderLoanButton: (book: Book) => JSX.Element | null;
-  renderReserveButton: (book: Book) => JSX.Element | null;
-  bookInCurrentBorrows: (book: Book) => boolean;
-  handleDelete: (book: Book) => void;
-  handleEdit: (book: Book) => void;
-  activeAndLoanableReservations: any;
-  viewType: string;
+  book: Book
+  currentBorrows: Borrow[]
+  currentReservations: Book_reservation[]
+  context: any
+  renderLoanButton: (book: Book) => JSX.Element | null
+  renderReserveButton: (book: Book) => JSX.Element | null
+  bookInCurrentBorrows: (book: Book) => boolean
+  handleDelete: (book: Book) => void
+  handleEdit: (book: Book) => void
+  activeAndLoanableReservations: any
+  viewType: string
 }
 
 const BookCard: React.FC<BookCardProps> = ({
@@ -39,18 +39,25 @@ const BookCard: React.FC<BookCardProps> = ({
     <Paper
       elevation={10}
       sx={
-        viewType === "list"
-          ? { padding: "2rem", width: { xs: "90%", md: "60%" } }
-          : { padding: "2rem", width: 300, height: 500 }
+        viewType === 'list'
+          ? { padding: '2rem', width: { xs: '90%', md: '60%' } }
+          : {
+              padding: '1rem',
+              display: 'flex',
+              flexDirection: 'column',
+              width: 'auto',
+            }
       }
       key={book.id}
     >
       <Stack
         sx={{
-          display: "flex",
+          flex: 1,
+          display: 'flex',
           flexDirection:
-            viewType === "list" ? { xs: "column", md: "row" } : "column",
-          justifyContent: { md: "space-between" },
+            viewType === 'list' ? { xs: 'column', md: 'row' } : 'column',
+          justifyContent: { md: 'space-between' },
+          padding: '1rem',
         }}
       >
         <Stack>
@@ -61,7 +68,7 @@ const BookCard: React.FC<BookCardProps> = ({
               alt="Book cover not available"
               width={120}
               height={160}
-              src={"https://images.isbndb.com/covers/91/26/9789513119126.jpg"}
+              src={'https://images.isbndb.com/covers/91/26/9789513119126.jpg'}
             />
           )}
         </Stack>
@@ -69,8 +76,8 @@ const BookCard: React.FC<BookCardProps> = ({
         <Stack>
           <Typography
             sx={{
-              fontFamily: "Montserrat",
-              fontWeight: "bold",
+              fontFamily: 'Montserrat',
+              fontWeight: 'bold',
               marginBottom: 1,
             }}
           >
@@ -79,8 +86,8 @@ const BookCard: React.FC<BookCardProps> = ({
 
           <Typography
             sx={{
-              fontFamily: "Merriweather",
-              fontWeight: "light",
+              fontFamily: 'Merriweather',
+              fontWeight: 'light',
               marginTop: 1,
             }}
           >
@@ -89,8 +96,8 @@ const BookCard: React.FC<BookCardProps> = ({
 
           <Typography
             sx={{
-              fontFamily: "Merriweather",
-              fontWeight: "light",
+              fontFamily: 'Merriweather',
+              fontWeight: 'light',
             }}
           >
             Year: {book.year}
@@ -98,27 +105,27 @@ const BookCard: React.FC<BookCardProps> = ({
 
           <Typography
             sx={{
-              fontFamily: "Merriweather",
-              fontWeight: "light",
+              fontFamily: 'Merriweather',
+              fontWeight: 'light',
             }}
           >
             Topic: {book.topic}
           </Typography>
           <Typography
             sx={{
-              fontFamily: "Merriweather",
-              fontWeight: "light",
+              fontFamily: 'Merriweather',
+              fontWeight: 'light',
             }}
           >
             ISBN: {book.isbn}
           </Typography>
           <Typography
             sx={{
-              fontFamily: "Merriweather",
-              fontWeight: "light",
+              fontFamily: 'Merriweather',
+              fontWeight: 'light',
             }}
           >
-            Office:{" "}
+            Office:{' '}
             <OfficeSpan
               countryCode={book.homeOfficeCountry}
               officeName={book.homeOfficeName}
@@ -127,17 +134,17 @@ const BookCard: React.FC<BookCardProps> = ({
           {bookInCurrentBorrows(book) && (
             <Typography
               sx={{
-                fontFamily: "Merriweather",
-                fontWeight: "light",
+                fontFamily: 'Merriweather',
+                fontWeight: 'light',
               }}
             >
               {`Loan due: ${currentBorrows
                 .filter((borrow) => borrow.book === book.id)
                 .map((borrow) =>
-                  new Date(borrow.dueDate).toLocaleString("fi", {
-                    year: "numeric",
-                    month: "numeric",
-                    day: "numeric",
+                  new Date(borrow.dueDate).toLocaleString('fi', {
+                    year: 'numeric',
+                    month: 'numeric',
+                    day: 'numeric',
                   })
                 )}.`}
             </Typography>
@@ -147,9 +154,9 @@ const BookCard: React.FC<BookCardProps> = ({
             .includes(book.id) && (
             <Typography
               sx={{
-                fontFamily: "Merriweather",
-                fontWeight: "light",
-                color: "orange",
+                fontFamily: 'Merriweather',
+                fontWeight: 'light',
+                color: 'orange',
               }}
             >
               {`Reservation due: ${currentReservations
@@ -158,10 +165,10 @@ const BookCard: React.FC<BookCardProps> = ({
                   new Date(
                     new Date(obj.reservationDatetime).getTime() +
                       RESERVATION_DAYS * MS_IN_DAY
-                  ).toLocaleString("fi", {
-                    year: "numeric",
-                    month: "numeric",
-                    day: "numeric",
+                  ).toLocaleString('fi', {
+                    year: 'numeric',
+                    month: 'numeric',
+                    day: 'numeric',
                   })
                 )}.`}
             </Typography>
@@ -197,7 +204,7 @@ const BookCard: React.FC<BookCardProps> = ({
         </Stack>
       </Stack>
     </Paper>
-  );
-};
+  )
+}
 
-export default BookCard;
+export default BookCard
