@@ -15,7 +15,8 @@ import {
   Typography,
 } from '@mui/material'
 import * as React from 'react'
-import { FC, useContext } from 'react'
+
+import { FC, useContext, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { endSession } from '../../auth'
 import {
@@ -49,6 +50,30 @@ const NavBar: FC = (): JSX.Element => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
   }
+
+  const [menuList, setMenuList] = useState([
+    { nav: '/user', text: 'MY LOANED BOOKS' },
+    { nav: '/reservations', text: 'MY BOOK RESERVATIONS' },
+    { nav: '/booklists', text: 'MY LISTS' },
+  ])
+
+  useEffect(() => {
+    if (context?.user?.administrator) {
+      setMenuList([
+        { nav: '/admin', text: 'ADMIN PAGE' },
+        { nav: '/user', text: 'MY LOANED BOOKS' },
+        { nav: '/reservations', text: 'MY BOOK RESERVATIONS' },
+        { nav: '/booklists', text: 'MY LISTS' },
+      ])
+    } else {
+      setMenuList([
+        { nav: '/user', text: 'MY LOANED BOOKS' },
+        { nav: '/reservations', text: 'MY BOOK RESERVATIONS' },
+        { nav: '/booklists', text: 'MY LISTS' },
+      ])
+    }
+  }, [context?.user?.administrator])
+
 
   return (
     <AppBar
@@ -108,50 +133,22 @@ const NavBar: FC = (): JSX.Element => {
                 display: { xs: 'block', lg: 'none' },
               }}
             >
-              {context?.user?.administrator ? (
-                <MenuItem
-                  onClick={() => {
-                    navigate('/admin')
-                    handleCloseNavMenu()
-                  }}
-                  sx={navbarMenuItemHamburger}
-                >
-                  <Typography sx={navbarPagesHamburger}>ADMIN PAGE</Typography>
-                </MenuItem>
-              ) : (
-                <></>
-              )}
-              <MenuItem
-                onClick={() => {
-                  navigate('/user')
-                  handleCloseNavMenu()
-                }}
-                sx={navbarMenuItemHamburger}
-              >
-                <Typography sx={navbarPagesHamburger}>
-                  MY LOANED BOOKS
-                </Typography>
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  navigate('/reservations')
-                  handleCloseNavMenu()
-                }}
-                sx={navbarMenuItemHamburger}
-              >
-                <Typography sx={navbarPagesHamburger}>
-                  MY BOOK RESERVATIONS
-                </Typography>
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  navigate('/booklists')
-                  handleCloseNavMenu()
-                }}
-                sx={navbarMenuItemHamburger}
-              >
-                <Typography sx={navbarPagesHamburger}>MY LISTS</Typography>
-              </MenuItem>
+              {menuList.map((item, index) => {
+                return (
+                  <MenuItem
+                    key={index}
+                    onClick={() => {
+                      navigate(item.nav)
+                      handleCloseNavMenu()
+                    }}
+                    sx={navbarMenuItemHamburger}
+                  >
+                    <Typography sx={navbarPagesHamburger}>
+                      {item.text}
+                    </Typography>
+                  </MenuItem>
+                )
+              })}
             </Menu>
           </Box>
 

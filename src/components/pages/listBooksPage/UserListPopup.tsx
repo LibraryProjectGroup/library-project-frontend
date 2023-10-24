@@ -85,10 +85,11 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
 
   const renderBooklists = () => {
     let booklist = []
+    let idx = 0
     for (const list of booklists) {
       if (!list) continue
       booklist.push(
-        <Box>
+        <Box key={idx}>
           <Stack
             direction="row"
             justifyContent="space-between"
@@ -106,6 +107,7 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
           </Stack>
         </Box>
       )
+      idx++
     }
 
     // note(markus): this part shows for a split second when clicking a new +add button
@@ -178,7 +180,29 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
         // 	horizontal: "center",
         // }}
       >
-        <List>{renderBooklists()}</List>
+        <List>
+          {booklists.map((list, id) => {
+            return (
+              <Box key={id}>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  sx={{ paddingRight: 2 }}
+                >
+                  <ListItem key={list.id}>{list.name}</ListItem>
+                  <Button
+                    sx={listBooksEntryAddButton}
+                    onClick={() => {
+                      handleAddButton(list)
+                    }}
+                  >
+                    Add
+                  </Button>
+                </Stack>
+              </Box>
+            )
+          })}
+        </List>
       </Popover>
     </Box>
   )

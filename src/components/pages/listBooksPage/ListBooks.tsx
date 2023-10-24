@@ -50,7 +50,7 @@ const ListBooks: FC = (): JSX.Element => {
   const [activeAndLoanableReservations, setActiveAndLoanableReservations] =
     useState<any[]>([])
   const bookPage = 1
-  const bookPageSize = books.length
+  const [bookPageSize, setBookPageSize] = useState(books.length)
   const [bookId, setBookId] = useState(0)
 
   const [requestVisible, setRequestVisible] = useState(false)
@@ -122,6 +122,25 @@ const ListBooks: FC = (): JSX.Element => {
       }
     })
     return isLoaning
+  }
+
+  const updateBook = (book: Book) => {
+    const index = books.findIndex((item) => item.id === book.id)
+    const list = books
+    list.splice(index, 1, book)
+    setBooks(list)
+  }
+
+  /** Update 'books' state and show correct books on page based on pagination */
+  const setFreshBooks = (books: Book[]) => {
+    setBookPageSize(books.length)
+    const paginationCutoff = page * rowsPerPage
+    const pageLength = books.length - paginationCutoff
+    const filteredBooks = books.slice(
+      paginationCutoff,
+      pageLength > paginationCutoff ? paginationCutoff + rowsPerPage : undefined
+    )
+    setBooks(filteredBooks)
   }
 
   const handleOpen = () => {
@@ -334,7 +353,6 @@ const ListBooks: FC = (): JSX.Element => {
             handleChangeRowsPerPage={handleChangeRowsPerPage}
           />
         </Box>
-
         {view === 'grid' ? (
           <Grid
             container

@@ -404,6 +404,7 @@ export const fetchUserCurrentBookReservations = async (userId: number) => {
   })
 }
 
+//Problem with backend
 export const fetchActiveAndLoanableReservations = async () => {
   return await authFetch('/bookreservation/active/loanable', {
     method: 'GET',
