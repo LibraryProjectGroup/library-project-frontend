@@ -74,7 +74,6 @@ const NavBar: FC = (): JSX.Element => {
     }
   }, [context?.user?.administrator])
 
-
   return (
     <AppBar
       position="static"

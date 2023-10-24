@@ -46,6 +46,7 @@ const BookCard: React.FC<BookCardProps> = ({
               display: 'flex',
               flexDirection: 'column',
               width: 'auto',
+              height: 650,
             }
       }
       key={book.id}
@@ -174,7 +175,7 @@ const BookCard: React.FC<BookCardProps> = ({
             </Typography>
           )}
         </Stack>
-        <Stack>
+        <Stack style={{ height: 250 }}>
           <UserListPopup book={book} />
           <Button
             sx={listBooksDeleteButton}
