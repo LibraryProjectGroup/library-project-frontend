@@ -1,10 +1,10 @@
-import React from "react";
-import { Snackbar, Alert, IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import React from 'react'
+import { Snackbar, Alert, IconButton } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
 
 interface NotificationSnackbarsProps {
-  open: string;
-  handleClose: () => void;
+  open: string
+  handleClose: () => void
 }
 
 const NotificationSnackbars: React.FC<NotificationSnackbarsProps> = ({
@@ -20,34 +20,34 @@ const NotificationSnackbars: React.FC<NotificationSnackbarsProps> = ({
     >
       <CloseIcon fontSize="small" />
     </IconButton>
-  );
+  )
 
   return (
     <>
       <Snackbar
-        open={open === "expiring"}
+        open={open === 'expiring'}
         action={action}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
         <Alert
           onClose={handleClose}
           severity="warning"
-          sx={{ width: "100%" }}
+          sx={{ width: '100%' }}
           variant="filled"
         >
           You have expiring loan(s)
         </Alert>
       </Snackbar>
       <Snackbar
-        open={open === "expired"}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={open === 'expired'}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
-        <Alert severity="error" sx={{ width: "100%" }} variant="filled">
+        <Alert severity="error" sx={{ width: '100%' }} variant="filled">
           YOU HAVE EXPIRED LOAN(S)
         </Alert>
       </Snackbar>
     </>
-  );
-};
+  )
+}
 
-export default NotificationSnackbars;
+export default NotificationSnackbars

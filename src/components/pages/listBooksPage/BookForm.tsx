@@ -18,23 +18,23 @@ import {
   fetchUpdateBook,
   fetchAddBook,
   fetchAllHomeOffices,
-} from "../../../fetchFunctions";
-import { HomeOffice } from "../../../interfaces/HomeOffice";
-import OfficeSpan from "../../OfficeSpan";
-import AddScanner from "../../scanner/AddScanner";
-import { toast } from "react-toastify";
+} from '../../../fetchFunctions'
+import { HomeOffice } from '../../../interfaces/HomeOffice'
+import OfficeSpan from '../../OfficeSpan'
+import AddScanner from '../../scanner/AddScanner'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 interface IProps {
-  visible: boolean;
-  setVisible: Function;
-  confirmation: Object;
-  setConfirmation: Function;
-  book: Book | null;
-  setBook: Function;
-  editing: boolean;
-  updateBooks: Function;
-  updateEditedBook: Function;
+  visible: boolean
+  setVisible: Function
+  confirmation: Object
+  setConfirmation: Function
+  book: Book | null
+  setBook: Function
+  editing: boolean
+  updateBooks: Function
+  updateEditedBook: Function
 }
 
 const EditBook: FC<IProps> = ({
@@ -88,12 +88,12 @@ const EditBook: FC<IProps> = ({
   const updateBook = async (newBook: Book) => {
     await fetchUpdateBook(newBook).then((res: { ok: any; book?: Book }) => {
       if (res.ok) {
-        EditingMessage();
-        setVisible(false);
-        updateEditedBook(res.book);
+        EditingMessage()
+        setVisible(false)
+        updateEditedBook(res.book)
       }
-    });
-  };
+    })
+  }
 
   //
   const addBook = async (newBook: Book) => {
@@ -101,9 +101,9 @@ const EditBook: FC<IProps> = ({
       if (!res.ok) {
         ErrorMessageDelete()
       } else {
-        SuccessMessage();
-        setVisible(false);
-        updateBooks(res.books);
+        SuccessMessage()
+        setVisible(false)
+        updateBooks(res.books)
       }
     })
   }

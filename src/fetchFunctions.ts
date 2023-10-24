@@ -471,11 +471,11 @@ export async function fetchAdminUpdateHomeOfficeData(
 export async function fetchAdminAddHomeOffice(
   homeOffice: HomeOffice
 ): Promise<OKStatus> {
-  return await authFetch("/office", {
-    method: "POST",
+  return await authFetch('/office', {
+    method: 'POST',
     headers: {
-      "content-type": "application/json",
+      'content-type': 'application/json',
     },
     body: JSON.stringify(homeOffice),
-  });
+  })
 }

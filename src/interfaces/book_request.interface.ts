@@ -1,10 +1,10 @@
 interface Book_request {
-  id: number;
-  userId: number;
-  isbn: string;
-  title: string;
-  reason: string;
-  status: Book_request_status;
+  id: number
+  userId: number
+  isbn: string
+  title: string
+  reason: string
+  status: Book_request_status
 }
 
 enum Book_request_status {
@@ -13,5 +13,5 @@ enum Book_request_status {
   APPROVED = 2,
 }
 
-export default Book_request;
-export { Book_request_status };
+export default Book_request
+export { Book_request_status }

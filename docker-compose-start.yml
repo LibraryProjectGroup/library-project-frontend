@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   efilibrary-frontend-local:
@@ -16,4 +16,4 @@ services:
       - ./src:/app/src
       - ./public:/app/public:ro
     ports:
-      - "3000:3000"
+      - '3000:3000'

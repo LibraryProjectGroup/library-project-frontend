@@ -6,22 +6,22 @@ import {
   Stack,
   TextField,
   Typography,
-} from "@mui/material";
-import { FC, useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { fetchAllHomeOffices } from "../../../fetchFunctions";
-import User from "../../../interfaces/editUser.interface";
-import { HomeOffice } from "../../../interfaces/HomeOffice";
-import { cancelButton, confirmButton, popupContainer } from "../../../sxStyles";
-import OfficeSpan from "../../OfficeSpan";
+} from '@mui/material'
+import { FC, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { fetchAllHomeOffices } from '../../../fetchFunctions'
+import User from '../../../interfaces/editUser.interface'
+import { HomeOffice } from '../../../interfaces/HomeOffice'
+import { cancelButton, confirmButton, popupContainer } from '../../../sxStyles'
+import OfficeSpan from '../../OfficeSpan'
 
 interface IProps {
-  visible: boolean;
-  setVisible: Function;
-  user: User | null;
-  setOneUserData: Function;
-  updateUser: Function;
+  visible: boolean
+  setVisible: Function
+  user: User | null
+  setOneUserData: Function
+  updateUser: Function
 }
 
 const EditUser: FC<IProps> = ({
@@ -31,14 +31,14 @@ const EditUser: FC<IProps> = ({
   setOneUserData,
   updateUser,
 }: IProps): JSX.Element => {
-  const [offices, setOffices] = useState<HomeOffice[]>([]);
-  const [isDataChanged, setIsDataChanged] = useState(false);
+  const [offices, setOffices] = useState<HomeOffice[]>([])
+  const [isDataChanged, setIsDataChanged] = useState(false)
 
   useEffect(() => {
-    (async () => {
-      setOffices(await fetchAllHomeOffices());
-    })();
-  }, []);
+    ;(async () => {
+      setOffices(await fetchAllHomeOffices())
+    })()
+  }, [])
 
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -46,22 +46,22 @@ const EditUser: FC<IProps> = ({
     setOneUserData({
       ...user,
       [event.target.name]: event.target.value,
-    });
-    setIsDataChanged(true);
-  };
+    })
+    setIsDataChanged(true)
+  }
 
   const editingMessage = () => {
     if (isDataChanged) {
-      toast.success("User edited succesfully", { containerId: "ToastSuccess" });
+      toast.success('User edited succesfully', { containerId: 'ToastSuccess' })
     }
-  };
+  }
 
   const onModalClose = () => {
-    setVisible(false);
-    setIsDataChanged(false);
-  };
+    setVisible(false)
+    setIsDataChanged(false)
+  }
 
-  if (user == null) return <></>;
+  if (user == null) return <></>
 
   return (
     <Modal open={visible} onClose={() => onModalClose()}>
@@ -69,8 +69,8 @@ const EditUser: FC<IProps> = ({
         <Stack spacing={2}>
           <Typography
             sx={{
-              fontFamily: "Montserrat",
-              fontWeight: "bold",
+              fontFamily: 'Montserrat',
+              fontWeight: 'bold',
             }}
             variant="h4"
           >
@@ -83,8 +83,8 @@ const EditUser: FC<IProps> = ({
             value={user?.administrator}
             onChange={(e) => onChange(e)}
           >
-            <MenuItem value={"true"}>True</MenuItem>
-            <MenuItem value={"false"}>False</MenuItem>
+            <MenuItem value={'true'}>True</MenuItem>
+            <MenuItem value={'false'}>False</MenuItem>
           </TextField>
           <TextField
             label="Username"
@@ -120,9 +120,9 @@ const EditUser: FC<IProps> = ({
               sx={confirmButton}
               variant="contained"
               onClick={() => {
-                updateUser(user);
-                editingMessage();
-                setIsDataChanged(false);
+                updateUser(user)
+                editingMessage()
+                setIsDataChanged(false)
               }}
             >
               Update
@@ -138,7 +138,7 @@ const EditUser: FC<IProps> = ({
         </Stack>
       </Box>
     </Modal>
-  );
-};
+  )
+}
 
-export default EditUser;
+export default EditUser

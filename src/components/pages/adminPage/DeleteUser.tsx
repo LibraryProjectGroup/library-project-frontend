@@ -1,15 +1,15 @@
-import { Box, Button, Modal, Stack, Typography } from "@mui/material";
-import { FC } from "react";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { cancelButton, confirmButton, popupContainer } from "../../../sxStyles";
+import { Box, Button, Modal, Stack, Typography } from '@mui/material'
+import { FC } from 'react'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { cancelButton, confirmButton, popupContainer } from '../../../sxStyles'
 
 interface IProps {
-  visible: boolean;
-  setVisible: Function;
-  userId: String;
-  fetchDeleteUser: Function;
-  loadUsersData: Function;
+  visible: boolean
+  setVisible: Function
+  userId: String
+  fetchDeleteUser: Function
+  loadUsersData: Function
 }
 
 const DeleteUsers: FC<IProps> = ({
@@ -20,22 +20,22 @@ const DeleteUsers: FC<IProps> = ({
   loadUsersData,
 }: IProps): JSX.Element => {
   const deletionMessage = () =>
-    toast.success("User deleted successfully", { containerId: "ToastSuccess" });
+    toast.success('User deleted successfully', { containerId: 'ToastSuccess' })
   const ErrorMessage = () =>
-    toast.error("Deletion failed", { containerId: "ToastAlert" });
+    toast.error('Deletion failed', { containerId: 'ToastAlert' })
 
   const deleteUser = async () => {
     await fetchDeleteUser(userId).then((res: { ok: any }) => {
       if (!res.ok) {
-        ErrorMessage();
+        ErrorMessage()
       } else {
-        deletionMessage();
+        deletionMessage()
       }
-    });
+    })
     //deleteUser(userId);
-    await loadUsersData();
-    setVisible(false);
-  };
+    await loadUsersData()
+    setVisible(false)
+  }
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
@@ -44,8 +44,8 @@ const DeleteUsers: FC<IProps> = ({
           <Stack direction="row" spacing={2} justifyContent="center">
             <Typography
               sx={{
-                fontFamily: "Merriweather",
-                fontWeight: "light",
+                fontFamily: 'Merriweather',
+                fontWeight: 'light',
               }}
             >
               Do you want to delete this user?
@@ -56,7 +56,7 @@ const DeleteUsers: FC<IProps> = ({
               sx={confirmButton}
               variant="contained"
               onClick={async () => {
-                deleteUser();
+                deleteUser()
               }}
             >
               Delete
@@ -72,7 +72,7 @@ const DeleteUsers: FC<IProps> = ({
         </Stack>
       </Box>
     </Modal>
-  );
-};
+  )
+}
 
-export default DeleteUsers;
+export default DeleteUsers
