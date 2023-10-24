@@ -1,4 +1,4 @@
-import { DataGrid, GridColDef, GridFilterModel } from '@mui/x-data-grid'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { FC, useEffect, useState } from 'react'
 import { fetchAllBooks } from '../../../fetchFunctions'
 import Book from '../../../interfaces/book.interface'
