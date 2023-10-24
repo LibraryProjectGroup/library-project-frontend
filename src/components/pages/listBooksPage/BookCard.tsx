@@ -1,11 +1,11 @@
-import React from "react";
-import { Paper, Typography, Stack, Button } from "@mui/material";
+import React, { useState } from "react";
+import { Paper, Typography, Stack, Button, TextField, Slider, Rating } from "@mui/material";
 import Borrow from "../../../interfaces/borrow.interface";
 import Book from "../../../interfaces/book.interface";
 import Book_reservation from "../../../interfaces/book_reservation.interface";
 import OfficeSpan from "../../OfficeSpan";
 import { MS_IN_DAY, RESERVATION_DAYS } from "../../../constants";
-import { listBooksDeleteButton, listBooksEditButton } from "../../../sxStyles";
+import { editBookCancelButton, editBookListUpdateButton, listBooksDeleteButton, listBooksEditButton } from "../../../sxStyles";
 import UserListPopup from "./UserListPopup";
 
 interface BookCardProps {
@@ -33,6 +33,20 @@ const BookCard: React.FC<BookCardProps> = ({
   handleEdit,
   activeAndLoanableReservations,
 }) => {
+  const [reviewText, setReviewText] = useState("");
+  const [rating, setRating] = useState(0);
+  const [isReviewVisible, setReviewVisible] = useState(false);
+  const [reviews, setReviews] = useState<string[]>([]);
+
+  const handleReviewSubmit = () => {
+    // TODO Implement logic to submit the review
+    console.log("Review submitted:", reviewText);
+    setReviews([...reviews, reviewText]);
+    setReviewText("");
+    setRating(0);
+    setReviewVisible(false);
+  };
+
   return (
     <Paper
       elevation={10}
@@ -187,8 +201,77 @@ const BookCard: React.FC<BookCardProps> = ({
           </Button>
           {renderLoanButton(book)}
           {renderReserveButton(book)}
+          {!isReviewVisible && (
+          <Button
+            sx={listBooksEditButton}
+            variant="contained"
+            onClick={() => setReviewVisible(true)}
+          >
+            Add Review
+          </Button>
+          )}
         </Stack>
       </Stack>
+      <Stack direction="column" spacing={1}>
+        {isReviewVisible && (
+          <>
+            
+            <TextField
+              label="Write your review here..."
+              multiline
+              rows={4}
+              fullWidth
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+              margin="normal"
+              variant="outlined"
+            />
+            <Typography component="legend">Rating:</Typography>
+            <Rating
+              name="rating"
+              value={rating}
+              precision={1}
+              size="large"
+              onChange={(event, newValue) => {
+                setRating(newValue || 0);
+              }}
+            />
+            <Stack direction="row" spacing={3}>
+              
+            <Button
+              variant="contained"
+              sx={editBookListUpdateButton}
+              onClick={handleReviewSubmit}
+            >
+              Submit Review
+            </Button> 
+            <Button
+              variant="contained"
+              sx={editBookCancelButton}
+              onClick={() => setReviewVisible(false)}
+            >
+              Cancel
+            </Button>
+            </Stack>
+          </>
+        )}
+      </Stack>
+
+        <Stack direction="row" marginTop={2}>
+          <Button
+            variant="text"
+            color="primary"
+            onClick={() => {
+              // TODO Implement logic to display all reviews
+              console.log("View All Reviews clicked:", reviews);
+            }}
+          >
+            <Typography variant="subtitle1">
+              View reviews ({reviews.length})
+            </Typography>
+          </Button>
+        </Stack>
+      
     </Paper>
   );
 };
