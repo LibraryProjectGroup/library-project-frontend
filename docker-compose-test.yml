@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   docker-robot:
@@ -17,4 +17,4 @@ services:
       - ./robot:/app/robot
       - ./public:/app/public:ro
     ports:
-      - "3000:3000"
+      - '3000:3000'

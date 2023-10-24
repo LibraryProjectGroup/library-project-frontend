@@ -1,15 +1,15 @@
-import { FC, useContext } from "react";
-import { Modal, Box, Button, Stack, Typography } from "@mui/material";
-import { TheContext } from "../../../TheContext";
-import { popupContainer, confirmButton, cancelButton } from "../../../sxStyles";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { FC, useContext } from 'react'
+import { Modal, Box, Button, Stack, Typography } from '@mui/material'
+import { TheContext } from '../../../TheContext'
+import { popupContainer, confirmButton, cancelButton } from '../../../sxStyles'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface IProps {
-  visible: boolean;
-  setVisible: Function;
-  borrowedId: number;
-  fetchReturnBorrowed: Function;
+  visible: boolean
+  setVisible: Function
+  borrowedId: number
+  fetchReturnBorrowed: Function
 }
 
 const ReturnBook: FC<IProps> = ({
@@ -19,24 +19,24 @@ const ReturnBook: FC<IProps> = ({
   fetchReturnBorrowed,
 }: IProps): JSX.Element => {
   const ReturnMessage = () =>
-    toast.success("Book returned successfully", {
-      containerId: "ToastSuccess",
-    });
+    toast.success('Book returned successfully', {
+      containerId: 'ToastSuccess',
+    })
   const ErrorMessage = () =>
-    toast.error("Return failed", { containerId: "ToastAlert" });
-  const context = useContext(TheContext);
+    toast.error('Return failed', { containerId: 'ToastAlert' })
+  const context = useContext(TheContext)
 
   const returnBook = async () => {
     await fetchReturnBorrowed(borrowedId).then((res: { ok: any }) => {
       if (!res.ok) {
-        ErrorMessage();
+        ErrorMessage()
       } else {
-        ReturnMessage();
+        ReturnMessage()
       }
-    });
-    await context?.fetchBorrows();
-    setVisible(false);
-  };
+    })
+    await context?.fetchBorrows()
+    setVisible(false)
+  }
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
@@ -45,8 +45,8 @@ const ReturnBook: FC<IProps> = ({
           <Stack direction="row" spacing={2} justifyContent="center">
             <Typography
               sx={{
-                fontFamily: "Merriweather",
-                fontWeight: "light",
+                fontFamily: 'Merriweather',
+                fontWeight: 'light',
               }}
             >
               Do you want to return this book?
@@ -57,7 +57,7 @@ const ReturnBook: FC<IProps> = ({
               sx={confirmButton}
               variant="contained"
               onClick={async () => {
-                returnBook();
+                returnBook()
               }}
             >
               Return
@@ -73,7 +73,7 @@ const ReturnBook: FC<IProps> = ({
         </Stack>
       </Box>
     </Modal>
-  );
-};
+  )
+}
 
-export default ReturnBook;
+export default ReturnBook
