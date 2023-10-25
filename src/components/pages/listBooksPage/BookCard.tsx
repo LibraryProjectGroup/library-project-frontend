@@ -1,24 +1,39 @@
-import React, { useState } from "react";
-import { Paper, Typography, Stack, Button, TextField, Slider, Rating } from "@mui/material";
-import Borrow from "../../../interfaces/borrow.interface";
-import Book from "../../../interfaces/book.interface";
-import Book_reservation from "../../../interfaces/book_reservation.interface";
-import OfficeSpan from "../../OfficeSpan";
-import { MS_IN_DAY, RESERVATION_DAYS } from "../../../constants";
-import { editBookCancelButton, editBookListUpdateButton, listBooksDeleteButton, listBooksEditButton } from "../../../sxStyles";
-import UserListPopup from "./UserListPopup";
+import React, { useState, useEffect } from 'react'
+import {
+  Paper,
+  Typography,
+  Stack,
+  Button,
+  TextField,
+  Rating,
+  Collapse,
+} from '@mui/material'
+import Borrow from '../../../interfaces/borrow.interface'
+import Book from '../../../interfaces/book.interface'
+import Book_reservation from '../../../interfaces/book_reservation.interface'
+import Book_review from '../../../interfaces/book_review.interface'
+import OfficeSpan from '../../OfficeSpan'
+import { MS_IN_DAY, RESERVATION_DAYS } from '../../../constants'
+import {
+  editBookCancelButton,
+  editBookListUpdateButton,
+  listBooksDeleteButton,
+  listBooksEditButton,
+} from '../../../sxStyles'
+import UserListPopup from './UserListPopup'
+import { fetchAddReview, fetchReviewsByBookId } from '../../../fetchFunctions'
 
 interface BookCardProps {
-  book: Book;
-  currentBorrows: Borrow[];
-  currentReservations: Book_reservation[];
-  context: any;
-  renderLoanButton: (book: Book) => JSX.Element | null;
-  renderReserveButton: (book: Book) => JSX.Element | null;
-  bookInCurrentBorrows: (book: Book) => boolean;
-  handleDelete: (book: Book) => void;
-  handleEdit: (book: Book) => void;
-  activeAndLoanableReservations: any;
+  book: Book
+  currentBorrows: Borrow[]
+  currentReservations: Book_reservation[]
+  context: any
+  renderLoanButton: (book: Book) => JSX.Element | null
+  renderReserveButton: (book: Book) => JSX.Element | null
+  bookInCurrentBorrows: (book: Book) => boolean
+  handleDelete: (book: Book) => void
+  handleEdit: (book: Book) => void
+  activeAndLoanableReservations: any
 }
 
 const BookCard: React.FC<BookCardProps> = ({
@@ -33,31 +48,56 @@ const BookCard: React.FC<BookCardProps> = ({
   handleEdit,
   activeAndLoanableReservations,
 }) => {
-  const [reviewText, setReviewText] = useState("");
-  const [rating, setRating] = useState(0);
-  const [isReviewVisible, setReviewVisible] = useState(false);
-  const [reviews, setReviews] = useState<string[]>([]);
+  const [reviewText, setReviewText] = useState('')
+  const [rating, setRating] = useState<number>(0)
+  const [isReviewVisible, setReviewVisible] = useState(false)
+  const [reviews, setReviews] = useState<Book_review[]>([])
 
-  const handleReviewSubmit = () => {
-    // TODO Implement logic to submit the review
-    console.log("Review submitted:", reviewText);
-    setReviews([...reviews, reviewText]);
-    setReviewText("");
-    setRating(0);
-    setReviewVisible(false);
-  };
+  useEffect(() => {
+    const loadReviews = async () => {
+      try {
+        const fetchedReviews: Book_review[] = await fetchReviewsByBookId(
+          book.id
+        )
+        setReviews(fetchedReviews)
+      } catch (error) {
+        console.error('Error fetching reviews:', error)
+      }
+    }
+
+    loadReviews()
+  }, [book.id])
+
+  const handleReviewSubmit = async () => {
+    try {
+      const success: boolean = await fetchAddReview(book.id, reviewText, rating)
+      if (success) {
+        const fetchedReviews: Book_review[] = await fetchReviewsByBookId(
+          book.id
+        )
+        setReviews(fetchedReviews)
+        setRating(0)
+        setReviewText('')
+        setReviewVisible(false)
+      } else {
+        console.error('Failed to add review')
+      }
+    } catch (error) {
+      console.error('Error adding review:', error)
+    }
+  }
 
   return (
     <Paper
       elevation={10}
-      sx={{ padding: "2rem", width: { xs: "90%", md: "60%" } }}
+      sx={{ padding: '2rem', width: { xs: '90%', md: '60%' } }}
       key={book.id}
     >
       <Stack
         sx={{
-          display: "flex",
-          flexDirection: { xs: "column", md: "row" },
-          justifyContent: { md: "space-between" },
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          justifyContent: { md: 'space-between' },
         }}
       >
         <Stack>
@@ -68,7 +108,7 @@ const BookCard: React.FC<BookCardProps> = ({
               alt="Book cover not available"
               width={120}
               height={160}
-              src={"https://images.isbndb.com/covers/91/26/9789513119126.jpg"}
+              src={'https://images.isbndb.com/covers/91/26/9789513119126.jpg'}
             />
           )}
         </Stack>
@@ -76,8 +116,8 @@ const BookCard: React.FC<BookCardProps> = ({
         <Stack>
           <Typography
             sx={{
-              fontFamily: "Montserrat",
-              fontWeight: "bold",
+              fontFamily: 'Montserrat',
+              fontWeight: 'bold',
               marginBottom: 1,
             }}
           >
@@ -86,8 +126,8 @@ const BookCard: React.FC<BookCardProps> = ({
 
           <Typography
             sx={{
-              fontFamily: "Merriweather",
-              fontWeight: "light",
+              fontFamily: 'Merriweather',
+              fontWeight: 'light',
               marginTop: 1,
             }}
           >
@@ -96,8 +136,8 @@ const BookCard: React.FC<BookCardProps> = ({
 
           <Typography
             sx={{
-              fontFamily: "Merriweather",
-              fontWeight: "light",
+              fontFamily: 'Merriweather',
+              fontWeight: 'light',
             }}
           >
             Year: {book.year}
@@ -105,27 +145,27 @@ const BookCard: React.FC<BookCardProps> = ({
 
           <Typography
             sx={{
-              fontFamily: "Merriweather",
-              fontWeight: "light",
+              fontFamily: 'Merriweather',
+              fontWeight: 'light',
             }}
           >
             Topic: {book.topic}
           </Typography>
           <Typography
             sx={{
-              fontFamily: "Merriweather",
-              fontWeight: "light",
+              fontFamily: 'Merriweather',
+              fontWeight: 'light',
             }}
           >
             ISBN: {book.isbn}
           </Typography>
           <Typography
             sx={{
-              fontFamily: "Merriweather",
-              fontWeight: "light",
+              fontFamily: 'Merriweather',
+              fontWeight: 'light',
             }}
           >
-            Office:{" "}
+            Office:{' '}
             <OfficeSpan
               countryCode={book.homeOfficeCountry}
               officeName={book.homeOfficeName}
@@ -134,17 +174,17 @@ const BookCard: React.FC<BookCardProps> = ({
           {bookInCurrentBorrows(book) && (
             <Typography
               sx={{
-                fontFamily: "Merriweather",
-                fontWeight: "light",
+                fontFamily: 'Merriweather',
+                fontWeight: 'light',
               }}
             >
               {`Loan due: ${currentBorrows
                 .filter((borrow) => borrow.book === book.id)
                 .map((borrow) =>
-                  new Date(borrow.dueDate).toLocaleString("fi", {
-                    year: "numeric",
-                    month: "numeric",
-                    day: "numeric",
+                  new Date(borrow.dueDate).toLocaleString('fi', {
+                    year: 'numeric',
+                    month: 'numeric',
+                    day: 'numeric',
                   })
                 )}.`}
             </Typography>
@@ -154,9 +194,9 @@ const BookCard: React.FC<BookCardProps> = ({
             .includes(book.id) && (
             <Typography
               sx={{
-                fontFamily: "Merriweather",
-                fontWeight: "light",
-                color: "orange",
+                fontFamily: 'Merriweather',
+                fontWeight: 'light',
+                color: 'orange',
               }}
             >
               {`Reservation due: ${currentReservations
@@ -165,10 +205,10 @@ const BookCard: React.FC<BookCardProps> = ({
                   new Date(
                     new Date(obj.reservationDatetime).getTime() +
                       RESERVATION_DAYS * MS_IN_DAY
-                  ).toLocaleString("fi", {
-                    year: "numeric",
-                    month: "numeric",
-                    day: "numeric",
+                  ).toLocaleString('fi', {
+                    year: 'numeric',
+                    month: 'numeric',
+                    day: 'numeric',
                   })
                 )}.`}
             </Typography>
@@ -202,20 +242,19 @@ const BookCard: React.FC<BookCardProps> = ({
           {renderLoanButton(book)}
           {renderReserveButton(book)}
           {!isReviewVisible && (
-          <Button
-            sx={listBooksEditButton}
-            variant="contained"
-            onClick={() => setReviewVisible(true)}
-          >
-            Add Review
-          </Button>
+            <Button
+              sx={listBooksEditButton}
+              variant="contained"
+              onClick={() => setReviewVisible(true)}
+            >
+              Add Review
+            </Button>
           )}
         </Stack>
       </Stack>
       <Stack direction="column" spacing={1}>
         {isReviewVisible && (
           <>
-            
             <TextField
               label="Write your review here..."
               multiline
@@ -233,47 +272,58 @@ const BookCard: React.FC<BookCardProps> = ({
               precision={1}
               size="large"
               onChange={(event, newValue) => {
-                setRating(newValue || 0);
+                setRating(newValue || 0)
               }}
             />
             <Stack direction="row" spacing={3}>
-              
-            <Button
-              variant="contained"
-              sx={editBookListUpdateButton}
-              onClick={handleReviewSubmit}
-            >
-              Submit Review
-            </Button> 
-            <Button
-              variant="contained"
-              sx={editBookCancelButton}
-              onClick={() => setReviewVisible(false)}
-            >
-              Cancel
-            </Button>
+              <Button
+                variant="contained"
+                sx={editBookListUpdateButton}
+                onClick={handleReviewSubmit}
+              >
+                Submit Review
+              </Button>
+              <Button
+                variant="contained"
+                sx={editBookCancelButton}
+                onClick={() => setReviewVisible(false)}
+              >
+                Cancel
+              </Button>
             </Stack>
           </>
         )}
       </Stack>
 
-        <Stack direction="row" marginTop={2}>
-          <Button
-            variant="text"
-            color="primary"
-            onClick={() => {
-              // TODO Implement logic to display all reviews
-              console.log("View All Reviews clicked:", reviews);
-            }}
-          >
-            <Typography variant="subtitle1">
-              View reviews ({reviews.length})
-            </Typography>
-          </Button>
-        </Stack>
-      
+      <Stack direction="row" marginTop={2}>
+        <Button
+          variant="text"
+          color="primary"
+          onClick={() => {
+            setReviewVisible(!isReviewVisible)
+          }}
+        >
+          <Typography variant="subtitle1">
+            View reviews ({reviews.length})
+          </Typography>
+        </Button>
+        <Collapse in={isReviewVisible}>
+          <div>
+            <Typography variant="h6">Reviews:</Typography>
+            <ul>
+              {reviews.map((review, index) => (
+                <li key={index}>
+                  <Typography variant="subtitle1">{`Rating: ${review.rating}`}</Typography>
+                  <Typography>{`Comment: ${review.comment}`}</Typography>
+                  {/* additional information such as user name, timestamp */}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Collapse>
+      </Stack>
     </Paper>
-  );
-};
+  )
+}
 
-export default BookCard;
+export default BookCard
