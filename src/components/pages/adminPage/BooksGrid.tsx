@@ -15,7 +15,7 @@ const BooksGrid: FC = (): JSX.Element => {
     { field: 'year', headerName: 'Year', flex: 4, minWidth: 70 },
     { field: 'topic', headerName: 'Topic', flex: 4, minWidth: 70 },
     {
-      field: 'office',
+      field: 'officeName',
       headerName: 'Office',
       flex: 3,
       minWidth: 120,
@@ -28,6 +28,8 @@ const BooksGrid: FC = (): JSX.Element => {
           />
         )
       },
+      filterable: true,
+      sortable: true,
     },
     { field: 'isbn', headerName: 'ISBN', flex: 3, minWidth: 150 },
   ]
@@ -38,7 +40,11 @@ const BooksGrid: FC = (): JSX.Element => {
 
   const loadBooksData = async () => {
     const booksTmp = await fetchAllBooks()
-    setBooksData(booksTmp)
+    const booksWithOfficeName = booksTmp.map((book) => ({
+      ...book,
+      officeName: `${book.homeOfficeCountry} - ${book.homeOfficeName}`,
+    }))
+    setBooksData(booksWithOfficeName)
   }
 
   return (
