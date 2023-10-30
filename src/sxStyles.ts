@@ -248,7 +248,7 @@ export const booklistsPageBackAndAddButtons: SxProps = {
   },
 }
 
-export const userLogOutButton: SxProps = {
+export const userProfileButton: SxProps = {
   marginRight: 1,
   marginLeft: 1,
   backgroundColor: '#FFD100',
