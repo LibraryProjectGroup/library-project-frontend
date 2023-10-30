@@ -480,26 +480,29 @@ export async function fetchAdminAddHomeOffice(
   });
 }
 
-export async function fetchAllReviews() {
-    const response = await fetch(`/review/all`);
-    const data = await response.json();
-    return data as Book_review[];
+export async function fetchAllReviews(): Promise<Book_review[]> {
+    return await authFetch(`/review/all`)
 }
 
-export async function fetchReviewsByBookId(bookId: number) {
-    const response = await fetch(`/review/book`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ bookId }),
-    });
-    const data = await response.json();
-    return data as Book_review[];
+export async function fetchReviewsByBookId(bookId: number): Promise<Book_review[]> {
+  try {
+      const response = await authFetch(`/review/book/${encodeURIComponent(bookId)}`);
+      if (response.ok) {
+          const data = await response.json();
+          return Array.isArray(data) ? data : [data];
+      } else {
+          console.error('Failed to fetch reviews: Server error');
+          return [];
+      }
+  } catch (error) {
+      console.error('Error fetching reviews:', error);
+      return [];
+  }
 }
+
 
 export async function fetchAverageReview(bookId: number) {
-    const response = await fetch(`/review/average`, {
+    const response = await authFetch(`/review/average`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -511,7 +514,7 @@ export async function fetchAverageReview(bookId: number) {
 }
 
 export async function fetchDeleteReview(reviewId: number) {
-    const response = await fetch(`/review/`, {
+    const response = await authFetch(`/review/`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -521,19 +524,18 @@ export async function fetchDeleteReview(reviewId: number) {
     return true;
 }
 
-export async function fetchAddReview(bookId: number, comment: string, rating: number) {
-    const response = await fetch(`/review/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ bookId, comment, rating }),
-    });
-    return true;
+export async function fetchAddReview(bookId: number, comment: string, rating: number): Promise<OKStatus> {
+  return await authFetch("/review", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({bookId, comment, rating}),
+  });
 }
 
 export async function fetchUpdateReview(reviewId: number, comment: string, rating: number) {
-    const response = await fetch(`/review/`, {
+    const response = await authFetch(`/review/`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

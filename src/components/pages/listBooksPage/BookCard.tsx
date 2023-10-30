@@ -21,7 +21,11 @@ import {
   listBooksEditButton,
 } from '../../../sxStyles'
 import UserListPopup from './UserListPopup'
-import { fetchAddReview, fetchReviewsByBookId } from '../../../fetchFunctions'
+import {
+  fetchAddReview,
+  fetchReviewsByBookId,
+  fetchAllReviews,
+} from '../../../fetchFunctions'
 
 interface BookCardProps {
   book: Book
@@ -52,13 +56,12 @@ const BookCard: React.FC<BookCardProps> = ({
   const [rating, setRating] = useState<number>(0)
   const [isReviewVisible, setReviewVisible] = useState(false)
   const [reviews, setReviews] = useState<Book_review[]>([])
+  const [isReviewListVisible, setReviewListVisible] = useState(false)
 
   useEffect(() => {
     const loadReviews = async () => {
       try {
-        const fetchedReviews: Book_review[] = await fetchReviewsByBookId(
-          book.id
-        )
+        const fetchedReviews = await fetchAllReviews()
         setReviews(fetchedReviews)
       } catch (error) {
         console.error('Error fetching reviews:', error)
@@ -66,19 +69,17 @@ const BookCard: React.FC<BookCardProps> = ({
     }
 
     loadReviews()
-  }, [book.id])
+  }, [])
 
   const handleReviewSubmit = async () => {
     try {
-      const success: boolean = await fetchAddReview(book.id, reviewText, rating)
+      const success = await fetchAddReview(book.id, reviewText, rating)
       if (success) {
-        const fetchedReviews: Book_review[] = await fetchReviewsByBookId(
-          book.id
-        )
-        setReviews(fetchedReviews)
         setRating(0)
         setReviewText('')
         setReviewVisible(false)
+        const fetchedReviews = await fetchAllReviews()
+        setReviews(fetchedReviews)
       } else {
         console.error('Failed to add review')
       }
@@ -300,14 +301,15 @@ const BookCard: React.FC<BookCardProps> = ({
           variant="text"
           color="primary"
           onClick={() => {
-            setReviewVisible(!isReviewVisible)
+            setReviewListVisible(!isReviewListVisible)
           }}
         >
           <Typography variant="subtitle1">
-            View reviews ({reviews.length})
+            {isReviewListVisible ? 'Hide reviews' : 'View reviews'} (
+            {reviews.length})
           </Typography>
         </Button>
-        <Collapse in={isReviewVisible}>
+        <Collapse in={isReviewListVisible}>
           <div>
             <Typography variant="h6">Reviews:</Typography>
             <ul>
