@@ -505,23 +505,23 @@ export async function fetchDeleteFavorite(bookId: number): Promise<OKStatus> {
 export async function fetchisBookFavoritedByUser(
   bookId: number
 ): Promise<{ isFavorited: boolean }> {
-  return await authFetch('/favorite/check', {
+  const url = `/favorite/check?bookId=${bookId}`
+  return await authFetch(url, {
     method: 'GET',
     headers: {
-      'content-type': 'application/json',
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ bookId }),
   })
 }
 
 export async function fetchFavoriteCountForBook(
   bookId: number
 ): Promise<{ count: number }> {
-  return await authFetch('/favorite/count', {
+  const url = `/favorite/count?bookId=${bookId}`
+  return await authFetch(url, {
     method: 'GET',
     headers: {
-      'content-type': 'application/json',
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ bookId }),
   })
 }

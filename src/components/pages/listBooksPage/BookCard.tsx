@@ -1,4 +1,3 @@
-import React from 'react'
 import { Paper, Typography, Stack, Button } from '@mui/material'
 import Borrow from '../../../interfaces/borrow.interface'
 import Book from '../../../interfaces/book.interface'
@@ -7,6 +6,7 @@ import OfficeSpan from '../../OfficeSpan'
 import { MS_IN_DAY, RESERVATION_DAYS } from '../../../constants'
 import { listBooksDeleteButton, listBooksEditButton } from '../../../sxStyles'
 import UserListPopup from './UserListPopup'
+import LikeButton from './LikeButton'
 
 interface BookCardProps {
   book: Book
@@ -61,7 +61,18 @@ const BookCard: React.FC<BookCardProps> = ({
           padding: '1rem',
         }}
       >
-        <Stack>
+        <Stack
+          sx={{
+            display: 'flex',
+            flex: 1,
+            flexDirection:
+              viewType === 'list' ? { xs: 'row', md: 'column' } : 'row',
+            position: 'relative',
+            justifyContent: 'space-between',
+            minWidth: 120,
+            maxWidth: { xs: 999, md: 0 },
+          }}
+        >
           {book.image ? (
             <img alt="Book cover" width={120} height={160} src={book.image} />
           ) : (
@@ -72,6 +83,7 @@ const BookCard: React.FC<BookCardProps> = ({
               src={'https://images.isbndb.com/covers/91/26/9789513119126.jpg'}
             />
           )}
+          <LikeButton book={book} viewType={viewType} />
         </Stack>
 
         <Stack>
