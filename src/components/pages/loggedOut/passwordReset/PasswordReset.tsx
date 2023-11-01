@@ -1,75 +1,75 @@
-import React, { useState, FC, useEffect } from "react";
-import { Box, Typography, TextField, Button, Paper, Grid } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useState, FC, useEffect } from 'react'
+import { Box, Typography, TextField, Button, Paper, Grid } from '@mui/material'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
   loginButton,
   loginBox,
   AuthBoxTitle,
   loginPaper,
-} from "../../../../sxStyles";
-import { fetchPasswordReset } from "../../../../fetchFunctions";
+} from '../../../../sxStyles'
+import { fetchPasswordReset } from '../../../../fetchFunctions'
 
-const REQUIRED_PASSWORD_LENGTH = 8;
+const REQUIRED_PASSWORD_LENGTH = 8
 
 const PasswordReset: FC = (): JSX.Element => {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [invalid, setInvalid] = useState(false);
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const [invalid, setInvalid] = useState(false)
 
-  const navigate = useNavigate();
-  const { secret } = useParams();
+  const navigate = useNavigate()
+  const { secret } = useParams()
 
   const [dimensions, setDimensions] = React.useState({
     height: window.innerHeight,
     width: window.innerWidth,
-  });
+  })
 
   useEffect(() => {
     if (secret)
       fetchPasswordReset(secret)
         .then((data) => data.json())
         .then((res) => {
-          setInvalid(!res.ok);
-        });
+          setInvalid(!res.ok)
+        })
     const handleResize = () => {
       setDimensions({
         height: window.innerHeight,
         width: window.innerWidth,
-      });
-    };
+      })
+    }
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize)
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [secret]);
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [secret])
 
   const handleChangePassword = async () => {
     try {
       if (password != confirmPassword)
-        return setErrorMessage("Passwords do not match");
+        return setErrorMessage('Passwords do not match')
 
       if (password.length < REQUIRED_PASSWORD_LENGTH)
         return setErrorMessage(
           `Passwords has to be atleast ${REQUIRED_PASSWORD_LENGTH} characters long`
-        );
+        )
 
       if (secret)
         fetchPasswordReset(secret, password)
           .then((res) => res.json())
           .then((data) => {
             if (data.ok) {
-              navigate("/");
+              navigate('/')
             } else {
-              setErrorMessage("Something went wrong");
+              setErrorMessage('Something went wrong')
             }
-          });
+          })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }
 
   return (
     <Grid
@@ -81,15 +81,15 @@ const PasswordReset: FC = (): JSX.Element => {
       sx={{
         maxWidth: dimensions.width,
         minHeight: dimensions.height,
-        backgroundColor: "#f0f0ec",
+        backgroundColor: '#f0f0ec',
       }}
     >
       <Paper elevation={10} sx={loginPaper}>
         <Box sx={{ padding: 10 }}>
           <Typography variant="h4" sx={AuthBoxTitle}>
             {invalid
-              ? "This link is invalid or expired"
-              : "Choose new password"}
+              ? 'This link is invalid or expired'
+              : 'Choose new password'}
           </Typography>
           {!invalid && (
             <>
@@ -100,7 +100,7 @@ const PasswordReset: FC = (): JSX.Element => {
                   type="password"
                   margin="normal"
                   onChange={(event) => {
-                    setPassword(event.target.value);
+                    setPassword(event.target.value)
                   }}
                 />
 
@@ -110,14 +110,14 @@ const PasswordReset: FC = (): JSX.Element => {
                   type="password"
                   margin="normal"
                   onChange={(event) => {
-                    setConfirmPassword(event.target.value);
+                    setConfirmPassword(event.target.value)
                   }}
                 />
                 {errorMessage && (
-                  <Typography sx={{ color: "red" }}>{errorMessage}</Typography>
+                  <Typography sx={{ color: 'red' }}>{errorMessage}</Typography>
                 )}
               </Box>
-              <Box sx={{ textAlign: "center" }}>
+              <Box sx={{ textAlign: 'center' }}>
                 <Button
                   variant="contained"
                   onClick={handleChangePassword}
@@ -131,7 +131,7 @@ const PasswordReset: FC = (): JSX.Element => {
         </Box>
       </Paper>
     </Grid>
-  );
-};
+  )
+}
 
-export default PasswordReset;
+export default PasswordReset

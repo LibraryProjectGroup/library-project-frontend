@@ -2,9 +2,9 @@ name: main CI
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
   pull_request:
-    branches: ["main"]
+    branches: ['main']
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,8 +13,8 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: "16"
-          cache: "npm"
+          node-version: '16'
+          cache: 'npm'
       - name: Set up Python 3.9
         uses: actions/setup-python@v2
         with:

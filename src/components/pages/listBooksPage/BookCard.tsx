@@ -42,6 +42,7 @@ interface BookCardProps {
   handleDelete: (book: Book) => void
   handleEdit: (book: Book) => void
   activeAndLoanableReservations: any
+  viewType: string
 }
 
 const BookCard: React.FC<BookCardProps> = ({
@@ -55,6 +56,7 @@ const BookCard: React.FC<BookCardProps> = ({
   handleDelete,
   handleEdit,
   activeAndLoanableReservations,
+  viewType,
 }) => {
   const [reviewText, setReviewText] = useState('')
   const [rating, setRating] = useState<number>(0)
@@ -110,14 +112,27 @@ const BookCard: React.FC<BookCardProps> = ({
   return (
     <Paper
       elevation={10}
-      sx={{ padding: '2rem', width: { xs: '90%', md: '60%' } }}
+      sx={
+        viewType === 'list'
+          ? { padding: '2rem', width: { xs: '90%', md: '60%' } }
+          : {
+              padding: '1rem',
+              display: 'flex',
+              flexDirection: 'column',
+              width: 'auto',
+              height: 650,
+            }
+      }
       key={book.id}
     >
       <Stack
         sx={{
+          flex: 1,
           display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
+          flexDirection:
+            viewType === 'list' ? { xs: 'column', md: 'row' } : 'column',
           justifyContent: { md: 'space-between' },
+          padding: '1rem',
         }}
       >
         <Stack>
@@ -248,7 +263,7 @@ const BookCard: React.FC<BookCardProps> = ({
             precision={0.1}
           />
         </Stack>
-        <Stack>
+        <Stack style={{ height: 250 }}>
           <UserListPopup book={book} />
           <Button
             sx={listBooksDeleteButton}

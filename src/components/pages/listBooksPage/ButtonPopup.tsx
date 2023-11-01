@@ -1,25 +1,25 @@
-import { FC, useContext } from "react";
-import { Modal, Box, Button, Stack, Typography } from "@mui/material";
-import { popupContainer, confirmButton, cancelButton } from "../../../sxStyles";
-import { toast } from "react-toastify";
-import { TheContext } from "../../../TheContext";
+import { FC, useContext } from 'react'
+import { Modal, Box, Button, Stack, Typography } from '@mui/material'
+import { popupContainer, confirmButton, cancelButton } from '../../../sxStyles'
+import { toast } from 'react-toastify'
+import { TheContext } from '../../../TheContext'
 
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css'
 
 interface IProps {
-  deleteVisible: boolean;
-  setDeleteVisible: Function;
-  loanVisible: boolean;
-  setLoanVisible: Function;
-  reserveVisible: boolean;
-  setReserveVisible: Function;
-  bookId: number;
-  fetchBooks: Function;
-  fetchDeleteBook: Function;
-  fetchCreateBorrow: Function;
-  fetchBorrows: Function;
-  fetchReservations: Function;
-  fetchAddBookReservation: Function;
+  deleteVisible: boolean
+  setDeleteVisible: Function
+  loanVisible: boolean
+  setLoanVisible: Function
+  reserveVisible: boolean
+  setReserveVisible: Function
+  bookId: number
+  fetchBooks: Function
+  fetchDeleteBook: Function
+  fetchCreateBorrow: Function
+  fetchBorrows: Function
+  fetchReservations: Function
+  fetchAddBookReservation: Function
 }
 
 const ButtonPopup: FC<IProps> = ({
@@ -38,66 +38,66 @@ const ButtonPopup: FC<IProps> = ({
   fetchAddBookReservation,
 }: IProps): JSX.Element => {
   const DeletionMessage = () =>
-    toast.success("Book deleted successfully", { containerId: "ToastSuccess" });
+    toast.success('Book deleted successfully', { containerId: 'ToastSuccess' })
   const RevervationMessage = () =>
-    toast.success("Reservation successful", { containerId: "ToastSuccess" });
+    toast.success('Reservation successful', { containerId: 'ToastSuccess' })
   const LoanMessage = () =>
-    toast.success("Loaning successful", { containerId: "ToastSuccess" });
+    toast.success('Loaning successful', { containerId: 'ToastSuccess' })
   const ErrorMessageDelete = () =>
-    toast.error("Deletion failed, Something went wrong", {
-      containerId: "ToastAlert",
-    });
+    toast.error('Deletion failed, Something went wrong', {
+      containerId: 'ToastAlert',
+    })
   const ErrorMessageReserve = () =>
-    toast.error("Reservation failed, Something went wrong", {
-      containerId: "ToastAlert",
-    });
+    toast.error('Reservation failed, Something went wrong', {
+      containerId: 'ToastAlert',
+    })
   const ErrorMessageLoan = () =>
-    toast.error("Loaning failed, Something went wrong", {
-      containerId: "ToastAlert",
-    });
-  const context = useContext(TheContext);
+    toast.error('Loaning failed, Something went wrong', {
+      containerId: 'ToastAlert',
+    })
+  const context = useContext(TheContext)
 
   const deleteBook = async () => {
     await fetchDeleteBook(bookId).then((res: { ok: any }) => {
-      console.log(bookId);
+      console.log(bookId)
       if (!res.ok) {
-        ErrorMessageDelete();
+        ErrorMessageDelete()
       } else {
-        DeletionMessage();
+        DeletionMessage()
       }
-    });
-    await fetchBooks();
-    setDeleteVisible(false);
-  };
+    })
+    await fetchBooks()
+    setDeleteVisible(false)
+  }
 
   const loanBook = async () => {
     await fetchCreateBorrow(bookId).then((res: { ok: any }) => {
-      console.log(bookId);
+      console.log(bookId)
       if (!res.ok) {
-        ErrorMessageLoan();
+        ErrorMessageLoan()
       } else {
-        LoanMessage();
+        LoanMessage()
       }
-    });
-    await fetchBooks();
-    await context?.fetchBorrows();
-    await fetchBorrows();
-    setLoanVisible(false);
-  };
+    })
+    await fetchBooks()
+    await context?.fetchBorrows()
+    await fetchBorrows()
+    setLoanVisible(false)
+  }
 
   const reserveBook = async () => {
     await fetchAddBookReservation(bookId).then((res: { ok: any }) => {
-      console.log(bookId);
+      console.log(bookId)
       if (!res.ok) {
-        ErrorMessageReserve();
+        ErrorMessageReserve()
       } else {
-        RevervationMessage();
+        RevervationMessage()
       }
-    });
-    await fetchBooks();
-    await fetchReservations();
-    setReserveVisible(false);
-  };
+    })
+    await fetchBooks()
+    await fetchReservations()
+    setReserveVisible(false)
+  }
 
   return (
     <>
@@ -107,8 +107,8 @@ const ButtonPopup: FC<IProps> = ({
             <Stack direction="row" spacing={2} justifyContent="center">
               <Typography
                 sx={{
-                  fontFamily: "Merriweather",
-                  fontWeight: "light",
+                  fontFamily: 'Merriweather',
+                  fontWeight: 'light',
                 }}
               >
                 Do you want to delete this book?
@@ -119,7 +119,7 @@ const ButtonPopup: FC<IProps> = ({
                 sx={confirmButton}
                 variant="contained"
                 onClick={async () => {
-                  deleteBook();
+                  deleteBook()
                 }}
               >
                 Delete
@@ -141,8 +141,8 @@ const ButtonPopup: FC<IProps> = ({
             <Stack direction="row" spacing={2} justifyContent="center">
               <Typography
                 sx={{
-                  fontFamily: "Merriweather",
-                  fontWeight: "light",
+                  fontFamily: 'Merriweather',
+                  fontWeight: 'light',
                 }}
               >
                 Do you want to loan this book?
@@ -153,7 +153,7 @@ const ButtonPopup: FC<IProps> = ({
                 sx={confirmButton}
                 variant="contained"
                 onClick={async () => {
-                  loanBook();
+                  loanBook()
                 }}
               >
                 Loan
@@ -175,8 +175,8 @@ const ButtonPopup: FC<IProps> = ({
             <Stack direction="row" spacing={2} justifyContent="center">
               <Typography
                 sx={{
-                  fontFamily: "Merriweather",
-                  fontWeight: "light",
+                  fontFamily: 'Merriweather',
+                  fontWeight: 'light',
                 }}
               >
                 Do you want to reserve this book?
@@ -187,7 +187,7 @@ const ButtonPopup: FC<IProps> = ({
                 sx={confirmButton}
                 variant="contained"
                 onClick={async () => {
-                  reserveBook();
+                  reserveBook()
                 }}
               >
                 Reserve
@@ -204,7 +204,7 @@ const ButtonPopup: FC<IProps> = ({
         </Box>
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default ButtonPopup;
+export default ButtonPopup

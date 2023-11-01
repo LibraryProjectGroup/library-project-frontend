@@ -1,15 +1,15 @@
-import React from "react";
-import { Tooltip, Fab, Box } from "@mui/material";
-import AddCommentIcon from "@mui/icons-material/AddComment";
-import AddIcon from "@mui/icons-material/Add";
-import Book from "../../../interfaces/book.interface";
-import { addBookAddButton as addButton } from "../../../sxStyles";
+import React from 'react'
+import { Tooltip, Fab, Box } from '@mui/material'
+import AddCommentIcon from '@mui/icons-material/AddComment'
+import AddIcon from '@mui/icons-material/Add'
+import Book from '../../../interfaces/book.interface'
+import { addBookAddButton as addButton } from '../../../sxStyles'
 
 interface FloatingActionButtonsProps {
-  setRequestVisible: (visible: boolean) => void;
-  setFormEditing: (editing: boolean) => void;
-  setFormBook: (book: Book) => void; // Import the Book interface
-  setFormVisible: (visible: boolean) => void;
+  setRequestVisible: (visible: boolean) => void
+  setFormEditing: (editing: boolean) => void
+  setFormBook: (book: Book) => void // Import the Book interface
+  setFormVisible: (visible: boolean) => void
 }
 
 const FloatingActionButtons: React.FC<FloatingActionButtonsProps> = ({
@@ -21,10 +21,10 @@ const FloatingActionButtons: React.FC<FloatingActionButtonsProps> = ({
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: { xs: "row", md: "column" },
-        justifyContent: { xs: "center", md: "flex-start" },
-        alignItems: "center",
+        display: 'flex',
+        flexDirection: { xs: 'row', md: 'column' },
+        justifyContent: { xs: 'center', md: 'flex-start' },
+        alignItems: 'center',
       }}
     >
       <Tooltip title="Request a book">
@@ -41,28 +41,28 @@ const FloatingActionButtons: React.FC<FloatingActionButtonsProps> = ({
           aria-label="add"
           sx={addButton}
           onClick={() => {
-            setFormEditing(false);
+            setFormEditing(false)
             setFormBook({
               id: -1, // This wont get used
-              title: "",
-              image: "",
-              author: "",
+              title: '',
+              image: '',
+              author: '',
               year: new Date().getFullYear(),
-              topic: "",
-              isbn: "",
+              topic: '',
+              isbn: '',
               homeOfficeId: -1,
-              homeOfficeCountry: "XXX",
-              homeOfficeName: "",
+              homeOfficeCountry: 'XXX',
+              homeOfficeName: '',
               deleted: false,
-            });
-            setFormVisible(true);
+            })
+            setFormVisible(true)
           }}
         >
           <AddIcon />
         </Fab>
       </Tooltip>
     </Box>
-  );
-};
+  )
+}
 
-export default FloatingActionButtons;
+export default FloatingActionButtons
