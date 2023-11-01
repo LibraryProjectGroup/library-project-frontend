@@ -19,12 +19,16 @@ import {
   editBookListUpdateButton,
   listBooksDeleteButton,
   listBooksEditButton,
+  reviewDeleteButton,
+  showReviewsButton,
 } from '../../../sxStyles'
 import UserListPopup from './UserListPopup'
 import {
   fetchAddReview,
   fetchReviewsByBookId,
   fetchAllReviews,
+  fetchAverageReview,
+  fetchDeleteReview,
 } from '../../../fetchFunctions'
 
 interface BookCardProps {
@@ -57,6 +61,7 @@ const BookCard: React.FC<BookCardProps> = ({
   const [isReviewVisible, setReviewVisible] = useState(false)
   const [reviews, setReviews] = useState<Book_review[]>([])
   const [isReviewListVisible, setReviewListVisible] = useState(false)
+  const [averageRating, setAverageRating] = useState<number | null>(null)
 
   useEffect(() => {
     const loadReviews = async () => {
@@ -68,8 +73,17 @@ const BookCard: React.FC<BookCardProps> = ({
       }
     }
 
+    const loadAverageRating = async () => {
+      try {
+        const avgRating = await fetchAverageReview(book.id)
+        setAverageRating(avgRating)
+      } catch (error) {
+        console.error('Error fetching average rating:', error)
+      }
+    }
     loadReviews()
-  }, [])
+    loadAverageRating()
+  }, [book.id])
 
   const handleReviewSubmit = async () => {
     try {
@@ -86,6 +100,11 @@ const BookCard: React.FC<BookCardProps> = ({
     } catch (error) {
       console.error('Error adding review:', error)
     }
+  }
+  const deleteReview = async (reviewId: number) => {
+    await fetchDeleteReview(reviewId)
+    const fetchedReviews = await fetchAllReviews()
+    setReviews(fetchedReviews)
   }
 
   return (
@@ -214,6 +233,20 @@ const BookCard: React.FC<BookCardProps> = ({
                 )}.`}
             </Typography>
           )}
+          <Typography
+            sx={{
+              fontFamily: 'Merriweather',
+              fontWeight: 'light',
+            }}
+          >
+            Average Rating:
+          </Typography>
+          <Rating
+            name="average-rating"
+            value={averageRating || 0} // Display 0 if averageRating is null
+            readOnly
+            precision={0.1}
+          />
         </Stack>
         <Stack>
           <UserListPopup book={book} />
@@ -296,34 +329,57 @@ const BookCard: React.FC<BookCardProps> = ({
         )}
       </Stack>
 
-      <Stack direction="row" marginTop={2}>
-        <Button
-          variant="text"
-          color="primary"
-          onClick={() => {
-            setReviewListVisible(!isReviewListVisible)
-          }}
-        >
-          <Typography variant="subtitle1">
-            {isReviewListVisible ? 'Hide reviews' : 'View reviews'} (
-            {reviews.length})
-          </Typography>
-        </Button>
-        <Collapse in={isReviewListVisible}>
-          <div>
-            <Typography variant="h6">Reviews:</Typography>
-            <ul>
-              {reviews.map((review, index) => (
-                <li key={index}>
-                  <Typography variant="subtitle1">{`Rating: ${review.rating}`}</Typography>
-                  <Typography>{`Comment: ${review.comment}`}</Typography>
-                  {/* additional information such as user name, timestamp */}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Collapse>
-      </Stack>
+      <Button
+        variant="text"
+        color="primary"
+        sx={showReviewsButton}
+        onClick={() => {
+          setReviewListVisible(!isReviewListVisible)
+        }}
+      >
+        <Typography variant="subtitle1">
+          {isReviewListVisible ? 'Hide reviews' : 'View reviews'} (
+          {reviews.length})
+        </Typography>
+      </Button>
+      <Collapse in={isReviewListVisible}>
+        <div>
+          <ul style={{ listStyleType: 'none' }}>
+            {reviews.map((review, index) => (
+              <li
+                key={index}
+                style={{
+                  border: '1px solid #ddd',
+                  padding: '10px',
+                  marginBottom: '10px',
+                  borderRadius: '8px',
+                  backgroundColor: '#f7f7f7',
+                  maxWidth: 400,
+                  height: 100,
+                  position: 'relative',
+                }}
+              >
+                <Typography>{review.userId}</Typography>
+                <Rating
+                  name="average-rating"
+                  value={review.rating || 0}
+                  readOnly
+                  precision={0.1}
+                />
+                <Typography style={{ marginTop: '5px' }}>
+                  {review.comment}
+                </Typography>
+                <Button
+                  onClick={() => deleteReview(review.id)}
+                  sx={reviewDeleteButton}
+                >
+                  Delete
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Collapse>
     </Paper>
   )
 }

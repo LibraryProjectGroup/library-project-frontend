@@ -502,15 +502,13 @@ export async function fetchReviewsByBookId(bookId: number): Promise<Book_review[
 
 
 export async function fetchAverageReview(bookId: number) {
-    const response = await authFetch(`/review/average`, {
+    return await authFetch(`/review/average`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ bookId }),
     });
-    const data = await response.json();
-    return data.averageRating as number | null;
 }
 
 export async function fetchDeleteReview(reviewId: number) {
