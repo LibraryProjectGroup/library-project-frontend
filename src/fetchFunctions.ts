@@ -532,30 +532,17 @@ export async function fetchAllReviews(): Promise<Book_review[]> {
 }
 
 export async function fetchReviewsByBookId(bookId: number): Promise<Book_review[]> {
-  try {
-      const response = await authFetch(`/review/book/${encodeURIComponent(bookId)}`);
-      if (response.ok) {
-          const data = await response.json();
-          return Array.isArray(data) ? data : [data];
-      } else {
-          console.error('Failed to fetch reviews: Server error');
-          return [];
-      }
-  } catch (error) {
-      console.error('Error fetching reviews:', error);
-      return [];
-  }
+  return await authFetch(`/review/book?bookId=${encodeURIComponent(bookId)}`);
 }
 
 
-export async function fetchAverageReview(bookId: number) {
-    return await authFetch(`/review/average`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ bookId }),
-    });
+export async function fetchAverageRatingForBook(bookId: number): Promise<{averageRating: number}> {
+  return await authFetch(`/review/average?bookId=${encodeURIComponent(bookId)}`, {
+    method: 'GET',
+    headers: {
+      'content-type': 'application/json'
+    }
+  });
 }
 
 export async function fetchDeleteReview(reviewId: number) {

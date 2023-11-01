@@ -26,8 +26,7 @@ import UserListPopup from './UserListPopup'
 import {
   fetchAddReview,
   fetchReviewsByBookId,
-  fetchAllReviews,
-  fetchAverageReview,
+  fetchAverageRatingForBook,
   fetchDeleteReview,
 } from '../../../fetchFunctions'
 
@@ -63,29 +62,32 @@ const BookCard: React.FC<BookCardProps> = ({
   const [isReviewVisible, setReviewVisible] = useState(false)
   const [reviews, setReviews] = useState<Book_review[]>([])
   const [isReviewListVisible, setReviewListVisible] = useState(false)
-  const [averageRating, setAverageRating] = useState<number | null>(null)
+  const [averageRating, setAverageRating] = useState(0)
 
   useEffect(() => {
-    const loadReviews = async () => {
-      try {
-        const fetchedReviews = await fetchAllReviews()
-        setReviews(fetchedReviews)
-      } catch (error) {
-        console.error('Error fetching reviews:', error)
-      }
-    }
-
-    const loadAverageRating = async () => {
-      try {
-        const avgRating = await fetchAverageReview(book.id)
-        setAverageRating(avgRating)
-      } catch (error) {
-        console.error('Error fetching average rating:', error)
-      }
-    }
     loadReviews()
     loadAverageRating()
   }, [book.id])
+
+  const loadReviews = async () => {
+    try {
+      const fetchedReviews = await fetchReviewsByBookId(book.id)
+      setReviews(fetchedReviews)
+    } catch (error) {
+      console.error('Error fetching reviews:', error)
+    }
+  }
+
+  const loadAverageRating = async () => {
+    try {
+      await fetchAverageRatingForBook(book.id).then((data) => {
+        setAverageRating(data.averageRating)
+        console.log(averageRating)
+      })
+    } catch (error) {
+      console.error('Error fetching average rating:', error)
+    }
+  }
 
   const handleReviewSubmit = async () => {
     try {
@@ -94,8 +96,8 @@ const BookCard: React.FC<BookCardProps> = ({
         setRating(0)
         setReviewText('')
         setReviewVisible(false)
-        const fetchedReviews = await fetchAllReviews()
-        setReviews(fetchedReviews)
+        loadReviews()
+        loadAverageRating()
       } else {
         console.error('Failed to add review')
       }
@@ -105,8 +107,8 @@ const BookCard: React.FC<BookCardProps> = ({
   }
   const deleteReview = async (reviewId: number) => {
     await fetchDeleteReview(reviewId)
-    const fetchedReviews = await fetchAllReviews()
-    setReviews(fetchedReviews)
+    loadReviews()
+    loadAverageRating()
   }
 
   return (
@@ -248,17 +250,12 @@ const BookCard: React.FC<BookCardProps> = ({
                 )}.`}
             </Typography>
           )}
-          <Typography
-            sx={{
-              fontFamily: 'Merriweather',
-              fontWeight: 'light',
-            }}
-          >
-            Average Rating:
+          <Typography sx={{ fontFamily: 'Merriweather', fontWeight: 'light' }}>
+            Average rating:
           </Typography>
           <Rating
             name="average-rating"
-            value={averageRating || 0} // Display 0 if averageRating is null
+            value={averageRating}
             readOnly
             precision={0.1}
           />
@@ -354,44 +351,46 @@ const BookCard: React.FC<BookCardProps> = ({
       >
         <Typography variant="subtitle1">
           {isReviewListVisible ? 'Hide reviews' : 'View reviews'} (
-          {reviews.length})
+          {reviews ? reviews.length : 0})
         </Typography>
       </Button>
       <Collapse in={isReviewListVisible}>
         <div>
           <ul style={{ listStyleType: 'none' }}>
-            {reviews.map((review, index) => (
-              <li
-                key={index}
-                style={{
-                  border: '1px solid #ddd',
-                  padding: '10px',
-                  marginBottom: '10px',
-                  borderRadius: '8px',
-                  backgroundColor: '#f7f7f7',
-                  maxWidth: 400,
-                  height: 100,
-                  position: 'relative',
-                }}
-              >
-                <Typography>{review.userId}</Typography>
-                <Rating
-                  name="average-rating"
-                  value={review.rating || 0}
-                  readOnly
-                  precision={0.1}
-                />
-                <Typography style={{ marginTop: '5px' }}>
-                  {review.comment}
-                </Typography>
-                <Button
-                  onClick={() => deleteReview(review.id)}
-                  sx={reviewDeleteButton}
-                >
-                  Delete
-                </Button>
-              </li>
-            ))}
+            {reviews
+              ? reviews.map((review, index) => (
+                  <li
+                    key={index}
+                    style={{
+                      border: '1px solid #ddd',
+                      padding: '10px',
+                      marginBottom: '10px',
+                      borderRadius: '8px',
+                      backgroundColor: '#f7f7f7',
+                      maxWidth: 400,
+                      height: 100,
+                      position: 'relative',
+                    }}
+                  >
+                    <Typography>{review.userId}</Typography>
+                    <Rating
+                      name="average-rating"
+                      value={review.rating || 0}
+                      readOnly
+                      precision={0.1}
+                    />
+                    <Typography style={{ marginTop: '5px' }}>
+                      {review.comment}
+                    </Typography>
+                    <Button
+                      onClick={() => deleteReview(review.id)}
+                      sx={reviewDeleteButton}
+                    >
+                      Delete
+                    </Button>
+                  </li>
+                ))
+              : null}
           </ul>
         </div>
       </Collapse>
