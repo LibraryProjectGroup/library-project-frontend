@@ -69,6 +69,8 @@ const BookCard: React.FC<BookCardProps> = ({
               viewType === 'list' ? { xs: 'row', md: 'column' } : 'row',
             position: 'relative',
             justifyContent: 'space-between',
+            minWidth: 120,
+            maxWidth: { xs: 999, md: 0 },
           }}
         >
           {book.image ? (
