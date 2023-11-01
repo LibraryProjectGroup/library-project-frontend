@@ -137,6 +137,7 @@ const BookCard: React.FC<BookCardProps> = ({
               sx={{
                 fontFamily: 'Merriweather',
                 fontWeight: 'light',
+                marginTop: '1rem',
               }}
             >
               {`Loan due: ${currentBorrows
