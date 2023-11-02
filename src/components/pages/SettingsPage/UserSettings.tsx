@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useContext, useEffect, useState } from 'react'
 import Paper from '@mui/material/Paper'
 import {
   Box,
@@ -10,24 +10,29 @@ import {
 } from '@mui/material'
 import User from '../../../interfaces/editUser.interface'
 import { HomeOffice } from '../../../interfaces/HomeOffice'
-import { fetchAllHomeOffices } from '../../../fetchFunctions'
+import {
+  fetchAllHomeOffices,
+  fetchUpdateUserData,
+  fetchUserById,
+} from '../../../fetchFunctions'
 import { toast } from 'react-toastify'
-import { cancelButton, confirmButton } from '../../../sxStyles'
+import { confirmButton } from '../../../sxStyles'
 import OfficeSpan from '../../OfficeSpan'
+import { TheContext } from '../../../TheContext'
 
-interface Props {
-  user: User | null
-  setOneUserData: Function
-  updateUser: Function
-}
+const UserSettings: FC = (): JSX.Element => {
+  const context = useContext(TheContext)
 
-const UserSettings: FC<Props> = ({
-  user,
-  setOneUserData,
-  updateUser,
-}: Props): JSX.Element => {
   const [offices, setOffices] = useState<HomeOffice[]>([])
   const [isDataChanged, setIsDataChanged] = useState(false)
+  const [userData, setUserData] = useState<User | null>(null)
+  /*  const [usersData, setUsersData] = useState<User[]>([]) */
+
+  useEffect(() => {
+    ;(async () => {
+      if (context?.user?.id) setUserData(await fetchUserById(context?.user?.id))
+    })()
+  }, [context?.user?.id])
 
   useEffect(() => {
     ;(async () => {
@@ -38,8 +43,9 @@ const UserSettings: FC<Props> = ({
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setOneUserData({
-      ...user,
+    if (!userData) return
+    setUserData({
+      ...userData,
       [event.target.name]: event.target.value,
     })
     setIsDataChanged(true)
@@ -51,67 +57,81 @@ const UserSettings: FC<Props> = ({
     }
   }
 
-  /* const onModalClose = () => {
-    setVisible(false)
-    setIsDataChanged(false)
-  } */
+  /*   const loadUserData = async () => {
+      const userTmp = await fetchUserById(userData?.id)
+      setUserData(userTmp)
+    }
+  
+    useEffect(() => {
+      loadUserData()
+    }, []) */
 
-  if (user == null) return <></>
+  /*  const loadUsersData = async () => {
+     const usersTmp = await fetchAllUsers()
+     setUsersData(usersTmp)
+   } */
+
+  /*  const updateUser = async (editedUser: User) => {
+     const ok = await fetchAdminUpdateUserData(editedUser)
+     if (ok?.ok) {
+       await loadUsersData()
+     }
+   } */
+
+  console.log(userData)
+  if (userData == null) return <></>
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       <Paper elevation={3} sx={{ marginTop: 7, width: '70%' }}>
-        <Typography sx={{ textAlign: 'center' }} variant="h4">
-          User Settings
-        </Typography>
-        <TextField
-          label="Username"
-          name="username"
-          value={user?.username}
-          onChange={(e) => onChange(e)}
-        />
-        <TextField
-          label="Email"
-          name="email"
-          value={user?.email}
-          onChange={(e) => onChange(e)}
-        />
-        <TextField
-          select
-          label="Office"
-          name="homeOfficeId"
-          value={user?.homeOfficeId}
-          onChange={(e) => onChange(e)}
-        >
-          <MenuItem value={0} key={0}>
-            <OfficeSpan countryCode="" officeName="Unknown" />
-          </MenuItem>
-          {offices.map(({ id, name, countryCode }) => (
-            <MenuItem value={id} key={id}>
-              <OfficeSpan countryCode={countryCode} officeName={name} />
-            </MenuItem>
-          ))}
-        </TextField>
-        <Stack direction="row" spacing={2} justifyContent="center">
-          <Button
-            disabled={!isDataChanged}
-            sx={confirmButton}
-            variant="contained"
-            onClick={() => {
-              updateUser(user)
-              editingMessage()
-              setIsDataChanged(false)
-            }}
+        <Stack spacing={2}>
+          <Typography sx={{ textAlign: 'center' }} variant="h4">
+            User Settings
+          </Typography>
+          <TextField
+            disabled
+            label="Username"
+            name="username"
+            value={userData?.username}
+            onChange={(e) => onChange(e)}
+          />
+          <TextField
+            disabled
+            label="Email"
+            name="email"
+            value={userData?.email}
+            onChange={(e) => onChange(e)}
+          />
+          <TextField
+            select
+            label="Set home office"
+            name="homeOfficeId"
+            value={userData?.homeOfficeId}
+            onChange={(e) => onChange(e)}
           >
-            Update
-          </Button>
-          {/*  <Button
-              sx={cancelButton}
+            <MenuItem value={0} key={0}>
+              <OfficeSpan countryCode="" officeName="Unknown" />
+            </MenuItem>
+            {offices.map(({ id, name, countryCode }) => (
+              <MenuItem value={id} key={id}>
+                <OfficeSpan countryCode={countryCode} officeName={name} />
+              </MenuItem>
+            ))}
+          </TextField>
+          <Stack direction="row" spacing={2} justifyContent="center">
+            <Button
+              disabled={!isDataChanged}
+              sx={confirmButton}
               variant="contained"
-              onClick={() => onModalClose()}
+              onClick={() => {
+                fetchUpdateUserData(userData)
+                editingMessage()
+                setIsDataChanged(false)
+              }}
             >
-              Cancel
-            </Button> */}
+              Update
+            </Button>
+          </Stack>
         </Stack>
       </Paper>
     </Box>
