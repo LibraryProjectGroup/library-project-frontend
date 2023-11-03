@@ -444,12 +444,16 @@ const BookCard: React.FC<BookCardProps> = ({
                         </>
                       }
                     />
-                    <Button
-                      onClick={() => deleteReview(review.id)}
-                      sx={reviewDeleteButton}
-                    >
-                      Delete
-                    </Button>
+                    {context?.user?.id === review.user_id && (
+                      <Button
+                        onClick={() => {
+                          deleteReview(review.id)
+                        }}
+                        sx={reviewDeleteButton}
+                      >
+                        Delete
+                      </Button>
+                    )}
                   </ListItem>
                 ))
               : null}
