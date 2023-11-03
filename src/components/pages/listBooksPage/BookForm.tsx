@@ -117,11 +117,13 @@ const EditBook: FC<IProps> = ({
       .then((result) => {
         const date = result.items[0].volumeInfo.publishedDate
         const bookData = result.items[0]
+        let authors = bookData.volumeInfo.authors.join(', ')
+
         if (bookData.volumeInfo.imageLinks) {
           setBook({
             ...book,
             isbn: isbn,
-            author: bookData.volumeInfo.authors[0],
+            author: authors,
             image: bookData.volumeInfo.imageLinks.thumbnail,
             title: bookData.volumeInfo.title,
             year: date[0] + date[1] + date[2] + date[3],
@@ -130,7 +132,7 @@ const EditBook: FC<IProps> = ({
           setBook({
             ...book,
             isbn: isbn,
-            author: bookData.volumeInfo.authors[0],
+            author: authors,
             image: null,
             title: bookData.volumeInfo.title,
             year: date[0] + date[1] + date[2] + date[3],
@@ -173,6 +175,13 @@ const EditBook: FC<IProps> = ({
               {editing ? `Edit ${book.title}` : 'Add book'}
             </Typography>
             <TextField
+              label="ISBN"
+              name="isbn"
+              required
+              value={book.isbn}
+              onChange={(e) => onChange(e)}
+            />
+            <TextField
               label="Author"
               name="author"
               required
@@ -191,13 +200,6 @@ const EditBook: FC<IProps> = ({
               name="topic"
               required
               value={book.topic}
-              onChange={(e) => onChange(e)}
-            />
-            <TextField
-              label="ISBN"
-              name="isbn"
-              required
-              value={book.isbn}
               onChange={(e) => onChange(e)}
             />
             <TextField
