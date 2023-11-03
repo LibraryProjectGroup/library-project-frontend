@@ -7,6 +7,11 @@ import {
   TextField,
   Rating,
   Collapse,
+  List,
+  ListItem,
+  Avatar,
+  ListItemAvatar,
+  ListItemText,
 } from '@mui/material'
 import Borrow from '../../../interfaces/borrow.interface'
 import Book from '../../../interfaces/book.interface'
@@ -29,7 +34,9 @@ import {
   fetchReviewsByBookId,
   fetchAverageRatingForBook,
   fetchDeleteReview,
+  fetchAllUsers,
 } from '../../../fetchFunctions'
+import User from '../../../interfaces/user.interface'
 
 interface BookCardProps {
   book: Book
@@ -64,16 +71,19 @@ const BookCard: React.FC<BookCardProps> = ({
   const [reviews, setReviews] = useState<Book_review[]>([])
   const [isReviewListVisible, setReviewListVisible] = useState(false)
   const [averageRating, setAverageRating] = useState(0)
+  const [usernames, setUsernames] = useState<Record<number, string>>({})
 
   useEffect(() => {
     loadReviews()
     loadAverageRating()
+    loadUsernames()
   }, [book.id])
 
   const loadReviews = async () => {
     try {
       const fetchedReviews = await fetchReviewsByBookId(book.id)
       setReviews(fetchedReviews)
+      console.log(reviews)
     } catch (error) {
       console.error('Error fetching reviews:', error)
     }
@@ -87,6 +97,21 @@ const BookCard: React.FC<BookCardProps> = ({
       })
     } catch (error) {
       console.error('Error fetching average rating:', error)
+    }
+  }
+
+  const loadUsernames = async () => {
+    try {
+      const users: User[] = await fetchAllUsers()
+      console.log('Fetched Users:', users)
+      const usernameMap: Record<number, string> = {}
+      users.forEach((user) => {
+        usernameMap[user.id] = user.username
+      })
+      setUsernames(usernameMap)
+      console.log('Usernames Dictionary:', usernames)
+    } catch (error) {
+      console.error('Error fetching usernames:', error)
     }
   }
 
@@ -369,42 +394,66 @@ const BookCard: React.FC<BookCardProps> = ({
       </Button>
       <Collapse in={isReviewListVisible}>
         <div>
-          <ul style={{ listStyleType: 'none' }}>
+          <List>
             {reviews
               ? reviews.map((review, index) => (
-                  <li
+                  <ListItem
                     key={index}
-                    style={{
+                    sx={{
                       border: '1px solid #ddd',
-                      padding: '10px',
-                      marginBottom: '10px',
                       borderRadius: '8px',
-                      backgroundColor: '#f7f7f7',
-                      maxWidth: 400,
-                      height: 100,
-                      position: 'relative',
+                      marginBottom: '10px',
                     }}
                   >
-                    <Typography>{review.userId}</Typography>
-                    <Rating
-                      name="average-rating"
-                      value={review.rating || 0}
-                      readOnly
-                      precision={0.1}
+                    <ListItemAvatar>
+                      <Avatar>
+                        {usernames[review.user_id]
+                          ? usernames[review.user_id][0].toUpperCase()
+                          : 'U'}
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={usernames[review.user_id] || 'Unknown User'}
+                      secondary={
+                        <>
+                          <Rating
+                            name="rating"
+                            value={review.rating || 0}
+                            readOnly
+                            precision={0.1}
+                          />
+                          <br />
+                          {review.comment}
+                          <div
+                            style={{
+                              fontSize: '12px',
+                              color: '#888',
+                              marginTop: '10px',
+                              textAlign: 'right',
+                            }}
+                          >
+                            {new Date(review.review_date).toLocaleDateString(
+                              'fi-FI',
+                              {
+                                year: 'numeric',
+                                month: 'numeric',
+                                day: 'numeric',
+                              }
+                            )}
+                          </div>
+                        </>
+                      }
                     />
-                    <Typography style={{ marginTop: '5px' }}>
-                      {review.comment}
-                    </Typography>
                     <Button
                       onClick={() => deleteReview(review.id)}
                       sx={reviewDeleteButton}
                     >
                       Delete
                     </Button>
-                  </li>
+                  </ListItem>
                 ))
               : null}
-          </ul>
+          </List>
         </div>
       </Collapse>
     </Paper>

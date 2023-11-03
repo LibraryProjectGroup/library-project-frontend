@@ -1,10 +1,9 @@
 interface Book_review {
-    id: number;
-    userId: number;
-    bookId: number;
-    comment: string;
-    rating: number;
-    reviewDate: Date;
+  id: number;
+  rating: number;
+  comment: string;
+  user_id: number;
+  review_date: string;
   }
   
   export default Book_review;
