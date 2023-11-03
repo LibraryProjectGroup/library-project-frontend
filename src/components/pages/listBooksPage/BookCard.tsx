@@ -403,6 +403,7 @@ const BookCard: React.FC<BookCardProps> = ({
                       border: '1px solid #ddd',
                       borderRadius: '8px',
                       marginBottom: '10px',
+                      wordWrap: 'break-word',
                     }}
                   >
                     <ListItemAvatar>
@@ -414,6 +415,7 @@ const BookCard: React.FC<BookCardProps> = ({
                     </ListItemAvatar>
                     <ListItemText
                       primary={usernames[review.user_id] || 'Unknown User'}
+                      secondaryTypographyProps={{ whiteSpace: 'pre-wrap' }}
                       secondary={
                         <>
                           <Rating
