@@ -184,6 +184,42 @@ export const listBooksEditButton: SxProps = {
   },
 }
 
+export const listBooksLikeButton: SxProps = {
+  fontFamily: 'Montserrat',
+  fontWeight: 'bold',
+  fontSize: 15,
+  marginTop: '1rem',
+  whiteSpace: 'nowrap',
+  backgroundColor: '#FFD100',
+  color: 'black',
+  '&:hover': {
+    backgroundColor: '#FFB500',
+  },
+  width: 40,
+  height: 38.25,
+  position: { xs: 'absolute', md: 'inherit' },
+  bottom: 0,
+  right: 0,
+}
+
+export const listBooksLikeButtonGrid: SxProps = {
+  fontFamily: 'Montserrat',
+  fontWeight: 'bold',
+  fontSize: 15,
+  marginTop: '1rem',
+  whiteSpace: 'nowrap',
+  backgroundColor: '#FFD100',
+  color: 'black',
+  '&:hover': {
+    backgroundColor: '#FFB500',
+  },
+  width: 40,
+  height: 38.25,
+  position: 'absolute',
+  bottom: 0,
+  right: 0,
+}
+
 export const listBooksEntryAddButton: SxProps = {
   fontFamily: 'Montserrat',
   fontWeight: 'bold',

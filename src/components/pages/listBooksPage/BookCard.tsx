@@ -23,6 +23,7 @@ import {
   showReviewsButton,
 } from '../../../sxStyles'
 import UserListPopup from './UserListPopup'
+import LikeButton from './LikeButton'
 import {
   fetchAddReview,
   fetchReviewsByBookId,
@@ -137,7 +138,18 @@ const BookCard: React.FC<BookCardProps> = ({
           padding: '1rem',
         }}
       >
-        <Stack>
+        <Stack
+          sx={{
+            display: 'flex',
+            flex: 1,
+            flexDirection:
+              viewType === 'list' ? { xs: 'row', md: 'column' } : 'row',
+            position: 'relative',
+            justifyContent: 'space-between',
+            minWidth: 120,
+            maxWidth: { xs: 999, md: 0 },
+          }}
+        >
           {book.image ? (
             <img alt="Book cover" width={120} height={160} src={book.image} />
           ) : (
@@ -148,6 +160,7 @@ const BookCard: React.FC<BookCardProps> = ({
               src={'https://images.isbndb.com/covers/91/26/9789513119126.jpg'}
             />
           )}
+          <LikeButton book={book} viewType={viewType} />
         </Stack>
 
         <Stack>
