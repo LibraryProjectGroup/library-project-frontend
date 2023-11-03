@@ -21,8 +21,11 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
       sx={{
         textAlign: 'center',
         display: 'flex',
-        width: '100%',
+        minWidth: '400px',
         justifyContent: 'center',
+        marginLeft: '5px',
+        marginRight: '5px',
+        marginTop: '5px',
       }}
     >
       <TablePagination
