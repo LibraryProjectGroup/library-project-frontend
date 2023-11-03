@@ -22,17 +22,35 @@ import { TheContext } from '../../../TheContext'
 
 const UserSettings: FC = (): JSX.Element => {
   const context = useContext(TheContext)
-
   const [offices, setOffices] = useState<HomeOffice[]>([])
   const [isDataChanged, setIsDataChanged] = useState(false)
+  const [userDataFromApi, setUserDataFromApi] = useState<User | null>(null)
   const [userData, setUserData] = useState<User | null>(null)
-  /*  const [usersData, setUsersData] = useState<User[]>([]) */
 
   useEffect(() => {
-    ;(async () => {
-      if (context?.user?.id) setUserData(await fetchUserById(context?.user?.id))
-    })()
+    // Fetch user data from the API
+    if (context?.user?.id) {
+      ;(async () => {
+        if (!context?.user?.id) return
+        const userData = await fetchUserById(context.user.id)
+        setUserDataFromApi(userData)
+      })()
+    }
   }, [context?.user?.id])
+
+  useEffect(() => {
+    // Set initial userData and handle null value for homeOfficeId
+    if (userDataFromApi) {
+      const updatedUserData = {
+        ...userDataFromApi,
+        homeOfficeId:
+          userDataFromApi.homeOfficeId === null
+            ? 0
+            : userDataFromApi.homeOfficeId,
+      }
+      setUserData(updatedUserData)
+    }
+  }, [userDataFromApi])
 
   useEffect(() => {
     ;(async () => {
@@ -71,12 +89,12 @@ const UserSettings: FC = (): JSX.Element => {
      setUsersData(usersTmp)
    } */
 
-  /*  const updateUser = async (editedUser: User) => {
-     const ok = await fetchAdminUpdateUserData(editedUser)
-     if (ok?.ok) {
-       await loadUsersData()
-     }
-   } */
+  const updateUser = async (editedUser: User) => {
+    const ok = await fetchUpdateUserData(editedUser)
+    if (ok?.ok) {
+      setUserData(editedUser)
+    }
+  }
 
   console.log(userData)
   if (userData == null) return <></>
@@ -93,14 +111,14 @@ const UserSettings: FC = (): JSX.Element => {
             label="Username"
             name="username"
             value={userData?.username}
-            onChange={(e) => onChange(e)}
+            /* onChange={(e) => onChange(e)} */
           />
           <TextField
             disabled
             label="Email"
             name="email"
             value={userData?.email}
-            onChange={(e) => onChange(e)}
+            /* onChange={(e) => onChange(e)} */
           />
           <TextField
             select
