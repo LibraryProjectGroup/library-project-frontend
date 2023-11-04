@@ -4,7 +4,6 @@ import {
   Typography,
   Stack,
   Button,
-  TextField,
   Rating,
   Collapse,
   List,
@@ -20,8 +19,6 @@ import Book_review from '../../../interfaces/book_review.interface'
 import OfficeSpan from '../../OfficeSpan'
 import { MS_IN_DAY, RESERVATION_DAYS } from '../../../constants'
 import {
-  editBookCancelButton,
-  editBookListUpdateButton,
   listBooksDeleteButton,
   listBooksEditButton,
   reviewDeleteButton,
@@ -30,13 +27,13 @@ import {
 import UserListPopup from './UserListPopup'
 import LikeButton from './LikeButton'
 import {
-  fetchAddReview,
   fetchReviewsByBookId,
   fetchAverageRatingForBook,
   fetchDeleteReview,
   fetchAllUsers,
 } from '../../../fetchFunctions'
 import User from '../../../interfaces/user.interface'
+import BookReviewForm from './BookReviewForm'
 
 interface BookCardProps {
   book: Book
@@ -65,8 +62,6 @@ const BookCard: React.FC<BookCardProps> = ({
   activeAndLoanableReservations,
   viewType,
 }) => {
-  const [reviewText, setReviewText] = useState('')
-  const [rating, setRating] = useState<number>(0)
   const [isReviewVisible, setReviewVisible] = useState(false)
   const [reviews, setReviews] = useState<Book_review[]>([])
   const [isReviewListVisible, setReviewListVisible] = useState(false)
@@ -74,29 +69,18 @@ const BookCard: React.FC<BookCardProps> = ({
   const [usernames, setUsernames] = useState<Record<number, string>>({})
 
   useEffect(() => {
-    loadReviews()
-    loadAverageRating()
+    loadReviewsAndRating()
     loadUsernames()
   }, [book.id])
 
-  const loadReviews = async () => {
+  const loadReviewsAndRating = async () => {
     try {
       const fetchedReviews = await fetchReviewsByBookId(book.id)
+      const averageRatingData = await fetchAverageRatingForBook(book.id)
       setReviews(fetchedReviews)
-      console.log(reviews)
+      setAverageRating(averageRatingData.averageRating)
     } catch (error) {
-      console.error('Error fetching reviews:', error)
-    }
-  }
-
-  const loadAverageRating = async () => {
-    try {
-      await fetchAverageRatingForBook(book.id).then((data) => {
-        setAverageRating(data.averageRating)
-        console.log(averageRating)
-      })
-    } catch (error) {
-      console.error('Error fetching average rating:', error)
+      console.log('Error loading reviews and average rating: ', error)
     }
   }
 
@@ -115,26 +99,9 @@ const BookCard: React.FC<BookCardProps> = ({
     }
   }
 
-  const handleReviewSubmit = async () => {
-    try {
-      const success = await fetchAddReview(book.id, reviewText, rating)
-      if (success) {
-        setRating(0)
-        setReviewText('')
-        setReviewVisible(false)
-        loadReviews()
-        loadAverageRating()
-      } else {
-        console.error('Failed to add review')
-      }
-    } catch (error) {
-      console.error('Error adding review:', error)
-    }
-  }
   const deleteReview = async (reviewId: number) => {
     await fetchDeleteReview(reviewId)
-    loadReviews()
-    loadAverageRating()
+    loadReviewsAndRating()
   }
 
   return (
@@ -325,60 +292,21 @@ const BookCard: React.FC<BookCardProps> = ({
           </Button>
           {renderLoanButton(book)}
           {renderReserveButton(book)}
-          {!isReviewVisible && (
-            <Button
-              sx={listBooksEditButton}
-              variant="contained"
-              onClick={() => setReviewVisible(true)}
-            >
-              Add Review
-            </Button>
-          )}
+          <Button
+            sx={listBooksEditButton}
+            variant="contained"
+            onClick={() => setReviewVisible(!isReviewVisible)}
+          >
+            Add Review
+          </Button>
         </Stack>
       </Stack>
-      <Stack direction="column" spacing={1}>
-        {isReviewVisible && (
-          <>
-            <TextField
-              label="Write your review here..."
-              multiline
-              rows={4}
-              fullWidth
-              value={reviewText}
-              onChange={(e) => setReviewText(e.target.value)}
-              margin="normal"
-              variant="outlined"
-            />
-            <Typography component="legend">Rating:</Typography>
-            <Rating
-              name="rating"
-              value={rating}
-              precision={1}
-              size="large"
-              onChange={(event, newValue) => {
-                setRating(newValue || 0)
-              }}
-            />
-            <Stack direction="row" spacing={3}>
-              <Button
-                variant="contained"
-                sx={editBookListUpdateButton}
-                onClick={handleReviewSubmit}
-              >
-                Submit Review
-              </Button>
-              <Button
-                variant="contained"
-                sx={editBookCancelButton}
-                onClick={() => setReviewVisible(false)}
-              >
-                Cancel
-              </Button>
-            </Stack>
-          </>
-        )}
-      </Stack>
-
+      <BookReviewForm
+        book={book}
+        isReviewVisible={isReviewVisible}
+        setReviewVisible={setReviewVisible}
+        loadReviewsAndRating={loadReviewsAndRating}
+      />
       <Button
         variant="text"
         color="primary"
