@@ -12,6 +12,7 @@ import {
   ListItemAvatar,
   ListItemText,
 } from '@mui/material'
+import { toast } from 'react-toastify'
 import Borrow from '../../../interfaces/borrow.interface'
 import Book from '../../../interfaces/book.interface'
 import Book_reservation from '../../../interfaces/book_reservation.interface'
@@ -67,6 +68,7 @@ const BookCard: React.FC<BookCardProps> = ({
   const [isReviewListVisible, setReviewListVisible] = useState(false)
   const [averageRating, setAverageRating] = useState(0)
   const [usernames, setUsernames] = useState<Record<number, string>>({})
+  const [reviewedBooks, setReviewedBooks] = useState<Set<number>>(new Set())
 
   useEffect(() => {
     loadReviewsAndRating()
@@ -79,6 +81,17 @@ const BookCard: React.FC<BookCardProps> = ({
       const averageRatingData = await fetchAverageRatingForBook(book.id)
       setReviews(fetchedReviews)
       setAverageRating(averageRatingData.averageRating)
+
+      if (context?.user?.id) {
+        const hasReviewed = fetchedReviews.some(
+          (review) => review.user_id === context.user.id
+        )
+        if (hasReviewed) {
+          setReviewedBooks((prevReviewedBooks) =>
+            new Set(prevReviewedBooks).add(book.id)
+          )
+        }
+      }
     } catch (error) {
       console.log('Error loading reviews and average rating: ', error)
     }
@@ -103,6 +116,11 @@ const BookCard: React.FC<BookCardProps> = ({
     await fetchDeleteReview(reviewId)
     loadReviewsAndRating()
   }
+
+  const ErrorMessageDelete = () =>
+    toast.error('You have already reviewed this book!', {
+      containerId: 'ToastAlert',
+    })
 
   return (
     <Paper
@@ -295,7 +313,15 @@ const BookCard: React.FC<BookCardProps> = ({
           <Button
             sx={listBooksEditButton}
             variant="contained"
-            onClick={() => setReviewVisible(!isReviewVisible)}
+            onClick={() => {
+              if (isReviewVisible) {
+                setReviewVisible(false)
+              } else if (reviewedBooks.has(book.id)) {
+                ErrorMessageDelete()
+              } else {
+                setReviewVisible(!isReviewVisible)
+              }
+            }}
           >
             Add Review
           </Button>
