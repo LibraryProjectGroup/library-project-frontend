@@ -100,13 +100,11 @@ const BookCard: React.FC<BookCardProps> = ({
   const loadUsernames = async () => {
     try {
       const users: User[] = await fetchAllUsers()
-      console.log('Fetched Users:', users)
       const usernameMap: Record<number, string> = {}
       users.forEach((user) => {
         usernameMap[user.id] = user.username
       })
       setUsernames(usernameMap)
-      console.log('Usernames Dictionary:', usernames)
     } catch (error) {
       console.error('Error fetching usernames:', error)
     }
