@@ -6,12 +6,15 @@ import {
 } from '../../../sxStyles'
 import { fetchAddReview } from '../../../fetchFunctions'
 import { Stack, TextField, Typography, Rating, Button } from '@mui/material'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface BookReviewFormProps {
   book: Book
   isReviewVisible: boolean
   setReviewVisible: (value: boolean) => void
   loadReviewsAndRating: () => void
+  setReviewListVisible: (value: boolean) => void
 }
 
 const BookReviewForm: React.FC<BookReviewFormProps> = ({
@@ -19,6 +22,7 @@ const BookReviewForm: React.FC<BookReviewFormProps> = ({
   isReviewVisible,
   setReviewVisible,
   loadReviewsAndRating,
+  setReviewListVisible,
 }) => {
   const [reviewText, setReviewText] = useState('')
   const [rating, setRating] = useState<number>(0)
@@ -30,6 +34,11 @@ const BookReviewForm: React.FC<BookReviewFormProps> = ({
       setCharacterCount(500)
     }
   }, [isReviewVisible])
+
+  const SuccessMessage = () =>
+    toast.success('Review was added successfully', {
+      containerId: 'ToastSuccess',
+    })
 
   const handleReviewTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newText = e.target.value
@@ -52,6 +61,8 @@ const BookReviewForm: React.FC<BookReviewFormProps> = ({
         setErrorText('')
         setReviewVisible(false)
         loadReviewsAndRating()
+        SuccessMessage()
+        setReviewListVisible(true)
       } else {
         console.error('Failed to add review')
       }

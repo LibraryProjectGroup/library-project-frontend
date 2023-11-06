@@ -115,7 +115,13 @@ const BookCard: React.FC<BookCardProps> = ({
   const deleteReview = async (reviewId: number) => {
     await fetchDeleteReview(reviewId)
     loadReviewsAndRating()
+    DeleteSuccessMessage()
   }
+
+  const DeleteSuccessMessage = () =>
+    toast.success('Review deleted successfully', {
+      containerId: 'ToastSuccess',
+    })
 
   const ErrorMessageDelete = () =>
     toast.error('You have already reviewed this book!', {
@@ -332,6 +338,7 @@ const BookCard: React.FC<BookCardProps> = ({
         isReviewVisible={isReviewVisible}
         setReviewVisible={setReviewVisible}
         loadReviewsAndRating={loadReviewsAndRating}
+        setReviewListVisible={setReviewListVisible}
       />
       <Button
         variant="text"
