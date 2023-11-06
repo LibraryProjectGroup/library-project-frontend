@@ -19,6 +19,7 @@ import { toast } from 'react-toastify'
 import { confirmButton } from '../../../sxStyles'
 import OfficeSpan from '../../OfficeSpan'
 import { TheContext } from '../../../TheContext'
+import ToastContainers from '../../../ToastContainers'
 
 const UserSettings: FC = (): JSX.Element => {
   const context = useContext(TheContext)
@@ -69,34 +70,23 @@ const UserSettings: FC = (): JSX.Element => {
     setIsDataChanged(true)
   }
 
-  const editingMessage = () => {
-    if (isDataChanged) {
-      toast.success('User edited succesfully', { containerId: 'ToastSuccess' })
-    }
-  }
-
-  /*   const loadUserData = async () => {
-      const userTmp = await fetchUserById(userData?.id)
-      setUserData(userTmp)
-    }
-  
-    useEffect(() => {
-      loadUserData()
-    }, []) */
-
-  /*  const loadUsersData = async () => {
-     const usersTmp = await fetchAllUsers()
-     setUsersData(usersTmp)
-   } */
-
   const updateUser = async (editedUser: User) => {
     const ok = await fetchUpdateUserData(editedUser)
     if (ok?.ok) {
-      setUserData(editedUser)
+      toast.success('User edited succesfully', { containerId: 'ToastSuccess' })
+    } else {
+      console.log('Failed to update user')
+    }
+  }
+  const handleUpdate = () => {
+    if (isDataChanged && userData) {
+      updateUser(userData)
+      setIsDataChanged(false)
+    } else {
+      console.log('No changes to update')
     }
   }
 
-  console.log(userData)
   if (userData == null) return <></>
 
   return (
@@ -142,15 +132,14 @@ const UserSettings: FC = (): JSX.Element => {
               sx={confirmButton}
               variant="contained"
               onClick={() => {
-                fetchUpdateUserData(userData)
-                editingMessage()
-                setIsDataChanged(false)
+                handleUpdate()
               }}
             >
               Update
             </Button>
           </Stack>
         </Stack>
+        <ToastContainers />
       </Paper>
     </Box>
   )
