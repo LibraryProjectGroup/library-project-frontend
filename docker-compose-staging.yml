@@ -8,13 +8,12 @@ services:
     tty: true
     build:
       args:
-        REACT_APP_BACKEND_URL: "https://host.docker.internal:3002"
+        REACT_APP_BACKEND_URL: "https://localhost:3002"
       context: ./
       dockerfile: node.Dockerfile
     environment:
       PORT: "3000"
-      REACT_APP_BACKEND_URL: "https://host.docker.internal:3002"
-      TESTVAR: ${ENV_TEST}
+      REACT_APP_BACKEND_URL: "https://localhost:3002"
     volumes:
       - ./src:/app/src
       - ./robot:/app/robot
