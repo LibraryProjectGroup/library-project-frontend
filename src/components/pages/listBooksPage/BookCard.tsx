@@ -111,9 +111,19 @@ const BookCard: React.FC<BookCardProps> = ({
   }
 
   const deleteReview = async (reviewId: number) => {
-    await fetchDeleteReview(reviewId)
-    loadReviewsAndRating()
-    DeleteSuccessMessage()
+    try {
+      await fetchDeleteReview(reviewId)
+      loadReviewsAndRating()
+      DeleteSuccessMessage()
+
+      setReviewedBooks((prevReviewBooks) => {
+        const updateReviewedBooks = new Set(prevReviewBooks)
+        updateReviewedBooks.delete(book.id)
+        return updateReviewedBooks
+      })
+    } catch (error) {
+      console.error('Error deleting a review', error)
+    }
   }
 
   const DeleteSuccessMessage = () =>
