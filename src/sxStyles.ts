@@ -252,14 +252,14 @@ export const listBooksLoanButton: SxProps = {
 
 export const showReviewsButton: SxProps = {
   maxWidth: 200,
-  color: "black"
-};
+  color: 'black',
+}
 
 export const reviewDeleteButton: SxProps = {
-  color: "red",
-  position: "absolute",
+  color: 'red',
+  position: 'absolute',
   top: 5,
-  right: 10
+  right: 10,
 }
 
 // UserPage
