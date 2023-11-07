@@ -93,6 +93,7 @@ const UserSettings: FC = (): JSX.Element => {
   const handleLogout = () => {
     endSession()
     context?.setIsLogin(false)
+    navigate('/login?deletionStatus=success')
   }
 
   //UPDATE USER
@@ -120,7 +121,6 @@ const UserSettings: FC = (): JSX.Element => {
         ErrorMessage()
       } else {
         handleLogout()
-        navigate('/login?deletionStatus=success')
       }
     })
     handleClose()
