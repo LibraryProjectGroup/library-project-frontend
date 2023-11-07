@@ -314,43 +314,49 @@ const BookCard: React.FC<BookCardProps> = ({
           </Button>
           {renderLoanButton(book)}
           {renderReserveButton(book)}
-          <Button
-            sx={listBooksEditButton}
-            variant="contained"
-            onClick={() => {
-              if (isReviewVisible) {
-                setReviewVisible(false)
-              } else if (reviewedBooks.has(book.id)) {
-                ErrorMessageDelete()
-              } else {
-                setReviewVisible(!isReviewVisible)
-              }
-            }}
-          >
-            Add Review
-          </Button>
+          {viewType === 'list' && (
+            <Button
+              sx={listBooksEditButton}
+              variant="contained"
+              onClick={() => {
+                if (isReviewVisible) {
+                  setReviewVisible(false)
+                } else if (reviewedBooks.has(book.id)) {
+                  ErrorMessageDelete()
+                } else {
+                  setReviewVisible(!isReviewVisible)
+                }
+              }}
+            >
+              Add Review
+            </Button>
+          )}
         </Stack>
       </Stack>
-      <BookReviewForm
-        book={book}
-        isReviewVisible={isReviewVisible}
-        setReviewVisible={setReviewVisible}
-        loadReviewsAndRating={loadReviewsAndRating}
-        setReviewListVisible={setReviewListVisible}
-      />
-      <Button
-        variant="text"
-        color="primary"
-        sx={showReviewsButton}
-        onClick={() => {
-          setReviewListVisible(!isReviewListVisible)
-        }}
-      >
-        <Typography variant="subtitle1">
-          {isReviewListVisible ? 'Hide reviews' : 'View reviews'} (
-          {reviews ? reviews.length : 0})
-        </Typography>
-      </Button>
+      {viewType === 'list' && (
+        <BookReviewForm
+          book={book}
+          isReviewVisible={isReviewVisible}
+          setReviewVisible={setReviewVisible}
+          loadReviewsAndRating={loadReviewsAndRating}
+          setReviewListVisible={setReviewListVisible}
+        />
+      )}
+      {viewType === 'list' && (
+        <Button
+          variant="text"
+          color="primary"
+          sx={showReviewsButton}
+          onClick={() => {
+            setReviewListVisible(!isReviewListVisible)
+          }}
+        >
+          <Typography variant="subtitle1">
+            {isReviewListVisible ? 'Hide reviews' : 'View reviews'} (
+            {reviews ? reviews.length : 0})
+          </Typography>
+        </Button>
+      )}
       <Collapse in={isReviewListVisible}>
         <div>
           <List>
