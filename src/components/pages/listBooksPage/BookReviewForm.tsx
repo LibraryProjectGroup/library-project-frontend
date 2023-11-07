@@ -75,6 +75,7 @@ const BookReviewForm: React.FC<BookReviewFormProps> = ({
     <Stack direction="column" spacing={1}>
       {isReviewVisible && (
         <>
+          <div style={{ marginTop: '50px' }} />
           <TextField
             label="Write your review here..."
             multiline
