@@ -1,28 +1,27 @@
-import { useState, FC, useEffect } from "react";
 import {
-  Modal,
   Box,
   Button,
-  Typography,
-  TextField,
-  Stack,
   MenuItem,
-} from "@mui/material";
-import User from "../../../interfaces/editUser.interface";
-import { popupContainer, confirmButton, cancelButton } from "../../../sxStyles";
-import { toast } from "react-toastify";
-import { HomeOffice } from "../../../interfaces/HomeOffice";
-import { fetchAllHomeOffices } from "../../../fetchFunctions";
-import OfficeSpan from "../../OfficeSpan";
-
-import "react-toastify/dist/ReactToastify.css";
+  Modal,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material'
+import { FC, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { fetchAllHomeOffices } from '../../../fetchFunctions'
+import User from '../../../interfaces/editUser.interface'
+import { HomeOffice } from '../../../interfaces/HomeOffice'
+import { cancelButton, confirmButton, popupContainer } from '../../../sxStyles'
+import OfficeSpan from '../../OfficeSpan'
 
 interface IProps {
-  visible: boolean;
-  setVisible: Function;
-  user: User | null;
-  setOneUserData: Function;
-  updateUser: Function;
+  visible: boolean
+  setVisible: Function
+  user: User | null
+  setOneUserData: Function
+  updateUser: Function
 }
 
 const EditUser: FC<IProps> = ({
@@ -32,15 +31,14 @@ const EditUser: FC<IProps> = ({
   setOneUserData,
   updateUser,
 }: IProps): JSX.Element => {
-  const editingMessage = () =>
-    toast.success("User edited succesfully", { containerId: "ToastSuccess" });
-  const [offices, setOffices] = useState<HomeOffice[]>([]);
+  const [offices, setOffices] = useState<HomeOffice[]>([])
+  const [isDataChanged, setIsDataChanged] = useState(false)
 
   useEffect(() => {
-    (async () => {
-      setOffices(await fetchAllHomeOffices());
-    })();
-  }, []);
+    ;(async () => {
+      setOffices(await fetchAllHomeOffices())
+    })()
+  }, [])
 
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -48,19 +46,31 @@ const EditUser: FC<IProps> = ({
     setOneUserData({
       ...user,
       [event.target.name]: event.target.value,
-    });
-  };
+    })
+    setIsDataChanged(true)
+  }
 
-  if (user == null) return <></>;
+  const editingMessage = () => {
+    if (isDataChanged) {
+      toast.success('User edited succesfully', { containerId: 'ToastSuccess' })
+    }
+  }
+
+  const onModalClose = () => {
+    setVisible(false)
+    setIsDataChanged(false)
+  }
+
+  if (user == null) return <></>
 
   return (
-    <Modal open={visible} onClose={() => setVisible(false)}>
+    <Modal open={visible} onClose={() => onModalClose()}>
       <Box sx={popupContainer}>
         <Stack spacing={2}>
           <Typography
             sx={{
-              fontFamily: "Montserrat",
-              fontWeight: "bold",
+              fontFamily: 'Montserrat',
+              fontWeight: 'bold',
             }}
             variant="h4"
           >
@@ -73,8 +83,8 @@ const EditUser: FC<IProps> = ({
             value={user?.administrator}
             onChange={(e) => onChange(e)}
           >
-            <MenuItem value={"true"}>True</MenuItem>
-            <MenuItem value={"false"}>False</MenuItem>
+            <MenuItem value={'true'}>True</MenuItem>
+            <MenuItem value={'false'}>False</MenuItem>
           </TextField>
           <TextField
             label="Username"
@@ -95,24 +105,24 @@ const EditUser: FC<IProps> = ({
             value={user?.homeOfficeId}
             onChange={(e) => onChange(e)}
           >
-            {
-              // @ts-ignore
-              offices.map(({ id, name, countryCode }) => {
-                return (
-                  <MenuItem value={id}>
-                    <OfficeSpan countryCode={countryCode} officeName={name} />
-                  </MenuItem>
-                );
-              })
-            }
+            <MenuItem value={0} key={0}>
+              <OfficeSpan countryCode="" officeName="Unknown" />
+            </MenuItem>
+            {offices.map(({ id, name, countryCode }) => (
+              <MenuItem value={id} key={id}>
+                <OfficeSpan countryCode={countryCode} officeName={name} />
+              </MenuItem>
+            ))}
           </TextField>
           <Stack direction="row" spacing={2} justifyContent="center">
             <Button
+              disabled={!isDataChanged}
               sx={confirmButton}
               variant="contained"
               onClick={() => {
-                updateUser(user);
-                editingMessage();
+                updateUser(user)
+                editingMessage()
+                setIsDataChanged(false)
               }}
             >
               Update
@@ -120,7 +130,7 @@ const EditUser: FC<IProps> = ({
             <Button
               sx={cancelButton}
               variant="contained"
-              onClick={() => setVisible(false)}
+              onClick={() => onModalClose()}
             >
               Cancel
             </Button>
@@ -128,7 +138,7 @@ const EditUser: FC<IProps> = ({
         </Stack>
       </Box>
     </Modal>
-  );
-};
+  )
+}
 
-export default EditUser;
+export default EditUser

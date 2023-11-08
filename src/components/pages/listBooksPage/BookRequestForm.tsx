@@ -1,27 +1,20 @@
-import { useState, FC } from "react";
-import {
-  Modal,
-  Box,
-  Button,
-  TextField,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { useState, FC } from 'react'
+import { Modal, Box, Button, TextField, Stack, Typography } from '@mui/material'
 import {
   editBookBox,
   editBookUpdateButton,
   editBookCancelButton,
-} from "../../../sxStyles";
-import { fetchAddBookRequest } from "../../../fetchFunctions";
-import { toast } from "react-toastify";
+} from '../../../sxStyles'
+import { fetchAddBookRequest } from '../../../fetchFunctions'
+import { toast } from 'react-toastify'
 
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css'
 
 interface IProps {
-  visible: boolean;
-  setVisible: Function;
-  confirmation: Object;
-  setConfirmation: Function;
+  visible: boolean
+  setVisible: Function
+  confirmation: Object
+  setConfirmation: Function
 }
 
 const RequestBook: FC<IProps> = ({
@@ -30,40 +23,40 @@ const RequestBook: FC<IProps> = ({
   confirmation,
   setConfirmation,
 }: IProps): JSX.Element => {
-  const [isbn, setIsbn] = useState<string>("");
-  const [title, setTitle] = useState<string>("");
-  const [reason, setReason] = useState<string>("");
+  const [isbn, setIsbn] = useState<string>('')
+  const [title, setTitle] = useState<string>('')
+  const [reason, setReason] = useState<string>('')
 
   const SuccessMessage = () =>
-    toast.success("Book request has been submitted", {
-      containerId: "ToastSuccess",
-    });
+    toast.success('Book request has been submitted', {
+      containerId: 'ToastSuccess',
+    })
 
   const ErrorMessage = () =>
-    toast.error("Book request failed, Something went wrong", {
-      containerId: "ToastAlert",
-    });
+    toast.error('Book request failed, Something went wrong', {
+      containerId: 'ToastAlert',
+    })
 
   const requestBook = async () => {
-    await fetchAddBookRequest(isbn, title, reason)
-      .then((res: { ok: boolean }) => {
-        if (res.ok) {
-          SuccessMessage();
-          setVisible(false);
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .catch(function () {
-        ErrorMessage();
-      });
-  };
+    try {
+      const res = await fetchAddBookRequest(isbn, title, reason)
+      if (res.ok) {
+        SuccessMessage()
+        setVisible(false)
+      } else {
+        throw new Error('Network response was not ok.')
+      }
+    } catch (error) {
+      ErrorMessage()
+    }
+  }
 
   const handleOpen = () => {
     setConfirmation({
       ok: true,
-      message: "Book request has been submitted",
-    });
-  };
+      message: 'Book request has been submitted',
+    })
+  }
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
@@ -71,8 +64,8 @@ const RequestBook: FC<IProps> = ({
         <Stack spacing={2}>
           <Typography
             sx={{
-              fontFamily: "Montserrat",
-              fontWeight: "bold",
+              fontFamily: 'Montserrat',
+              fontWeight: 'bold',
             }}
             variant="h4"
           >
@@ -98,7 +91,7 @@ const RequestBook: FC<IProps> = ({
               sx={editBookUpdateButton}
               variant="contained"
               onClick={() => {
-                requestBook();
+                requestBook()
               }}
             >
               Add
@@ -114,7 +107,7 @@ const RequestBook: FC<IProps> = ({
         </Stack>
       </Box>
     </Modal>
-  );
-};
+  )
+}
 
-export default RequestBook;
+export default RequestBook

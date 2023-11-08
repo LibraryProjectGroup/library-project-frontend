@@ -1,95 +1,91 @@
-import { useState, FC, useContext, useEffect } from "react";
+import { useState, FC, useContext, useEffect } from 'react'
 import {
   Paper,
   Typography,
   Button,
   Stack,
   Fab,
-  Card,
-  CardActionArea,
   Box,
   Tooltip,
   Container,
-} from "@mui/material";
-import { TheContext } from "../../../TheContext";
-import { useNavigate } from "react-router-dom";
+} from '@mui/material'
+import { TheContext } from '../../../TheContext'
+import { useNavigate } from 'react-router-dom'
 import {
   fetchUpdateBooklist,
   fetchDeleteBooklist,
   fetchUserBooklists,
-} from "../../../fetchFunctions";
-import Book_list from "../../../interfaces/book_list.interface";
-import { booklistsPageBackAndAddButtons } from "../../../sxStyles";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import AddIcon from "@mui/icons-material/Add";
-import BooklistForm from "./BooklistForm";
+} from '../../../fetchFunctions'
+import Book_list from '../../../interfaces/book_list.interface'
+import { booklistsPageBackAndAddButtons } from '../../../sxStyles'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import AddIcon from '@mui/icons-material/Add'
+import BooklistForm from './BooklistForm'
 import {
   listBooksDeleteButton,
   listBooksLoanButton,
   addBookAddButton as addButton,
   listBooksFavoriteButton as favButton,
-} from "../../../sxStyles";
-import { fetchBooklist } from "../../../fetchFunctions";
-import EditBookListName from "./EditBookListName";
-import { arrayBuffer } from "stream/consumers";
+} from '../../../sxStyles'
+import EditBookListName from './EditBookListName'
 
 const UserBooklists: FC = (): JSX.Element => {
-  const [booklists, setBooklists] = useState<Book_list[]>([]);
-  const [formBooklist, setFormBooklist] = useState<Book_list | null>(null);
-  const [formVisible, setFormVisible] = useState(false);
-  const [editBookListFormVisible, setEditBookListFormVisible] = useState(false);
+  const [booklists, setBooklists] = useState<Book_list[]>([])
+  const [formBooklist, setFormBooklist] = useState<Book_list | null>(null)
+  const [formVisible, setFormVisible] = useState(false)
+  const [editBookListFormVisible, setEditBookListFormVisible] = useState(false)
   const [oneBookListDataToEditName, setOneBookListDataToEditName] =
-    useState<Book_list | null>(null);
-  const [formEditing, setFormEditing] = useState(false);
+    useState<Book_list | null>(null)
+  const [formEditing, setFormEditing] = useState(false)
 
-  const context = useContext(TheContext);
-  const navigate = useNavigate();
+  const context = useContext(TheContext)
+  const navigate = useNavigate()
 
   const fetchBooklists = async () => {
-    setBooklists(await fetchUserBooklists());
-  };
+    setBooklists(await fetchUserBooklists())
+  }
 
   useEffect(() => {
-    fetchBooklists();
-  }, []);
+    fetchBooklists()
+  }, [])
 
   const handleUserBooksButton = (booklist: Book_list) => {
-    navigate(`/list/${booklist.id}`);
-  };
+    navigate(`/list/${booklist.id}`)
+  }
 
   const updateBookListName = async (editedBook: Book_list) => {
     // avoid updating the name with empty name value
-    if (editedBook.name === "") return;
-    const ok = await fetchUpdateBooklist(editedBook);
+    if (editedBook.name === '') return
+    const ok = await fetchUpdateBooklist(editedBook)
     if (ok?.ok) {
-      setEditBookListFormVisible(false);
-      await fetchBooklists();
+      setEditBookListFormVisible(false)
+      await fetchBooklists()
     }
-  };
+  }
 
   const renderBookLists = () => {
-    let renderedBooklists = [];
+    let renderedBooklists = []
     for (const booklist of booklists) {
       renderedBooklists.push(
         <Paper
           elevation={10}
           sx={{
-            padding: "1rem",
-            width: "60%",
-            margin: "auto",
+            padding: '1rem',
+            width: '60%',
+            margin: 'auto',
             marginBottom: 1,
           }}
         >
           <Stack
-            direction={{ xs: "column", sm: "row" }}
+            direction={{ xs: 'column', sm: 'row' }}
             justifyContent="space-between"
           >
             <Stack>
               <Typography
                 sx={{
-                  fontFamily: "Montserrat",
-                  fontWeight: "bold",
-                  margin: "auto",
+                  fontFamily: 'Montserrat',
+                  fontWeight: 'bold',
+                  margin: 'auto',
                 }}
               >
                 {booklist.name}
@@ -104,7 +100,7 @@ const UserBooklists: FC = (): JSX.Element => {
                                     navigate("/userlist");
                                 }}*/
                 onClick={() => {
-                  handleUserBooksButton(booklist);
+                  handleUserBooksButton(booklist)
                 }}
               >
                 View
@@ -113,8 +109,8 @@ const UserBooklists: FC = (): JSX.Element => {
                 sx={listBooksLoanButton}
                 variant="contained"
                 onClick={async () => {
-                  setOneBookListDataToEditName(booklist);
-                  setEditBookListFormVisible(true);
+                  setOneBookListDataToEditName(booklist)
+                  setEditBookListFormVisible(true)
                 }}
               >
                 Edit Name
@@ -123,8 +119,8 @@ const UserBooklists: FC = (): JSX.Element => {
                 sx={listBooksLoanButton}
                 variant="contained"
                 onClick={async () => {
-                  await fetchDeleteBooklist(booklist.id);
-                  await fetchBooklists();
+                  await fetchDeleteBooklist(booklist.id)
+                  await fetchBooklists()
                 }}
               >
                 Delete
@@ -132,10 +128,10 @@ const UserBooklists: FC = (): JSX.Element => {
             </Stack>
           </Stack>
         </Paper>
-      );
+      )
     }
-    return renderedBooklists;
-  };
+    return renderedBooklists
+  }
 
   /*  using Card component and CardActionArea to click on whole card instead of button component
     const renderBookLists = () => {
@@ -188,22 +184,22 @@ const UserBooklists: FC = (): JSX.Element => {
     };*/
 
   return (
-    <Box sx={{ marginTop: 5, marginBottom: 5, position: "relative" }}>
+    <Box sx={{ marginTop: 5, marginBottom: 5, position: 'relative' }}>
       <Container
         sx={{
-          position: { sm: "none", md: "absolute" },
-          display: "flex",
-          flexDirection: { sm: "row", md: "column" },
-          gap: { xs: "2rem", md: "unset" },
-          justifyContent: "center",
-          alignItems: "flex-start",
+          position: { sm: 'none', md: 'absolute' },
+          display: 'flex',
+          flexDirection: { sm: 'row', md: 'column' },
+          gap: { xs: '2rem', md: 'unset' },
+          justifyContent: 'center',
+          alignItems: 'flex-start',
         }}
       >
         <Fab
           aria-label="back"
           sx={booklistsPageBackAndAddButtons}
           onClick={() => {
-            navigate("/list-books");
+            navigate(-1)
           }}
         >
           <ArrowBackIcon />
@@ -213,12 +209,12 @@ const UserBooklists: FC = (): JSX.Element => {
             aria-label="add"
             sx={booklistsPageBackAndAddButtons}
             onClick={() => {
-              setFormEditing(false);
+              setFormEditing(false)
               setFormBooklist({
                 id: -1, // This wont get used
-                name: "",
-              });
-              setFormVisible(true);
+                name: '',
+              })
+              setFormVisible(true)
             }}
           >
             <AddIcon />
@@ -244,7 +240,7 @@ const UserBooklists: FC = (): JSX.Element => {
         updateBookListName={updateBookListName}
       />
     </Box>
-  );
-};
+  )
+}
 
-export default UserBooklists;
+export default UserBooklists

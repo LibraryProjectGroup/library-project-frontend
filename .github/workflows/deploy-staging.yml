@@ -2,11 +2,11 @@ name: Deploy frontend to staging
 
 on:
   push:
-    branches: ["development"]
+    branches: ['development', 'gh-actions']
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ghcr.io/libraryprojectgroup/library-project-frontend:${{ github.sha }}
+  IMAGE_NAME: ghcr.io/libraryprojectgroup/library-project-frontend:latest
 
 jobs:
   deploy:
@@ -27,27 +27,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Push image
         run: docker-compose -f docker-compose-staging.yml push
-      - name: Copy docker-compose file
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.DEPLOYMENT_SSH_HOST }}
-          username: ${{ secrets.DEPLOYMENT_SSH_USERNAME }}
-          key: ${{ secrets.DEPLOYMENT_SSH_PRIVATE_KEY }}
-          passphrase: ${{ secrets.DEPLOYMENT_SSH_PASSPHRASE }}
-          port: ${{ secrets.DEPLOYMENT_SSH_PORT }}
-          source: "docker-compose-staging.yml,Dockerfile"
-          target: "scp-frontend-staging"
-      - name: executing remote ssh commands
-        uses: appleboy/ssh-action@v0.1.8
-        env:
-          GHCR_TOKEN: ${{ secrets.GHCR_ACCESS_TOKEN }}
-        with:
-          host: ${{ secrets.DEPLOYMENT_SSH_HOST }}
-          username: ${{ secrets.DEPLOYMENT_SSH_USERNAME }}
-          key: ${{ secrets.DEPLOYMENT_SSH_PRIVATE_KEY }}
-          passphrase: ${{ secrets.DEPLOYMENT_SSH_PASSPHRASE }}
-          port: ${{ secrets.DEPLOYMENT_SSH_PORT }}
-          envs: IMAGE_NAME,GHCR_TOKEN
-          script: |
-            echo $GHCR_TOKEN | docker login ghcr.io -u jord1e --password-stdin
-            docker compose -f scp-frontend-staging/docker-compose-staging.yml up -d --no-build
+      

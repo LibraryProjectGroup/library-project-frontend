@@ -1,34 +1,32 @@
-import { log } from "console";
-import { createContext, useState, FC, ReactNode, useEffect } from "react";
-import { isJsxClosingElement } from "typescript";
-import { isAuthenticated, authFetch } from "./auth";
-import { fetchCurrentBorrows } from "./fetchFunctions";
-import Borrow from "./interfaces/borrow.interface";
-import ContextData from "./interfaces/ContextData.interface";
-import User from "./interfaces/user.interface";
+import { createContext, useState, FC, ReactNode, useEffect } from 'react'
+import { isAuthenticated, authFetch } from './auth'
+import { fetchCurrentBorrows } from './fetchFunctions'
+import Borrow from './interfaces/borrow.interface'
+import ContextData from './interfaces/ContextData.interface'
+import User from './interfaces/user.interface'
 
-export const TheContext = createContext<ContextData | null>(null);
+export const TheContext = createContext<ContextData | null>(null)
 
 interface IProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 const TheContextProvider: FC<IProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLogin, setIsLogin] = useState(false); // update user data when you logIn and logOut
-  const [borrows, setBorrows] = useState<Borrow[]>([]);
+  const [user, setUser] = useState<User | null>(null)
+  const [isLogin, setIsLogin] = useState(false) // update user data when you logIn and logOut
+  const [borrows, setBorrows] = useState<Borrow[]>([])
 
   useEffect(() => {
-    fetchBorrows();
+    fetchBorrows()
     if (isAuthenticated())
-      authFetch("/user/session").then((user) => {
-        setUser(user);
-      });
-  }, [isLogin]);
+      authFetch('/user/session').then((user) => {
+        setUser(user)
+      })
+  }, [isLogin])
 
   const fetchBorrows = async () => {
-    setBorrows(await fetchCurrentBorrows());
-  };
+    setBorrows(await fetchCurrentBorrows())
+  }
 
   return (
     <TheContext.Provider
@@ -42,7 +40,7 @@ const TheContextProvider: FC<IProps> = ({ children }) => {
     >
       {children}
     </TheContext.Provider>
-  );
-};
+  )
+}
 
-export default TheContextProvider;
+export default TheContextProvider

@@ -12,6 +12,7 @@ User can create booklist
     Given User navigates to user page
     When User presses my lists button
     Then User creates new booklist
+
 User can add a book to booklist and view booklist
     Given User adds book to booklists
     And User presses my lists button
@@ -31,6 +32,7 @@ User can delete booklist
 
 *** Keywords ***
 User presses my lists button
+    Sleep   1s
     Click Element    xpath://*[@id="root"]/header/div/div/div[2]/button[4]
     ${path}=    Execute Javascript    return window.location.pathname
     Should Be Equal As Strings    ${path}    /booklists
@@ -49,10 +51,10 @@ User adds book to booklists
     Execute Javascript    location.href='/list-books'
     ${path}=    Execute Javascript    return window.location.pathname
     Should Be Equal As Strings    ${path}    /list-books
-    Wait Until Element Is Visible    xpath://button[@type='button'][normalize-space()='+ add'][1]
-    Click Button    xpath:(//button[@type='button'][normalize-space()='+ add'])[1]
-    Wait Until Element Is Visible    xpath://button[normalize-space()='Add']
-    Click Button    xpath://button[normalize-space()='Add']
+    Wait Until Element Is Visible    xpath://*[@id="root"]/div/div[2]/div[1]/div/div[3]/div/button
+    Click Button    xpath://*[@id="root"]/div/div[2]/div[1]/div/div[3]/div/button
+    Wait Until Element Is Visible    xpath://*[@id="simple-popover"]/div[3]/ul/div/div/button
+    Click Button    xpath://*[@id="simple-popover"]/div[3]/ul/div/div/button
 
 User views booklists
     Wait Until Element Is Visible    xpath://button[normalize-space()='View']
