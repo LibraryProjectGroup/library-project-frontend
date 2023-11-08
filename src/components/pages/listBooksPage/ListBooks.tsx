@@ -32,9 +32,11 @@ import BookCard from './BookCard'
 import PaginationControls from './PaginationControls'
 import NotificationSnackbars from './NotificationSnackbars'
 import FloatingActionButtons from './FloatingActionButtons'
+import SortingDropdown from './SortingDropdown'
 import BookRequestForm from './BookRequestForm'
 import { addBookAddButton } from '../../../sxStyles'
 import { GridView, List } from '@mui/icons-material'
+import { FilterByOffice } from './FilterByOffice'
 
 const ListBooks: FC = (): JSX.Element => {
   const [page, setPage] = useState(0)
@@ -46,11 +48,15 @@ const ListBooks: FC = (): JSX.Element => {
     Book_reservation[]
   >([])
   const [userBorrows, setUserBorrows] = useState<Borrow[]>([])
+
   const [books, setBooks] = useState<Book[]>([])
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
+  const [sort, setSort] = useState<string>('title');
+
   const [activeAndLoanableReservations, setActiveAndLoanableReservations] =
     useState<any[]>([])
   const bookPage = 1
-  const [bookPageSize, setBookPageSize] = useState(books.length)
+  const [bookPageSize, setBookPageSize] = useState(filteredBooks.length)
   const [bookId, setBookId] = useState(0)
 
   const [requestVisible, setRequestVisible] = useState(false)
@@ -73,7 +79,9 @@ const ListBooks: FC = (): JSX.Element => {
   const context = useContext(TheContext)
 
   const fetchBooks = useCallback(async () => {
-    setBooks(await fetchPagedBooks(bookPage, bookPageSize))
+    const fetchedBooks = await fetchPagedBooks(bookPage, bookPageSize);
+    setBooks(fetchedBooks);
+    setFilteredBooks(fetchedBooks);
   }, [bookPage, bookPageSize])
 
   const fetchBorrows = async () =>
@@ -129,6 +137,7 @@ const ListBooks: FC = (): JSX.Element => {
     const list = books
     list.splice(index, 1, book)
     setBooks(list)
+    setFilteredBooks(list)
   }
 
   /** Update 'books' state and show correct books on page based on pagination */
@@ -142,6 +151,39 @@ const ListBooks: FC = (): JSX.Element => {
     )
     setBooks(filteredBooks)
   }
+
+  // Sorting
+  const handleSortChange = (value: string) => {
+
+    setSort(value);
+    let sortedBooks = [...filteredBooks];
+    if (value === "title") {
+      sortedBooks.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (value === "author") {
+      sortedBooks.sort((a, b) => (a.author || '').localeCompare(b.author || ''));
+    } else if (value === "topic") {
+      sortedBooks.sort((a, b) => (a.topic || '').localeCompare(b.topic || ''));
+    } else if (value === "year") {
+      sortedBooks.sort((a, b) => (a.year - b.year));
+    } else if (value === "office") {
+      sortedBooks.sort((a, b) => (a.homeOfficeName || '').localeCompare(b.homeOfficeName || ''));
+    }
+    //setBooks(sortedBooks);
+    setFilteredBooks(sortedBooks);
+  }
+
+  // Filter by office
+  const handleSelectedOffice = (office: string) => {
+
+    if (office === "") {
+      setFilteredBooks(books);
+      return;
+    }
+
+    const updatedBooks = books.filter(book => book.homeOfficeName === office);
+    setFilteredBooks(updatedBooks);
+  }
+
 
   const handleOpen = () => {
     for (const borrowed of userBorrows) {
@@ -346,13 +388,26 @@ const ListBooks: FC = (): JSX.Element => {
             fetchReservations={fetchReservations}
             fetchAddBookReservation={fetchAddBookReservation}
           />
-          <PaginationControls
-            booksLength={books.length}
-            page={page}
-            rowsPerPage={rowsPerPage}
-            handleChangePage={handleChangePage}
-            handleChangeRowsPerPage={handleChangeRowsPerPage}
-          />
+          <Box
+            sx={{
+              display: 'flex',
+              width: '100%',
+              justifyContent: 'center',
+              flexDirection: { xs: 'column', sm: 'row' },
+            }}
+          >
+            <PaginationControls
+              booksLength={filteredBooks.length}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              handleChangePage={handleChangePage}
+              handleChangeRowsPerPage={handleChangeRowsPerPage}
+            />
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+              <SortingDropdown onSortChange={handleSortChange} sortValue={sort} />
+              <FilterByOffice onOfficeChange={handleSelectedOffice} />
+            </Box>
+          </Box>
         </Box>
         {view === 'grid' ? (
           <Grid
@@ -365,7 +420,7 @@ const ListBooks: FC = (): JSX.Element => {
               width: '95%',
             }}
           >
-            {books
+            {filteredBooks
               ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((book, index) => (
                 <Grid item xs={6} sm={6} md={3} key={index}>
@@ -399,7 +454,7 @@ const ListBooks: FC = (): JSX.Element => {
             spacing={3}
             sx={{ margin: '2rem', display: 'flex', alignItems: 'center' }}
           >
-            {books
+            {filteredBooks
               ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((book, index) => (
                 <BookCard
@@ -427,7 +482,7 @@ const ListBooks: FC = (): JSX.Element => {
           </Stack>
         )}
         <PaginationControls
-          booksLength={books.length}
+          booksLength={filteredBooks.length}
           page={page}
           rowsPerPage={rowsPerPage}
           handleChangePage={handleChangePage}
