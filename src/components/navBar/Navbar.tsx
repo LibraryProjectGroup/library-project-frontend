@@ -1,8 +1,7 @@
-import LogoutIcon from '@mui/icons-material/Logout'
+import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import MenuIcon from '@mui/icons-material/Menu'
 import {
   AppBar,
-  Avatar,
   Box,
   Button,
   Container,
@@ -18,14 +17,14 @@ import * as React from 'react'
 
 import { FC, useContext, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { endSession } from '../../auth'
 import {
   navbarMenuItemHamburger,
   navbarPagesHamburger,
   navbarPagesLarge,
-  userLogOutButton,
+  userProfileButton,
 } from '../../sxStyles'
 import { TheContext } from '../../TheContext'
+import ProfileMenuButton from './ProfileMenuButton'
 
 const NavBar: FC = (): JSX.Element => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
@@ -231,46 +230,17 @@ const NavBar: FC = (): JSX.Element => {
                 ))
               }
             >
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <IconButton onClick={handleOpenUserMenu} sx={userProfileButton}>
                 {/* Avatar is for icon in mobile view. Could and should change in future */}
-                <Avatar></Avatar>
+                <AccountBoxIcon></AccountBoxIcon>
               </IconButton>
             </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              <MenuItem
-                onClick={() => {
-                  endSession()
-                  navigate('/login')
-                  // update user data when you logIn and logOut
-                  context?.setIsLogin(false)
-                }}
-              >
-                <Typography
-                  sx={{
-                    marginRight: 1,
-                  }}
-                  textAlign="center"
-                >
-                  Log out
-                </Typography>
-                <LogoutIcon />
-              </MenuItem>
-            </Menu>
+            <ProfileMenuButton
+              anchorElUser={anchorElUser}
+              handleCloseUserMenu={handleCloseUserMenu}
+              navigate={navigate}
+              context={context}
+            />
           </Box>
 
           {/* User & Log out for large screens */}
@@ -309,20 +279,21 @@ const NavBar: FC = (): JSX.Element => {
                   ))}
               </Typography>
             </Box>
-            <Tooltip title="Log out">
+            <Tooltip title="Profile">
               <Fab
-                aria-label="log out"
-                sx={userLogOutButton}
-                onClick={() => {
-                  endSession()
-                  navigate('/login')
-                  // update user data when you logIn and logOut
-                  context?.setIsLogin(false)
-                }}
+                aria-label="profile"
+                sx={userProfileButton}
+                onClick={handleOpenUserMenu}
               >
-                <LogoutIcon />
+                <AccountBoxIcon />
               </Fab>
             </Tooltip>
+            <ProfileMenuButton
+              anchorElUser={anchorElUser}
+              handleCloseUserMenu={handleCloseUserMenu}
+              navigate={navigate}
+              context={context}
+            />
           </Box>
         </Toolbar>
       </Container>

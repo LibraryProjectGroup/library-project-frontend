@@ -86,7 +86,7 @@ export const fetchUpdateUserData = async (
   editUser: EditUser
 ): Promise<OKStatus> => {
   return await authFetch(
-    `/user?id=${editUser?.id}&username=${editUser?.username}&email=${editUser?.email}&administrator=${editUser?.administrator}`,
+    `/user?id=${editUser?.id}&username=${editUser?.username}&email=${editUser?.email}&homeOfficeId=${editUser?.homeOfficeId}`,
     {
       method: 'PUT',
       headers: {

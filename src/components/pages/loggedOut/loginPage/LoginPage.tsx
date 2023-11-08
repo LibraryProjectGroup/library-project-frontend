@@ -1,7 +1,7 @@
 import React, { useState, FC, useEffect, useContext } from 'react'
 import { Box, Typography, TextField, Button, Paper, Grid } from '@mui/material'
 import BACKEND_URL from '../../../../backendUrl'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import {
   loginButton,
   loginBox,
@@ -14,6 +14,9 @@ import {
 import { setSession } from '../../../../auth'
 import { TheContext } from '../../../../TheContext'
 import PasswordToggle from '../PasswordToggle'
+import 'react-toastify/dist/ReactToastify.css'
+import { toast } from 'react-toastify'
+import ToastContainers from '../../../../ToastContainers'
 
 const LoginPage: FC = (): JSX.Element => {
   const [email, setEmail] = useState('')
@@ -57,6 +60,17 @@ const LoginPage: FC = (): JSX.Element => {
     context?.setIsLogin(true)
   }, [context, navigate])
 
+  const location = useLocation()
+  //Check if user was deleted successfully and add a toaster message
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    if (params.get('deletionStatus') === 'success') {
+      toast.success('User deleted successfully', {
+        containerId: 'ToastSuccess',
+      })
+    }
+  }, [location])
+
   const handleClickShowPassword = () => setShowPassword((show) => !show)
 
   const handleMouseDownPassword = (
@@ -90,122 +104,126 @@ const LoginPage: FC = (): JSX.Element => {
   }
 
   return (
-    <form onSubmit={(event) => handleLogin(event)}>
-      <Grid
-        container
-        flex-wrap="wrap"
-        direction="row"
-        justifyContent="space-around"
-        alignItems="center"
-        sx={{
-          maxWidth: dimensions.width,
-          minHeight: dimensions.height,
-        }}
-      >
+    <Box>
+      <form onSubmit={(event) => handleLogin(event)}>
         <Grid
-          item
           container
+          flex-wrap="wrap"
+          direction="row"
+          justifyContent="space-around"
           alignItems="center"
-          sx={{ width: '95%', paddingBottom: 10 }}
+          sx={{
+            maxWidth: dimensions.width,
+            minHeight: dimensions.height,
+          }}
         >
-          <Grid item xs={12} md={7}>
-            <Box>
-              <Box sx={{ margin: '4rem 4rem 2rem 4rem' }}>
-                <Typography
-                  variant="h1" //not responsive font
-                  sx={loginRegisterTitle}
-                >
-                  EfiLibrary
-                </Typography>
-                <Typography sx={loginRegisterContent}>
-                  Welcome to EfiLibrary - the digital extension of our physical
-                  book collection. Borrow books, make reservations, create lists
-                  of favorites and immerse yourself in the world of knowledge.
-                </Typography>
-              </Box>
-            </Box>
-          </Grid>
           <Grid
             item
-            xs={12}
-            md={5}
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-            }}
+            container
+            alignItems="center"
+            sx={{ width: '95%', paddingBottom: 10 }}
           >
-            <Paper elevation={10} sx={loginPaper}>
-              <Box sx={{ padding: '3rem' }}>
-                <Typography variant="h4" sx={AuthBoxTitle}>
-                  Login
-                </Typography>
-                <Box sx={loginBox}>
-                  <TextField
-                    label="Email"
-                    variant="outlined"
-                    margin="normal"
-                    onChange={(event) => {
-                      setEmail(event.target.value)
-                    }}
-                  />
-
-                  <TextField
-                    label="Password"
-                    variant="outlined"
-                    type={showPassword ? 'text' : 'password'}
-                    margin="normal"
-                    InputProps={{
-                      endAdornment: (
-                        <PasswordToggle
-                          onMouseDown={handleMouseDownPassword}
-                          onClick={() => handleClickShowPassword()}
-                          passwordVisible={showPassword}
-                        />
-                      ),
-                    }}
-                    onChange={(event) => {
-                      setPassword(event.target.value)
-                    }}
-                  />
-                  {errorMessage && (
-                    <Typography sx={{ color: 'red' }}>
-                      {errorMessage}
-                    </Typography>
-                  )}
-                </Box>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Button variant="contained" type="submit" sx={loginButton}>
-                    Log in
-                  </Button>
-                </Box>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Button
-                    variant="text"
-                    onClick={() => navigate('/create-account')}
-                    sx={textButton}
+            <Grid item xs={12} md={7}>
+              <Box>
+                <Box sx={{ margin: '4rem 4rem 2rem 4rem' }}>
+                  <Typography
+                    variant="h1" //not responsive font
+                    sx={loginRegisterTitle}
                   >
-                    Create account
-                  </Button>
-                </Box>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Button
-                    variant="text"
-                    onClick={() => {
-                      window.location.replace(
-                        `${process.env.REACT_APP_BACKEND_URL}/auth/oidc/login?issuer=1`
-                      )
-                    }}
-                    sx={textButton}
-                  >
-                    Authenticate with Google
-                  </Button>
+                    EfiLibrary
+                  </Typography>
+                  <Typography sx={loginRegisterContent}>
+                    Welcome to EfiLibrary - the digital extension of our
+                    physical book collection. Borrow books, make reservations,
+                    create lists of favorites and immerse yourself in the world
+                    of knowledge.
+                  </Typography>
                 </Box>
               </Box>
-            </Paper>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={5}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <Paper elevation={10} sx={loginPaper}>
+                <Box sx={{ padding: '3rem' }}>
+                  <Typography variant="h4" sx={AuthBoxTitle}>
+                    Login
+                  </Typography>
+                  <Box sx={loginBox}>
+                    <TextField
+                      label="Email"
+                      variant="outlined"
+                      margin="normal"
+                      onChange={(event) => {
+                        setEmail(event.target.value)
+                      }}
+                    />
+
+                    <TextField
+                      label="Password"
+                      variant="outlined"
+                      type={showPassword ? 'text' : 'password'}
+                      margin="normal"
+                      InputProps={{
+                        endAdornment: (
+                          <PasswordToggle
+                            onMouseDown={handleMouseDownPassword}
+                            onClick={() => handleClickShowPassword()}
+                            passwordVisible={showPassword}
+                          />
+                        ),
+                      }}
+                      onChange={(event) => {
+                        setPassword(event.target.value)
+                      }}
+                    />
+                    {errorMessage && (
+                      <Typography sx={{ color: 'red' }}>
+                        {errorMessage}
+                      </Typography>
+                    )}
+                  </Box>
+                  <Box sx={{ textAlign: 'center' }}>
+                    <Button variant="contained" type="submit" sx={loginButton}>
+                      Log in
+                    </Button>
+                  </Box>
+                  <Box sx={{ textAlign: 'center' }}>
+                    <Button
+                      variant="text"
+                      onClick={() => navigate('/create-account')}
+                      sx={textButton}
+                    >
+                      Create account
+                    </Button>
+                  </Box>
+                  <Box sx={{ textAlign: 'center' }}>
+                    <Button
+                      variant="text"
+                      onClick={() => {
+                        window.location.replace(
+                          `${process.env.REACT_APP_BACKEND_URL}/auth/oidc/login?issuer=1`
+                        )
+                      }}
+                      sx={textButton}
+                    >
+                      Authenticate with Google
+                    </Button>
+                  </Box>
+                </Box>
+              </Paper>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
-    </form>
+      </form>
+      <ToastContainers />
+    </Box>
   )
 }
 
