@@ -50,8 +50,8 @@ const ListBooks: FC = (): JSX.Element => {
   const [userBorrows, setUserBorrows] = useState<Borrow[]>([])
 
   const [books, setBooks] = useState<Book[]>([])
-  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
-  const [sort, setSort] = useState<string>('title');
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>([])
+  const [sort, setSort] = useState<string>('title')
 
   const [activeAndLoanableReservations, setActiveAndLoanableReservations] =
     useState<any[]>([])
@@ -79,9 +79,9 @@ const ListBooks: FC = (): JSX.Element => {
   const context = useContext(TheContext)
 
   const fetchBooks = useCallback(async () => {
-    const fetchedBooks = await fetchPagedBooks(bookPage, bookPageSize);
-    setBooks(fetchedBooks);
-    setFilteredBooks(fetchedBooks);
+    const fetchedBooks = await fetchPagedBooks(bookPage, bookPageSize)
+    setBooks(fetchedBooks)
+    setFilteredBooks(fetchedBooks)
   }, [bookPage, bookPageSize])
 
   const fetchBorrows = async () =>
@@ -154,36 +154,35 @@ const ListBooks: FC = (): JSX.Element => {
 
   // Sorting
   const handleSortChange = (value: string) => {
-
-    setSort(value);
-    let sortedBooks = [...filteredBooks];
-    if (value === "title") {
-      sortedBooks.sort((a, b) => a.title.localeCompare(b.title));
-    } else if (value === "author") {
-      sortedBooks.sort((a, b) => (a.author || '').localeCompare(b.author || ''));
-    } else if (value === "topic") {
-      sortedBooks.sort((a, b) => (a.topic || '').localeCompare(b.topic || ''));
-    } else if (value === "year") {
-      sortedBooks.sort((a, b) => (a.year - b.year));
-    } else if (value === "office") {
-      sortedBooks.sort((a, b) => (a.homeOfficeName || '').localeCompare(b.homeOfficeName || ''));
+    setSort(value)
+    let sortedBooks = [...filteredBooks]
+    if (value === 'title') {
+      sortedBooks.sort((a, b) => a.title.localeCompare(b.title))
+    } else if (value === 'author') {
+      sortedBooks.sort((a, b) => (a.author || '').localeCompare(b.author || ''))
+    } else if (value === 'topic') {
+      sortedBooks.sort((a, b) => (a.topic || '').localeCompare(b.topic || ''))
+    } else if (value === 'year') {
+      sortedBooks.sort((a, b) => a.year - b.year)
+    } else if (value === 'office') {
+      sortedBooks.sort((a, b) =>
+        (a.homeOfficeName || '').localeCompare(b.homeOfficeName || '')
+      )
     }
     //setBooks(sortedBooks);
-    setFilteredBooks(sortedBooks);
+    setFilteredBooks(sortedBooks)
   }
 
   // Filter by office
   const handleSelectedOffice = (office: string) => {
-
-    if (office === "") {
-      setFilteredBooks(books);
-      return;
+    if (office === '') {
+      setFilteredBooks(books)
+      return
     }
 
-    const updatedBooks = books.filter(book => book.homeOfficeName === office);
-    setFilteredBooks(updatedBooks);
+    const updatedBooks = books.filter((book) => book.homeOfficeName === office)
+    setFilteredBooks(updatedBooks)
   }
-
 
   const handleOpen = () => {
     for (const borrowed of userBorrows) {
@@ -404,7 +403,10 @@ const ListBooks: FC = (): JSX.Element => {
               handleChangeRowsPerPage={handleChangeRowsPerPage}
             />
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-              <SortingDropdown onSortChange={handleSortChange} sortValue={sort} />
+              <SortingDropdown
+                onSortChange={handleSortChange}
+                sortValue={sort}
+              />
               <FilterByOffice onOfficeChange={handleSelectedOffice} />
             </Box>
           </Box>
