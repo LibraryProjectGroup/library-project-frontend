@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  efilibrary-backend:
+    build:
+      context: ../library-project-backend
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_SERVER: ${DATABASE_SERVER}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      OIDC_AUTH_BACKLINK_URL: ${OIDC_AUTH_BACKLINK_URL}
+      OIDC_AUTH_REDIRECT_URL: ${OIDC_AUTH_REDIRECT_URL}
+      PORT: 3002
+    ports:
+      - "3002:3002"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3002/health" ]
+      interval: 12s
+      timeout: 10s
+      retries: 5
+
+  efilibrary-mysql:
+    image: mysql
+    volumes:
+      - ../library-project-backend/sql:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+
+  docker-robot:
+    container_name: docker-robot
+    image: docker-robot
+    stdin_open: true
+    tty: true
+    command: npm run startserverandtest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - docker.env
+    volumes:
+      - ./src:/app/src
+      - ./robot:/app/robot
+      - ./public:/app/public:ro
+    ports:
+      - "3000:3000"
+    depends_on:
+      efilibrary-backend:
+        condition: service_healthy
