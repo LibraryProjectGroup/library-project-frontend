@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build and run containers
-        run: docker-compose -f docker-compose-tests-with-backend.yml up --build -d
+        run: docker-compose -f docker-compose-test-with-backend.yml up --build -d
 
       - name: Check containers are running
         run: docker ps
