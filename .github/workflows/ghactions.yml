@@ -37,4 +37,4 @@ jobs:
 
       - name: Clean up
         if: always()
-        run: docker-compose -f docker-compose-tests-with-backend.yml down
+        run: docker-compose -f docker-compose-test-with-backend.yml down

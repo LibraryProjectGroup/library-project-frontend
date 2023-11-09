@@ -2,9 +2,7 @@ version: '3.8'
 
 services:
   efilibrary-backend:
-    build:
-      context: ../library-project-backend
-      dockerfile: Dockerfile
+    image: ghcr.io/libraryprojectgroup/library-project-backend:latest
     environment:
       DATABASE_SERVER: ${DATABASE_SERVER}
       DATABASE_NAME: ${DATABASE_NAME}
