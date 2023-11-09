@@ -33,8 +33,8 @@ jobs:
         run: docker ps
 
       - name: Run tests
-        run: docker-compose -f docker-compose-tests-with-backend.yml run --rm docker-robot
+        run: docker-compose -f docker-compose-test-with-backend.yml run --rm docker-robot
 
       - name: Clean up
         if: always()
-        run: docker-compose -f docker-compose-tests-with-backend.yml downSTPASSWORD} --variable TESTUSERNAME2:${TESTUSERNAME2} --variable TESTPASSWORD2:${TESTPASSWORD2} --removekeywords  NAME:*logins* --outputdir robot/results robot/tests
+        run: docker-compose -f docker-compose-tests-with-backend.yml down
