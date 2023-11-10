@@ -15,7 +15,7 @@ services:
       - "3002:3002"
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:3002/health" ]
-      interval: 12s
+      interval: 20s
       timeout: 10s
       retries: 5
 
@@ -42,8 +42,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    env_file:
-      - docker.env
+    environment:
+      - REACT_APP_BACKEND_URL=${BACKEND_URL}
+      - GENERATE_SOURCEMAP=false
+      - TESTUSERNAME=${REACT_APP_TEST_USERNAME}
+      - TESTPASSWORD=${REACT_APP_TEST_PASSWORD}
+      - TESTUSERNAME2=${REACT_APP_TEST_USERNAME2}
+      - TESTPASSWORD2=${REACT_APP_TEST_PASSWORD2}
     volumes:
       - ./src:/app/src
       - ./robot:/app/robot
