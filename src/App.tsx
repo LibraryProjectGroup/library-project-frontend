@@ -14,7 +14,7 @@ import UserBooklists from './components/pages/userBooklistsPage/UserBooklistsPag
 import UserReservations from './components/pages/userBookReservationsPage/UserReservationsPage'
 import ListPage from './components/pages/listPage/ListPage'
 import NavBar from './components/navBar/Navbar'
-import UserSettings from './components/pages/settingsPage/UserSettings'
+import UserSettings from './components/pages/SettingsPage/UserSettings'
 
 function App() {
   const ProtectedRoute: FC<any> = (props) => {
