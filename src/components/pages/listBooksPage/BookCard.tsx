@@ -35,6 +35,7 @@ import {
 } from '../../../fetchFunctions'
 import User from '../../../interfaces/user.interface'
 import BookReviewForm from './BookReviewForm'
+import BookReviewDelete from './BookReviewDelete'
 
 interface BookCardProps {
   book: Book
@@ -69,6 +70,9 @@ const BookCard: React.FC<BookCardProps> = ({
   const [averageRating, setAverageRating] = useState(0)
   const [usernames, setUsernames] = useState<Record<number, string>>({})
   const [reviewedBooks, setReviewedBooks] = useState<Set<number>>(new Set())
+  const [deleteConfirmationVisible, setDeleteConfirmationVisible] =
+    useState(false)
+  const [selectedReviewId, setSelectedReviewId] = useState<number>(0)
 
   useEffect(() => {
     loadReviewsAndRating()
@@ -121,6 +125,7 @@ const BookCard: React.FC<BookCardProps> = ({
         updateReviewedBooks.delete(book.id)
         return updateReviewedBooks
       })
+      setDeleteConfirmationVisible(false)
     } catch (error) {
       console.error('Error deleting a review', error)
     }
@@ -424,7 +429,8 @@ const BookCard: React.FC<BookCardProps> = ({
                     {context?.user?.id === review.user_id && (
                       <Button
                         onClick={() => {
-                          deleteReview(review.id)
+                          setSelectedReviewId(review.id)
+                          setDeleteConfirmationVisible(true)
                         }}
                         sx={reviewDeleteButton}
                       >
@@ -437,6 +443,11 @@ const BookCard: React.FC<BookCardProps> = ({
           </List>
         </div>
       </Collapse>
+      <BookReviewDelete
+        open={deleteConfirmationVisible}
+        onClose={() => setDeleteConfirmationVisible(false)}
+        onDelete={() => deleteReview(selectedReviewId)}
+      />
     </Paper>
   )
 }
