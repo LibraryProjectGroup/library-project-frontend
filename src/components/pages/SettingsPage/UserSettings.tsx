@@ -38,7 +38,10 @@ const UserSettings: FC = (): JSX.Element => {
   const [userData, setUserData] = useState<User | null>(null)
   const [checkDelete, setCheckDelete] = useState<boolean>(false)
   const ErrorMessage = () =>
-    toast.error('Deletion failed', { containerId: 'ToastAlert' })
+    toast.error(
+      'Deletion failed, check that you have returned all loaned books before deleting user!',
+      { containerId: 'ToastAlert' }
+    )
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -142,7 +145,6 @@ const UserSettings: FC = (): JSX.Element => {
             label="Username"
             name="username"
             value={userData?.username}
-            /* onChange={(e) => onChange(e)} */
           />
           <TextField
             sx={{ width: { xs: '100%', md: '40%' } }}
@@ -150,7 +152,6 @@ const UserSettings: FC = (): JSX.Element => {
             label="Email"
             name="email"
             value={userData?.email}
-            /* onChange={(e) => onChange(e)} */
           />
           <TextField
             sx={{ width: { xs: '100%', md: '40%' } }}

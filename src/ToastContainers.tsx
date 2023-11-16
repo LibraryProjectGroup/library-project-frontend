@@ -20,8 +20,8 @@ const ToastContainers: FC = (): JSX.Element => {
         containerId={'ToastSuccess'}
       />
       <ToastContainer
-        position="top-center"
-        autoClose={3000}
+        position="bottom-center"
+        autoClose={5000}
         limit={3}
         hideProgressBar={false}
         newestOnTop={false}

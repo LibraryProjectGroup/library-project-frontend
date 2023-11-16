@@ -72,6 +72,17 @@ export const fetchDeleteUser = async (userId: number): Promise<OKStatus> => {
     body: JSON.stringify({ id: userId }),
   })
 }
+export const fetchHardDeleteUser = async (
+  userId: number
+): Promise<OKStatus> => {
+  return await authFetch('/user/admin', {
+    method: 'DELETE',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({ id: userId }),
+  })
+}
 
 export const fetchUserById = async (userId: number): Promise<any> => {
   return await authFetch(`/user?id=${userId}`, {

@@ -4,7 +4,7 @@ import { Button } from '@mui/material'
 import User from '../../../interfaces/user.interface'
 import EditUser from '../../../interfaces/editUser.interface'
 import {
-  fetchDeleteUser,
+  fetchHardDeleteUser,
   fetchAllUsers,
   fetchUserById,
   fetchAdminUpdateUserData,
@@ -171,7 +171,7 @@ const UsersGrid: FC = (): JSX.Element => {
         visible={deleteVisible}
         setVisible={setDeleteVisible}
         userId={rowId}
-        fetchDeleteUser={fetchDeleteUser}
+        fetchDeleteUser={fetchHardDeleteUser}
         loadUsersData={loadUsersData}
       />
       <UserForm
