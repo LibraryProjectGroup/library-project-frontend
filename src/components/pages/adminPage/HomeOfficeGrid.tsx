@@ -12,6 +12,9 @@ import { HomeOffice } from '../../../interfaces/HomeOffice'
 import CountrySpan from '../../CountrySpan'
 import EditHomeOffice from './HomeOfficeForm'
 import { adminAddOfficeButton } from '../../../sxStyles'
+import DeleteOffice from './DeleteOffice'
+import ToastContainers from '../../../ToastContainers'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function HomeOfficeGrid(): JSX.Element {
   const [homeOffices, setHomeOffices] = useState<HomeOffice[]>([])
@@ -20,6 +23,8 @@ export default function HomeOfficeGrid(): JSX.Element {
   const [formVisible, setFormVisible] = useState(false)
   const [open, setOpen] = useState(false)
   const [formEditing, setFormEditing] = useState(false)
+  const [deleteVisible, setDeleteVisible] = useState(false)
+  const [rowId, setRowId] = useState(0)
 
   const handleClose = () => {
     setOpen(false)
@@ -40,10 +45,6 @@ export default function HomeOfficeGrid(): JSX.Element {
   useEffect(() => {
     loadHomeOfficeData()
   }, [])
-
-  function deleteHomeOffice(homeOfficeId: number) {
-    fetchDeleteHomeOffice(homeOfficeId).then(() => loadHomeOfficeData())
-  }
 
   function editHomeOffice(homeOfficeId: number) {
     fetchHomeOfficeById(homeOfficeId).then((homeOfficeData) => {
@@ -111,8 +112,8 @@ export default function HomeOfficeGrid(): JSX.Element {
         <Button
           sx={{ color: 'red' }}
           onClick={() => {
-            deleteHomeOffice(params.row.id)
-            loadHomeOfficeData()
+            setRowId(params.row.id)
+            setDeleteVisible(true)
           }}
         >
           Delete
@@ -123,6 +124,14 @@ export default function HomeOfficeGrid(): JSX.Element {
 
   return (
     <>
+      <DeleteOffice
+        visible={deleteVisible}
+        setVisible={setDeleteVisible}
+        homeOfficeId={rowId}
+        fetchDeleteHomeOffice={fetchDeleteHomeOffice}
+        loadHomeOfficeData={loadHomeOfficeData}
+      />
+      <ToastContainers />
       <EditHomeOffice
         visible={formVisible}
         setVisible={setFormVisible}
