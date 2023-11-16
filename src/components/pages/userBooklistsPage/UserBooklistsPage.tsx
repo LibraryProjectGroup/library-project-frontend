@@ -28,6 +28,9 @@ import {
   listBooksFavoriteButton as favButton,
 } from '../../../sxStyles'
 import EditBookListName from './EditBookListName'
+import DeleteBookList from './BookListDelete'
+import ToastContainers from '../../../ToastContainers'
+import 'react-toastify/dist/ReactToastify.css'
 
 const UserBooklists: FC = (): JSX.Element => {
   const [booklists, setBooklists] = useState<Book_list[]>([])
@@ -37,6 +40,8 @@ const UserBooklists: FC = (): JSX.Element => {
   const [oneBookListDataToEditName, setOneBookListDataToEditName] =
     useState<Book_list | null>(null)
   const [formEditing, setFormEditing] = useState(false)
+  const [deleteVisible, setDeleteVisible] = useState(false)
+  const [deleteBookListId, setDeleteBookListId] = useState(0)
 
   const context = useContext(TheContext)
   const navigate = useNavigate()
@@ -119,8 +124,8 @@ const UserBooklists: FC = (): JSX.Element => {
                 sx={listBooksLoanButton}
                 variant="contained"
                 onClick={async () => {
-                  await fetchDeleteBooklist(booklist.id)
-                  await fetchBooklists()
+                  setDeleteBookListId(booklist.id)
+                  setDeleteVisible(true)
                 }}
               >
                 Delete
@@ -239,6 +244,14 @@ const UserBooklists: FC = (): JSX.Element => {
         setOneBookListDataToEditName={setOneBookListDataToEditName}
         updateBookListName={updateBookListName}
       />
+      <DeleteBookList
+        visible={deleteVisible}
+        setVisible={setDeleteVisible}
+        bookListId={deleteBookListId}
+        fetchDeleteBookList={fetchDeleteBooklist}
+        updateBookLists={fetchBooklists}
+      />
+      <ToastContainers />
     </Box>
   )
 }
