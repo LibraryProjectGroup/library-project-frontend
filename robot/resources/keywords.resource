@@ -92,7 +92,7 @@ User logins successfully
     Input Password    xpath://input[contains(@id, ':r3:')]    ${TESTPASSWORD}    clear=True    # password
     Click Button    xpath://button[contains(text(), 'Log in')]
     Wait Until Element Is Not Visible    xpath://*[contains(text(), 'No account by that username')]
-    Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'LogoutIcon')]
+    Wait Until Element Is Visible    xpath://*[@id="root"]/header/div/div/div[4]/button
 
 User deletes book from catalog with title ${title}
     Execute Javascript    location.reload()
@@ -223,11 +223,14 @@ User2 logins successfully
     Input Password    xpath://input[contains(@id, ':r3:')]    ${TESTPASSWORD2}    clear=True    # password
     Click Button    xpath://button[contains(text(), 'Log in')]
     Wait Until Element Is Not Visible    xpath://*[contains(text(), 'No account by that username')]
-    Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'LogoutIcon')]
+    Wait Until Element Is Visible    //*[@id="root"]/header/div/div/div[4]/button
 
 User presses logout button
-    Wait until Element Is Visible    xpath://*[contains(@aria-label, 'back')]
-    Click Element    xpath://*[contains(@data-testid, 'LogoutIcon')]
+    Wait until Element Is Visible   //*[@id="root"]/header/div/div/div[4]/button
+    Click Element    //*[@id="root"]/header/div/div/div[4]/button
+    Wait Until Element Is Visible   xpath:/html/body/div[4]/div[3]/ul/li[2]
+    Click Element    xpath:/html/body/div[4]/div[3]/ul/li[2]
+    
 
 User is logged out
     Wait until Element Is Visible    xpath://button[contains(text(), 'Log in')]
