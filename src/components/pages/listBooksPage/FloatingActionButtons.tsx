@@ -42,7 +42,7 @@ const FloatingActionButtons: React.FC<FloatingActionButtonsProps> = ({
         </Fab>
       </Tooltip>
       {/* Check that only admin can add new book */}
-      {String(isAdmin) === 'true' && (
+      {isAdmin ? (
         <Tooltip title="Add new book">
           <Fab
             aria-label="add"
@@ -68,7 +68,7 @@ const FloatingActionButtons: React.FC<FloatingActionButtonsProps> = ({
             <AddIcon />
           </Fab>
         </Tooltip>
-      )}
+      ) : null}
     </Box>
   )
 }
