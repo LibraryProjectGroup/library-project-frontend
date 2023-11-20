@@ -55,6 +55,15 @@ jobs:
       - name: Run tests
         run: docker-compose -f docker-compose-test-with-backend.yml exec -T docker-robot npm run startserverandtest
 
+      - name: Wait for Backend Service to be healthy
+        run: |
+          echo "Waiting for backend service to be healthy..."
+          until [ "$(docker inspect --format='{{json .State.Health.Status}}' efilibrary-backend)" == "\"healthy\"" ]; do
+            sleep 10;
+            echo "Waiting for backend service...";
+          done
+          echo "Backend service is healthy!"
+
       - name: Clean up
         if: always()
         run: docker-compose -f docker-compose-test-with-backend.yml down

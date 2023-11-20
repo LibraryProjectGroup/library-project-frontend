@@ -55,5 +55,8 @@ services:
       - ./public:/app/public:ro
     ports:
       - '3000:3000'
+    depends_on:
+      efilibrary-backend:
+        condition: service_healthy
 volumes:
   sql:
