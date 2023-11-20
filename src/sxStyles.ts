@@ -207,6 +207,7 @@ export const listBooksLikeButtonGrid: SxProps = {
   fontWeight: 'bold',
   fontSize: 15,
   marginTop: '1rem',
+  marginBottom: '1rem',
   whiteSpace: 'nowrap',
   backgroundColor: '#FFD100',
   color: 'black',
@@ -215,9 +216,7 @@ export const listBooksLikeButtonGrid: SxProps = {
   },
   width: 40,
   height: 38.25,
-  position: 'absolute',
-  bottom: 0,
-  right: 0,
+  position: 'inherit',
 }
 
 export const listBooksEntryAddButton: SxProps = {
