@@ -53,7 +53,7 @@ jobs:
         run: docker-compose -f docker-compose-test-with-backend.yml up --build -d
 
       - name: Run tests
-        run: docker-compose -f docker-compose-test-with-backend.yml exec docker-robot npm run startserverandtest
+        run: docker-compose -f docker-compose-test-with-backend.yml exec -T docker-robot npm run startserverandtest
 
       - name: Clean up
         if: always()
