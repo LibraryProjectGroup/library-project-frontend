@@ -53,6 +53,7 @@ const ListBooks: FC = (): JSX.Element => {
   const [books, setBooks] = useState<Book[]>([])
   const [filteredBooks, setFilteredBooks] = useState<Book[]>([])
   const [sort, setSort] = useState<string>('title')
+  const [searchTerm, setSearchTerm] = useState<string>('')
 
   const [activeAndLoanableReservations, setActiveAndLoanableReservations] =
     useState<any[]>([])
@@ -410,7 +411,11 @@ const ListBooks: FC = (): JSX.Element => {
               flexDirection: { xs: 'column', sm: 'row' },
             }}
           >
-            <SearchBooks onSearch={handleSearch} />
+            <SearchBooks
+              onSearch={handleSearch}
+              setSearchTerm={setSearchTerm}
+              searchTerm={searchTerm}
+            />
             <PaginationControls
               booksLength={filteredBooks.length}
               page={page}
@@ -472,6 +477,19 @@ const ListBooks: FC = (): JSX.Element => {
             spacing={3}
             sx={{ margin: '2rem', display: 'flex', alignItems: 'center' }}
           >
+            {filteredBooks.length === 0 && searchTerm && (
+              <div>
+                Nothing found with "{searchTerm}".{' '}
+                <button
+                  onClick={() => {
+                    setFilteredBooks(books)
+                    setSearchTerm('')
+                  }}
+                >
+                  Clear search
+                </button>
+              </div>
+            )}
             {filteredBooks
               ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((book, index) => (
