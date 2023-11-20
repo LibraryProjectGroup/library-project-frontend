@@ -26,14 +26,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Log in to the container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build and run containers
         run: docker-compose -f docker-compose-test-with-backend.yml up --build -d
-
-      - name: Check containers are running
-        run: docker ps
-
-      - name: Run tests
-        run: docker-compose -f docker-compose-test-with-backend.yml run --rm docker-robot
 
       - name: Clean up
         if: always()

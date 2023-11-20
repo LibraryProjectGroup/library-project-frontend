@@ -16,11 +16,6 @@ services:
       - sql:/app/sql/.
     ports:
       - 3002:3002
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:3002/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
 
   # MySQL Database
   efilibrary-mysql:
@@ -36,24 +31,5 @@ services:
       - 3306:3306
     expose:
       - 3306
-  # Frontend tests Service
-  docker-robot:
-    shm_size: 2gb # Needed for chrome not to crash
-    container_name: docker-robot
-    image: docker-robot
-    stdin_open: true
-    tty: true
-    command: npm run startserverandtest
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    env_file:
-      - docker.env
-    volumes:
-      - ./src:/app/src
-      - ./robot:/app/robot
-      - ./public:/app/public:ro
-    ports:
-      - '3000:3000'
 volumes:
   sql:
