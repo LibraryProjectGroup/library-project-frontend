@@ -37,6 +37,7 @@ import BookRequestForm from './BookRequestForm'
 import { addBookAddButton } from '../../../sxStyles'
 import { GridView, List } from '@mui/icons-material'
 import { FilterByOffice } from './FilterByOffice'
+import SearchBooks from './SearchBooks'
 
 const ListBooks: FC = (): JSX.Element => {
   const [page, setPage] = useState(0)
@@ -182,6 +183,20 @@ const ListBooks: FC = (): JSX.Element => {
 
     const updatedBooks = books.filter((book) => book.homeOfficeName === office)
     setFilteredBooks(updatedBooks)
+  }
+
+  const handleSearch = (searchTerm: string): void => {
+    const filtered = books.filter((book) => {
+      const titleMatch = book.title
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+      const authorMatch = book.author
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+
+      return titleMatch || authorMatch
+    })
+    setFilteredBooks(filtered)
   }
 
   const handleOpen = () => {
@@ -395,6 +410,7 @@ const ListBooks: FC = (): JSX.Element => {
               flexDirection: { xs: 'column', sm: 'row' },
             }}
           >
+            <SearchBooks onSearch={handleSearch} />
             <PaginationControls
               booksLength={filteredBooks.length}
               page={page}
