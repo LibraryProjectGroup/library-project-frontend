@@ -6,18 +6,6 @@ on:
   pull_request:
     branches: ['development']
 
-env:
-  DATABASE_SERVER: ${{ secrets.DATABASE_SERVER }}
-  DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
-  DATABASE_USER: ${{ secrets.DATABASE_USER }}
-  DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-  OIDC_AUTH_BACKLINK_URL: ${{ secrets.OIDC_AUTH_BACKLINK_URL }}
-  OIDC_AUTH_REDIRECT_URL: ${{ secrets.OIDC_AUTH_REDIRECT_URL }}
-  MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-  MYSQL_USER: ${{ secrets.MYSQL_USER }}
-  MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-  MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -26,7 +14,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Create .env fiel
+      - name: Create .env file
         run: |
           echo "DATABASE_SERVER=${{ env.DATABASE_SERVER }}" >> .env
           echo "DATABASE_NAME=${{ env.DATABASE_NAME }}" >> .env
