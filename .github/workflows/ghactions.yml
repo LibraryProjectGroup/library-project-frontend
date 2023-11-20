@@ -40,11 +40,11 @@ jobs:
           echo "MYSQL_ROOT_PASSWORD=${{ env.MYSQL_ROOT_PASSWORD }}" >> .env
 
       - name: Log in to the container registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_ACCESS_TOKEN }}    
+          password: ${{ secrets.GITHUB_TOKEN }}    
 
       - name: Build and run containers
         run: docker-compose -f docker-compose-test-with-backend.yml up --build -d
