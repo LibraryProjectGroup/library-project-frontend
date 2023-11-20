@@ -49,8 +49,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }} 
       
-      - name: Explicitly pull Docker image
-        run: docker pull ghcr.io/libraryprojectgroup/library-project-backend:latest
             
       - name: Build and run containers
         run: docker-compose -f docker-compose-test-with-backend.yml up --build -d
