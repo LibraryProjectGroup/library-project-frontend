@@ -414,12 +414,12 @@ const ListBooks: FC = (): JSX.Element => {
         {view === 'grid' ? (
           <Grid
             container
-            spacing={2}
+            spacing={1}
             sx={{
               margin: '1rem',
               display: 'flex',
               alignItems: 'center',
-              width: '95%',
+              width: 'auto',
             }}
           >
             {filteredBooks

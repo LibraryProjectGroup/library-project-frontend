@@ -144,35 +144,52 @@ const BookCard: React.FC<BookCardProps> = ({
           ? { padding: '2rem', width: { xs: '90%', md: '60%' } }
           : {
               padding: '1rem',
+              width: 'auto',
+              height: 'auto',
+              margin: '1rem',
               display: 'flex',
               flexDirection: 'column',
-              width: 'auto',
-              height: 650,
             }
       }
       key={book.id}
     >
       <Stack
-        sx={{
-          flex: 1,
-          display: 'flex',
-          flexDirection:
-            viewType === 'list' ? { xs: 'column', md: 'row' } : 'column',
-          justifyContent: { md: 'space-between' },
-          padding: '1rem',
-        }}
+        sx={
+          viewType === 'list'
+            ? {
+                flex: 1,
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+                justifyContent: { md: 'space-between' },
+                padding: '1rem',
+              }
+            : {
+                display: 'flex',
+                flexDirection: 'column',
+                position: 'relative',
+                justifyContent: 'space-between',
+              }
+        }
       >
         <Stack
-          sx={{
-            display: 'flex',
-            flex: 1,
-            flexDirection:
-              viewType === 'list' ? { xs: 'row', md: 'column' } : 'row',
-            position: 'relative',
-            justifyContent: 'space-between',
-            minWidth: 120,
-            maxWidth: { xs: 999, md: 0 },
-          }}
+          sx={
+            viewType === 'list'
+              ? {
+                  display: 'flex',
+                  flex: 1,
+                  flexDirection: { xs: 'row', md: 'column' },
+                  position: 'relative',
+                  justifyContent: 'space-between',
+                  minWidth: 120,
+                  maxWidth: { xs: 999, md: 0 },
+                }
+              : {
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  width: 'auto',
+                }
+          }
         >
           {book.image ? (
             <img alt="Book cover" width={120} height={160} src={book.image} />
@@ -237,6 +254,7 @@ const BookCard: React.FC<BookCardProps> = ({
             sx={{
               fontFamily: 'Merriweather',
               fontWeight: 'light',
+              marginBottom: '1rem',
             }}
           >
             Office:{' '}
@@ -245,25 +263,26 @@ const BookCard: React.FC<BookCardProps> = ({
               officeName={book.homeOfficeName}
             />
           </Typography>
-          {bookInCurrentBorrows(book) && (
-            <Typography
-              sx={{
-                fontFamily: 'Merriweather',
-                fontWeight: 'light',
-                marginTop: '1rem',
-              }}
-            >
-              {`Loan due: ${currentBorrows
-                .filter((borrow) => borrow.book === book.id)
-                .map((borrow) =>
-                  new Date(borrow.dueDate).toLocaleString('fi', {
-                    year: 'numeric',
-                    month: 'numeric',
-                    day: 'numeric',
-                  })
-                )}.`}
-            </Typography>
-          )}
+          <div style={{ height: '1rem', marginBottom: '10px' }}>
+            {bookInCurrentBorrows(book) && (
+              <Typography
+                sx={{
+                  fontFamily: 'Merriweather',
+                  fontWeight: 'light',
+                }}
+              >
+                {`Loan due: ${currentBorrows
+                  .filter((borrow) => borrow.book === book.id)
+                  .map((borrow) =>
+                    new Date(borrow.dueDate).toLocaleString('fi', {
+                      year: 'numeric',
+                      month: 'numeric',
+                      day: 'numeric',
+                    })
+                  )}.`}
+              </Typography>
+            )}
+          </div>
           {activeAndLoanableReservations
             .map((obj: { bookId: any }) => obj.bookId)
             .includes(book.id) && (
