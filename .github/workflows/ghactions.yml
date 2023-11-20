@@ -48,12 +48,12 @@ jobs:
           registry: ghcr.io
           username: ${{ secrets.GHCR_ACCES_TEST_USER}}
           password: ${{ secrets.GHCR_ACCES_TEST_TOKEN }} 
-      
-      - name: Explicitly pull Docker image
-        run: docker pull ghcr.io/libraryprojectgroup/library-project-backend:latest    
             
       - name: Build and run containers
         run: docker-compose -f docker-compose-test-with-backend.yml up --build -d
+
+      - name: Run tests
+        run: docker-compose -f docker-compose-test-with-backend.yml exec docker-robot npm run startserverandtest
 
       - name: Clean up
         if: always()
