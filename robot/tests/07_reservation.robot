@@ -2,7 +2,7 @@
 Resource            ../resources/keywords.resource
 Library    String
 
-Suite Setup    User2 login for testing
+Suite Setup    Login for testing
 Suite Teardown    Close all browsers
 
 Documentation    Checks if books can be reserved
@@ -20,7 +20,7 @@ User can loan the book
     And User logout
 
 User can reserve book and cancel reservation
-    Given Login for testing
+    Given User2 login for testing
     And User reserves book with title Java oh Java
     Then User navigates to reservations page 
     And User cancels reservation of book with title Java oh Java
@@ -29,7 +29,7 @@ User can reserve book and cancel reservation
    
 User can return the book
     Given User logout 
-    And User2 login for testing
+    And Login for testing
     And User navigates to user page
     When User has loaned book with title Java oh Java
     And User returns a book with title Java oh Java

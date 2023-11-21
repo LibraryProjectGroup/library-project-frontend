@@ -74,12 +74,11 @@ User adds ${title} book to catalog
     Input Text    xpath://input[@name='title']    ${title}
     Input Text    xpath://input[@name='topic']    Java
     Input Text    xpath://input[@name='isbn']    123-456
-    Mouse over  xpath:/html/body/div[4]/form/div/div/div[6]/div
-    Click Element   xpath:/html/body/div[4]/form/div/div/div[6]/div
-    Mouse over    xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
+    Click Element   xpath:/html/body/div[5]/form/div/div/div[6]/div
+    Wait Until Element Is Visible   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[2]/span[2]
     Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
     Sleep   1s
-    Click Button    xpath:/html/body/div[4]/form/div/div/div[7]/button[1]
+    Click Button    xpath:/html/body/div[5]/form/div/div/div[7]/button[1]
 
 
 User can find the ${title} book from the page
@@ -100,7 +99,7 @@ User deletes book from catalog with title ${title}
     ...    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Delete book')]
     Click Button    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Delete book')]
     Wait Until Element Is Visible    xpath://*[contains(text(), 'Do you want to delete this book?')]
-    Click Button    xpath:/html/body/div[4]/div[3]/div/div[2]/button[1]
+    Click Button    xpath:/html/body/div[5]/div[3]/div/div[2]/button[1]
     Wait Until Element Is Not Visible    xpath://*[contains(text(), '${title}')]
 
 User navigates to user page
@@ -117,7 +116,7 @@ User tries to loan a book with title ${title}
     ...    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'LOAN')]
     Click Button    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'LOAN')]
     Wait Until Element Is Visible    xpath://*[contains(text(), 'Do you want to loan this book?')]
-    Click Button    xpath:/html/body/div[4]/div[3]/div/div[2]/button[1]
+    Click Button    xpath:/html/body/div[5]/div[3]/div/div[2]/button[1]
 
 User who has not signed up tries to log in
     Wait Until Element Is Visible    xpath://input[contains(@id, ':r1:')]

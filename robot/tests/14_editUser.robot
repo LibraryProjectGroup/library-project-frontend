@@ -40,8 +40,9 @@ Admin can edit user information
     Input Text    xpath://input[@name='username']    mestattavatyyppi
     Press Keys    xpath://input[@name='email']    ${OPERATINGSYSTEMCOMMAND}    DELETE
     Input Text    xpath://input[@name='email']    suku.suku@doesnotexist.com
-    Click Element    xpath:/html/body/div[4]/div[3]/div/div[4]/div
-    Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
+    Click Element    xpath://*[@id=":rll:"]
+    Wait Until Element Is Visible   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[2]
+    Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[2]
     Sleep   1s
     Click Button    xpath://button[normalize-space()='Update']
     Wait Until Element Is Visible    xpath://div[contains(text(), 'mestattavatyyppi')]
@@ -65,12 +66,12 @@ Admin can upgrade user to admin
     Click Button    xpath://*[contains(text(), '${TESTUSERNAME2}')]//ancestor::div[2]//button[contains(text(), 'Edit')]
     Wait Until Element Is Visible    xpath://h4[normalize-space()='Edit user']
     Click Element    xpath:/html/body/div[4]/div[3]/div/div[1]/div
+    Wait until Element Is Visible   xpath://*[@id="menu-administrator"]/div[3]/ul/li[1]
     Click Element    xpath://*[@id="menu-administrator"]/div[3]/ul/li[1]
-    Sleep   1s
-    Click Element    xpath:/html/body/div[4]/div[3]/div/div[4]/div
-    Sleep   1s
-    Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
-    Sleep   1s
+    Click Element    xpath://*[@id=":rll:"]
+    Wait Until Element Is Visible   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[2]
+    Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[2]
+    Wait Until Element Is Visible   xpath://button[normalize-space()='Update']
     Click Button    xpath://button[normalize-space()='Update']
     Wait Until Element Is Visible
     ...    xpath://div[contains(text(), '${TESTUSERNAME2}')]//ancestor::div[2]//div[contains(text(), 'true')]
