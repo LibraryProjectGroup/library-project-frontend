@@ -51,15 +51,6 @@ jobs:
             
       - name: Build and run backend containers
         run: docker-compose -f docker-compose-start-backend.yml up --build -d
-
-      - name: Wait for Backend Service to be healthy
-        run: |
-          echo "Waiting for backend service to be healthy..."
-          until [ "$(docker inspect --format='{{json .State.Health.Status}}' efilibrary-backend)" == "\"healthy\"" ]; do
-            sleep 10;
-            echo "Waiting for backend service...";
-          done
-          echo "Backend service is healthy!"  
       
       - name: Build and run test container
         run: docker-compose -f docker-compose-test.yml up --build -d    
