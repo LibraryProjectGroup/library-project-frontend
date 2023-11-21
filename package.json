@@ -11,7 +11,7 @@
     "robottests": "robot --variablefile ./robot/library-project-secrets.py --removekeywords  NAME:*logins* --outputdir robot/results robot/tests",
     "eject": "react-scripts eject",
     "dockertests": "robot --variable TESTUSERNAME:${TESTUSERNAME} --variable TESTPASSWORD:${TESTPASSWORD} --variable TESTUSERNAME2:${TESTUSERNAME2} --variable TESTPASSWORD2:${TESTPASSWORD2} --removekeywords  NAME:*logins* --outputdir robot/results robot/tests",
-    "startserverandtest": "react-scripts start & wait-on http://localhost:3000 && npm run dockertests",
+    "startserverandtest": "react-scripts start & wait-on http://localhost:3000 && npm run robottests",
     "format": "prettier --write .",
     "prepare": "husky install",
     "pretty-quick": "pretty-quick"

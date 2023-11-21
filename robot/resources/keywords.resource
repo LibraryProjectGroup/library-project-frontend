@@ -246,7 +246,7 @@ User returns a book with title ${title}
     ...    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Return')]
     Click Element    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Return')]
     Wait Until Element Is Visible    xpath://*[contains(text(), 'Do you want to return this book?')]
-    Click Button    xpath:/html/body/div[4]/div[3]/div/div[2]/button[1]
+    Click Button    xpath:/html/body/div[5]/div[3]/div/div[2]/button[1]
     Wait Until Element Is Not Visible
     ...    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Return')]
 
