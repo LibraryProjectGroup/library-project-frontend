@@ -6,7 +6,7 @@ import {
   Fragment,
   useCallback,
 } from 'react'
-import { Button, Stack, Box, Grid, Fab } from '@mui/material'
+import { Button, Stack, Box, Grid, Fab, Tooltip } from '@mui/material'
 import { TheContext } from '../../../TheContext'
 import Book from '../../../interfaces/book.interface'
 import Book_reservation from '../../../interfaces/book_reservation.interface'
@@ -351,9 +351,11 @@ const ListBooks: FC = (): JSX.Element => {
             setFormBook={setFormBook}
             setFormVisible={setFormVisible}
           />
-          <Fab sx={addBookAddButton} onClick={toggleView}>
-            {view === 'list' ? <GridView /> : <List />}
-          </Fab>
+          <Tooltip title="Change view">
+            <Fab sx={addBookAddButton} onClick={toggleView}>
+              {view === 'list' ? <GridView /> : <List />}
+            </Fab>
+          </Tooltip>
           <BookForm
             visible={formVisible}
             setVisible={setFormVisible}
