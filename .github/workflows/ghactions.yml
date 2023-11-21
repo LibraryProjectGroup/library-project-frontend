@@ -2,44 +2,68 @@ name: Node.js CI
 
 on:
   push:
-    branches: ['development']
+    branches: ['development', s23-docker-compose-tests]
   pull_request:
     branches: ['development']
 
 env:
-  TESTUSERNAME: ${{ secrets.REACT_APP_TEST_USERNAME }}
-  TESTPASSWORD: ${{ secrets.REACT_APP_TEST_PASSWORD }}
-  TESTUSERNAME2: ${{ secrets.REACT_APP_TEST_USERNAME2 }}
-  TESTPASSWORD2: ${{ secrets.REACT_APP_TEST_PASSWORD2 }}
+  DATABASE_SERVER: ${{ secrets.DATABASE_SERVER }}
+  DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+  DATABASE_USER: ${{ secrets.DATABASE_USER }}
+  DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+  OIDC_AUTH_BACKLINK_URL: ${{ secrets.OIDC_AUTH_BACKLINK_URL }}
+  OIDC_AUTH_REDIRECT_URL: ${{ secrets.OIDC_AUTH_REDIRECT_URL }}
+  MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+  MYSQL_USER: ${{ secrets.MYSQL_USER }}
+  MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+  MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      packages: write
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          cache: 'npm'
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
-      - name: Install dependencies
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create .env file
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Install chrome web driver
-        uses: nanasess/setup-chromedriver@v1
-      - run: |
-          export DISPLAY=:99
-          chromedriver --url-base=/wd/hub &
-          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: |
-          npm test &&
-          npm start & 
-          npx wait-on http://localhost:3000 &&
-          robot --variable TESTUSERNAME:${TESTUSERNAME} --variable TESTPASSWORD:${TESTPASSWORD} --variable TESTUSERNAME2:${TESTUSERNAME2} --variable TESTPASSWORD2:${TESTPASSWORD2} --removekeywords  NAME:*logins* --outputdir robot/results robot/tests
+          echo "DATABASE_SERVER=${{ env.DATABASE_SERVER }}" >> .env
+          echo "DATABASE_NAME=${{ env.DATABASE_NAME }}" >> .env
+          echo "DATABASE_USER=${{ env.DATABASE_USER }}" >> .env
+          echo "DATABASE_PASSWORD=${{ env.DATABASE_PASSWORD }}" >> .env
+          echo "OIDC_AUTH_BACKLINK_URL=${{ env.OIDC_AUTH_BACKLINK_URL }}" >> .env
+          echo "OIDC_AUTH_REDIRECT_URL=${{ env.OIDC_AUTH_REDIRECT_URL }}" >> .env
+          echo "MYSQL_DATABASE=${{ env.MYSQL_DATABASE }}" >> .env
+          echo "MYSQL_USER=${{ env.MYSQL_USER }}" >> .env
+          echo "MYSQL_PASSWORD=${{ env.MYSQL_PASSWORD }}" >> .env
+          echo "MYSQL_ROOT_PASSWORD=${{ env.MYSQL_ROOT_PASSWORD }}" >> .env
+
+      - name: Log in to the container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_ACCES_TEST_USER}}
+          password: ${{ secrets.GHCR_ACCES_TEST_TOKEN }} 
+            
+      - name: Build and run containers
+        run: docker-compose -f docker-compose-test-with-backend.yml up --build -d
+
+      - name: Wait for Backend Service to be healthy
+        run: |
+          echo "Waiting for backend service to be healthy..."
+          until [ "$(docker inspect --format='{{json .State.Health.Status}}' efilibrary-backend)" == "\"healthy\"" ]; do
+            sleep 10;
+            echo "Waiting for backend service...";
+          done
+          echo "Backend service is healthy!"  
+
+      - name: Run tests
+        run: docker-compose -f docker-compose-test-with-backend.yml exec -T docker-robot npm run startserverandtest
+
+      - name: Clean up
+        if: always()
+        run: docker-compose -f docker-compose-test-with-backend.yml down

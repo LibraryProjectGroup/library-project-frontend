@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  # Backend Service
+  efilibrary-backend:
+    image: ghcr.io/libraryprojectgroup/library-project-backend:latest
+    environment:
+      DATABASE_SERVER: ${DATABASE_SERVER}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      OIDC_AUTH_BACKLINK_URL: ${OIDC_AUTH_BACKLINK_URL}
+      OIDC_AUTH_REDIRECT_URL: ${OIDC_AUTH_REDIRECT_URL}
+      PORT: 3002
+    volumes:
+      - sql:/app/sql/.
+    ports:
+      - 3002:3002
+
+  # MySQL Database
+  efilibrary-mysql:
+    image: mysql
+    volumes:
+      - sql:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+volumes:
+  sql:
