@@ -19,9 +19,9 @@ services:
       - 3002:3002
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:3002/health" ]
-      interval: 30s
+      interval: 15s
       timeout: 10s
-      retries: 10
+      retries: 15
 
   # MySQL Database
   efilibrary-mysql:
@@ -56,8 +56,8 @@ services:
       - ./public:/app/public:ro
     ports:
       - '3000:3000'
-    #depends_on:
-      #efilibrary-backend:
-        #condition: service_healthy
+    depends_on:
+      efilibrary-backend:
+        condition: service_healthy
 volumes:
   sql:
