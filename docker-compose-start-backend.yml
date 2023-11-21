@@ -3,6 +3,7 @@ version: '3.8'
 services:
   # Backend Service
   efilibrary-backend:
+    container_name: efilibrary-backend 
     image: ghcr.io/libraryprojectgroup/library-project-backend:latest
     environment:
       DATABASE_SERVER: ${DATABASE_SERVER}
