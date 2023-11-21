@@ -127,6 +127,7 @@ const EditBook: FC<IProps> = ({
             image: bookData.volumeInfo.imageLinks.thumbnail,
             title: bookData.volumeInfo.title,
             year: date[0] + date[1] + date[2] + date[3],
+            description: bookData.volumeInfo.description,
           })
         } else {
           setBook({
@@ -136,6 +137,7 @@ const EditBook: FC<IProps> = ({
             image: null,
             title: bookData.volumeInfo.title,
             year: date[0] + date[1] + date[2] + date[3],
+            description: bookData.volumeInfo.description,
           })
         }
       })
@@ -200,6 +202,13 @@ const EditBook: FC<IProps> = ({
               name="topic"
               required
               value={book.topic}
+              onChange={(e) => onChange(e)}
+            />
+            <TextField
+              label="Description"
+              name="description"
+              required
+              value={book.description}
               onChange={(e) => onChange(e)}
             />
             <TextField

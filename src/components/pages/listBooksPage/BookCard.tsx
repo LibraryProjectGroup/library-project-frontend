@@ -11,7 +11,14 @@ import {
   Avatar,
   ListItemAvatar,
   ListItemText,
+  IconButton,
+  Tooltip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
 } from '@mui/material'
+import HelpIcon from '@mui/icons-material/Help'
+import CloseIcon from '@mui/icons-material/Close'
 import { toast } from 'react-toastify'
 import Borrow from '../../../interfaces/borrow.interface'
 import Book from '../../../interfaces/book.interface'
@@ -73,6 +80,7 @@ const BookCard: React.FC<BookCardProps> = ({
   const [deleteConfirmationVisible, setDeleteConfirmationVisible] =
     useState(false)
   const [selectedReviewId, setSelectedReviewId] = useState<number>(0)
+  const [isDescriptionVisible, setDescriptionVisible] = useState(false)
 
   useEffect(() => {
     loadReviewsAndRating()
@@ -218,7 +226,43 @@ const BookCard: React.FC<BookCardProps> = ({
             }}
           >
             {book.title}
+            <Tooltip title="About the book">
+              <IconButton
+                size="small"
+                onClick={() => {
+                  setDescriptionVisible(true)
+                }}
+              >
+                <HelpIcon />
+              </IconButton>
+            </Tooltip>
           </Typography>
+
+          <Dialog
+            open={isDescriptionVisible}
+            onClose={() => {
+              setDescriptionVisible(false)
+            }}
+          >
+            <DialogTitle>
+              About the book
+              <IconButton
+                edge='end'
+                color='inherit'
+                onClick={() => setDescriptionVisible(false)}
+                sx={{
+                  position: 'absolute',
+                  right: 15,
+                  top: 8,
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+            </DialogTitle>
+            <DialogContent>
+              <Typography>{book.description}</Typography>
+            </DialogContent>
+          </Dialog>
 
           <Typography
             sx={{

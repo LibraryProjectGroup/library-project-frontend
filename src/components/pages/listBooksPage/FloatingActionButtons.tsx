@@ -56,6 +56,7 @@ const FloatingActionButtons: React.FC<FloatingActionButtonsProps> = ({
                 author: '',
                 year: new Date().getFullYear(),
                 topic: '',
+                description: '',
                 isbn: '',
                 homeOfficeId: -1,
                 homeOfficeCountry: 'XXX',
