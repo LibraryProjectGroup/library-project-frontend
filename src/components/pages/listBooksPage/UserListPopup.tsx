@@ -27,7 +27,7 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
 
   useEffect(() => {
     if (Boolean(anchorEl) === true) {
-      setOpen(true); // Show the Popover
+      setOpen(true);
       fetchBooklists();
     }
   }, [anchorEl])
@@ -39,7 +39,7 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
   }
 
   const handleClose = () => {
-    setOpen(false); // Hide the Popover
+    setOpen(false);
     setAnchorEl(null);
   }
 
