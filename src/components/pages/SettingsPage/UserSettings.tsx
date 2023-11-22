@@ -36,8 +36,12 @@ const UserSettings: FC = (): JSX.Element => {
   const [isDataChanged, setIsDataChanged] = useState(false)
   const [userDataFromApi, setUserDataFromApi] = useState<User | null>(null)
   const [userData, setUserData] = useState<User | null>(null)
+  const [checkDelete, setCheckDelete] = useState<boolean>(false)
   const ErrorMessage = () =>
-    toast.error('Deletion failed', { containerId: 'ToastAlert' })
+    toast.error(
+      'Deletion failed, check that you have returned all loaned books before deleting user!',
+      { containerId: 'ToastAlert' }
+    )
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -70,7 +74,7 @@ const UserSettings: FC = (): JSX.Element => {
       setOffices(await fetchAllHomeOffices())
     })()
   }, [])
-
+  //HANDLE USER INPUT CHANGE
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -141,7 +145,6 @@ const UserSettings: FC = (): JSX.Element => {
             label="Username"
             name="username"
             value={userData?.username}
-            /* onChange={(e) => onChange(e)} */
           />
           <TextField
             sx={{ width: { xs: '100%', md: '40%' } }}
@@ -149,7 +152,6 @@ const UserSettings: FC = (): JSX.Element => {
             label="Email"
             name="email"
             value={userData?.email}
-            /* onChange={(e) => onChange(e)} */
           />
           <TextField
             sx={{ width: { xs: '100%', md: '40%' } }}
@@ -191,14 +193,41 @@ const UserSettings: FC = (): JSX.Element => {
               <DialogTitle>Confirm Delete</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  Are you sure you want to delete this user?
+                  <b>Are you sure you want to delete this user?</b>
                 </DialogContentText>
+                <DialogContentText>
+                  <b>Write "delete" to confirm!</b>
+                </DialogContentText>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="delete"
+                  label="Write here..."
+                  type="text"
+                  fullWidth
+                  onChange={(e) => {
+                    if (e.target.value.toUpperCase() === 'DELETE') {
+                      setCheckDelete(true)
+                    } else {
+                      setCheckDelete(false)
+                    }
+                  }}
+                />
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleClose} color="primary">
+                <Button
+                  onClick={handleClose}
+                  variant="contained"
+                  color="primary"
+                >
                   Cancel
                 </Button>
-                <Button onClick={deleteUser} color="secondary">
+                <Button
+                  onClick={deleteUser}
+                  variant="contained"
+                  color="error"
+                  disabled={!checkDelete}
+                >
                   Delete
                 </Button>
               </DialogActions>

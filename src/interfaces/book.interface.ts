@@ -6,6 +6,7 @@ interface Book {
   author: string
   year: number
   topic: string
+  description: string
   isbn: string
   deleted: boolean
   homeOfficeId: number

@@ -6,7 +6,7 @@ import {
   Fragment,
   useCallback,
 } from 'react'
-import { Button, Stack, Box, Grid, Fab, Typography } from '@mui/material'
+import { Button, Stack, Box, Grid, Fab, Tooltip, Typography } from '@mui/material'
 import { TheContext } from '../../../TheContext'
 import Book from '../../../interfaces/book.interface'
 import Book_reservation from '../../../interfaces/book_reservation.interface'
@@ -367,9 +367,11 @@ const ListBooks: FC = (): JSX.Element => {
             setFormBook={setFormBook}
             setFormVisible={setFormVisible}
           />
-          <Fab sx={addBookAddButton} onClick={toggleView}>
-            {view === 'list' ? <GridView /> : <List />}
-          </Fab>
+          <Tooltip title="Change view">
+            <Fab sx={addBookAddButton} onClick={toggleView}>
+              {view === 'list' ? <GridView /> : <List />}
+            </Fab>
+          </Tooltip>
           <BookForm
             visible={formVisible}
             setVisible={setFormVisible}
@@ -452,12 +454,12 @@ const ListBooks: FC = (): JSX.Element => {
         {view === 'grid' ? (
           <Grid
             container
-            spacing={2}
+            spacing={1}
             sx={{
               margin: '1rem',
               display: 'flex',
               alignItems: 'center',
-              width: '95%',
+              width: 'auto',
             }}
           >
             {filteredBooks

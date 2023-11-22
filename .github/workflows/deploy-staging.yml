@@ -27,4 +27,3 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Push image
         run: docker-compose -f docker-compose-staging.yml push
-      
