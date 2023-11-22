@@ -6,7 +6,7 @@ import {
   Fragment,
   useCallback,
 } from 'react'
-import { Button, Stack, Box, Grid, Fab } from '@mui/material'
+import { Button, Stack, Box, Grid, Fab, Typography } from '@mui/material'
 import { TheContext } from '../../../TheContext'
 import Book from '../../../interfaces/book.interface'
 import Book_reservation from '../../../interfaces/book_reservation.interface'
@@ -406,7 +406,7 @@ const ListBooks: FC = (): JSX.Element => {
           <Box
             sx={{
               display: 'flex',
-              width: '100%',
+              width: '75%',
               justifyContent: 'center',
               flexDirection: { xs: 'column', sm: 'row' },
             }}
@@ -432,6 +432,23 @@ const ListBooks: FC = (): JSX.Element => {
             </Box>
           </Box>
         </Box>
+        {filteredBooks.length === 0 && searchTerm && (
+          <Box sx={{ justifyContent: 'center', display: 'flex' }}>
+            <Typography fontSize={18}>
+              Nothing found with "{searchTerm}"{' '}
+            </Typography>
+            <Button
+              variant="text"
+              size="small"
+              onClick={() => {
+                setFilteredBooks(books)
+                setSearchTerm('')
+              }}
+            >
+              Clear search
+            </Button>
+          </Box>
+        )}
         {view === 'grid' ? (
           <Grid
             container
@@ -477,19 +494,6 @@ const ListBooks: FC = (): JSX.Element => {
             spacing={3}
             sx={{ margin: '2rem', display: 'flex', alignItems: 'center' }}
           >
-            {filteredBooks.length === 0 && searchTerm && (
-              <div>
-                Nothing found with "{searchTerm}".{' '}
-                <button
-                  onClick={() => {
-                    setFilteredBooks(books)
-                    setSearchTerm('')
-                  }}
-                >
-                  Clear search
-                </button>
-              </div>
-            )}
             {filteredBooks
               ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((book, index) => (
