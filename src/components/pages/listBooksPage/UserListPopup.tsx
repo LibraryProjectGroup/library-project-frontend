@@ -23,9 +23,12 @@ import { useNavigate } from 'react-router-dom'
 const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
   const [booklists, setBooklists] = useState<Book_list[]>([])
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
+  const [open, setOpen] = useState(false)
+
   useEffect(() => {
     if (Boolean(anchorEl) === true) {
-      fetchBooklists()
+      setOpen(true); // Show the Popover
+      fetchBooklists();
     }
   }, [anchorEl])
 
@@ -36,7 +39,8 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
   }
 
   const handleClose = () => {
-    setAnchorEl(null)
+    setOpen(false); // Hide the Popover
+    setAnchorEl(null);
   }
 
   const handleAddButton = (list: Book_list) => {
@@ -54,7 +58,6 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
     setAnchorEl(null)
   }
 
-  const open = Boolean(anchorEl)
   const id = open ? 'simple-popover' : undefined
   const fetchBooklists = async () => {
     setBooklists(await fetchUserBooklists())
@@ -166,6 +169,7 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
       >
         + Add to list
       </Button>
+      {booklists.length > 0 && (
       <Popover
         id={id}
         open={open}
@@ -204,6 +208,7 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
           })}
         </List>
       </Popover>
+      )}
     </Box>
   )
 }
