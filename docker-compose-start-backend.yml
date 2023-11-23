@@ -4,7 +4,7 @@ services:
   # Backend Service
   efilibrary-backend:
     container_name: efilibrary-backend 
-    image: ghcr.io/libraryprojectgroup/library-project-backend:latest
+    image: ghcr.io/libraryprojectgroup/library-project-backend:alpine
     environment:
       DATABASE_SERVER: ${DATABASE_SERVER}
       DATABASE_NAME: ${DATABASE_NAME}
@@ -13,6 +13,8 @@ services:
       OIDC_AUTH_BACKLINK_URL: ${OIDC_AUTH_BACKLINK_URL}
       OIDC_AUTH_REDIRECT_URL: ${OIDC_AUTH_REDIRECT_URL}
       PORT: 3002
+    networks:
+      - backend-network  
     volumes:
       - sql:/app/sql/.
     ports:
@@ -28,9 +30,14 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    networks:
+      - backend-network  
     ports:
       - 3306:3306
     expose:
       - 3306
+
+networks:
+  backend-network:      
 volumes:
   sql:

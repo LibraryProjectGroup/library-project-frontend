@@ -17,6 +17,7 @@ env:
   MYSQL_USER: ${{ secrets.MYSQL_USER }}
   MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
   MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+  COMPOSE_PROJECT_NAME: ${{ secrets.COMPOSE_PROJECT_NAME }}
 
 jobs:
   build-and-test:
@@ -41,6 +42,7 @@ jobs:
           echo "MYSQL_USER=${{ env.MYSQL_USER }}" >> .env
           echo "MYSQL_PASSWORD=${{ env.MYSQL_PASSWORD }}" >> .env
           echo "MYSQL_ROOT_PASSWORD=${{ env.MYSQL_ROOT_PASSWORD }}" >> .env
+          echo "COMPOSE_PROJECT_NAME=${{ env.COMPOSE_PROJECT_NAME }}" >> .env
 
       - name: Log in to the container registry
         uses: docker/login-action@v2
