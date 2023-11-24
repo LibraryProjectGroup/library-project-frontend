@@ -45,8 +45,37 @@ const UsersGrid: FC = (): JSX.Element => {
 
   const COLUMNS_USERS: GridColDef[] = [
     { field: 'id', headerName: 'ID', flex: 1, minWidth: 70 },
-    { field: 'username', headerName: 'Username', flex: 2, minWidth: 160 },
-    { field: 'email', headerName: 'Email', flex: 2, minWidth: 230 },
+    {
+      field: 'username',
+      headerName: 'Username',
+      flex: 3,
+      minWidth: 160,
+      renderCell: (params) => {
+        const isSoftDeleted = usersData.find(
+          (user) => user.id === params.row.id
+        )?.deleted
+        const usernameStyle = isSoftDeleted ? { color: 'red' } : {}
+        return (
+          <span style={usernameStyle}>
+            {!isSoftDeleted ? '' : '(soft-deleted) '}
+            {params.value}
+          </span>
+        )
+      },
+    },
+    {
+      field: 'email',
+      headerName: 'Email',
+      flex: 2,
+      minWidth: 230,
+      renderCell: (params) => {
+        const isSoftDeleted = usersData.find(
+          (user) => user.id === params.row.id
+        )?.deleted
+        const emailStyle = isSoftDeleted ? { color: 'red' } : {}
+        return <span style={emailStyle}>{params.value}</span>
+      },
+    },
     {
       field: 'administrator',
       headerName: 'Administrator',
@@ -59,7 +88,7 @@ const UsersGrid: FC = (): JSX.Element => {
     {
       field: 'office',
       headerName: 'Office',
-      flex: 3,
+      flex: 2,
       minWidth: 120,
       renderCell: (params) => {
         const homeOffice = (offices ?? []).find(
@@ -141,11 +170,6 @@ const UsersGrid: FC = (): JSX.Element => {
     const usersTmp = await fetchAllUsers()
     setUsersData(usersTmp)
   }
-
-  /*const deleteUser = async (id: number) => {
-    await fetchDeleteUser(id);
-    await loadUsersData();
-  };*/
 
   const editUser = async (id: number) => {
     let userData = await fetchUserById(id)
