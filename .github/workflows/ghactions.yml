@@ -73,15 +73,13 @@ jobs:
         run: |
           netstat -tuln | grep 3000 || echo "Port 3000 is available"  
       
-      - name: Build and run test container
-        run: docker-compose -f docker-compose-start.yml up --build
         
       - name: Check Port 3000 Usage
         run: |
           netstat -tuln | grep 3000 || echo "Port 3000 is available"   
 
       - name: Run tests
-        run: npm run startserverandtest
+        run: docker-compose -f docker-compose-start.yml exec -T docker-robot npm run startserverandtest
 
       - name: Clean up
         if: always()
