@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  efilibrary-frontend-local:
+    container_name: efilibrary-frontend-local
+    build:
+      context: ./
+      dockerfile: Dockerfile.staging
+    ports:
+      - '3000:80' # 3000 is the port that the container exposes, 80 is the port that the app runs on
