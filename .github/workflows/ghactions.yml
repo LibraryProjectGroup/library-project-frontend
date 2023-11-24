@@ -80,7 +80,7 @@ jobs:
           netstat -tuln | grep 3000 || echo "Port 3000 is available"   
 
       - name: Run tests
-        run: docker-compose -f docker-compose-start.yml exec -T efilibrary-frontend-local npm run startserverandtest
+        run: docker-compose -f docker-compose-start.yml exec -T efilibrary-frontend-local npm run robottests
 
       - name: Clean up
         if: always()
