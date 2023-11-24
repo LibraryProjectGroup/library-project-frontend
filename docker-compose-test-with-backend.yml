@@ -16,7 +16,7 @@ services:
     volumes:
       - sql:/app/sql/.
     ports:
-      - 3002:3002
+      - '3002:3002'
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:3002/health" ]
       interval: 15s
