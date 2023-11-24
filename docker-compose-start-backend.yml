@@ -1,10 +1,11 @@
-version: '3.8'
+version: '3.3'
 
 services:
-  # Backend Service
   efilibrary-backend:
-    container_name: efilibrary-backend 
-    image: ghcr.io/libraryprojectgroup/library-project-backend:alpine
+    image: ghcr.io/libraryprojectgroup/library-project-backend:latest
+
+    #    stdin_open: true
+
     environment:
       DATABASE_SERVER: ${DATABASE_SERVER}
       DATABASE_NAME: ${DATABASE_NAME}
@@ -13,19 +14,11 @@ services:
       OIDC_AUTH_BACKLINK_URL: ${OIDC_AUTH_BACKLINK_URL}
       OIDC_AUTH_REDIRECT_URL: ${OIDC_AUTH_REDIRECT_URL}
       PORT: 3002
-    networks:
-      - backend-network  
     volumes:
       - sql:/app/sql/.
     ports:
       - 3002:3002
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:3002/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5  
 
-  # MySQL Database
   efilibrary-mysql:
     image: mysql
     volumes:
@@ -35,14 +28,12 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    networks:
-      - backend-network  
+
     ports:
       - 3306:3306
+
     expose:
       - 3306
 
-networks:
-  backend-network:      
 volumes:
   sql:
