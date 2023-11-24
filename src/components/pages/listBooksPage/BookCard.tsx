@@ -289,6 +289,15 @@ const BookCard: React.FC<BookCardProps> = ({
               fontWeight: 'light',
             }}
           >
+            Language: {book.language}
+          </Typography>
+
+          <Typography
+            sx={{
+              fontFamily: 'Merriweather',
+              fontWeight: 'light',
+            }}
+          >
             Topic: {book.topic}
           </Typography>
           <Typography
