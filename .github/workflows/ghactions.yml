@@ -18,6 +18,10 @@ env:
   MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
   MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
   COMPOSE_PROJECT_NAME: ${{ secrets.COMPOSE_PROJECT_NAME }}
+  TESTUSERNAME: ${{ secrets.REACT_APP_TEST_USERNAME }}
+  TESTUSERNAME2: ${{ secrets.REACT_APP_TEST_USERNAME2 }}
+  TESTPASSWORD: ${{ secrets.REACT_APP_TEST_PASSWORD }}
+  TESTPASSWORD2: ${{ secrets.REACT_APP_TEST_PASSWORD2 }}
 
 jobs:
   build-and-test:
@@ -43,6 +47,10 @@ jobs:
           echo "MYSQL_PASSWORD=${{ env.MYSQL_PASSWORD }}" >> .env
           echo "MYSQL_ROOT_PASSWORD=${{ env.MYSQL_ROOT_PASSWORD }}" >> .env
           echo "COMPOSE_PROJECT_NAME=${{ env.COMPOSE_PROJECT_NAME }}" >> .env
+          echo "TESTUSERNAME=${{ env.REACT_APP_TEST_USERNAME }}" >> .env
+          echo "TESTUSERNAME2=${{ env.REACT_APP_TEST_USERNAME2 }}" >> .env
+          echo "TESTPASSWORD=${{ env.REACT_APP_TEST_PASSWORD }}" >> .env
+          echo "TESTPASSWORD2=${{ env.REACT_APP_TEST_PASSWORD2 }}" >> .env
 
       - name: Log in to the container registry
         uses: docker/login-action@v2
