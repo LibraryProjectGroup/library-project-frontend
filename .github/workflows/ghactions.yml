@@ -40,7 +40,6 @@ jobs:
           echo "DATABASE_NAME=${{ secrets.MYSQL_DATABASE }}" >> .env
           echo "DATABASE_USER=${{ secrets.MYSQL_USER }}" >> .env
           echo "DATABASE_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
-          echo "PORT=${{ secrets.PORT }}" >> .env
           echo "OIDC_AUTH_BACKLINK_URL=${{ env.OIDC_AUTH_BACKLINK_URL }}" >> .env
           echo "OIDC_AUTH_REDIRECT_URL=${{ env.OIDC_AUTH_REDIRECT_URL }}" >> .env
           echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
@@ -72,16 +71,13 @@ jobs:
       - name: Check Port 3000 Usage
         run: |
           netstat -tuln | grep 3000 || echo "Port 3000 is available"  
-      
-      - name: Run tests
-        run: docker-compose -f docker-compose-start.yml up
 
       - name: Check Port 3000 Usage
         run: |
           netstat -tuln | grep 3000 || echo "Port 3000 is available"   
 
       - name: Run tests
-        run: npm run robottests
+        run: docker-compose -f docker-compose-test.yml up
 
       - name: Clean up
         if: always()
