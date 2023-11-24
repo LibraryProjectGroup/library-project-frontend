@@ -71,17 +71,20 @@ jobs:
       - name: Check Port 3000 Usage
         run: |
           netstat -tuln | grep 3000 || echo "Port 3000 is available"  
+      
+      - name: Start frontend
+        run: docker-compose -f docker-compose-start.yml up -d
 
       - name: Check Port 3000 Usage
         run: |
           netstat -tuln | grep 3000 || echo "Port 3000 is available"   
 
       - name: Run tests
-        run: docker-compose -f docker-compose-test.yml up
+        run: docker-compose -f docker-compose-start.yml exec -T efilibrary-frontend-local npm run startserverandtest
 
       - name: Clean up
         if: always()
         run: |
-          docker-compose -f docker-compose-test.yml down
+          docker-compose -f docker-compose-start.yml down
           docker-compose -f docker-compose-start-backend.yml down
           
