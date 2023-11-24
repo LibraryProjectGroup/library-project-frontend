@@ -11,22 +11,15 @@
 
 EfiLibrary is a project between the students of Business Information Technology Degree Programme in Haaga-Helia University of Applied Sciences, and Eficode Oy, a Finnish company specializing in enhancing software development, whose products are related to automation and devops consulting, as well as accessibility and user studies.
 
-The EfiLibrary project was created and built from the ground up and in its entirety by the students of Haaga-Helia UAS for the use of Eficode Oy.
-
 This digital library project is the transformation of the many physical copies of books owned by Eficode and scattered in different Eficode offices located in 10 different countries around the world, into one digital library in which the various users will be able to learn-from, teach-with, and enjoy sharing knowledge easily and efficiently.
 
-The users will be able to loan, reserve, and return books, create lists of favorite books and watch other users' favorite lists, as well as browse through the library database.
+The users will be able to loan, reserve, and return books, create lists of favorite books and watch other users' favorite lists, as well as like and review books, and browse through the library database.
 
 Admins will be able to control the distribution of borrowed books and monitor the users' activity within the library on a restricted admin page. Admin users can view users, books, loans, reservations, and requests. Admin users can also edit and delete users, and generate a password reset link if need be. In addition, admin users can deny, allow, or cancel book requests and reservations in the restricted admin page.
+
 The EfiLibrary project was created and built from the ground up and in its entirety by the students of Haaga-Helia UAS for the use of Eficode Oy.
 
 Knowledge is power.
-
-This digital library project is the transformation of the many physical copies of books owned by Eficode and scattered in different Eficode offices located in 10 different countries around the world, into one digital library in which the various users will be able to learn-from, teach-with, and enjoy sharing knowledge easily and efficiently.
-
-The users will be able to borrow and return books, create lists of favorite books and watch other users' favorite lists, as well as browse through the library database.
-
-Admins will be able to control the distribution of borrowed books and monitor the users' activity within the library.
 
 ## Built with
 
@@ -121,28 +114,38 @@ If you want to be made the owner of this organization (or if you feel like askin
 
 Attribution in alphabetical order:
 
+- Ville Aalto
+- Christel Baker
 - Sebastian Bergman
 - Jordie Biemold
 - Michael Brown
+- Louis Diarra
 - Raúl Fernández Poolan
-- Markku Känkänen
+- Lauri Iivarinen
+- Jouni Johansson
 - Eeli Killström
+- Ivan Kolesov
 - Amaru Korpimäki
+- Markku Känkänen
+- Samuel Langhoff
 - Jong Lau
 - Jasmin Lumme
+- Aaro Miikkulainen
 - Anja Miscevic
+- Tatu Paukkeri
 - Dung Pham
 - Shay Pisanty
+- Lauri Reis
+- Juho Rintala
 - Axel Riska
 - Aleksi Saarinen
 - Markus Sibakov
+- Dmitry Sinyavskiy
 - Julia Söderlund
 - Elisa Tuovila
 - Veeti Vainikka
 - Riku Vartiainen
 - Tia Venäläinen
-- Dmitry Sinyavskiy
-- Ivan Kolesov
 - Palmitos254
 
 <!-- LICENSE -->
