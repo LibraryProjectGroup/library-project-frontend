@@ -9,7 +9,7 @@ on:
 env:
   DATABASE_SERVER: ${{ secrets.DATABASE_SERVER }}
   DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
-  DATABASE_USER: ${{ secrets.DATABASE_USER }}
+  DATABASE_USER: ${{ secrets.MYSQL_USER }}
   DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
   OIDC_AUTH_BACKLINK_URL: ${{ secrets.OIDC_AUTH_BACKLINK_URL }}
   OIDC_AUTH_REDIRECT_URL: ${{ secrets.OIDC_AUTH_REDIRECT_URL }}
@@ -74,14 +74,14 @@ jobs:
           netstat -tuln | grep 3000 || echo "Port 3000 is available"  
       
       - name: Build and run test container
-        run: docker-compose -f docker-compose-test.yml up --build -d   
+        run: docker-compose -f docker-compose-start.yml up --build
         
       - name: Check Port 3000 Usage
         run: |
           netstat -tuln | grep 3000 || echo "Port 3000 is available"   
 
       - name: Run tests
-        run: docker-compose -f docker-compose-test-with-backend.yml exec -T docker-robot npm run startserverandtest
+        run: npm run startserverandtest
 
       - name: Clean up
         if: always()

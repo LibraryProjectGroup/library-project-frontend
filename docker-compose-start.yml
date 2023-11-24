@@ -15,5 +15,6 @@ services:
     volumes:
       - ./src:/app/src
       - ./public:/app/public:ro
+      - ./robot:/app/robot
     ports:
       - '3000:3000'
