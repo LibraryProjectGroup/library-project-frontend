@@ -51,6 +51,22 @@ The frontend’s user interface is divided into pages that are routed through re
 
 > Make sure that the `REACT_APP_BACKEND_URL` in the frontend `.env ` matches the port in the backend `.env`. Or if you're using docker-compose, the port in the docker-compose file.
 
+## Using docker-compose
+
+To run the frontend with docker-compose, you need to create a docker.env file in the root of the frontend project. In this file you need to add the exact same content as in the existing .env file. So copy and paste that in the docker.env file.
+
+> Make sure the backend is running before next steps.
+> You can check if the backend is running here: http://localhost:3002/health
+> It should say: "ok: true"
+
+Now run the command (windows users make sure you have docker desktop running):
+
+```
+docker-compose -f docker-compose-start.yml up -d
+```
+
+Now with both backend and frontend running, open the app at http://localhost:3000/
+
 <!-- INSTALLATION -->
 
 ## How to Install
@@ -80,6 +96,14 @@ You will also need the [backend](https://github.com/LibraryProjectGroup/library-
 # RobotTests
 
 See detailed documentation about Robot testing in [AboutRobotTests.md documentation file](robot/aboutRobotTests.md).
+
+<!-- WORKFLOWS -->
+
+# Workflows
+
+## The Prettier workflow
+
+The Prettier workflow is setup in the code with Pretty-quick (https://github.com/azz/pretty-quick) and Husky (https://typicode.github.io/husky/) to ensure consistent foramtting. Pretty-Quick checks formatting when a developer tries to commit to the repo, and fixes formatting using our prettier config (.prettierrc.json file in the root of the project). Husky ensures that the pre-commit checks works with a pre-commit hook. Make sure you have all dependencies installed by running: `npm install` before you start. In your code editor, you can also set prettier checks on save, which will help the process.
 
 <!-- DEPLOYMENT -->
 

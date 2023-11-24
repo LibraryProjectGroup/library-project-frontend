@@ -1,64 +1,82 @@
-import * as React from "react";
+import AccountBoxIcon from '@mui/icons-material/AccountBox'
+import MenuIcon from '@mui/icons-material/Menu'
 import {
   AppBar,
   Box,
-  Fab,
-  Toolbar,
-  IconButton,
-  Typography,
-  Menu,
-  Container,
-  Avatar,
   Button,
-  Tooltip,
+  Container,
+  Fab,
+  IconButton,
+  Menu,
   MenuItem,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import { FC, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { endSession } from "../../auth";
+  Toolbar,
+  Tooltip,
+  Typography,
+} from '@mui/material'
+import * as React from 'react'
+
+import { FC, useContext, useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
-  userLogOutButton,
+  navbarMenuItemHamburger,
   navbarPagesHamburger,
   navbarPagesLarge,
-  navbarMenuItemHamburger,
-} from "../../sxStyles";
-import { TheContext } from "../../TheContext";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { log } from "console";
-import { gridColumnGroupsLookupSelector } from "@mui/x-data-grid";
-import { fontSize } from "@mui/system";
+  userProfileButton,
+} from '../../sxStyles'
+import { TheContext } from '../../TheContext'
+import ProfileMenuButton from './ProfileMenuButton'
 
 const NavBar: FC = (): JSX.Element => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
-  );
+  )
 
-  const context = useContext(TheContext);
-  const navigate = useNavigate();
+  const context = useContext(TheContext)
+  const navigate = useNavigate()
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
+    setAnchorElNav(event.currentTarget)
+  }
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
+    setAnchorElUser(event.currentTarget)
+  }
 
   const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+    setAnchorElNav(null)
+  }
 
   const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+    setAnchorElUser(null)
+  }
+
+  const [menuList, setMenuList] = useState([
+    { nav: '/user', text: 'MY LOANED BOOKS' },
+    { nav: '/reservations', text: 'MY BOOK RESERVATIONS' },
+    { nav: '/booklists', text: 'MY LISTS' },
+  ])
+
+  useEffect(() => {
+    if (context?.user?.administrator) {
+      setMenuList([
+        { nav: '/admin', text: 'ADMIN PAGE' },
+        { nav: '/user', text: 'MY LOANED BOOKS' },
+        { nav: '/reservations', text: 'MY BOOK RESERVATIONS' },
+        { nav: '/booklists', text: 'MY LISTS' },
+      ])
+    } else {
+      setMenuList([
+        { nav: '/user', text: 'MY LOANED BOOKS' },
+        { nav: '/reservations', text: 'MY BOOK RESERVATIONS' },
+        { nav: '/booklists', text: 'MY LISTS' },
+      ])
+    }
+  }, [context?.user?.administrator])
 
   return (
     <AppBar
       position="static"
-      sx={{ backgroundColor: "white", height: 80, justifyContent: "center" }}
+      sx={{ backgroundColor: 'white', height: 80, justifyContent: 'center' }}
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -69,22 +87,22 @@ const NavBar: FC = (): JSX.Element => {
             component="a"
             sx={{
               mr: 2,
-              display: { xs: "none", lg: "flex" },
-              fontFamily: "Merriweather",
-              letterSpacing: ".3rem",
-              color: "black",
-              cursor: "pointer",
-              "&:hover": {
-                color: "#FFB500",
+              display: { xs: 'none', lg: 'flex' },
+              fontFamily: 'Merriweather',
+              letterSpacing: '.3rem',
+              color: 'black',
+              cursor: 'pointer',
+              '&:hover': {
+                color: '#FFB500',
               },
             }}
-            onClick={() => navigate("/list-books")}
+            onClick={() => navigate('/list-books')}
           >
             EfiLibrary
           </Typography>
 
           {/* Navbar pages, Hamburger menu */}
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", lg: "none" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -99,64 +117,36 @@ const NavBar: FC = (): JSX.Element => {
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
+                vertical: 'bottom',
+                horizontal: 'left',
               }}
               keepMounted
               transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
+                vertical: 'top',
+                horizontal: 'left',
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: "block", lg: "none" },
+                display: { xs: 'block', lg: 'none' },
               }}
             >
-              {context?.user?.administrator ? (
-                <MenuItem
-                  onClick={() => {
-                    navigate("/admin");
-                    handleCloseNavMenu();
-                  }}
-                  sx={navbarMenuItemHamburger}
-                >
-                  <Typography sx={navbarPagesHamburger}>ADMIN PAGE</Typography>
-                </MenuItem>
-              ) : (
-                <></>
-              )}
-              <MenuItem
-                onClick={() => {
-                  navigate("/user");
-                  handleCloseNavMenu();
-                }}
-                sx={navbarMenuItemHamburger}
-              >
-                <Typography sx={navbarPagesHamburger}>
-                  MY LOANED BOOKS
-                </Typography>
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  navigate("/reservations");
-                  handleCloseNavMenu();
-                }}
-                sx={navbarMenuItemHamburger}
-              >
-                <Typography sx={navbarPagesHamburger}>
-                  MY BOOK RESERVATIONS
-                </Typography>
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  navigate("/booklists");
-                  handleCloseNavMenu();
-                }}
-                sx={navbarMenuItemHamburger}
-              >
-                <Typography sx={navbarPagesHamburger}>MY LISTS</Typography>
-              </MenuItem>
+              {menuList.map((item, index) => {
+                return (
+                  <MenuItem
+                    key={index}
+                    onClick={() => {
+                      navigate(item.nav)
+                      handleCloseNavMenu()
+                    }}
+                    sx={navbarMenuItemHamburger}
+                  >
+                    <Typography sx={navbarPagesHamburger}>
+                      {item.text}
+                    </Typography>
+                  </MenuItem>
+                )
+              })}
             </Menu>
           </Box>
 
@@ -166,28 +156,28 @@ const NavBar: FC = (): JSX.Element => {
             noWrap
             sx={{
               mr: 2,
-              display: { xs: "flex", lg: "none" },
+              display: { xs: 'flex', lg: 'none' },
               flexGrow: 1,
-              fontFamily: "Merriweather",
-              letterSpacing: ".3rem",
-              color: "black",
-              cursor: "pointer",
-              "&:hover": {
-                color: "#FFB500",
+              fontFamily: 'Merriweather',
+              letterSpacing: '.3rem',
+              color: 'black',
+              cursor: 'pointer',
+              '&:hover': {
+                color: '#FFB500',
               },
             }}
-            onClick={() => navigate("/list-books")}
+            onClick={() => navigate('/list-books')}
           >
             EfiLibrary
           </Typography>
 
           {/* Navbar pages for large screens */}
-          <Box sx={{ flexGrow: 1, display: { xs: "none", lg: "flex" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' } }}>
             {context?.user?.administrator ? (
               <Button
                 sx={navbarPagesLarge}
                 onClick={() => {
-                  navigate("/admin");
+                  navigate('/admin')
                 }}
               >
                 ADMIN PAGE
@@ -198,7 +188,7 @@ const NavBar: FC = (): JSX.Element => {
             <Button
               sx={navbarPagesLarge}
               onClick={() => {
-                navigate("/user");
+                navigate('/user')
               }}
             >
               MY LOANED BOOKS
@@ -206,7 +196,7 @@ const NavBar: FC = (): JSX.Element => {
             <Button
               sx={navbarPagesLarge}
               onClick={() => {
-                navigate("/reservations");
+                navigate('/reservations')
               }}
             >
               MY BOOK RESERVATIONS
@@ -214,7 +204,7 @@ const NavBar: FC = (): JSX.Element => {
             <Button
               sx={navbarPagesLarge}
               onClick={() => {
-                navigate("/booklists");
+                navigate('/booklists')
               }}
             >
               MY LISTS
@@ -222,7 +212,7 @@ const NavBar: FC = (): JSX.Element => {
           </Box>
 
           {/* User & Log out for Hamburger menu */}
-          <Box sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}>
+          <Box sx={{ flexGrow: 0, display: { xs: 'flex', lg: 'none' } }}>
             <Tooltip
               title={
                 context?.borrows &&
@@ -240,56 +230,27 @@ const NavBar: FC = (): JSX.Element => {
                 ))
               }
             >
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <IconButton onClick={handleOpenUserMenu} sx={userProfileButton}>
                 {/* Avatar is for icon in mobile view. Could and should change in future */}
-                <Avatar></Avatar>
+                <AccountBoxIcon></AccountBoxIcon>
               </IconButton>
             </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              <MenuItem
-                onClick={() => {
-                  endSession();
-                  navigate("/login");
-                  // update user data when you logIn and logOut
-                  context?.setIsLogin(false);
-                }}
-              >
-                <Typography
-                  sx={{
-                    marginRight: 1,
-                  }}
-                  textAlign="center"
-                >
-                  Log out
-                </Typography>
-                <LogoutIcon />
-              </MenuItem>
-            </Menu>
+            <ProfileMenuButton
+              anchorElUser={anchorElUser}
+              handleCloseUserMenu={handleCloseUserMenu}
+              navigate={navigate}
+              context={context}
+            />
           </Box>
 
           {/* User & Log out for large screens */}
-          <Box sx={{ display: { xs: "none", lg: "flex" } }}>
+          <Box sx={{ display: { xs: 'none', lg: 'flex' } }}>
             <Box sx={{ marginLeft: 1, marginTop: 1 }}>
               <Typography
                 variant="h6"
                 sx={{
-                  fontFamily: "Merriweather",
-                  color: "black",
+                  fontFamily: 'Merriweather',
+                  color: 'black',
                   fontSize: 12.5,
                 }}
               >
@@ -299,8 +260,8 @@ const NavBar: FC = (): JSX.Element => {
               <Typography
                 variant="h6"
                 sx={{
-                  fontFamily: "Merriweather",
-                  color: "black",
+                  fontFamily: 'Merriweather',
+                  color: 'black',
                   fontSize: 12.5,
                 }}
               >
@@ -318,25 +279,26 @@ const NavBar: FC = (): JSX.Element => {
                   ))}
               </Typography>
             </Box>
-            <Tooltip title="Log out">
+            <Tooltip title="Profile">
               <Fab
-                aria-label="log out"
-                sx={userLogOutButton}
-                onClick={() => {
-                  endSession();
-                  navigate("/login");
-                  // update user data when you logIn and logOut
-                  context?.setIsLogin(false);
-                }}
+                aria-label="profile"
+                sx={userProfileButton}
+                onClick={handleOpenUserMenu}
               >
-                <LogoutIcon />
+                <AccountBoxIcon />
               </Fab>
             </Tooltip>
+            <ProfileMenuButton
+              anchorElUser={anchorElUser}
+              handleCloseUserMenu={handleCloseUserMenu}
+              navigate={navigate}
+              context={context}
+            />
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
-  );
-};
+  )
+}
 
-export default NavBar;
+export default NavBar

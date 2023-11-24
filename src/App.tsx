@@ -1,37 +1,30 @@
-import React, { FC, useContext } from "react";
-import ListBooks from "./components/pages/listBooksPage/ListBooks";
-import LoginPage from "./components/pages/loggedOut/loginPage/LoginPage";
-import CreateAccount from "./components/pages/loggedOut/createAccountPage/CreateAccount";
-import PasswordReset from "./components/pages/loggedOut/passwordReset/PasswordReset";
-import MyAccount from "./components/pages/userPage/UserPage";
-import Admin from "./components/pages/adminPage/Admin";
-import UnauthorizedPage from "./components/pages/errorPages/UnauthorizedPage";
-import MissingPage from "./components/pages/errorPages/MissingPage";
-import TheContextProvider, { TheContext } from "./TheContext";
-import {
-  Routes,
-  Route,
-  BrowserRouter,
-  Navigate,
-  useNavigate,
-} from "react-router-dom";
-import { endSession, isAuthenticated } from "./auth";
-import UserBooklists from "./components/pages/userBooklistsPage/UserBooklistsPage";
-import UserReservations from "./components/pages/userBookReservationsPage/UserReservationsPage";
-import { AppBar, Fab, Tooltip, Typography } from "@mui/material";
-import ListPage from "./components/pages/listPage/ListPage";
-import { userPageBackButton } from "./sxStyles";
-import NavBar from "./components/navBar/Navbar";
+import { FC, useContext } from 'react'
+import ListBooks from './components/pages/listBooksPage/ListBooks'
+import LoginPage from './components/pages/loggedOut/loginPage/LoginPage'
+import CreateAccount from './components/pages/loggedOut/createAccountPage/CreateAccount'
+import PasswordReset from './components/pages/loggedOut/passwordReset/PasswordReset'
+import MyAccount from './components/pages/userPage/UserPage'
+import Admin from './components/pages/adminPage/Admin'
+import UnauthorizedPage from './components/pages/errorPages/UnauthorizedPage'
+import MissingPage from './components/pages/errorPages/MissingPage'
+import TheContextProvider, { TheContext } from './TheContext'
+import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom'
+import { isAuthenticated } from './auth'
+import UserBooklists from './components/pages/userBooklistsPage/UserBooklistsPage'
+import UserReservations from './components/pages/userBookReservationsPage/UserReservationsPage'
+import ListPage from './components/pages/listPage/ListPage'
+import NavBar from './components/navBar/Navbar'
+import UserSettings from './components/pages/SettingsPage/UserSettings'
 
 function App() {
   const ProtectedRoute: FC<any> = (props) => {
-    return isAuthenticated() ? props.children : <Navigate to="/login" />;
-  };
+    return isAuthenticated() ? props.children : <Navigate to="/login" />
+  }
 
   const AdminRoute: FC<any> = (props) => {
-    const context = useContext(TheContext);
-    return context?.user?.administrator ? props.children : <UnauthorizedPage />;
-  };
+    const context = useContext(TheContext)
+    return context?.user?.administrator ? props.children : <UnauthorizedPage />
+  }
 
   return (
     <TheContextProvider>
@@ -87,6 +80,15 @@ function App() {
             }
           />
           <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <NavBar />
+                <UserSettings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/admin"
             element={
               <AdminRoute>
@@ -99,7 +101,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </TheContextProvider>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { ToastContainer } from "react-toastify";
+import { FC } from 'react'
+import { ToastContainer } from 'react-toastify'
 
 const ToastContainers: FC = (): JSX.Element => {
   return (
@@ -17,11 +17,11 @@ const ToastContainers: FC = (): JSX.Element => {
         pauseOnHover
         theme="light"
         enableMultiContainer
-        containerId={"ToastSuccess"}
+        containerId={'ToastSuccess'}
       />
       <ToastContainer
-        position="top-center"
-        autoClose={3000}
+        position="bottom-center"
+        autoClose={5000}
         limit={3}
         hideProgressBar={false}
         newestOnTop={false}
@@ -32,10 +32,10 @@ const ToastContainers: FC = (): JSX.Element => {
         pauseOnHover
         theme="light"
         enableMultiContainer
-        containerId={"ToastAlert"}
+        containerId={'ToastAlert'}
       />
     </>
-  );
-};
+  )
+}
 
-export default ToastContainers;
+export default ToastContainers

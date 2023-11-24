@@ -1,197 +1,242 @@
-import React, {
+import {
   useState,
   FC,
   useEffect,
   useContext,
   Fragment,
   useCallback,
-} from "react";
+} from 'react'
+import { Button, Stack, Box, Grid, Fab, Tooltip, Typography } from '@mui/material'
+import { TheContext } from '../../../TheContext'
+import Book from '../../../interfaces/book.interface'
+import Book_reservation from '../../../interfaces/book_reservation.interface'
+import BookForm from './BookForm'
+import ButtonPopup from './ButtonPopup'
 import {
-  Paper,
-  Typography,
-  Button,
-  Stack,
-  Box,
-  Fab,
-  Grid,
-  Tooltip,
-  TablePagination,
-} from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import AddIcon from "@mui/icons-material/Add";
-import AddCommentIcon from "@mui/icons-material/AddComment";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
-import FirstPageIcon from "@mui/icons-material/FirstPage";
-import { TheContext } from "../../../TheContext";
-import Book from "../../../interfaces/book.interface";
-import Book_reservation from "../../../interfaces/book_reservation.interface";
-import BookForm from "./BookForm";
-import ButtonPopup from "./ButtonPopup";
-import UserListPopup from "./UserListPopup";
-import {
-  fetchAllBooks,
   fetchDeleteBook,
   fetchAllCurrentBorrows,
   fetchCreateBorrow,
   fetchCurrentBorrows,
   fetchAddBookReservation,
-  fetchAllBookReservations,
   fetchActiveAndLoanableReservations,
   fetchCurrentBookReservations,
-  fetchCancelBookReservation,
-  fetchLoanBookReservation,
-  fetchAllReservedBooks,
   fetchPagedBooks,
-  fetchAllBooksCount,
-  fetchDeleteUser,
-} from "../../../fetchFunctions";
-import {
-  listBooksDeleteButton,
-  listBooksEditButton,
-  listBooksLoanButton,
-  addBookAddButton as addButton,
-  listBooksFavoriteButton as favButton,
-} from "../../../sxStyles";
-import ToastContainers from "../../../ToastContainers";
-import Borrow from "../../../interfaces/borrow.interface";
-import Snackbar from "@mui/material/Snackbar";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import Alert from "@mui/material/Alert";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import BookRequestForm from "./BookRequestForm";
-import { toast } from "react-toastify";
-import { LOAN_DAYS, RESERVATION_DAYS, MS_IN_DAY } from "../../../constants";
-import CountrySpan from "../../CountrySpan";
-import OfficeSpan from "../../OfficeSpan";
-
-import "react-toastify/dist/ReactToastify.css";
+} from '../../../fetchFunctions'
+import { listBooksLoanButton } from '../../../sxStyles'
+import ToastContainers from '../../../ToastContainers'
+import Borrow from '../../../interfaces/borrow.interface'
+import Snackbar from '@mui/material/Snackbar'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
+import BookCard from './BookCard'
+import PaginationControls from './PaginationControls'
+import NotificationSnackbars from './NotificationSnackbars'
+import FloatingActionButtons from './FloatingActionButtons'
+import SortingDropdown from './SortingDropdown'
+import BookRequestForm from './BookRequestForm'
+import { addBookAddButton } from '../../../sxStyles'
+import { GridView, List } from '@mui/icons-material'
+import { FilterByOffice } from './FilterByOffice'
+import SearchBooks from './SearchBooks'
 
 const ListBooks: FC = (): JSX.Element => {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(25);
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(25)
+  const [view, setView] = useState<'list' | 'grid'>('list')
 
-  const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([]);
+  const [currentBorrows, setCurrentBorrows] = useState<Borrow[]>([])
   const [currentReservations, setCurrentReservations] = useState<
     Book_reservation[]
-  >([]);
-  const [userBorrows, setUserBorrows] = useState<Borrow[]>([]);
-  const [books, setBooks] = useState<Book[]>([]);
+  >([])
+  const [userBorrows, setUserBorrows] = useState<Borrow[]>([])
+
+  const [books, setBooks] = useState<Book[]>([])
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>([])
+  const [sort, setSort] = useState<string>('title')
+  const [searchTerm, setSearchTerm] = useState<string>('')
+
   const [activeAndLoanableReservations, setActiveAndLoanableReservations] =
-    useState<any[]>([]);
-  const [bookPage, setBookPage] = useState(1);
-  const [bookPageSize, setBookPageSize] = useState(books.length);
-  const [bookCount, setBookCount] = useState<number>(0);
-  const [bookId, setBookId] = useState<number>(0);
+    useState<any[]>([])
+  const bookPage = 1
+  const [bookPageSize, setBookPageSize] = useState(filteredBooks.length)
+  const [bookId, setBookId] = useState(0)
 
-  const [requestVisible, setRequestVisible] = useState(false);
-  const [formVisible, setFormVisible] = useState(false);
-  const [deleteVisible, setDeleteVisible] = useState(false);
-  const [loanVisible, setLoanVisible] = useState(false);
-  const [reserveVisible, setReserveVisible] = useState(false);
+  const [requestVisible, setRequestVisible] = useState(false)
+  const [formVisible, setFormVisible] = useState(false)
+  const [deleteVisible, setDeleteVisible] = useState(false)
+  const [loanVisible, setLoanVisible] = useState(false)
+  const [reserveVisible, setReserveVisible] = useState(false)
 
-  const [formBook, setFormBook] = useState<Book | null>(null);
-  const [formEditing, setFormEditing] = useState(false);
+  const [formBook, setFormBook] = useState<Book | null>(null)
+  const [formEditing, setFormEditing] = useState(false)
   const [popUpConfirmation, setPopUpConfirmationOpen] = useState({
     ok: false,
-    message: "",
-  });
+    message: '',
+  })
 
   const [open, setOpen] = useState<
-    "none" | "expiring" | "expired" | "bookform"
-  >("none");
+    'none' | 'expiring' | 'expired' | 'bookform'
+  >('none')
 
-  const context = useContext(TheContext);
-  const navigate = useNavigate();
+  const context = useContext(TheContext)
 
   const fetchBooks = useCallback(async () => {
-    setBooks(await fetchPagedBooks(bookPage, bookPageSize));
-    fetchBookCount();
-  }, [bookPage, bookPageSize]);
-
-  const fetchBookCount = async () => {
-    setBookCount(await fetchAllBooksCount());
-  };
+    const fetchedBooks = await fetchPagedBooks(bookPage, bookPageSize)
+    setBooks(fetchedBooks)
+    setFilteredBooks(fetchedBooks)
+  }, [bookPage, bookPageSize])
 
   const fetchBorrows = async () =>
-    setCurrentBorrows(await fetchAllCurrentBorrows());
+    setCurrentBorrows(await fetchAllCurrentBorrows())
 
   const fetchUserBorrows = async () => {
-    setUserBorrows(await fetchCurrentBorrows());
-  };
+    setUserBorrows(await fetchCurrentBorrows())
+  }
 
   const fetchReservations = async () => {
-    setCurrentReservations(await fetchCurrentBookReservations());
-  };
+    setCurrentReservations(await fetchCurrentBookReservations())
+  }
 
   const fetchActiveReservedAndLoanable = async () => {
-    setActiveAndLoanableReservations(
-      await fetchActiveAndLoanableReservations()
-    );
-  };
-  const handlePageButton = (forward: boolean) => {
-    setBookPage(bookPage + (forward ? 1 : -1));
-  };
+    setActiveAndLoanableReservations(await fetchActiveAndLoanableReservations())
+  }
 
   const bookInCurrentBorrows = (book: Book) => {
-    let inCurrentBorrows = false;
+    let inCurrentBorrows = false
     for (let i = 0; i < currentBorrows.length; i++) {
       if (currentBorrows[i].book === book.id) {
-        inCurrentBorrows = true;
+        inCurrentBorrows = true
       }
     }
-    return inCurrentBorrows;
-  };
+    return inCurrentBorrows
+  }
 
   const bookInCurrentReservations = (book: Book) => {
-    let inCurrentReservations = false;
+    let inCurrentReservations = false
     for (let i = 0; i < currentReservations.length; i++) {
       if (currentReservations[i].bookId === book.id) {
-        inCurrentReservations = true;
+        inCurrentReservations = true
       }
     }
-    return inCurrentReservations;
-  };
+    return inCurrentReservations
+  }
 
   const userLoaningBook = (book: Book) => {
-    let isLoaning = false;
+    let isLoaning = false
     currentBorrows.forEach((borrow) => {
       if (
         borrow.book === book.id &&
         borrow.library_user === context?.user?.id
       ) {
-        isLoaning = true;
+        isLoaning = true
       }
-    });
-    return isLoaning;
-  };
+    })
+    return isLoaning
+  }
+
+  const updateBook = (book: Book) => {
+    const index = books.findIndex((item) => item.id === book.id)
+    const list = books
+    list.splice(index, 1, book)
+    setBooks(list)
+    setFilteredBooks(list)
+  }
+
+  /** Update 'books' state and show correct books on page based on pagination */
+  const setFreshBooks = (books: Book[]) => {
+    setBookPageSize(books.length)
+    const paginationCutoff = page * rowsPerPage
+    const pageLength = books.length - paginationCutoff
+    const filteredBooks = books.slice(
+      paginationCutoff,
+      pageLength > paginationCutoff ? paginationCutoff + rowsPerPage : undefined
+    )
+    setBooks(filteredBooks)
+  }
+
+  // Sorting
+  const handleSortChange = (value: string) => {
+    setSort(value)
+    let sortedBooks = [...filteredBooks]
+    if (value === 'title') {
+      sortedBooks.sort((a, b) => a.title.localeCompare(b.title))
+    } else if (value === 'author') {
+      sortedBooks.sort((a, b) => (a.author || '').localeCompare(b.author || ''))
+    } else if (value === 'topic') {
+      sortedBooks.sort((a, b) => (a.topic || '').localeCompare(b.topic || ''))
+    } else if (value === 'year') {
+      sortedBooks.sort((a, b) => a.year - b.year)
+    } else if (value === 'office') {
+      sortedBooks.sort((a, b) =>
+        (a.homeOfficeName || '').localeCompare(b.homeOfficeName || '')
+      )
+    }
+    //setBooks(sortedBooks);
+    setFilteredBooks(sortedBooks)
+  }
+
+  // Filter by office
+  const handleSelectedOffice = (office: string) => {
+    if (office === '') {
+      setFilteredBooks(books)
+      return
+    }
+
+    const updatedBooks = books.filter((book) => book.homeOfficeName === office)
+    setFilteredBooks(updatedBooks)
+  }
+
+  const handleSearch = (searchTerm: string): void => {
+    const filtered = books.filter((book) => {
+      const titleMatch = book.title
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+      const authorMatch = book.author
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+
+      return titleMatch || authorMatch
+    })
+    setFilteredBooks(filtered)
+  }
 
   const handleOpen = () => {
     for (const borrowed of userBorrows) {
-      const currentDate = new Date();
-      const datedDueDate = new Date(borrowed.dueDate);
-      const convertToDay = 24 * 60 * 60 * 1000;
+      const currentDate = new Date()
+      const datedDueDate = new Date(borrowed.dueDate)
+      const convertToDay = 24 * 60 * 60 * 1000
       const calculatedTime = Math.floor(
         (datedDueDate.getTime() - currentDate.getTime()) / convertToDay
-      );
+      )
       if (calculatedTime < 0) {
-        setOpen("expired");
-        break;
+        setOpen('expired')
+        break
       }
 
-      if (calculatedTime >= 0 && calculatedTime < 5 && open !== "expired") {
-        setOpen("expiring");
+      if (calculatedTime >= 0 && calculatedTime < 5 && open !== 'expired') {
+        setOpen('expiring')
       }
     }
-  };
+  }
 
   const handleClose = () => {
-    setOpen("none");
-  };
+    setOpen('none')
+  }
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage)
+  }
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(+event.target.value)
+    setPage(0)
+  }
+
+  const toggleView = () => {
+    setView((prev) => (prev === 'list' ? 'grid' : 'list'))
+  }
 
   const action = (
     <Fragment>
@@ -204,34 +249,23 @@ const ListBooks: FC = (): JSX.Element => {
         <CloseIcon fontSize="small" />
       </IconButton>
     </Fragment>
-  );
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+  )
 
   const handleClosePopUpConfirmation = (
     event: React.SyntheticEvent | Event,
     reason?: string
   ) => {
-    if (reason === "clickaway") {
-      return;
+    if (reason === 'clickaway') {
+      return
     }
     setPopUpConfirmationOpen({
       ok: false,
-      message: "",
-    });
-  };
+      message: '',
+    })
+  }
 
   const action_2 = (
-    <React.Fragment>
+    <>
       {/*! Undo functional for the future? */}
       {/* <Button
         color="secondary"
@@ -248,23 +282,23 @@ const ListBooks: FC = (): JSX.Element => {
       >
         <CloseIcon fontSize="small" />
       </IconButton>
-    </React.Fragment>
-  );
+    </>
+  )
 
   useEffect(() => {
-    fetchBooks();
-    fetchBorrows();
-    fetchReservations();
-    fetchUserBorrows();
-    fetchActiveReservedAndLoanable();
-  }, [fetchBooks]);
+    fetchBooks()
+    fetchBorrows()
+    fetchReservations()
+    fetchUserBorrows()
+    fetchActiveReservedAndLoanable()
+  }, [fetchBooks])
 
   // eslint-disable-next-line
-  useEffect(handleOpen, [userBorrows]);
+  useEffect(handleOpen, [userBorrows])
 
   useEffect(() => {
-    fetchBooks();
-  }, [bookPage, fetchBooks]);
+    fetchBooks()
+  }, [bookPage, fetchBooks])
 
   const renderLoanButton = (book: Book) => {
     if (
@@ -276,17 +310,17 @@ const ListBooks: FC = (): JSX.Element => {
           variant="contained"
           disabled={bookInCurrentBorrows(book)}
           onClick={async () => {
-            setBookId(book.id);
-            setLoanVisible(true);
+            setBookId(book.id)
+            setLoanVisible(true)
           }}
         >
           LOAN
         </Button>
-      );
+      )
     } else {
-      return null;
+      return null
     }
-  };
+  }
 
   const renderReserveButton = (book: Book) => {
     if (
@@ -302,199 +336,20 @@ const ListBooks: FC = (): JSX.Element => {
           variant="contained"
           disabled={bookInCurrentReservations(book)}
           onClick={async () => {
-            setBookId(book.id);
-            setReserveVisible(true);
+            setBookId(book.id)
+            setReserveVisible(true)
           }}
         >
           RESERVE
         </Button>
-      );
+      )
     } else {
-      return null;
+      return null
     }
-  };
-
-  const renderBookData = (book: Book) => {
-    if (!book.deleted) {
-      return (
-        <Paper
-          elevation={10}
-          sx={{ padding: "2rem", width: { xs: "90%", md: "60%" } }}
-          key={book.id}
-        >
-          <Stack
-            sx={{
-              display: "flex",
-              flexDirection: { xs: "column", md: "row" },
-              justifyContent: { md: "space-between" },
-            }}
-          >
-            <Stack>
-              {book.image ? (
-                <img
-                  alt="Book cover"
-                  width={120}
-                  height={160}
-                  src={book.image}
-                />
-              ) : (
-                <img
-                  alt="Book cover not available"
-                  width={120}
-                  height={160}
-                  src={
-                    "https://images.isbndb.com/covers/91/26/9789513119126.jpg"
-                  }
-                />
-              )}
-            </Stack>
-
-            <Stack>
-              <Typography
-                sx={{
-                  fontFamily: "Montserrat",
-                  fontWeight: "bold",
-                  marginBottom: 1,
-                }}
-              >
-                {book.title}
-              </Typography>
-
-              <Typography
-                sx={{
-                  fontFamily: "Merriweather",
-                  fontWeight: "light",
-                  marginTop: 1,
-                }}
-              >
-                Author: {book.author}
-              </Typography>
-
-              <Typography
-                sx={{
-                  fontFamily: "Merriweather",
-                  fontWeight: "light",
-                }}
-              >
-                Year: {book.year}
-              </Typography>
-
-              <Typography
-                sx={{
-                  fontFamily: "Merriweather",
-                  fontWeight: "light",
-                }}
-              >
-                Topic: {book.topic}
-              </Typography>
-              <Typography
-                sx={{
-                  fontFamily: "Merriweather",
-                  fontWeight: "light",
-                }}
-              >
-                ISBN: {book.isbn}
-              </Typography>
-              <Typography
-                sx={{
-                  fontFamily: "Merriweather",
-                  fontWeight: "light",
-                }}
-              >
-                Office:{" "}
-                <OfficeSpan
-                  countryCode={book.homeOfficeCountry}
-                  officeName={book.homeOfficeName}
-                />
-              </Typography>
-              {bookInCurrentBorrows(book) && (
-                <Typography
-                  sx={{
-                    fontFamily: "Merriweather",
-                    fontWeight: "light",
-                  }}
-                >
-                  {`Loan due: ${currentBorrows
-                    .filter((borrow) => borrow.book === book.id)
-                    .map((borrow) =>
-                      new Date(borrow.dueDate).toLocaleString("fi", {
-                        year: "numeric",
-                        month: "numeric",
-                        day: "numeric",
-                      })
-                    )}.`}
-                </Typography>
-              )}
-              {activeAndLoanableReservations
-                .map((obj) => obj.bookId)
-                .includes(book.id) && (
-                <Typography
-                  sx={{
-                    fontFamily: "Merriweather",
-                    fontWeight: "light",
-                    color: "orange",
-                  }}
-                >
-                  {`Reservation due: ${currentReservations
-                    .filter((obj) => obj.bookId === book.id)
-                    .map((obj) =>
-                      new Date(
-                        new Date(obj.reservationDatetime).getTime() +
-                          RESERVATION_DAYS * MS_IN_DAY
-                      ).toLocaleString("fi", {
-                        year: "numeric",
-                        month: "numeric",
-                        day: "numeric",
-                      })
-                    )}.`}
-                </Typography>
-              )}
-            </Stack>
-            <Stack>
-              <UserListPopup book={book} />
-              <Button
-                sx={listBooksDeleteButton}
-                variant="contained"
-                disabled={
-                  book.library_user !== context?.user?.id &&
-                  !context?.user?.administrator
-                }
-                color="error"
-                onClick={async () => {
-                  setBookId(book.id);
-                  setDeleteVisible(true);
-                }}
-              >
-                Delete book
-              </Button>
-
-              <Button
-                sx={listBooksEditButton}
-                variant="contained"
-                disabled={
-                  book.library_user !== context?.user?.id &&
-                  !context?.user?.administrator
-                }
-                onClick={() => {
-                  setFormEditing(true);
-                  setFormBook(book);
-                  setFormVisible(true);
-                }}
-              >
-                Edit book
-              </Button>
-              {renderLoanButton(book)}
-              {renderReserveButton(book)}
-            </Stack>
-          </Stack>
-        </Paper>
-      );
-    }
-  };
+  }
 
   return (
     <>
-      {/* Pop up element */}
       <Snackbar
         open={popUpConfirmation.ok}
         autoHideDuration={4000}
@@ -502,58 +357,21 @@ const ListBooks: FC = (): JSX.Element => {
         message={popUpConfirmation.message}
         action={action_2}
       />
-      <Box sx={{ marginTop: 5, marginBottom: 5, width: "100%" }}>
+      <Box sx={{ marginTop: 5, marginBottom: 5, width: '100%' }}>
         <Box
-          sx={{
-            display: "flex",
-            flexDirection: { xs: "column", md: "row" },
-          }}
+          sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: { xs: "row", md: "column" },
-              justifyContent: { xs: "center", md: "flex-start" },
-              alignItems: "center",
-            }}
-          >
-            <Tooltip title="Request a book">
-              <Fab
-                aria-label="request"
-                sx={addButton}
-                onClick={() => {
-                  setRequestVisible(true);
-                }}
-              >
-                <AddCommentIcon />
-              </Fab>
-            </Tooltip>
-            <Tooltip title="Add new book">
-              <Fab
-                aria-label="add"
-                sx={addButton}
-                onClick={() => {
-                  setFormEditing(false);
-                  setFormBook({
-                    id: -1, // This wont get used
-                    title: "",
-                    image: "",
-                    author: "",
-                    year: new Date().getFullYear(),
-                    topic: "",
-                    isbn: "",
-                    homeOfficeId: -1,
-                    homeOfficeCountry: "XXX",
-                    homeOfficeName: "",
-                    deleted: false,
-                  });
-                  setFormVisible(true);
-                }}
-              >
-                <AddIcon />
-              </Fab>
-            </Tooltip>
-          </Box>
+          <FloatingActionButtons
+            setRequestVisible={setRequestVisible}
+            setFormEditing={setFormEditing}
+            setFormBook={setFormBook}
+            setFormVisible={setFormVisible}
+          />
+          <Tooltip title="Change view">
+            <Fab sx={addBookAddButton} onClick={toggleView}>
+              {view === 'list' ? <GridView /> : <List />}
+            </Fab>
+          </Tooltip>
           <BookForm
             visible={formVisible}
             setVisible={setFormVisible}
@@ -562,7 +380,8 @@ const ListBooks: FC = (): JSX.Element => {
             book={formBook}
             setBook={setFormBook}
             editing={formEditing}
-            updateBooks={fetchBooks}
+            updateBooks={setFreshBooks}
+            updateEditedBook={updateBook}
           />
           <BookRequestForm
             visible={requestVisible}
@@ -586,83 +405,136 @@ const ListBooks: FC = (): JSX.Element => {
             fetchReservations={fetchReservations}
             fetchAddBookReservation={fetchAddBookReservation}
           />
-
-          <Grid
+          <Box
             sx={{
-              textAlign: "center",
-              display: "flex",
-              width: "100%",
-              justifyContent: "center",
+              display: 'flex',
+              width: '75%',
+              justifyContent: 'center',
+              flexDirection: { xs: 'column', sm: 'row' },
             }}
           >
-            <TablePagination
-              component="div"
-              count={books.length}
-              rowsPerPageOptions={[5, 10, 25]}
-              page={page}
-              onPageChange={handleChangePage}
-              rowsPerPage={rowsPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              labelRowsPerPage="Books per page:"
+            <SearchBooks
+              onSearch={handleSearch}
+              setSearchTerm={setSearchTerm}
+              searchTerm={searchTerm}
             />
-          </Grid>
+            <PaginationControls
+              booksLength={filteredBooks.length}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              handleChangePage={handleChangePage}
+              handleChangeRowsPerPage={handleChangeRowsPerPage}
+            />
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+              <SortingDropdown
+                onSortChange={handleSortChange}
+                sortValue={sort}
+              />
+              <FilterByOffice onOfficeChange={handleSelectedOffice} />
+            </Box>
+          </Box>
         </Box>
-        <Stack
-          spacing={3}
-          sx={{ margin: "2rem", display: "flex", alignItems: "center" }}
-        >
-          {books
-            ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((book) => renderBookData(book))}
-        </Stack>
-
-        <Grid
-          sx={{
-            textAlign: "center",
-            display: "flex",
-            width: "100%",
-            justifyContent: "center",
-          }}
-        >
-          <TablePagination
-            component="div"
-            count={books.length}
-            rowsPerPageOptions={[5, 10, 25]}
-            page={page}
-            onPageChange={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            labelRowsPerPage="Books per page:"
-          />
-        </Grid>
-
-        <ToastContainers />
-
-        <Snackbar
-          open={open === "expiring"}
-          action={action}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        >
-          <Alert
-            onClose={handleClose}
-            severity="warning"
-            sx={{ width: "100%" }}
-            variant="filled"
+        {filteredBooks.length === 0 && searchTerm && (
+          <Box sx={{ justifyContent: 'center', display: 'flex' }}>
+            <Typography fontSize={18}>
+              Nothing found with "{searchTerm}"{' '}
+            </Typography>
+            <Button
+              variant="text"
+              size="small"
+              onClick={() => {
+                setFilteredBooks(books)
+                setSearchTerm('')
+              }}
+            >
+              Clear search
+            </Button>
+          </Box>
+        )}
+        {view === 'grid' ? (
+          <Grid
+            container
+            spacing={1}
+            sx={{
+              margin: '1rem',
+              display: 'flex',
+              alignItems: 'center',
+              width: 'auto',
+            }}
           >
-            You have expiring loan(s)
-          </Alert>
-        </Snackbar>
-        <Snackbar
-          open={open === "expired"}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        >
-          <Alert severity="error" sx={{ width: "100%" }} variant="filled">
-            YOU HAVE EXPIRED LOAN(S)
-          </Alert>
-        </Snackbar>
+            {filteredBooks
+              ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((book, index) => (
+                <Grid item xs={6} sm={6} md={3} key={index}>
+                  <BookCard
+                    book={book}
+                    currentBorrows={currentBorrows}
+                    currentReservations={currentReservations}
+                    context={context}
+                    renderLoanButton={renderLoanButton}
+                    renderReserveButton={renderReserveButton}
+                    bookInCurrentBorrows={bookInCurrentBorrows}
+                    activeAndLoanableReservations={
+                      activeAndLoanableReservations
+                    }
+                    handleDelete={(selectedBook) => {
+                      setBookId(selectedBook.id)
+                      setDeleteVisible(true)
+                    }}
+                    handleEdit={(selectedBook) => {
+                      setFormEditing(true)
+                      setFormBook(selectedBook)
+                      setFormVisible(true)
+                    }}
+                    viewType="grid"
+                  />
+                </Grid>
+              ))}
+          </Grid>
+        ) : (
+          <Stack
+            spacing={3}
+            sx={{ margin: '2rem', display: 'flex', alignItems: 'center' }}
+          >
+            {filteredBooks
+              ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((book, index) => (
+                <BookCard
+                  key={index}
+                  book={book}
+                  currentBorrows={currentBorrows}
+                  currentReservations={currentReservations}
+                  context={context}
+                  renderLoanButton={renderLoanButton}
+                  renderReserveButton={renderReserveButton}
+                  bookInCurrentBorrows={bookInCurrentBorrows}
+                  activeAndLoanableReservations={activeAndLoanableReservations}
+                  handleDelete={(selectedBook) => {
+                    setBookId(selectedBook.id)
+                    setDeleteVisible(true)
+                  }}
+                  handleEdit={(selectedBook) => {
+                    setFormEditing(true)
+                    setFormBook(selectedBook)
+                    setFormVisible(true)
+                  }}
+                  viewType="list"
+                />
+              ))}
+          </Stack>
+        )}
+        <PaginationControls
+          booksLength={filteredBooks.length}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
+        />
+        <ToastContainers />
+        <NotificationSnackbars open={open} handleClose={handleClose} />
       </Box>
     </>
-  );
-};
+  )
+}
 
-export default ListBooks;
+export default ListBooks

@@ -1,11 +1,11 @@
-import { VisibilityOff, Visibility } from "@mui/icons-material";
-import { InputAdornment, IconButton } from "@mui/material";
+import { VisibilityOff, Visibility } from '@mui/icons-material'
+import { InputAdornment, IconButton } from '@mui/material'
 
 type Props = {
-  onMouseDown: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  onClick: () => void;
-  passwordVisible: boolean;
-};
+  onMouseDown: (event: React.MouseEvent<HTMLButtonElement>) => void
+  onClick: () => void
+  passwordVisible: boolean
+}
 
 export default function PasswordVisibilityToggle(props: Props) {
   return (
@@ -19,5 +19,5 @@ export default function PasswordVisibilityToggle(props: Props) {
         {props.passwordVisible ? <VisibilityOff /> : <Visibility />}
       </IconButton>
     </InputAdornment>
-  );
+  )
 }

@@ -1,30 +1,23 @@
-import { useState, FC } from "react";
-import {
-  Modal,
-  Box,
-  Button,
-  Typography,
-  TextField,
-  Stack,
-} from "@mui/material";
+import { FC } from 'react'
+import { Modal, Box, Button, Typography, TextField, Stack } from '@mui/material'
 import {
   editBookBox,
   editBookUpdateButton,
   editBookCancelButton,
-} from "../../../sxStyles";
+} from '../../../sxStyles'
 import {
   fetchUpdateBooklist,
   fetchCreateBooklist,
-} from "../../../fetchFunctions";
-import Book_list from "../../../interfaces/book_list.interface";
+} from '../../../fetchFunctions'
+import Book_list from '../../../interfaces/book_list.interface'
 
 interface IProps {
-  visible: boolean;
-  setVisible: Function;
-  booklist: Book_list | null;
-  setBooklist: Function;
-  editing: boolean;
-  updateBooklists: Function;
+  visible: boolean
+  setVisible: Function
+  booklist: Book_list | null
+  setBooklist: Function
+  editing: boolean
+  updateBooklists: Function
 }
 
 const EditBooklist: FC<IProps> = ({
@@ -36,20 +29,20 @@ const EditBooklist: FC<IProps> = ({
   updateBooklists,
 }: IProps): JSX.Element => {
   const updateBooklist = async (newBooklist: Book_list) => {
-    const response = await fetchUpdateBooklist(newBooklist);
+    const response = await fetchUpdateBooklist(newBooklist)
     if (response.ok) {
-      setVisible(false);
-      updateBooklists();
+      setVisible(false)
+      updateBooklists()
     }
-  };
+  }
 
   const addBooklist = async (newBooklist: Book_list) => {
-    const response = await fetchCreateBooklist(newBooklist);
+    const response = await fetchCreateBooklist(newBooklist)
     if (response.ok) {
-      setVisible(false);
-      updateBooklists();
+      setVisible(false)
+      updateBooklists()
     }
-  };
+  }
 
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -57,10 +50,10 @@ const EditBooklist: FC<IProps> = ({
     setBooklist({
       ...booklist,
       [event.target.name]: event.target.value,
-    });
-  };
+    })
+  }
 
-  if (booklist == null) return <></>;
+  if (booklist == null) return <></>
 
   return (
     <Modal open={visible} onClose={() => setVisible(false)}>
@@ -68,12 +61,12 @@ const EditBooklist: FC<IProps> = ({
         <Stack spacing={2}>
           <Typography
             sx={{
-              fontFamily: "Montserrat",
-              fontWeight: "bold",
+              fontFamily: 'Montserrat',
+              fontWeight: 'bold',
             }}
             variant="h4"
           >
-            {editing ? `Edit ${booklist.name}` : "Add new booklist"}
+            {editing ? `Edit ${booklist.name}` : 'Add new booklist'}
           </Typography>
           <TextField
             label="List Name"
@@ -90,7 +83,7 @@ const EditBooklist: FC<IProps> = ({
                 editing ? updateBooklist(booklist) : addBooklist(booklist)
               }
             >
-              {editing ? "Update" : "Add"}
+              {editing ? 'Update' : 'Add'}
             </Button>
             <Button
               sx={editBookCancelButton}
@@ -103,7 +96,7 @@ const EditBooklist: FC<IProps> = ({
         </Stack>
       </Box>
     </Modal>
-  );
-};
+  )
+}
 
-export default EditBooklist;
+export default EditBooklist

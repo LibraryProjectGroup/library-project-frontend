@@ -1,5 +1,5 @@
-version: "3.8"
-
+version: '3.8'
+# Backend must be running on for this to work
 services:
   docker-robot:
     container_name: docker-robot
@@ -17,4 +17,4 @@ services:
       - ./robot:/app/robot
       - ./public:/app/public:ro
     ports:
-      - "3000:3000"
+      - '3000:3000'
