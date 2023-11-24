@@ -47,8 +47,8 @@ jobs:
           echo "MYSQL_PASSWORD=${{ env.MYSQL_PASSWORD }}" >> .env
           echo "MYSQL_ROOT_PASSWORD=${{ env.MYSQL_ROOT_PASSWORD }}" >> .env
           echo "COMPOSE_PROJECT_NAME=${{ env.COMPOSE_PROJECT_NAME }}" >> .env
-          echo "TESTUSERNAME=${{ env.REACT_APP_TEST_USERNAME }}" >> .env
-          echo "TESTUSERNAME2=${{ env.REACT_APP_TEST_USERNAME2 }}" >> .env
+          echo "TESTUSERNAME=${{ secrets.REACT_APP_TEST_USERNAME }}" >> .env
+          echo "TESTUSERNAME2=plaaa" >> .env
           echo "TESTPASSWORD=${{ env.REACT_APP_TEST_PASSWORD }}" >> .env
           echo "TESTPASSWORD2=${{ env.REACT_APP_TEST_PASSWORD2 }}" >> .env
 
