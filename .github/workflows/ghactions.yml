@@ -40,8 +40,8 @@ jobs:
           echo "DATABASE_NAME=${{ secrets.MYSQL_DATABASE }}" >> .env
           echo "DATABASE_USER=${{ secrets.MYSQL_USER }}" >> .env
           echo "DATABASE_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
-          echo "OIDC_AUTH_BACKLINK_URL=http://localhost:3000" >> .env
-          echo "OIDC_AUTH_REDIRECT_URL=http://localhost:3002" >> .env
+          echo "OIDC_AUTH_BACKLINK_URL=${{ secrets.OIDC_AUTH_BACKLINK_URL }}" >> .env
+          echo "OIDC_AUTH_REDIRECT_URL=${{ secrets.OIDC_AUTH_REDIRECT_URL }}" >> .env
           echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
           echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
           echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
