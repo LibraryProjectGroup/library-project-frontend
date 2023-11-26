@@ -5,8 +5,8 @@ services:
     container_name: efilibrary-frontend
     image: efilibrary-frontend
     shm_size: 2gb
-    stdin_open: true
-    tty: true
+    #stdin_open: true
+    #tty: true
     command: npm run start
     build:
       context: ./
