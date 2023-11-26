@@ -72,7 +72,7 @@ jobs:
           netstat -tuln | grep 3000 || echo "Port 3000 is available"   
 
       - name: Run tests 
-        run: docker exec -it efilibrary-frontend /bin/bash npm run dockertests   
+        run: docker-compose -f docker-compose-start-frontend.yml exec npm run dockertests   
 
       - name: Clean up
         if: always()
