@@ -70,13 +70,20 @@ jobs:
       - name: Check Port 3000 Usage
         run: |
           netstat -tuln | grep 3000 || echo "Port 3000 is available"   
+      
+      - name: Install wait-on
+        run: npm install -g wait-on
+        
+      - name: Wait for Frontend Server to be Ready
+        run: wait-on http://localhost:3000    
 
       - name: Run tests 
-        run: docker-compose -f docker-compose-start-frontend.yml exec -i efilibrary-frontend npm run dockertests   
+        run: docker exec -i efilibrary-frontend npm run dockertests
 
       - name: Clean up
         if: always()
         run: |
-          docker-compose -f docker-compose-start-frontend.yml down
           docker-compose -f docker-compose-start-backend.yml down
+          docker-compose -f docker-compose-start-frontend.yml down
+          
           
