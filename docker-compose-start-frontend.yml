@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   efilibrary-frontend-local:
-    container_name: efilibrary-frontend-local
-    image: efilibrary-frontend-local
+    container_name: efilibrary-frontend
+    image: efilibrary-frontend
     shm_size: 2gb
     stdin_open: true
     tty: true

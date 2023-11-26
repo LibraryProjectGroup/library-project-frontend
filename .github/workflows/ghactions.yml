@@ -71,8 +71,8 @@ jobs:
         run: |
           netstat -tuln | grep 3000 || echo "Port 3000 is available"   
 
-      - name: Run tests
-        run:  npm run dockertests
+      - name: Run tests 
+        run: docker exec -it efilibrary-frontend /bin/bash npm run dockertests   
 
       - name: Clean up
         if: always()
