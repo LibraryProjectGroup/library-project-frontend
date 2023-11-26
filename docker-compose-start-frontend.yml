@@ -4,6 +4,7 @@ services:
   efilibrary-frontend-local:
     container_name: efilibrary-frontend-local
     image: efilibrary-frontend-local
+    shm_size: 2gb
     stdin_open: true
     tty: true
     command: npm run start

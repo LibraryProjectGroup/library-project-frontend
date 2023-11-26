@@ -10,7 +10,7 @@ env:
   DATABASE_SERVER: ${{ secrets.DATABASE_SERVER }}
   DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
   DATABASE_USER: ${{ secrets.MYSQL_USER }}
-  DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+  DATABASE_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
   OIDC_AUTH_BACKLINK_URL: ${{ secrets.OIDC_AUTH_BACKLINK_URL }}
   OIDC_AUTH_REDIRECT_URL: ${{ secrets.OIDC_AUTH_REDIRECT_URL }}
   MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
@@ -60,31 +60,23 @@ jobs:
           registry: ghcr.io
           username: ${{ secrets.GHCR_ACCES_TEST_USER}} #My personal access token so not usable for long term
           password: ${{ secrets.GHCR_ACCES_TEST_TOKEN }} 
-      
-      - name: Check Port 3000 Usage
-        run: |
-          netstat -tuln | grep 3000 || echo "Port 3000 is available"    
             
       - name: Build and run backend containers
         run: docker-compose -f docker-compose-start-backend.yml up -d
-
-      - name: Check Port 3000 Usage
-        run: |
-          netstat -tuln | grep 3000 || echo "Port 3000 is available"  
       
       - name: Start frontend
-        run: docker-compose -f docker-compose-start.yml up -d
+        run: docker-compose -f docker-compose-start-frontend.yml up -d
 
       - name: Check Port 3000 Usage
         run: |
           netstat -tuln | grep 3000 || echo "Port 3000 is available"   
 
       - name: Run tests
-        run: docker-compose -f docker-compose-start.yml exec -T efilibrary-frontend-local npm run robottests
+        run:  npm run dockertests
 
       - name: Clean up
         if: always()
         run: |
-          docker-compose -f docker-compose-start.yml down
+          docker-compose -f docker-compose-start-frontend.yml down
           docker-compose -f docker-compose-start-backend.yml down
           
