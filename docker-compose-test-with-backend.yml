@@ -10,7 +10,7 @@ services:
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_USER: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-      OIDC_AUTH_BACKLINK_URL: ${OIDC_AUTH_BACKLINK_URL}
+      OIDC_AUTH_BACKLINK_URL: ${OIDC_AUTH_BACKLINK_URL} 
       OIDC_AUTH_REDIRECT_URL: ${OIDC_AUTH_REDIRECT_URL}
       PORT: 3002
     volumes:
@@ -48,8 +48,13 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    env_file:
-      - .env
+    environment:
+      REACT_APP_BACKEND_URL: http://localhost:3002/
+      GENERATE_SOURCEMAP: false
+      TESTUSERNAME: ${TESTUSERNAME}
+      TESTPASSWORD: ${TESTPASSWORD}
+      TESTUSERNAME2: ${TESTUSERNAME2}
+      TESTPASSWORD2: ${TESTPASSWORD2}
     volumes:
       - ./src:/app/src
       - ./robot:/app/robot
