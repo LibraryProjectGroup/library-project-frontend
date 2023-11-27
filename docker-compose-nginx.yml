@@ -2,9 +2,14 @@ version: '3.8'
 
 services:
   efilibrary-frontend-local:
-    container_name: efilibrary-frontend-local
+    container_name: efilibrary-frontend-nginx
+    image: ${IMAGE_NAME}
     build:
+      args:
+        REACT_APP_BACKEND_URL: 'http://localhost:3002'
       context: ./
       dockerfile: Dockerfile.staging
+    environment:
+      REACT_APP_BACKEND_URL: 'http://localhost:3002'  
     ports:
       - '3000:80' # 3000 is the port that the container exposes, 80 is the port that the app runs on
