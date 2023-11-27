@@ -63,6 +63,13 @@ jobs:
             
       - name: Build and run backend containers
         run: docker-compose -f docker-compose-start-backend.yml up -d
+
+      - name: Log container status
+        run: docker ps
+
+      - name: Check backend health
+        run: |
+          curl -I http://localhost:3002/health  
       
       - name: Start frontend
         run: docker-compose -f docker-compose-start-frontend.yml up -d
