@@ -62,7 +62,7 @@ jobs:
           password: ${{ secrets.GHCR_ACCES_TEST_TOKEN }} 
       - name: Build and run containers
         run: |
-            docker-compose -f docker-compose.yml up --build -d
+            docker-compose -f docker-compose-test-with-backend.yml up --build -d
     
       - name: Wait for backend to be ready
         run: |
@@ -80,7 +80,7 @@ jobs:
       - name: Clean up
         if: always()
         run: |
-          docker-compose -f docker-compose.yml down    
+          docker-compose -f docker-compose-test-with-backend.yml down    
             
     #  - name: Build and run backend containers
     #    run: docker-compose -f docker-compose-start-backend.yml up -d
