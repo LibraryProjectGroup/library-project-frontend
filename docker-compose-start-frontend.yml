@@ -2,7 +2,6 @@ version: '3.8'
 
 services:
   efilibrary-frontend:
-    container_name: efilibrary-frontend
     image: efilibrary-frontend
     shm_size: 2gb
     #stdin_open: true
@@ -19,3 +18,9 @@ services:
       - ./robot:/app/robot
     ports:
       - '3000:3000'
+    networks:
+      - efilibrary-network  
+
+networks:
+  efilibrary-network:
+    external: true
