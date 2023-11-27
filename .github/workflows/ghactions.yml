@@ -72,13 +72,15 @@ jobs:
           echo "Waiting for backend service to be ready..."
           success=false
           for i in {1..30}; do # tries 30 times at an interval of 10 seconds
-            response=$(curl -o /dev/null -s -w "%{http_code}\n" http://localhost:3002/health)
+            response=$(curl -o /dev/null -s -w "%{http_code}\n" -v http://localhost:3002/health)
             if [ "$response" = "200" ]; then
               echo "Backend service is ready."
               success=true
               break
-            fi
-            echo "Waiting..."
+          else
+            echo "Attempt $i: Backend service not ready. Curl response: $response"
+            echo "Waiting for another 10 seconds..."
+          fi
             sleep 10
           done
           if [ "$success" = false ] ; then
