@@ -7,6 +7,7 @@ interface Book {
   year: number
   topic: string
   description: string
+  language: string
   isbn: string
   deleted: boolean
   homeOfficeId: number
