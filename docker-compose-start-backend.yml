@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   efilibrary-backend:
-    image: ghcr.io/libraryprojectgroup/library-project-backend:latest
+    image: ghcr.io/libraryprojectgroup/library-project-backend:alpine
 
     #    stdin_open: true
 
@@ -18,6 +18,8 @@ services:
       - sql:/app/sql/.
     ports:
       - 3002:3002
+    networks:
+      - efilibrary-network  
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3002/health"]
       interval: 30s
