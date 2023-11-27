@@ -74,8 +74,8 @@ jobs:
       - name: Install wait-on
         run: npm install -g wait-on
         
-      - name: Wait for Frontend Server to be Ready
-        run: wait-on http://localhost:3000    
+      - name: Wait for Backend and Frontend Servers to be Ready
+        run: wait-on http://localhost:3002/health && wait-on http://localhost:3000
 
       - name: Run tests 
         run: docker exec -i efilibrary-frontend npm run dockertests
