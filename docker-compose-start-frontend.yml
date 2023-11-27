@@ -23,4 +23,4 @@ services:
 
 networks:
   efilibrary-network:
-    external: true
+    
