@@ -74,8 +74,7 @@ jobs:
           echo "Backend service is ready."
   
       - name: Run frontend tests
-        run: |
-          docker logs docker-robot -f
+        run: docker exec -it frontend-tests npm run robottests
   
       - name: Clean up
         if: always()

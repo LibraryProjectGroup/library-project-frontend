@@ -15,6 +15,8 @@ services:
       PORT: 3002
     volumes:
       - sql:/app/sql/.
+    networks:
+      - testing-network  
     ports:
       - '3002:3002'
     healthcheck:
@@ -33,23 +35,23 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    networks:
+      - testing-network  
     ports:
       - 3306:3306
     expose:
       - 3306
   # Frontend tests Service
-  docker-robot:
+  frontend-tests:
     shm_size: 2gb # Needed for chrome not to crash
-    container_name: docker-robot
-    image: docker-robot
-    stdin_open: true
-    tty: true
-    command: npm run startserverandtest
+    container_name: frontend-tests
+    image: frontend-tests
+    command: npm run start
     build:
       context: ./
       dockerfile: Dockerfile
     environment:
-      REACT_APP_BACKEND_URL: 'http://localhost:3002/'
+      REACT_APP_BACKEND_URL: 'http://host.docker.internal:3002'
       GENERATE_SOURCEMAP: 'false'
       TESTUSERNAME: ${TESTUSERNAME}
       TESTPASSWORD: ${TESTPASSWORD}
@@ -61,8 +63,13 @@ services:
       - ./public:/app/public:ro
     ports:
       - '3000:3000'
+    networks:
+      - testing-network  
     depends_on:
       efilibrary-backend:
         condition: service_healthy
+    
+networks:
+  testing-network:        
 volumes:
   sql:
