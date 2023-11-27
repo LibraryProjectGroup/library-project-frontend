@@ -49,8 +49,8 @@ services:
       context: ./
       dockerfile: Dockerfile
     environment:
-      REACT_APP_BACKEND_URL: http://localhost:3002/
-      GENERATE_SOURCEMAP: false
+      REACT_APP_BACKEND_URL: 'http://localhost:3002/'
+      GENERATE_SOURCEMAP: 'false'
       TESTUSERNAME: ${TESTUSERNAME}
       TESTPASSWORD: ${TESTPASSWORD}
       TESTUSERNAME2: ${TESTUSERNAME2}
