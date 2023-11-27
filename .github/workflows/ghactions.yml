@@ -67,22 +67,45 @@ jobs:
       - name: Log container status
         run: docker ps
 
-      - name: Check backend health
+      - name: Wait for Backend to be Ready
         run: |
-          curl -I http://localhost:3002/health  
+          echo "Waiting for backend service to be ready..."
+          success=false
+          for i in {1..30}; do # tries 30 times at an interval of 10 seconds
+            if curl -I http://localhost:3002/health; then
+              success=true
+              break
+            fi
+            echo "Waiting..."
+            sleep 10
+          done
+          if [ "$success" = false ] ; then
+            echo "Backend service did not become ready in time"
+            exit 1
+          fi
       
       - name: Start frontend
         run: docker-compose -f docker-compose-start-frontend.yml up -d
-
-      - name: Check Port 3000 Usage
-        run: |
-          netstat -tuln | grep 3000 || echo "Port 3000 is available"   
       
       - name: Install wait-on
         run: npm install -g wait-on
         
-      - name: Wait for Backend and Frontend Servers to be Ready
-        run: wait-on http://localhost:3002/health && wait-on http://localhost:3000
+      - name: Wait for Frontend to be Ready
+        run: |
+          echo "Waiting for backend service to be ready..."
+          success=false
+          for i in {1..30}; do # tries 30 times at an interval of 10 seconds
+            if curl -I http://localhost:3000; then
+              success=true
+              break
+            fi
+            echo "Waiting..."
+            sleep 10
+          done
+          if [ "$success" = false ] ; then
+            echo "Backend service did not become ready in time"
+            exit 1
+          fi
 
       - name: Run tests 
         run: docker exec -i efilibrary-frontend npm run dockertests
