@@ -2,7 +2,7 @@ name: Deploy frontend to staging
 
 on:
   push:
-    branches: ['development', 'gh-actions', s23-docker-compose-tests]
+    branches: ['development', 'gh-actions', 's23-docker-compose-tests']
 
 env:
   REGISTRY: ghcr.io
