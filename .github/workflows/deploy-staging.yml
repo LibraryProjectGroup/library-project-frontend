@@ -2,11 +2,11 @@ name: Deploy frontend to staging
 
 on:
   push:
-    branches: ['development', 'gh-actions']
+    branches: ['development', 'gh-actions', s23-docker-compose-tests]
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ghcr.io/libraryprojectgroup/library-project-frontend:alpine-nginx
+  IMAGE_NAME: ghcr.io/libraryprojectgroup/library-project-frontend:nginx
 
 jobs:
   deploy:

@@ -47,16 +47,16 @@ jobs:
       - name: Build and run containers
         run: |
             docker-compose -f docker-compose-start-front-and-back.yml up --build -d
-     # 
-     # - name: Wait for backend to be ready
-     #   run: |
-     #     echo "Waiting for backend service to be ready..."
-     #     until [ "$(docker inspect -f {{.State.Health.Status}} efilibrary-backend)" == "healthy" ]; do 
-     #       sleep 10;
-     #       echo "Waiting for backend service...";
-     #     done
-     #     echo "Backend service is ready."
-     # 
+     
+      - name: Wait for backend to be ready
+        run: |
+          echo "Waiting for backend service to be ready..."
+          until [ "$(docker inspect -f {{.State.Health.Status}} efilibrary-backend)" == "healthy" ]; do 
+            sleep 10;
+            echo "Waiting for backend service...";
+          done
+          echo "Backend service is ready."
+     
       - name: Wait for frontend to be ready
         run: |
           echo "Waiting for frontend service to be ready..."
@@ -74,6 +74,3 @@ jobs:
         run: |
           docker-compose -f docker-compose-start-front-and-back.yml down    
             
-
-          
-          
