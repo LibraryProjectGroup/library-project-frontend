@@ -1,5 +1,5 @@
 version: '3.8'
-
+# Used for deploy-staging.yml worflow to push image to ghcr.io
 services:
   efilibrary-frontend-nginx:
     container_name: efilibrary-frontend-nginx
