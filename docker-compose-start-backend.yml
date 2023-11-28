@@ -3,7 +3,7 @@ version: '3.3'
 services:
   efilibrary-backend:
     image: ghcr.io/libraryprojectgroup/library-project-backend:alpine
-
+    container_name: efilibrary-backend
     #    stdin_open: true
 
     environment:

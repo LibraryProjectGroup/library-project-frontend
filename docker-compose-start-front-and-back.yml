@@ -1,10 +1,14 @@
 version: '3.8'
+# This compose file builds and starts the backend with mysql
+# and frontend services for development and testing purposes. 
+# After starting the services you can run the tests with the command: 
+# docker-compose exec frontend npm run robottests
 
 services:
   # Backend Service
   efilibrary-backend:
     container_name: efilibrary-backend
-    image: ghcr.io/libraryprojectgroup/library-project-backend:latest
+    image: ghcr.io/libraryprojectgroup/library-project-backend:alpine
     environment:
       DATABASE_SERVER: ${DATABASE_SERVER}
       DATABASE_NAME: ${DATABASE_NAME}
@@ -66,9 +70,6 @@ services:
       - '3000:3000'
     networks:
       - testing-network  
-    depends_on:
-      efilibrary-backend:
-        condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:3000/" ]
       interval: 15s

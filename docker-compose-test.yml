@@ -1,5 +1,6 @@
 version: '3.8'
 # Backend must be running on for this to work
+# This service builds and starts frontend and runs the tests in docker
 services:
   docker-robot:
     shm_size: 2gb
