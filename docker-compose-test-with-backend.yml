@@ -42,16 +42,16 @@ services:
     expose:
       - 3306
   # Frontend tests Service
-  frontend-tests:
+  frontend:
     shm_size: 2gb # Needed for chrome not to crash
-    container_name: frontend-tests
-    image: frontend-tests
+    container_name: frontend
+    image: frontend
     command: npm run start
     build:
       context: ./
       dockerfile: Dockerfile
     environment:
-      REACT_APP_BACKEND_URL: 'http://host.docker.internal:3002'
+      REACT_APP_BACKEND_URL: ${REACT_APP_BACKEND_URL}
       GENERATE_SOURCEMAP: 'false'
       TESTUSERNAME: ${TESTUSERNAME}
       TESTPASSWORD: ${TESTPASSWORD}
