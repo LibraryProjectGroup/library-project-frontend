@@ -41,6 +41,7 @@ services:
       - 3306:3306
     expose:
       - 3306
+
   # Frontend tests Service
   frontend:
     shm_size: 2gb # Needed for chrome not to crash
@@ -69,10 +70,11 @@ services:
       efilibrary-backend:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost/ || exit 1"]
-      interval: 30s
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/" ]
+      interval: 15s
       timeout: 10s
-      retries: 3    
+      retries: 15    
+    
     
 networks:
   testing-network:        

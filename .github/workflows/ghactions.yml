@@ -22,7 +22,7 @@ env:
   TESTUSERNAME2: ${{ secrets.REACT_APP_TEST_USERNAME2 }}
   TESTPASSWORD: ${{ secrets.REACT_APP_TEST_PASSWORD }}
   TESTPASSWORD2: ${{ secrets.REACT_APP_TEST_PASSWORD2 }}
-  REACT_APP_BACKEND_URL: 'http://efilibrary-backend:3002'
+  REACT_APP_BACKEND_URL: 'http://efilibrary-backend:3002' 
 
 jobs:
   build-and-test:
