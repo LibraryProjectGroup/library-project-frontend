@@ -8,7 +8,7 @@ services:
   # Backend Service
   efilibrary-backend:
     container_name: efilibrary-backend
-    image: ghcr.io/libraryprojectgroup/library-project-backend:alpine
+    image: ghcr.io/libraryprojectgroup/library-project-backend:latest
     environment:
       DATABASE_SERVER: ${DATABASE_SERVER}
       DATABASE_NAME: ${DATABASE_NAME}
