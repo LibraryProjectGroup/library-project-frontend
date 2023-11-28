@@ -84,7 +84,7 @@ jobs:
        #   echo "Frontend service is ready."    
   #
       - name: Run frontend tests
-        run: docker exec frontend-tests npm run robottests
+        run: docker exec frontend npm run robottests
   
       - name: Clean up
         if: always()
