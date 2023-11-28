@@ -35,26 +35,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-    #  - name: Create .env file
-    #    run: |
-    #      echo "DATABASE_SERVER=${{ secrets.DATABASE_SERVER }}" > .env
-    #      echo "DATABASE_NAME=${{ secrets.MYSQL_DATABASE }}" >> .env
-    #      echo "DATABASE_USER=${{ secrets.MYSQL_USER }}" >> .env
-    #      echo "DATABASE_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
-    #      echo "OIDC_AUTH_BACKLINK_URL=${{ secrets.OIDC_AUTH_BACKLINK_URL }}" >> .env
-    #      echo "OIDC_AUTH_REDIRECT_URL=${{ secrets.OIDC_AUTH_REDIRECT_URL }}" >> .env
-    #      echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
-    #      echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
-    #      echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
-    #      echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
-    #      echo "MYSQL_PORT=${{ secrets.MYSQL_PORT }}" >> .env
-    #      echo "COMPOSE_PROJECT_NAME=${{ env.COMPOSE_PROJECT_NAME }}" >> .env
-    #      echo "TESTUSERNAME=${{ secrets.REACT_APP_TEST_USERNAME }}" >> .env
-    #      echo "TESTUSERNAME2=${{ secrets.REACT_APP_TEST_USERNAME }}" >> .env
-    #      echo "TESTPASSWORD=${{ secrets.REACT_APP_TEST_PASSWORD }}" >> .env
-    #      echo "TESTPASSWORD2=${{ secrets.REACT_APP_TEST_PASSWORD2 }}" >> .env
-    #      echo "REACT_APP_BACKEND_URL=${{ secrets.BACKEND_URL }}" >> .env
-
       - name: Log in to the container registry
         uses: docker/login-action@v2
         with:
@@ -74,15 +54,15 @@ jobs:
           done
           echo "Backend service is ready."
       
-      #- name: Wait for frontend to be ready
-       # run: |
-       #   echo "Waiting for frontend service to be ready..."
-       #   until [ "$(docker inspect -f {{.State.Health.Status}} frontend)" == "healthy" ]; do 
-       #     sleep 10;
-       #     echo "Waiting for frontend service...";
-       #   done
-       #   echo "Frontend service is ready."    
-  #
+      - name: Wait for frontend to be ready
+        run: |
+          echo "Waiting for frontend service to be ready..."
+          until [ "$(docker inspect -f {{.State.Health.Status}} frontend)" == "healthy" ]; do 
+            sleep 10;
+            echo "Waiting for frontend service...";
+          done
+          echo "Frontend service is ready."    
+  
       - name: Run frontend tests
         run: docker exec frontend npm run robottests
   
