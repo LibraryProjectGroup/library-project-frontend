@@ -8,13 +8,8 @@ services:
     tty: true 
     build:
       args:
-        REACT_APP_BACKEND_URL: 'http://localhost:3002'
+        REACT_APP_BACKEND_URL: 'http://efilibrary-backend:3002' # This is the name of the backend service in the docker-compose file in staging
       context: ./
       dockerfile: Dockerfile.staging
-    environment:
-      REACT_APP_BACKEND_URL: 'http://localhost:3002'  
-    volumes:
-      - ./src:/app/src
-      - ./public:/app/public:ro  
     ports:
       - '3000:80' # 3000 is the port that the container exposes, 80 is the port that the app runs on
