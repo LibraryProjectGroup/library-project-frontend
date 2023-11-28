@@ -74,15 +74,15 @@ jobs:
           done
           echo "Backend service is ready."
       
-      - name: Wait for frontend to be ready
-        run: |
-          echo "Waiting for frontend service to be ready..."
-          until [ "$(docker inspect -f {{.State.Health.Status}} frontend)" == "healthy" ]; do 
-            sleep 10;
-            echo "Waiting for frontend service...";
-          done
-          echo "Frontend service is ready."    
-  
+      #- name: Wait for frontend to be ready
+       # run: |
+       #   echo "Waiting for frontend service to be ready..."
+       #   until [ "$(docker inspect -f {{.State.Health.Status}} frontend)" == "healthy" ]; do 
+       #     sleep 10;
+       #     echo "Waiting for frontend service...";
+       #   done
+       #   echo "Frontend service is ready."    
+  #
       - name: Run frontend tests
         run: docker exec frontend-tests npm run robottests
   
