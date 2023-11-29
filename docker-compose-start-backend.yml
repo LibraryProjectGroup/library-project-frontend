@@ -1,5 +1,5 @@
 version: '3.3'
-
+# This composefile pulls and starts the latest version of the backend and database from ghcr.io 
 services:
   efilibrary-backend:
     image: ghcr.io/libraryprojectgroup/library-project-backend:latest

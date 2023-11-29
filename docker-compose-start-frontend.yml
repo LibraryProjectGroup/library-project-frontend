@@ -1,5 +1,5 @@
 version: '3.8'
-
+# This service builds the frontend and runs it on port 3000
 services:
   efilibrary-frontend:
     container_name: efilibrary-frontend

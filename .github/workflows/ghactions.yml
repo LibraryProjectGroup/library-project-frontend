@@ -2,7 +2,7 @@ name: Build backend and frontend containers and run robot tests for frontend wit
 
 on:
   push:
-    branches: ['development', 's23-docker-compose-tests']
+    branches: ['development']
   pull_request:
     branches: ['development']
 

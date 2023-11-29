@@ -1,5 +1,11 @@
 FROM node:16-bullseye as build-stage
 
+# Accept REACT_APP_BACKEND_URL as a build argument
+ARG REACT_APP_BACKEND_URL
+
+# Set the environment variable
+ENV REACT_APP_BACKEND_URL $REACT_APP_BACKEND_URL
+
 WORKDIR /app
 
 # Copy package.json and package-lock.json (or yarn.lock)
