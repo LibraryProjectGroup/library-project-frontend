@@ -93,6 +93,23 @@ See detailed documentation about Robot testing in [AboutRobotTests.md documentat
 <!-- WORKFLOWS -->
 
 # Workflows
+## The ghactions.yml worfklow
+
+### When Does it Run?
+- **On Pushes to `development`**: Whenever code is pushed to the `development` branch, the workflow starts.
+- **On Pull Requests to `development`**: It also starts when someone proposes changes (pull requests) to the `development` branch.
+
+### What Does it Do?
+1. **Gets the Latest Code**: It first grabs the most recent version of frontend code from GitHub.
+2. **Logs into Docker Registry**: It logs into a GitHub Container Registry (GHCR). This is where we store our Docker images.
+3. **Builds and Starts Our App**: Using a Docker Compose, it builds applications and start them up. Backend is pulled from ghcr and frontend is build from the pushed local files.
+4. **Waits for Everything to be Ready**: The workflow makes sure that both the backend and frontend are properly set up and ready to go.
+5. **Runs Frontend Tests**: It runs a series of checks on the frontend to make sure everything works as expected.
+6. **Cleans Up**: Finally, it shuts everything down and cleans up, ensuring that we're starting fresh the next time.
+
+### Secret handling
+- **Secrets and Settings**: This workflow uses GitHub secrets that are passed as .env for the docker-compose.
+- **No Manual Work Needed**: This entire process is automatic. 
 
 ## The Prettier workflow
 
