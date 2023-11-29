@@ -1,9 +1,11 @@
-version: '3.8'
-
+version: '3.3'
+# This composefile pulls and starts the latest version of the backend and database from ghcr.io 
 services:
-  # Backend Service
   efilibrary-backend:
     image: ghcr.io/libraryprojectgroup/library-project-backend:latest
+    container_name: efilibrary-backend
+    #    stdin_open: true
+
     environment:
       DATABASE_SERVER: ${DATABASE_SERVER}
       DATABASE_NAME: ${DATABASE_NAME}
@@ -16,8 +18,14 @@ services:
       - sql:/app/sql/.
     ports:
       - 3002:3002
+    networks:
+      - efilibrary-network  
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3  
 
-  # MySQL Database
   efilibrary-mysql:
     image: mysql
     volumes:
@@ -27,9 +35,16 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
     ports:
       - 3306:3306
+
     expose:
       - 3306
+    networks:
+      - efilibrary-network
+
+networks:
+  efilibrary-network:
 volumes:
   sql:

@@ -1,4 +1,8 @@
 version: '3.8'
+# This compose file builds and starts the backend with mysql
+# and frontend services for development and testing purposes. 
+# After starting the services you can run the tests with the command: 
+# docker-compose exec frontend npm run robottests
 
 services:
   # Backend Service
@@ -10,18 +14,20 @@ services:
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_USER: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-      OIDC_AUTH_BACKLINK_URL: ${OIDC_AUTH_BACKLINK_URL}
+      OIDC_AUTH_BACKLINK_URL: ${OIDC_AUTH_BACKLINK_URL} 
       OIDC_AUTH_REDIRECT_URL: ${OIDC_AUTH_REDIRECT_URL}
       PORT: 3002
     volumes:
       - sql:/app/sql/.
+    networks:
+      - testing-network  
     ports:
-      - 3002:3002
+      - '3002:3002'
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:3002/health" ]
-      interval: 30s
+      interval: 15s
       timeout: 10s
-      retries: 10
+      retries: 15
 
   # MySQL Database
   efilibrary-mysql:
@@ -33,31 +39,45 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    networks:
+      - testing-network  
     ports:
       - 3306:3306
     expose:
       - 3306
+
   # Frontend tests Service
-  docker-robot:
+  frontend:
     shm_size: 2gb # Needed for chrome not to crash
-    container_name: docker-robot
-    image: docker-robot
-    stdin_open: true
-    tty: true
-    command: npm run startserverandtest
+    container_name: frontend
+    image: frontend
+    command: npm run start
     build:
       context: ./
       dockerfile: Dockerfile
-    env_file:
-      - .env
+    environment:
+      REACT_APP_BACKEND_URL: ${REACT_APP_BACKEND_URL}
+      GENERATE_SOURCEMAP: 'false'
+      TESTUSERNAME: ${TESTUSERNAME}
+      TESTPASSWORD: ${TESTPASSWORD}
+      TESTUSERNAME2: ${TESTUSERNAME2}
+      TESTPASSWORD2: ${TESTPASSWORD2}
     volumes:
       - ./src:/app/src
       - ./robot:/app/robot
       - ./public:/app/public:ro
     ports:
       - '3000:3000'
-    #depends_on:
-      #efilibrary-backend:
-        #condition: service_healthy
+    networks:
+      - testing-network  
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/" ]
+      interval: 15s
+      timeout: 10s
+      retries: 15    
+    
+    
+networks:
+  testing-network:        
 volumes:
   sql:

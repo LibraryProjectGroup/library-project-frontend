@@ -6,7 +6,7 @@ import {
   Fragment,
   useCallback,
 } from 'react'
-import { Button, Stack, Box, Grid, Fab } from '@mui/material'
+import { Button, Stack, Box, Grid, Fab, Tooltip, Typography } from '@mui/material'
 import { TheContext } from '../../../TheContext'
 import Book from '../../../interfaces/book.interface'
 import Book_reservation from '../../../interfaces/book_reservation.interface'
@@ -37,6 +37,7 @@ import BookRequestForm from './BookRequestForm'
 import { addBookAddButton } from '../../../sxStyles'
 import { GridView, List } from '@mui/icons-material'
 import { FilterByOffice } from './FilterByOffice'
+import SearchBooks from './SearchBooks'
 
 const ListBooks: FC = (): JSX.Element => {
   const [page, setPage] = useState(0)
@@ -52,6 +53,7 @@ const ListBooks: FC = (): JSX.Element => {
   const [books, setBooks] = useState<Book[]>([])
   const [filteredBooks, setFilteredBooks] = useState<Book[]>([])
   const [sort, setSort] = useState<string>('title')
+  const [searchTerm, setSearchTerm] = useState<string>('')
 
   const [activeAndLoanableReservations, setActiveAndLoanableReservations] =
     useState<any[]>([])
@@ -182,6 +184,20 @@ const ListBooks: FC = (): JSX.Element => {
 
     const updatedBooks = books.filter((book) => book.homeOfficeName === office)
     setFilteredBooks(updatedBooks)
+  }
+
+  const handleSearch = (searchTerm: string): void => {
+    const filtered = books.filter((book) => {
+      const titleMatch = book.title
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+      const authorMatch = book.author
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+
+      return titleMatch || authorMatch
+    })
+    setFilteredBooks(filtered)
   }
 
   const handleOpen = () => {
@@ -351,9 +367,11 @@ const ListBooks: FC = (): JSX.Element => {
             setFormBook={setFormBook}
             setFormVisible={setFormVisible}
           />
-          <Fab sx={addBookAddButton} onClick={toggleView}>
-            {view === 'list' ? <GridView /> : <List />}
-          </Fab>
+          <Tooltip title="Change view">
+            <Fab sx={addBookAddButton} onClick={toggleView}>
+              {view === 'list' ? <GridView /> : <List />}
+            </Fab>
+          </Tooltip>
           <BookForm
             visible={formVisible}
             setVisible={setFormVisible}
@@ -390,11 +408,16 @@ const ListBooks: FC = (): JSX.Element => {
           <Box
             sx={{
               display: 'flex',
-              width: '100%',
+              width: '75%',
               justifyContent: 'center',
               flexDirection: { xs: 'column', sm: 'row' },
             }}
           >
+            <SearchBooks
+              onSearch={handleSearch}
+              setSearchTerm={setSearchTerm}
+              searchTerm={searchTerm}
+            />
             <PaginationControls
               booksLength={filteredBooks.length}
               page={page}
@@ -411,15 +434,32 @@ const ListBooks: FC = (): JSX.Element => {
             </Box>
           </Box>
         </Box>
+        {filteredBooks.length === 0 && searchTerm && (
+          <Box sx={{ justifyContent: 'center', display: 'flex' }}>
+            <Typography fontSize={18}>
+              Nothing found with "{searchTerm}"{' '}
+            </Typography>
+            <Button
+              variant="text"
+              size="small"
+              onClick={() => {
+                setFilteredBooks(books)
+                setSearchTerm('')
+              }}
+            >
+              Clear search
+            </Button>
+          </Box>
+        )}
         {view === 'grid' ? (
           <Grid
             container
-            spacing={2}
+            spacing={1}
             sx={{
               margin: '1rem',
               display: 'flex',
               alignItems: 'center',
-              width: '95%',
+              width: 'auto',
             }}
           >
             {filteredBooks

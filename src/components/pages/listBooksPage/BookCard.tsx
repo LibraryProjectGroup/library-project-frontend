@@ -11,7 +11,14 @@ import {
   Avatar,
   ListItemAvatar,
   ListItemText,
+  IconButton,
+  Tooltip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
 } from '@mui/material'
+import HelpIcon from '@mui/icons-material/Help'
+import CloseIcon from '@mui/icons-material/Close'
 import { toast } from 'react-toastify'
 import Borrow from '../../../interfaces/borrow.interface'
 import Book from '../../../interfaces/book.interface'
@@ -35,6 +42,7 @@ import {
 } from '../../../fetchFunctions'
 import User from '../../../interfaces/user.interface'
 import BookReviewForm from './BookReviewForm'
+import BookReviewDelete from './BookReviewDelete'
 
 interface BookCardProps {
   book: Book
@@ -69,6 +77,10 @@ const BookCard: React.FC<BookCardProps> = ({
   const [averageRating, setAverageRating] = useState(0)
   const [usernames, setUsernames] = useState<Record<number, string>>({})
   const [reviewedBooks, setReviewedBooks] = useState<Set<number>>(new Set())
+  const [deleteConfirmationVisible, setDeleteConfirmationVisible] =
+    useState(false)
+  const [selectedReviewId, setSelectedReviewId] = useState<number>(0)
+  const [isDescriptionVisible, setDescriptionVisible] = useState(false)
 
   useEffect(() => {
     loadReviewsAndRating()
@@ -121,6 +133,7 @@ const BookCard: React.FC<BookCardProps> = ({
         updateReviewedBooks.delete(book.id)
         return updateReviewedBooks
       })
+      setDeleteConfirmationVisible(false)
     } catch (error) {
       console.error('Error deleting a review', error)
     }
@@ -144,35 +157,52 @@ const BookCard: React.FC<BookCardProps> = ({
           ? { padding: '2rem', width: { xs: '90%', md: '60%' } }
           : {
               padding: '1rem',
+              width: 'auto',
+              height: 'auto',
+              margin: '1rem',
               display: 'flex',
               flexDirection: 'column',
-              width: 'auto',
-              height: 650,
             }
       }
       key={book.id}
     >
       <Stack
-        sx={{
-          flex: 1,
-          display: 'flex',
-          flexDirection:
-            viewType === 'list' ? { xs: 'column', md: 'row' } : 'column',
-          justifyContent: { md: 'space-between' },
-          padding: '1rem',
-        }}
+        sx={
+          viewType === 'list'
+            ? {
+                flex: 1,
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+                justifyContent: { md: 'space-between' },
+                padding: '1rem',
+              }
+            : {
+                display: 'flex',
+                flexDirection: 'column',
+                position: 'relative',
+                justifyContent: 'space-between',
+              }
+        }
       >
         <Stack
-          sx={{
-            display: 'flex',
-            flex: 1,
-            flexDirection:
-              viewType === 'list' ? { xs: 'row', md: 'column' } : 'row',
-            position: 'relative',
-            justifyContent: 'space-between',
-            minWidth: 120,
-            maxWidth: { xs: 999, md: 0 },
-          }}
+          sx={
+            viewType === 'list'
+              ? {
+                  display: 'flex',
+                  flex: 1,
+                  flexDirection: { xs: 'row', md: 'column' },
+                  position: 'relative',
+                  justifyContent: 'space-between',
+                  minWidth: 120,
+                  maxWidth: { xs: 999, md: 0 },
+                }
+              : {
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  width: 'auto',
+                }
+          }
         >
           {book.image ? (
             <img alt="Book cover" width={120} height={160} src={book.image} />
@@ -196,7 +226,43 @@ const BookCard: React.FC<BookCardProps> = ({
             }}
           >
             {book.title}
+            <Tooltip title="About the book">
+              <IconButton
+                size="small"
+                onClick={() => {
+                  setDescriptionVisible(true)
+                }}
+              >
+                <HelpIcon />
+              </IconButton>
+            </Tooltip>
           </Typography>
+
+          <Dialog
+            open={isDescriptionVisible}
+            onClose={() => {
+              setDescriptionVisible(false)
+            }}
+          >
+            <DialogTitle>
+              About the book
+              <IconButton
+                edge='end'
+                color='inherit'
+                onClick={() => setDescriptionVisible(false)}
+                sx={{
+                  position: 'absolute',
+                  right: 15,
+                  top: 8,
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+            </DialogTitle>
+            <DialogContent>
+              <Typography>{book.description}</Typography>
+            </DialogContent>
+          </Dialog>
 
           <Typography
             sx={{
@@ -223,6 +289,15 @@ const BookCard: React.FC<BookCardProps> = ({
               fontWeight: 'light',
             }}
           >
+            Language: {book.language}
+          </Typography>
+
+          <Typography
+            sx={{
+              fontFamily: 'Merriweather',
+              fontWeight: 'light',
+            }}
+          >
             Topic: {book.topic}
           </Typography>
           <Typography
@@ -237,6 +312,7 @@ const BookCard: React.FC<BookCardProps> = ({
             sx={{
               fontFamily: 'Merriweather',
               fontWeight: 'light',
+              marginBottom: '1rem',
             }}
           >
             Office:{' '}
@@ -245,25 +321,26 @@ const BookCard: React.FC<BookCardProps> = ({
               officeName={book.homeOfficeName}
             />
           </Typography>
-          {bookInCurrentBorrows(book) && (
-            <Typography
-              sx={{
-                fontFamily: 'Merriweather',
-                fontWeight: 'light',
-                marginTop: '1rem',
-              }}
-            >
-              {`Loan due: ${currentBorrows
-                .filter((borrow) => borrow.book === book.id)
-                .map((borrow) =>
-                  new Date(borrow.dueDate).toLocaleString('fi', {
-                    year: 'numeric',
-                    month: 'numeric',
-                    day: 'numeric',
-                  })
-                )}.`}
-            </Typography>
-          )}
+          <div style={{ height: '1rem', marginBottom: '10px' }}>
+            {bookInCurrentBorrows(book) && (
+              <Typography
+                sx={{
+                  fontFamily: 'Merriweather',
+                  fontWeight: 'light',
+                }}
+              >
+                {`Loan due: ${currentBorrows
+                  .filter((borrow) => borrow.book === book.id)
+                  .map((borrow) =>
+                    new Date(borrow.dueDate).toLocaleString('fi', {
+                      year: 'numeric',
+                      month: 'numeric',
+                      day: 'numeric',
+                    })
+                  )}.`}
+              </Typography>
+            )}
+          </div>
           {activeAndLoanableReservations
             .map((obj: { bookId: any }) => obj.bookId)
             .includes(book.id) && (
@@ -425,7 +502,8 @@ const BookCard: React.FC<BookCardProps> = ({
                     {context?.user?.id === review.user_id && (
                       <Button
                         onClick={() => {
-                          deleteReview(review.id)
+                          setSelectedReviewId(review.id)
+                          setDeleteConfirmationVisible(true)
                         }}
                         sx={reviewDeleteButton}
                       >
@@ -438,6 +516,11 @@ const BookCard: React.FC<BookCardProps> = ({
           </List>
         </div>
       </Collapse>
+      <BookReviewDelete
+        open={deleteConfirmationVisible}
+        onClose={() => setDeleteConfirmationVisible(false)}
+        onDelete={() => deleteReview(selectedReviewId)}
+      />
     </Paper>
   )
 }
