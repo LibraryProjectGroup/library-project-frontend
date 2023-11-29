@@ -2,7 +2,7 @@
 Resource            ../resources/keywords.resource
 Library    String
 
-Suite Setup    User2 login for testing
+Suite Setup    Login for testing
 Suite Teardown    Close all browsers
 
 Documentation    Checks if books can be reserved
@@ -20,7 +20,7 @@ User can loan the book
     And User logout
 
 User can reserve book and cancel reservation
-    Given Login for testing
+    Given User2 login for testing
     And User reserves book with title Java oh Java
     Then User navigates to reservations page 
     And User cancels reservation of book with title Java oh Java
@@ -29,7 +29,7 @@ User can reserve book and cancel reservation
    
 User can return the book
     Given User logout 
-    And User2 login for testing
+    And Login for testing
     And User navigates to user page
     When User has loaned book with title Java oh Java
     And User returns a book with title Java oh Java
@@ -47,7 +47,7 @@ User reserves book with title ${title}
     Wait Until Element Is Visible    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'RESERVE')]
     Click Button    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'RESERVE')]
     Wait Until Element Is Visible    xpath://*[contains(text(), 'Do you want to reserve this book?')]
-    Click Button    xpath:/html/body/div[4]/div[3]/div/div[2]/button[1]
+    Click Button    xpath:/html/body/div[5]/div[3]/div/div[2]/button[1]
     Sleep    1s
     
 
@@ -55,7 +55,7 @@ User cancels reservation of book with title ${title}
     Wait Until Element Is Visible    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Cancel reservation')]
     Click Button    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Cancel reservation')]
     Wait Until Element Is Visible    xpath://*[contains(text(), 'Do you want to cancel your reservation?')]
-    Click Button    xpath:/html/body/div[4]/div[3]/div/div[2]/button[1]
+    Click Button    xpath:/html/body/div[5]/div[3]/div/div[2]/button[1]
     Sleep    1s
     Execute Javascript    location.reload()
     Wait Until Element Is Not Visible    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Cancel reservation')]
