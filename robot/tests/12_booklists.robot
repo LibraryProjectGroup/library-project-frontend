@@ -77,6 +77,8 @@ User presses delete button
     ${path}=    Execute Javascript    return window.location.pathname
     Should Be Equal As Strings    ${path}    /booklists
     Click Button    xpath://button[normalize-space()='Delete']
+    Wait Until Element Is Visible   xpath:/html/body/div[5]/div[3]/div/div[2]/button[1]
+    Click Button    xpath:/html/body/div[5]/div[3]/div/div[2]/button[1]
 
 List should be deleted
     Wait Until Element Is Not Visible    xpath://p[normalize-space()='testlist123']

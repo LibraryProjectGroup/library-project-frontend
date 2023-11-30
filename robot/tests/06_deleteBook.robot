@@ -3,14 +3,14 @@ Resource            ../resources/keywords.resource
 
 Suite Setup         Login for testing
 Suite Teardown      Close all browsers
-Test Teardown       Delete all Java oh Java books
+Test Teardown       Delete all Harry Potter and the Chamber of Secrets books
 
 
 *** Test Cases ***
-User deletes book from catalog with title Java oh Java
-    Given user can find the Java oh Java book from the page
-    When user deletes book from catalog with title Java oh Java
-    Then User can not find Java oh Java book from the page
+User deletes book from catalog with title Harry Potter and the Chamber of Secrets
+    Given user can find the Harry Potter and the Chamber of Secrets book from the page
+    When user deletes book from catalog with title Harry Potter and the Chamber of Secrets
+    Then User can not find Harry Potter and the Chamber of Secrets book from the page
 
 
 *** Keywords ***

@@ -45,8 +45,8 @@ Admin can edit user information
     Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[2]
     Sleep   1s
     Click Button    xpath://button[normalize-space()='Update']
-    Wait Until Element Is Visible    xpath://div[contains(text(), 'mestattavatyyppi')]
-    Wait Until Element Is Visible    xpath://div[contains(text(), 'suku.suku@doesnotexist.com')]
+    Row that contains text mestattavatyyppi is visible
+    Row that contains text suku.suku@doesnotexist.com is visible
 
 Admin reverts changes
     Click Button    xpath://*[contains(text(), 'mestattavatyyppi')]//ancestor::div[2]//button[contains(text(), 'Edit')]
@@ -60,8 +60,8 @@ Admin reverts changes
     Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[3]
     Sleep   1s
     Click Button    xpath://button[normalize-space()='Update']
-    Wait Until Element Is Not Visible    xpath://div[contains(text(), 'mestattavatyyppi')]
-    Wait Until Element Is Not Visible    xpath://div[contains(text(), 'suku.suku@doesnotexist.com')]
+    Wait Until Element Is Not Visible    xpath://*[contains(text(), 'mestattavatyyppi')]
+    Wait Until Element Is Not Visible    xpath://*[contains(text(), 'suku.suku@doesnotexist.com')]
 
 Admin can upgrade user to admin
     Click Button    xpath://*[contains(text(), '${TESTUSERNAME2}')]//ancestor::div[2]//button[contains(text(), 'Edit')]
@@ -76,7 +76,7 @@ Admin can upgrade user to admin
     Sleep   1s
     Click Button    xpath://button[normalize-space()='Update']
     Wait Until Element Is Visible
-    ...    xpath://div[contains(text(), '${TESTUSERNAME2}')]//ancestor::div[2]//div[contains(text(), 'true')]
+    ...    xpath://*[contains(text(), '${TESTUSERNAME2}')]//ancestor::div[2]//div[contains(text(), 'true')]
 
 User logins after upgrade
     User2 login for testing
@@ -98,7 +98,7 @@ User downgrades themself
     Sleep   1s
     Click Button    xpath://button[normalize-space()='Update']
     Wait Until Element Is Visible
-    ...    xpath://div[contains(text(), '${TESTUSERNAME2}')]//ancestor::div[2]//div[contains(text(), 'false')]
+    ...    xpath://*[contains(text(), '${TESTUSERNAME2}')]//ancestor::div[2]//div[contains(text(), 'false')]
     User navigates to booklist page
     Execute Javascript    location.reload()
     Wait Until Element Is Not Visible    xpath://p[normalize-space()='ADMIN PAGE']

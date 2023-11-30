@@ -42,7 +42,7 @@ User has home page open in browser
     Set Window Size    1920    1080
 
 List of books is visible
-    Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'AddIcon')]
+    Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'GridViewIcon')]
 
 User edits book with title ${title}
     Execute Javascript    location.reload()
@@ -70,15 +70,15 @@ User adds ${title} book to catalog
     Execute Javascript    window.scrollTo(0, 800)
     Click Button    xpath://*[@aria-label='add']
     Wait Until Element Is Visible    (//h4[normalize-space()='Add book'])[1]
-    Input Text    xpath://input[@name='author']    Firstname Lastname
-    Input Text    xpath://input[@name='title']    ${title}
-    Input Text    xpath://input[@name='topic']    Java
-    Input Text    xpath://input[@name='isbn']    123-456
-    Click Element   xpath:/html/body/div[5]/form/div/div/div[6]/div
-    Wait Until Element Is Visible   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[2]/span[2]
-    Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
+    Input Text    xpath://input[@name='topic']    harry potter
+    Input Text    xpath://input[@name='isbn']    9780439420105
+    Click Element   xpath:/html/body/div[5]/form/div/div/div[8]/div
+    Wait Until Element Is Visible   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[2]
     Sleep   1s
-    Click Button    xpath:/html/body/div[5]/form/div/div/div[7]/button[1]
+    Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[2]/span[1]
+    Wait Until Element Is Visible   xpath:/html/body/div[5]/form/div/div/div[9]/button[1]
+    Sleep   1s
+    Click Button    xpath:/html/body/div[5]/form/div/div/div[9]/button[1]
 
 
 User can find the ${title} book from the page
