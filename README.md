@@ -115,16 +115,6 @@ See detailed documentation about Robot testing in [AboutRobotTests.md documentat
 
 The Prettier workflow is setup in the code with Pretty-quick (https://github.com/azz/pretty-quick) and Husky (https://typicode.github.io/husky/) to ensure consistent foramtting. Pretty-Quick checks formatting when a developer tries to commit to the repo, and fixes formatting using our prettier config (.prettierrc.json file in the root of the project). Husky ensures that the pre-commit checks works with a pre-commit hook. Make sure you have all dependencies installed by running: `npm install` before you start. In your code editor, you can also set prettier checks on save, which will help the process.
 
-<!-- DEPLOYMENT -->
-
-# Deployment
-
-# Future developments
-
-You can see our previous [backlog](https://github.com/orgs/LibraryProjectGroup/projects/3/views/8) for tasks that we were planning on doing, but didn't have the time to do.
-
-If you want to be made the owner of this organization (or if you feel like asking questions) you can contact Julia Söderlund trough school email.
-
 <!-- CREDITS -->
 
 # Credits
