@@ -44,6 +44,30 @@ The frontend’s user interface is divided into pages that are routed through re
 
 > Make sure that the `REACT_APP_BACKEND_URL` in the frontend `.env ` matches the port in the backend `.env`. Or if you're using docker-compose, the port in the docker-compose file.
 
+<!-- INSTALLATION -->
+
+## How to Install
+
+You need to have npm installed to run this project, you can check if you have it installed by running `npm -v` in the command line.
+
+Clone the repository on your computer. Detailed instructions can be found [here](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository?tool=webui).
+
+Use `npm ci` or `npm install` to install node modules.
+
+<!-- RUNNING -->
+
+## How to Run
+
+```pwsh
+npm start
+```
+
+This runs the app in the development mode.
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.\
+The page will reload when you make changes to the code.
+
+You will also need the [backend](https://github.com/LibraryProjectGroup/library-project-backend) running for the application to work.
+
 # Using docker-compose
 
 ## Prerequisites
@@ -96,29 +120,7 @@ docker-compose -f docker-compose-start-front-and-back.yml up -d
 
 Now with both backend and frontend running, open the app at http://localhost:3000/
 
-<!-- INSTALLATION -->
 
-## How to Install
-
-You need to have npm installed to run this project, you can check if you have it installed by running `npm -v` in the command line.
-
-Clone the repository on your computer. Detailed instructions can be found [here](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository?tool=webui).
-
-Use `npm ci` or `npm install` to install node modules.
-
-<!-- RUNNING -->
-
-## How to Run
-
-```pwsh
-npm start
-```
-
-This runs the app in the development mode.
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.\
-The page will reload if you make edits.
-
-You will also need the [backend](https://github.com/LibraryProjectGroup/library-project-backend) running for the application to work.
 
 <!-- ROBOT TESTS -->
 
