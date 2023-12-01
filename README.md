@@ -44,19 +44,55 @@ The frontend’s user interface is divided into pages that are routed through re
 
 > Make sure that the `REACT_APP_BACKEND_URL` in the frontend `.env ` matches the port in the backend `.env`. Or if you're using docker-compose, the port in the docker-compose file.
 
-## Using docker-compose
+# Using docker-compose
 
-To run the frontend with docker-compose, you need to create a docker.env file in the root of the frontend project. In this file you need to add the exact same content as in the existing .env file. So copy and paste that in the docker.env file.
+## Prerequisites
+- Install Docker and Docker Compose on your machine. [Docker Installation Guide](https://docs.docker.com/get-docker/). If you choose to use Docker Desktop, which is recommended, it comes with Docker Compose preinstalled.
+- To run the frontend with docker-compose, you need to create a .env file in the root of the frontend project.
+  
+## Starting the Frontend Only
+
+If you want to run just the frontend part of the application, follow these steps:
+
+1. **Open a Terminal**: Open your command-line interface (CLI).
+2. **Navigate to Frontend Directory**: `The docker-compose-start-front-and-back.yml` is located at the root of the frontend directory. Use the `cd` command to navigate:
+   ```bash
+   cd path/to/library-project-frontend
+   ``` 
+4. Now run the command (windows users make sure you have docker desktop running):
+
+```
+docker-compose -f docker-compose-start-frontend.yml up -d
+```
 
 > Make sure the backend is running before next steps.
 > You can check if the backend is running here: http://localhost:3002/health
 > It should say: "ok: true"
+  
+5. Now with both backend and frontend running, open the app at http://localhost:3000/
 
-Now run the command (windows users make sure you have docker desktop running):
+## Starting Both Frontend and Backend from the frontend directory
+
+You have the option to start both the frontend and backend (including the database) using a single command from the frontend directory. This is done through the `docker-compose-start-front-and-back.yml` file, which pulls the backend image from our GitHub Container Registry and starts it along with the frontend as containers.  
+
+Follow these steps to run both the frontend and backend from the frontend directory:
+
+1. **Open a Terminal**: Open your command-line interface (CLI).
+2. **Navigate to Frontend Directory**: `The docker-compose-start-front-and-back.yml` is located at the root of the frontend directory. Use the `cd` command to navigate:
+   ```bash
+   cd path/to/library-project-frontend
+   ``` 
+4. Now run the command (windows users make sure you have docker desktop running):
 
 ```
-docker-compose -f docker-compose-start.yml up -d
+docker-compose -f docker-compose-start-front-and-back.yml up -d
 ```
+> **Check Backend Status**: Ensure the backend is fully operational before continuing. 
+> You can check if the backend is running here: http://localhost:3002/health
+> It should display: "ok: true"
+  
+5. Now with both backend and frontend running, open the app at http://localhost:3000/
+> **Note**: It might take few minutes for the frontend to be completely ready for use.  
 
 Now with both backend and frontend running, open the app at http://localhost:3000/
 
