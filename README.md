@@ -79,7 +79,7 @@ You will also need the [backend](https://github.com/LibraryProjectGroup/library-
 If you want to run just the frontend part of the application, follow these steps:
 
 1. **Open a Terminal**: Open your command-line interface (CLI).
-2. **Navigate to Frontend Directory**: `The docker-compose-start-front-and-back.yml` is located at the root of the frontend directory. Use the `cd` command to navigate:
+2. **Navigate to Frontend Directory**: `The docker-compose-start-frontend.yml` is located at the root of the frontend directory. Use the `cd` command to navigate:
    ```bash
    cd path/to/library-project-frontend
    ``` 
