@@ -118,7 +118,6 @@ docker-compose -f docker-compose-start-front-and-back.yml up -d
 5. Now with both backend and frontend running, open the app at http://localhost:3000/
 > **Note**: It might take few minutes for the frontend to be completely ready for use.  
 
-Now with both backend and frontend running, open the app at http://localhost:3000/
 
 
 
