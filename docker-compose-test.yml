@@ -21,4 +21,3 @@ services:
       - ./public:/app/public:ro
     ports:
       - '3000:3000'
-    
