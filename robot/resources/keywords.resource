@@ -3,7 +3,7 @@ Resource    ../resources/resources.robot
 
 
 *** Variables ***
-${URL}              http://127.0.0.1:3000/    # Localhost port 3000
+${URL}              http://127.0.0.1:3000/login    # Localhost port 3000
 ${BROWSER}          headlesschrome
 ${TESTUSERNAME}     defaultusername    # Just to initialize the variable
 ${TESTPASSWORD}     doesnotexist    # Just to initialize the variable
@@ -42,7 +42,7 @@ User has home page open in browser
     Set Window Size    1920    1080
 
 List of books is visible
-    Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'AddIcon')]
+    Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'GridViewIcon')]
 
 User edits book with title ${title}
     Execute Javascript    location.reload()
@@ -70,16 +70,15 @@ User adds ${title} book to catalog
     Execute Javascript    window.scrollTo(0, 800)
     Click Button    xpath://*[@aria-label='add']
     Wait Until Element Is Visible    (//h4[normalize-space()='Add book'])[1]
-    Input Text    xpath://input[@name='author']    Firstname Lastname
-    Input Text    xpath://input[@name='title']    ${title}
-    Input Text    xpath://input[@name='topic']    Java
-    Input Text    xpath://input[@name='isbn']    123-456
-    Mouse over  xpath:/html/body/div[4]/form/div/div/div[6]/div
-    Click Element   xpath:/html/body/div[4]/form/div/div/div[6]/div
-    Mouse over    xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
-    Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[5]/span[1]
+    Input Text    xpath://input[@name='topic']    harry potter
+    Input Text    xpath://input[@name='isbn']    9780439420105
+    Click Element   xpath:/html/body/div[5]/form/div/div/div[8]/div
+    Wait Until Element Is Visible   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[2]
     Sleep   1s
-    Click Button    xpath:/html/body/div[4]/form/div/div/div[7]/button[1]
+    Click Element   xpath://*[@id="menu-homeOfficeId"]/div[3]/ul/li[2]/span[1]
+    Wait Until Element Is Visible   xpath:/html/body/div[5]/form/div/div/div[9]/button[1]
+    Sleep   1s
+    Click Button    xpath:/html/body/div[5]/form/div/div/div[9]/button[1]
 
 
 User can find the ${title} book from the page
@@ -92,7 +91,7 @@ User logins successfully
     Input Password    xpath://input[contains(@id, ':r3:')]    ${TESTPASSWORD}    clear=True    # password
     Click Button    xpath://button[contains(text(), 'Log in')]
     Wait Until Element Is Not Visible    xpath://*[contains(text(), 'No account by that username')]
-    Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'LogoutIcon')]
+    Wait Until Element Is Visible    xpath://*[@id="root"]/header/div/div/div[4]/button
 
 User deletes book from catalog with title ${title}
     Execute Javascript    location.reload()
@@ -100,7 +99,7 @@ User deletes book from catalog with title ${title}
     ...    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Delete book')]
     Click Button    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Delete book')]
     Wait Until Element Is Visible    xpath://*[contains(text(), 'Do you want to delete this book?')]
-    Click Button    xpath:/html/body/div[4]/div[3]/div/div[2]/button[1]
+    Click Button    xpath:/html/body/div[5]/div[3]/div/div[2]/button[1]
     Wait Until Element Is Not Visible    xpath://*[contains(text(), '${title}')]
 
 User navigates to user page
@@ -117,7 +116,7 @@ User tries to loan a book with title ${title}
     ...    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'LOAN')]
     Click Button    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'LOAN')]
     Wait Until Element Is Visible    xpath://*[contains(text(), 'Do you want to loan this book?')]
-    Click Button    xpath:/html/body/div[4]/div[3]/div/div[2]/button[1]
+    Click Button    xpath:/html/body/div[5]/div[3]/div/div[2]/button[1]
 
 User who has not signed up tries to log in
     Wait Until Element Is Visible    xpath://input[contains(@id, ':r1:')]
@@ -223,11 +222,14 @@ User2 logins successfully
     Input Password    xpath://input[contains(@id, ':r3:')]    ${TESTPASSWORD2}    clear=True    # password
     Click Button    xpath://button[contains(text(), 'Log in')]
     Wait Until Element Is Not Visible    xpath://*[contains(text(), 'No account by that username')]
-    Wait Until Element Is Visible    xpath://*[contains(@data-testid, 'LogoutIcon')]
+    Wait Until Element Is Visible    //*[@id="root"]/header/div/div/div[4]/button
 
 User presses logout button
-    Wait until Element Is Visible    xpath://*[contains(@aria-label, 'back')]
-    Click Element    xpath://*[contains(@data-testid, 'LogoutIcon')]
+    Wait until Element Is Visible   //*[@id="root"]/header/div/div/div[4]/button
+    Click Element    //*[@id="root"]/header/div/div/div[4]/button
+    Wait Until Element Is Visible   xpath:/html/body/div[4]/div[3]/ul/li[2]
+    Click Element    xpath:/html/body/div[4]/div[3]/ul/li[2]
+    
 
 User is logged out
     Wait until Element Is Visible    xpath://button[contains(text(), 'Log in')]
@@ -244,7 +246,7 @@ User returns a book with title ${title}
     ...    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Return')]
     Click Element    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Return')]
     Wait Until Element Is Visible    xpath://*[contains(text(), 'Do you want to return this book?')]
-    Click Button    xpath:/html/body/div[4]/div[3]/div/div[2]/button[1]
+    Click Button    xpath:/html/body/div[5]/div[3]/div/div[2]/button[1]
     Wait Until Element Is Not Visible
     ...    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'Return')]
 

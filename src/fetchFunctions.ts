@@ -383,14 +383,14 @@ export const fetchAddBookReservation = async (
 }
 
 export const fetchCancelBookReservation = async (
-  bookId: number
+  reservationId: number
 ): Promise<OKStatus> => {
   return await authFetch('/bookreservation/cancel', {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
     },
-    body: JSON.stringify({ bookId }),
+    body: JSON.stringify({ reservationId }),
   })
 }
 

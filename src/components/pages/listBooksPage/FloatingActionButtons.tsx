@@ -55,6 +55,7 @@ const FloatingActionButtons: React.FC<FloatingActionButtonsProps> = ({
                 image: '',
                 author: '',
                 year: new Date().getFullYear(),
+                language: '',
                 topic: '',
                 description: '',
                 isbn: '',

@@ -6,16 +6,16 @@ Suite Teardown      Close all browsers
 
 *** Test Cases ***
 User can loan the book
-    Given Book with title Java oh Java is available for loaning
-    When User tries to loan a book with title Java oh Java
+    Given Book with title Harry Potter and the Chamber of Secrets is available for loaning
+    When User tries to loan a book with title Harry Potter and the Chamber of Secrets
     And User navigates to user page
-    Then User can find the Java oh Java book from the page
+    Then User can find the Harry Potter and the Chamber of Secrets book from the page
     And User logout
 
- User can not loan the book
+User can not loan the book
     Given User2 login for testing
-    When User can find the Java oh Java book from the page
-    Then User sees that the book Java oh Java is not available
+    When User can find the Harry Potter and the Chamber of Secrets book from the page
+    Then User sees that the book Harry Potter and the Chamber of Secrets is not available
     
 
 
@@ -35,7 +35,7 @@ User is able to loan the book
     Alert Should Be Present    xpath://*[contains(text(), 'Confirmed! Reservation info is sent to your email!')]
 
 User sees that the book ${title} is not available
-    Wait Until Element Is Visible    xpath://button[@aria-label='add']
+    Wait Until Element Is Visible    xpath://button[@aria-label='Change view']
     ${path}=    Execute Javascript    return window.location.pathname
     Should Be Equal As Strings    ${path}    /list-books
     Element Should Be Disabled    xpath://*[contains(text(), '${title}')]//ancestor::div[2]//button[contains(text(), 'LOAN')]
