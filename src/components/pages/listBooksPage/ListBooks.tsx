@@ -6,7 +6,15 @@ import {
   Fragment,
   useCallback,
 } from 'react'
-import { Button, Stack, Box, Grid, Fab, Tooltip, Typography } from '@mui/material'
+import {
+  Button,
+  Stack,
+  Box,
+  Grid,
+  Fab,
+  Tooltip,
+  Typography,
+} from '@mui/material'
 import { TheContext } from '../../../TheContext'
 import Book from '../../../interfaces/book.interface'
 import Book_reservation from '../../../interfaces/book_reservation.interface'
@@ -308,7 +316,9 @@ const ListBooks: FC = (): JSX.Element => {
         <Button
           sx={listBooksLoanButton}
           variant="contained"
-          disabled={bookInCurrentBorrows(book)}
+          disabled={
+            bookInCurrentBorrows(book) || bookInCurrentReservations(book)
+          }
           onClick={async () => {
             setBookId(book.id)
             setLoanVisible(true)

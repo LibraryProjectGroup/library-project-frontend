@@ -1,0 +1,26 @@
+version: '3.8'
+# This service builds the frontend and runs it on port 3000
+services:
+  efilibrary-frontend:
+    container_name: efilibrary-frontend
+    image: efilibrary-frontend
+    shm_size: 2gb
+    #stdin_open: true
+    #tty: true
+    command: npm run start
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public:ro
+      - ./robot:/app/robot
+    ports:
+      - '3000:3000'
+    networks:
+      - efilibrary-network
+
+networks:
+  efilibrary-network:

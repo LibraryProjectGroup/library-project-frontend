@@ -1,5 +1,5 @@
 version: '3.8'
-
+# Used for deploy-staging.yml workflow to push image to ghcr.io
 services:
   efilibrary-frontend-staging:
     container_name: efilibrary-frontend-staging

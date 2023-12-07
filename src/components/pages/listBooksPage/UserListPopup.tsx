@@ -19,6 +19,7 @@ import Book_list from '../../../interfaces/book_list.interface'
 import Book_list_entry from '../../../interfaces/book_list_entry.interface'
 import { fetchUserBooklists, fetchAddEntry } from '../../../fetchFunctions'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
   const [booklists, setBooklists] = useState<Book_list[]>([])
@@ -55,8 +56,15 @@ const UserListPopup: FC<{ book: Book }> = ({ book }): JSX.Element => {
     //  compare addEntry to fetched entries
     fetchAddEntry(addEntry)
     // close popup after adding
-    setAnchorEl(null)
+    //setAnchorEl(null)
+    handleClose()
+    SuccessMessage()
   }
+
+  const SuccessMessage = () =>
+    toast.success('Book was added successfully', {
+      containerId: 'ToastSuccess',
+  })
 
   const id = open ? 'simple-popover' : undefined
   const fetchBooklists = async () => {

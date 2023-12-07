@@ -132,9 +132,11 @@ See detailed documentation about Robot testing in [AboutRobotTests.md documentat
 # Workflows
 ## The ghactions.yml worfklow
 
+
 ### When Does it Run?
 - **On Pushes to `development`**: Whenever code is pushed to the `development` branch, the workflow starts.
 - **On Pull Requests to `development`**: It also starts when someone proposes changes (pull requests) to the `development` branch.
+
 
 ### What Does it Do?
 1. **Gets the Latest Code**: It first grabs the most recent version of frontend code from GitHub.
@@ -148,11 +150,13 @@ See detailed documentation about Robot testing in [AboutRobotTests.md documentat
 - **Secrets and Settings**: This workflow uses GitHub secrets that are passed as .env for the docker-compose.
 - **No Manual Work Needed**: This entire process is automatic. 
 
+
 ## The Prettier workflow
 
 The Prettier workflow is setup in the code with Pretty-quick (https://github.com/azz/pretty-quick) and Husky (https://typicode.github.io/husky/) to ensure consistent foramtting. Pretty-Quick checks formatting when a developer tries to commit to the repo, and fixes formatting using our prettier config (.prettierrc.json file in the root of the project). Husky ensures that the pre-commit checks works with a pre-commit hook. Make sure you have all dependencies installed by running: `npm install` before you start. In your code editor, you can also set prettier checks on save, which will help the process.
 
 <!-- CREDITS -->
+
 
 # Credits
 
