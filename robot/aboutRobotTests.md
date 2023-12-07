@@ -158,14 +158,12 @@ Terminal command: `npm run robottests` :arrow_right: tests should start running 
 
 ## :octocat: GitHub Actions testing workflow
 
-> `[Updated 4.10.2023]:` Tests are included but may fail
+> `[Updated 7.12.2023]:` Test pipeline is working as intended (on main and development branches) :)
 
-GitHub actions currently runs only the **unit tests**, and if all the tests are passing, current version of frontend's development branch will be deployed to GitHub pages. Therefore it is important to fix all failing tests before accepting any pull requests to be merged into development; if the workflow fails, the application will not be deployed.
+GitHub actions currently runs all robot tests made in the project, however pipeline does not restrict pushing of the new image into GHCR but will warn if tests fail.
 
 ## State of testing (fall 2023)
 
-Tests have been mostly updated to the new UI and they run locally and in Docker. Consecutively running the github action test workflow fails (currently under inspection). Here are some of the findings that migth help the next implementation.
-
-- Try changing the `User logins successfully` test located in the `keywords.resource` file. If you change the variables `TESTUSERNAME` and `TESTPASSWORD` to their actual value, the test will start passing. We think that the issue with the github workflow for the test might be related to this.
+Tests have been mostly updated to the new UI and they run locally and in Docker. Here are some of the findings that migth help the next implementation.
 
 - A recommedation from the fall 2023 implementation. Consider developing the app so that whenever a developer modifies the code or adds new features, the same developer would also update the tests so that they're always up to date.
