@@ -1,7 +1,7 @@
 version: '3.8'
 # This compose file builds and starts the backend with mysql
-# and frontend services for development and testing purposes. 
-# After starting the services you can run the tests with the command: 
+# and frontend services for development and testing purposes.
+# After starting the services you can run the tests with the command:
 # docker-compose exec frontend npm run robottests
 
 services:
@@ -14,17 +14,17 @@ services:
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_USER: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-      OIDC_AUTH_BACKLINK_URL: ${OIDC_AUTH_BACKLINK_URL} 
+      OIDC_AUTH_BACKLINK_URL: ${OIDC_AUTH_BACKLINK_URL}
       OIDC_AUTH_REDIRECT_URL: ${OIDC_AUTH_REDIRECT_URL}
       PORT: 3002
     volumes:
       - sql:/app/sql/.
     networks:
-      - testing-network  
+      - testing-network
     ports:
       - '3002:3002'
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:3002/health" ]
+      test: ['CMD', 'curl', '-f', 'http://localhost:3002/health']
       interval: 15s
       timeout: 10s
       retries: 15
@@ -40,7 +40,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     networks:
-      - testing-network  
+      - testing-network
     ports:
       - 3306:3306
     expose:
@@ -69,15 +69,14 @@ services:
     ports:
       - '3000:3000'
     networks:
-      - testing-network  
+      - testing-network
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:3000/" ]
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000/']
       interval: 15s
       timeout: 10s
-      retries: 15    
-    
-    
+      retries: 15
+
 networks:
-  testing-network:        
+  testing-network:
 volumes:
   sql:

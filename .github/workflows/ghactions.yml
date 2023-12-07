@@ -2,11 +2,11 @@ name: Build backend and frontend containers and run robot tests for frontend wit
 
 on:
   push:
-    branches: ['development']
+    branches: ['development', s23-docker-compose-tests]
   pull_request:
-    branches: ['development']
+    branches: ['development', main]
 
-# Create env file for docker-compose to use from github secrets     
+# Create env file for docker-compose to use from github secrets
 env:
   DATABASE_SERVER: ${{ secrets.DATABASE_SERVER }}
   DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
@@ -23,7 +23,7 @@ env:
   TESTUSERNAME2: ${{ secrets.REACT_APP_TEST_USERNAME2 }}
   TESTPASSWORD: ${{ secrets.REACT_APP_TEST_PASSWORD }}
   TESTPASSWORD2: ${{ secrets.REACT_APP_TEST_PASSWORD2 }}
-  REACT_APP_BACKEND_URL: 'http://efilibrary-backend:3002' 
+  REACT_APP_BACKEND_URL: ${{ secrets.GH_ACTIONS_BACKEND_URL }}
 
 jobs:
   build-and-test:
@@ -36,18 +36,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Log in to GitHub Container Registry to be able to pull private images  
+      - run: npm ci
+      - name: Check formatting
+        run: npm run fmt:check
+        continue-on-error: true # Continnue the tests even if there are formatting errors
+
+      # Log in to GitHub Container Registry to be able to pull private images
       - name: Log in to the container registry
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ secrets.GHCR_ACCES_TEST_USER}} #My personal access token so not usable for long term
-          password: ${{ secrets.GHCR_ACCES_TEST_TOKEN }} 
+          password: ${{ secrets.GHCR_ACCES_TEST_TOKEN }}
 
       - name: Build and run containers
         run: |
-            docker-compose -f docker-compose-start-front-and-back.yml up --build -d
-     
+          docker-compose -f docker-compose-start-front-and-back.yml up --build -d
+
       - name: Wait for backend to be ready
         run: |
           echo "Waiting for backend service to be ready..."
@@ -56,7 +61,7 @@ jobs:
             echo "Waiting for backend service...";
           done
           echo "Backend service is ready."
-     
+
       - name: Wait for frontend to be ready
         run: |
           echo "Waiting for frontend service to be ready..."
@@ -64,13 +69,13 @@ jobs:
             sleep 10;
             echo "Waiting for frontend service...";
           done
-          echo "Frontend service is ready."    
-  
+          echo "Frontend service is ready."
+
       - name: Run frontend tests
         run: docker exec frontend npm run robottests
-  
+
       - name: Clean up
         if: always()
         run: |
           docker-compose -f docker-compose-start-front-and-back.yml down    
-            
+
